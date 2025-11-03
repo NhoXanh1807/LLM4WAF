@@ -1,6 +1,0 @@
-
-export const FILE_TYPE = {
-    DOMAIN_INFO: 'DOMAIN_INFO',
-    PAYLOADS: 'PAYLOADS',
-    INSTRUCTIONS: 'INSTRUCTIONS',
-};

@@ -1,57 +1,47 @@
 import React, { useState } from 'react';
-import { FILE_TYPE } from './types';
-
+import { Services } from './services';
 
 function TabAttack() {
     const [attackType, setAttackType] = useState('XSS');
     const [domain, setDomain] = useState('');
-    const [logConsole, setLogConsole] = useState('');
+    const [logData, setLogData] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [resultDomainInfo, setResultDomainInfo] = useState(null);
-    const [resultPayloads, setResultPayloads] = useState(null);
-    const [resultInstructions, setResultInstructions] = useState(null);
+    const [result, setResult] = useState(null);
 
-    const log = (msg) => setLogConsole((prev) => prev + '\n' + msg);
+    const log = (message) => setLogData((prev) => prev + '\n' + message);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitting(true);
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000)); // Giả lập thời gian chờ
-            log(`Đang kiểm tra domain: ${domain} với kiểu tấn công: ${attackType}...`);
-            setResultDomainInfo({ domain_name: domain, attack_type: attackType, status: "completed" });
-            setResultPayloads([{ payload: "<script>alert(1)</script>" }])
-            setResultInstructions([{ instruction: "1. Open the browser console\n2. Paste the payload\n3. Press Enter" }])
-            log(`Hoàn tất!`);
+            log(`Kiểm tra thông tin tên miền: ${domain}`);
+
+            const res = await Services.detectWAF(domain);
+            const data = res.ok ? await res.json() : null;
+            console.log(data);
+
+            log(`Hoàn tất tên miền: ${domain}`);
+            setResult({
+                domain: data.output,
+                payloads: { payloads: ['payload1', 'payload2'] },
+                instructions: { instructions: ['step1', 'step2'] }
+            })
         }
         finally {
             setIsSubmitting(false);
         }
     };
 
-    const handleDownload = async (FILE_TYPE) => {
-        await new Promise(resolve => setTimeout(resolve, 2000)); // Giả lập thời gian chờ
+    const handleDownload = (filename) => {
         // Dummy download logic
-        let data = '';
-        switch (FILE_TYPE) {
-            case FILE_TYPE.DOMAIN_INFO:
-                data = JSON.stringify(resultDomainInfo, null, 2);
-                break;
-            case FILE_TYPE.PAYLOADS:
-                data = JSON.stringify(resultPayloads, null, 2);
-                break;
-            case FILE_TYPE.INSTRUCTIONS:
-                data = JSON.stringify(resultInstructions, null, 2);
-                break;
-            default:
-                break;
-        }
-        const blob = new Blob([data], { type: 'application/json' });
+        const data = result[filename];
+        const blob = new Blob([data]);
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = FILE_TYPE;
+        a.download = filename + ".json";
         a.click();
+        a.remove();
         URL.revokeObjectURL(url);
     };
 
@@ -75,7 +65,7 @@ function TabAttack() {
                 />
                 <button
                     type="submit"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || !domain}
                     className="bg-red-500 text-white px-4 py-2 rounded font-bold hover:bg-red-600 disabled:bg-gray-300"
                 >
                     Submit
@@ -83,31 +73,31 @@ function TabAttack() {
             </form>
             <textarea
                 className="w-full h-32 border rounded p-2 text-sm bg-gray-50"
-                value={logConsole}
+                value={logData}
                 readOnly
                 placeholder="Log sẽ hiển thị ở đây..."
             />
             <div className="flex space-x-4">
                 <button
                     className="px-4 py-2 rounded bg-green-500 text-white font-semibold disabled:bg-gray-300"
-                    disabled={!resultDomainInfo}
-                    onClick={() => handleDownload(FILE_TYPE.DOMAIN_INFO)}
+                    disabled={!result?.domain}
+                    onClick={() => handleDownload('domain')}
                 >
-                    DomainInfo.json
+                    Domain Info
                 </button>
                 <button
                     className="px-4 py-2 rounded bg-red-500 text-white font-semibold disabled:bg-gray-300"
-                    disabled={!resultPayloads}
-                    onClick={() => handleDownload(FILE_TYPE.PAYLOADS)}
+                    disabled={!result?.payloads}
+                    onClick={() => handleDownload('payloads')}
                 >
-                    Payloads.json
+                    Payloads
                 </button>
                 <button
                     className="px-4 py-2 rounded bg-blue-500 text-white font-semibold disabled:bg-gray-300"
-                    disabled={!resultInstructions}
-                    onClick={() => handleDownload(FILE_TYPE.INSTRUCTIONS)}
+                    disabled={!result?.instructions}
+                    onClick={() => handleDownload('instructions')}
                 >
-                    Instructions.json
+                    Instructions
                 </button>
             </div>
         </div>
