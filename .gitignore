@@ -1,2 +1,4 @@
 /src/gui/frontend/node_modules
 *.pyc
+src/gui/frontend/.env
+src/gui/backend/.env
