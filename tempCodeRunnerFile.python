@@ -1,0 +1,107 @@
+
+"""
+Analyze shellcode.bin to extract Part 2 and Part 3
+Shellcode header: VH (0x56 0x48) = x64 shellcode
+"""
+import sys
+import os
+import struct
+import re
+
+def extract_strings(shellcode):
+    """Extract all readable strings"""
+    text = shellcode.decode('latin-1', errors='ignore')
+    strings = []
+    current = ""
+    
+    for c in text:
+        if 32 <= ord(c) < 127:
+            current += c
+        else:
+            if len(current) >= 4:
+                strings.append(current)
+            current = ""
+    
+    if len(current) >= 4:
+        strings.append(current)
+    
+    return strings
+
+def extract_movabs_strings(shellcode):
+    """Extract strings from movabs instructions"""
+    # Pattern: 48 B8/B9/BA + 8 bytes
+    embedded = []
+    i = 0
+    
+    while i < len(shellcode) - 10:
+        if shellcode[i] == 0x48 and shellcode[i+1] in [0xb8, 0xb9, 0xba]:
+            data = shellcode[i+2:i+10]
+            try:
+                text = data.decode('ascii')
+                if all(32 <= ord(c) < 127 for c in text):
+                    embedded.append((i, text))
+            except:
+                pass
+            i += 10
+        else:
+            i += 1
+    
+    return embedded
+
+def main():
+    print("=" * 70)
+    print("Shellcode Analyzer - Extract Flag Parts")
+    print("=" * 70)
+    
+    if len(sys.argv) < 2:
+        print("\nUsage: python3 analyze_shellcode.py <shellcode.bin>")
+        sys.exit(1)
+    
+    path = sys.argv[1]
+    if not os.path.exists(path):
+        print(f"[-] File not found: {path}")
+        sys.exit(1)
+    
+    with open(path, 'rb') as f:
+        shellcode = f.read()
+    
+    print(f"[+] File: {path}")
+    print(f"[+] Size: {len(shellcode)} bytes")
+    print(f"[+] Header: {shellcode[:2].hex()} ({shellcode[:2]})")
+    
+    # Extract strings
+    print("\n" + "=" * 70)
+    print("READABLE STRINGS:")
+    print("=" * 70)
+    strings = extract_strings(shellcode)
+    for i, s in enumerate(strings, 1):
+        print(f"{i:2d}. {s}")
+    
+    # Extract movabs strings
+    print("\n" + "=" * 70)
+    print("EMBEDDED STRINGS (from movabs):")
+    print("=" * 70)
+    embedded = extract_movabs_strings(shellcode)
+    for offset, text in embedded:
+        print(f"0x{offset:04x}: {text}")
+    
+    # Look for long alphanumeric (potential flags)
+    print("\n" + "=" * 70)
+    print("POTENTIAL FLAG PARTS:")
+    print("=" * 70)
+    text = shellcode.decode('latin-1', errors='ignore')
+    candidates = re.findall(r'[a-zA-Z0-9_]{15,}', text)
+    for c in candidates:
+        print(f"  {c}")
+    
+    # Hex dump
+    print("\n" + "=" * 70)
+    print("HEX DUMP:")
+    print("=" * 70)
+    for i in range(0, min(512, len(shellcode)), 16):
+        hex_str = ' '.join(f'{b:02x}' for b in shellcode[i:i+16])
+        ascii_str = ''.join(chr(b) if 32 <= b < 127 else '.' for b in shellcode[i:i+16])
+        print(f"{i:04x}: {hex_str:<48} {ascii_str}")
+
+if __name__ == "__main__":
+    main()
