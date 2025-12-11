@@ -3,3 +3,6 @@
 src/gui/frontend/.env
 src/gui/backend/.env
 .env
+,jsonl
+.json
+.log

@@ -10,7 +10,7 @@ api = HfApi(token=os.getenv("HF_TOKEN"))
 
 # Upload folder
 api.upload_folder(
-    folder_path="C:/Users/nguye\Downloads/blue_data",
-    repo_id="llm4waf/defend",
+    folder_path="C:/Users/nguye/Downloads/data_clean",
+    repo_id="llm4waf/attack",
     repo_type="dataset",
 )

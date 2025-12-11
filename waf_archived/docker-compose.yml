@@ -1,0 +1,57 @@
+version: '3'
+
+services:
+  # 1. Database Riêng (Để sửa lỗi login loop)
+  db:
+    image: mysql:5.7
+    container_name: dvwa_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: llm4waf           # Khớp với file config.inc.php
+      MYSQL_PASSWORD: doaibietduocpasswordlagibkhcm2025  # Khớp với file config.inc.php
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - modsec_net
+
+  # 2. DVWA App
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: dvwa_app
+    restart: always
+    volumes:
+      # Dòng quan trọng: Mount file config từ ngoài vào trong
+      - ./config/config.inc.php:/var/www/html/config/config.inc.php
+    depends_on:
+      - db
+    networks:
+      - modsec_net
+
+  # 3. WAF (ModSecurity)
+  waf:
+    image: owasp/modsecurity-crs:nginx
+    container_name: modsec_waf
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      - PROXY=1
+      - BACKEND=http://dvwa_app:80
+      - SERVER_NAME=modsec.llmshield.click
+      - MODSEC_RULE_ENGINE=On
+      - PARANOIA=1
+    volumes:
+      - ./nginx_fingerprint.conf:/etc/nginx/templates/conf.d/default.conf.template
+    depends_on:
+      - dvwa
+    networks:
+      - modsec_net
+
+volumes:
+  db_data:
+
+networks:
+  modsec_net:
+    driver: bridge
