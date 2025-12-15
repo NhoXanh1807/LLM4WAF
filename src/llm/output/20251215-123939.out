@@ -1,0 +1,2 @@
+[DEBUG] fp16: False, bf16: False
+{'loss': 0.7866, 'grad_norm': 1.0390625, 'learning_rate': 0.0, 'entropy': 1.298583984375, 'num_tokens': 18248.0, 'mean_token_accuracy': 0.8814325854182243, 'epoch': 0.0}
