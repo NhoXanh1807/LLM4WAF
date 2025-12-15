@@ -14,10 +14,13 @@ const Call = async (path, method, body = null, headers = {}) => {
 };
 
 export const Services = {
-    attack: async (domain, attack_type) => {
-        return Call("/attack", "POST", { domain, attack_type }, { "Content-Type": "application/json" });
+    attack: async (domain, attack_type, num_payloads = 5) => {
+        return Call("/attack", "POST", { domain, attack_type, num_payloads }, { "Content-Type": "application/json" });
     },
     defend: async (waf_info, bypassed_payloads, bypassed_instructions) => {
         return Call("/defend", "POST", { waf_info, bypassed_payloads, bypassed_instructions }, { "Content-Type": "application/json" });
+    },
+    retest: async (bypassed_payloads) => {
+        return Call("/retest", "POST", { bypassed_payloads }, { "Content-Type": "application/json" });
     }
 }

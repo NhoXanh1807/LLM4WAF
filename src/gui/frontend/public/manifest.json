@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "LLMShield",
+  "name": "LLMShield - AI-Powered WAF Testing Platform",
   "icons": [
     {
       "src": "llmshield.png",
@@ -10,6 +10,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#EF4444",
+  "background_color": "#1F2937"
 }
