@@ -5,12 +5,20 @@ Handles login and all attack functions
 
 import re
 import requests
-from ..config.settings import (
-    DVWA_BASE_URL,
-    DVWA_USERNAME,
-    DVWA_PASSWORD,
-    DVWA_SECURITY_LEVEL
-)
+try:
+    from ..config.settings import (
+        DVWA_BASE_URL,
+        DVWA_USERNAME,
+        DVWA_PASSWORD,
+        DVWA_SECURITY_LEVEL
+    )
+except ImportError:
+    from config.settings import (
+        DVWA_BASE_URL,
+        DVWA_USERNAME,
+        DVWA_PASSWORD,
+        DVWA_SECURITY_LEVEL
+    )
 
 
 def loginDVWA():

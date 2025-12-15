@@ -3,7 +3,10 @@ OpenAI API client service for LLM interactions
 """
 
 import requests
-from ..config.settings import OPENAI_API_KEY, OPENAI_MODEL
+try:
+    from ..config.settings import OPENAI_API_KEY, OPENAI_MODEL
+except ImportError:
+    from config.settings import OPENAI_API_KEY, OPENAI_MODEL
 
 
 def chatgpt_completion(messages=[], model=None, response_format=None):

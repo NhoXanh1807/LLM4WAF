@@ -3,9 +3,14 @@ Defense rule generation service using LLM
 """
 
 import json
-from .llm_service import chatgpt_completion
-from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_DEFENSE_RULES
-from ..config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
+try:
+    from .llm_service import chatgpt_completion
+    from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_DEFENSE_RULES
+    from ..config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
+except ImportError:
+    from services.llm_service import chatgpt_completion
+    from config.settings import OPENAI_MODEL, DEFAULT_NUM_DEFENSE_RULES
+    from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
 
 
 def generate_defend_rules_and_instructions(waf_info, bypassed_payloads, bypassed_instructions):
