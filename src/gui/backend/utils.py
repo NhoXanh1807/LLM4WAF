@@ -116,3 +116,36 @@ def generate_defend_rules_and_instructions(waf_info, bypassed_payloads, bypassed
     )
     chat_result["messages"] = messages
     return chat_result
+
+def loginDVWA():
+    # Lấy PHPSESSID từ trang đăng nhập DVWA
+    response = requests.get("http://modsec.llmshield.click/login.php")
+    cookies = response.cookies
+    php_session_id = cookies.get("PHPSESSID")
+    import re
+    user_token = re.match(r'.*name="user_token" value="([a-f0-9]+)".*', response.text, re.DOTALL).group(1)
+    
+    # Đăng nhập vào DVWA với PHPSESSID và lấy token
+    login_data = {
+        "username": "admin",
+        "password": "password",
+        "Login": "Login",
+        "user_token": user_token,
+    }
+    response = requests.post("http://modsec.llmshield.click/login.php", data=login_data, cookies={"PHPSESSID": php_session_id})
+    return php_session_id
+
+def attack_xss_dom():
+    pass
+
+def attack_xss_reflected():
+    pass
+
+def attack_xss_stored():
+    pass
+
+def attack_sql_injection():
+    pass
+
+def attack_sql_injection_blind():
+    pass
