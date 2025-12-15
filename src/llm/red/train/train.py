@@ -14,6 +14,32 @@ import sys
 import os
 from dataclasses import dataclass
 
+
+def check_gpu():
+    if torch.cuda.is_available():
+        print(f"GPU(s) available: {torch.cuda.device_count()}")
+        print(f"Current device: {torch.cuda.current_device()}")
+        print(f"Device name: {torch.cuda.get_device_name(torch.cuda.current_device())}")
+    else:
+        print("No GPU found. Training will run on CPU.")
+        exit()
+check_gpu()
+
+class OutputLogger:
+    def __init__(self, filename, mode="w", encoding="utf-8"):
+        self.file = open(filename, mode, encoding=encoding)
+        self.stdout = sys.__stdout__
+    def write(self, data):
+        self.file.write(data)
+        self.stdout.write(data)
+    def flush(self):
+        self.file.flush()
+        self.stdout.flush()
+        
+session_name = time.strftime("%Y%m%d-%H%M%S")
+sys.stdout = OutputLogger(f'output/{session_name}.out')
+
+
 from typing import List, Optional
 @dataclass
 class Config:
@@ -50,7 +76,7 @@ class Config:
     weight_decay: float = 0.0
     warmup_ratio: float = 0.03
     lr_scheduler_type: str = "cosine"
-    fp16: bool = True
+    fp16: bool = False
     bf16: bool = False
     logging_steps: int = 10
     save_steps: int = 200
@@ -79,7 +105,15 @@ class Config:
 config = Config(
     model_name="google/gemma-2-2b-it",
     hf_token="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",
-    dataset_train_path="src\\llm\\data\\phase1_balanced_10k.jsonl",
+    dataset_train_path="llm/data/phase1_balanced_10k.jsonl",
+    # Tối ưu tận dụng cấu hình máy ảo để tiết kiệm thời gian huấn luyện
+    per_device_train_batch_size=1,
+    dataloader_num_workers=32,
+    gradient_accumulation_steps=16,
+    # Lưu 
+    max_length=4096,
+    save_steps=100,
+    eval_steps=100,
 )
 
 def main() -> None:
@@ -95,6 +129,7 @@ def main() -> None:
         load_in_4bit=True,
         bnb_4bit_quant_type="nf4",
         bnb_4bit_use_double_quant=True,
+        bnb_4bit_use_cpu_offload=True,
         bnb_4bit_compute_dtype=torch.float16,
     )
     
@@ -105,7 +140,7 @@ def main() -> None:
         device_map={"": 0} if config.is_use_single_gpu else "auto",
         quantization_config=bit_and_bytes_cfg,
         trust_remote_code=True,
-        torch_dtype=torch.float16,
+        dtype=torch.float16,
     )
     if config.gradient_checkpointing:
         model.gradient_checkpointing_enable()
@@ -195,6 +230,7 @@ def main() -> None:
     if int(getattr(config, "max_steps", 0)) > 0:
         sft_config.max_steps = int(config.max_steps)
 
+    print(f"[DEBUG] fp16: {sft_config.fp16}, bf16: {sft_config.bf16}")
     trainer = SFTTrainer(
         model=model,
         processing_class=tok,
