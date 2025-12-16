@@ -28,15 +28,28 @@ def api_detect_waf():
         w = WAFW00F(domain)
         waf_info = w.identwaf()
 
-        openai_result = utils.generate_payloads_from_domain_waf_info(
-            waf_info, attack_type, num_payloads
-        )
-        openai_result = dict(openai_result)
-        content = (
-            openai_result.get("choices", [])[0].get("message", {}).get("content", None)
-        )
-        content_json = json.loads(content) if content else {}
-        instructions = content_json.get("items", [])
+        USE_LOCAL_LLM = True
+        if not USE_LOCAL_LLM:
+            openai_result = utils.generate_payloads_from_domain_waf_info(
+                waf_info, attack_type, num_payloads
+            )
+            openai_result = dict(openai_result)
+            content = (
+                openai_result.get("choices", [])[0].get("message", {}).get("content", None)
+            )
+            content_json = json.loads(content) if content else {}
+            instructions = content_json.get("items", [])
+        else:
+            payloads = utils.generate_payloads_by_local_llm(
+                waf_info, attack_type, num_payloads
+            )
+            instructions = [
+                {
+                    "payload": p,
+                    "instruction": f"Use the payload to perform {attack_type} attack."
+                }
+                for p in payloads
+            ]
 
         # Login to DVWA
         session_id = utils.loginDVWA()

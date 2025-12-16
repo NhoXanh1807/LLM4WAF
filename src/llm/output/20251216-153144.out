@@ -1,0 +1,1 @@
+[ERROR] Failed to load from MODEL_PATH: google/gemma-2-2b-it does not appear to have files named ('model-00001-of-00002.safetensors', 'model-00002-of-00002.safetensors'). Checkout 'https://huggingface.co/google/gemma-2-2b-it/tree/main' for available files.. Falling back to base model google/gemma-2-2b-it.
