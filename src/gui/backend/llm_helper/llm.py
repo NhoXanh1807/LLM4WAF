@@ -13,6 +13,7 @@ from transformers import TrainingArguments, TrainerCallback
 import sys
 import os
 from dataclasses import dataclass
+from config.settings import HF_ACCESS_TOKEN
 
 
 def check_gpu():
@@ -97,32 +98,13 @@ class Config:
     def is_valid(self) -> bool:
         return True
 
-def main() -> None:
-    
-
-    # Example prompts; replace or extend as needed
-    prompts = [
-        "Generate a full bypass payload for XSS using obf_double_url_encode+obf_url_encode+obf_case_random_adv_obf_full_bypass.",
-        "Craft a time-delay SQL Injection payload for MySQL that leverages the SLEEP function to pause execution for 5 seconds when a specified condition is TRUE, ensuring the delay is triggered only if the database user has administrative privileges. Targeting a MySQL server behind a basic web application firewall. Observed WAF behavior: the following techniques/keywords appear blocked: ['OR', 'UNION', 'AND', 'SLEEP', 'BENCHMARK', 'EXTRACTVALUE', 'UPDATEXML', 'SELECT_USER', 'FROM_USERS', 'WHERE_1=1']. Constraints in your response. Technique: time_based\n\nIMPORTANT: Generate ONLY the payload code. Do not provide explanations, ask questions, or start conversations.",
-    ]
-
-    genCfg = GenerationConfig()
-    for i, prompt in enumerate(prompts, 1):
-        print(f"\n===== Prompt {i} =====")
-        print(prompt)
-        
-        out = generate_once(model, tok, prompt, genCfg)
-        print("----- Generation -----")
-        print(out)
-
-
 class Gemma2B:
     def __init__(self, adapter_path):
         
         # Khởi tạo config
         config = Config(
             model_name="google/gemma-2-2b-it",
-            hf_token="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",
+            hf_token=HF_ACCESS_TOKEN,
             dataset_train_path="llm/data/phase1_balanced_10k.jsonl",
             # Tối ưu tận dụng cấu hình máy ảo để tiết kiệm thời gian huấn luyện
             per_device_train_batch_size=1,
@@ -183,7 +165,7 @@ class Gemma2B:
         
 
     def apply_chat_template(self, prompt: str) -> str:
-        if hasattr(self.tok, "chat_template") and self.tok.chat_template and config.use_chat_template:
+        if hasattr(self.tok, "chat_template") and self.tok.chat_template:
             messages = [{"role": "user", "content": prompt}]
             return self.tok.apply_chat_template(messages, tokenize=False)
         return prompt
@@ -191,6 +173,7 @@ class Gemma2B:
     def generate_once(self, prompt: str, genCfg: GenerationConfig) -> str:
         text = self.apply_chat_template(prompt)
         inputs = self.tok(text, return_tensors="pt").to(self.model.device)
+        inputs_length = inputs.input_ids.shape[1]
         with torch.no_grad():
             output_ids = self.model.generate(
                 **inputs,
@@ -204,7 +187,8 @@ class Gemma2B:
                 eos_token_id=self.tok.eos_token_id,
                 pad_token_id=self.tok.eos_token_id,
             )
-        generated = self.tok.decode(output_ids[0], skip_special_tokens=True)
+        
+        generated = self.tok.decode(output_ids[0, inputs_length:], skip_special_tokens=True)
         return generated
 
 model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "model")

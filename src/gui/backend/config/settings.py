@@ -21,3 +21,5 @@ DVWA_SECURITY_LEVEL = "low"
 # Default payload generation settings
 DEFAULT_NUM_PAYLOADS = 5
 DEFAULT_NUM_DEFENSE_RULES = 3
+
+HF_ACCESS_TOKEN = os.getenv("HF_ACCESS_TOKEN")

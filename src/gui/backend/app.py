@@ -17,7 +17,7 @@ def api_detect_waf():
 
         domain = dict.get(data, "domain")
         attack_type = dict.get(data, "attack_type")
-        num_payloads = dict.get(data, "num_payloads", 5)
+        num_of_payloads = dict.get(data, "num_payloads", 5)
         if not domain or not attack_type:
             return jsonify({"error": "Missing 'domain' or 'attack_type' field"}), 400
 
@@ -41,7 +41,7 @@ def api_detect_waf():
             instructions = content_json.get("items", [])
         else:
             payloads = utils.generate_payloads_by_local_llm(
-                waf_info, attack_type, num_payloads
+                waf_info, attack_type, num_of_payloads=num_payloads
             )
             instructions = [
                 {
@@ -50,6 +50,7 @@ def api_detect_waf():
                 }
                 for p in payloads
             ]
+            openai_result = None
 
         # Login to DVWA
         session_id = utils.loginDVWA()

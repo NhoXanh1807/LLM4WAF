@@ -37,6 +37,7 @@ except ImportError:
         attack_sql_injection,
         attack_sql_injection_blind
     )
+from services.payload_service import generate_payloads_by_local_llm
 
 # Re-export for backwards compatibility
 __all__ = [
@@ -48,5 +49,6 @@ __all__ = [
     'attack_xss_reflected',
     'attack_xss_stored',
     'attack_sql_injection',
-    'attack_sql_injection_blind'
+    'attack_sql_injection_blind',
+    'generate_payloads_by_local_llm'
 ]
