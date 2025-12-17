@@ -8,11 +8,11 @@ from llm_helper.llm import gemma_2b_model, GenerationConfig
 try:
     from .llm_service import chatgpt_completion
     from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
-    from ..config.prompts import RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt
+    from ..config.prompts import RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt, build_adaptive_prompt
 except ImportError:
     from services.llm_service import chatgpt_completion
     from config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
-    from config.prompts import RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt
+    from config.prompts import RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt, build_adaptive_prompt
     
 
 def generate_payloads_from_domain_waf_info(waf_info, attack_type, num_of_payloads=None):
@@ -112,8 +112,8 @@ def generate_payloads_by_local_llm(
         elif "sql" in attack_type:
             selected_techniques = random.sample(techniques["sqli"], random.randint(1, len(techniques["sqli"])))
         technique = "+".join(selected_techniques)
-        genCfg = GenerationConfig(max_new_tokens=32, do_sample=True, temperature=0.9)
-        prompt = get_red_team_user_prompt(waf_info, attack_type, num_of_payloads)
+        genCfg = GenerationConfig(max_new_tokens=512, temperature=0.9)
+        prompt = build_adaptive_prompt(waf_info, attack_type, [], [], technique)
         generated = gemma_2b_model.generate_once(prompt, genCfg)
         results.append(generated)
     return results

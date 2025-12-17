@@ -17,7 +17,7 @@ def api_detect_waf():
 
         domain = dict.get(data, "domain")
         attack_type = dict.get(data, "attack_type")
-        num_of_payloads = dict.get(data, "num_payloads", 5)
+        num_payloads = dict.get(data, "num_payloads", 5)
         if not domain or not attack_type:
             return jsonify({"error": "Missing 'domain' or 'attack_type' field"}), 400
 
@@ -46,7 +46,7 @@ def api_detect_waf():
             instructions = [
                 {
                     "payload": p,
-                    "instruction": f"Use the payload to perform {attack_type} attack."
+                    "instruction": None
                 }
                 for p in payloads
             ]
