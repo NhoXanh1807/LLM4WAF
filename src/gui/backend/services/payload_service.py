@@ -108,12 +108,13 @@ def generate_payloads_by_local_llm(
     for i in range(num_of_payloads):
         print(f"Generating payload {i+1}/{num_of_payloads} for attack type {attack_type}")
         if "xss" in attack_type:
-            selected_techniques = random.sample(techniques["xss"], random.randint(1, len(techniques["xss"])))
+            selected_techniques = random.sample(techniques["xss"], random.randint(1, len(techniques["xss"])/2))
         elif "sql" in attack_type:
-            selected_techniques = random.sample(techniques["sqli"], random.randint(1, len(techniques["sqli"])))
+            selected_techniques = random.sample(techniques["sqli"], random.randint(1, len(techniques["sqli"])/2))
         technique = "+".join(selected_techniques)
-        genCfg = GenerationConfig(max_new_tokens=512, temperature=0.9)
-        prompt = build_adaptive_prompt(waf_info, attack_type, [], [], technique)
-        generated = gemma_2b_model.generate_once(prompt, genCfg)
-        results.append(generated)
+
+        prompt = gemma_2b_model.build_phase1_prompt(waf_info, attack_type, technique)
+        generated = gemma_2b_model.generate_response(prompt)
+        payload = gemma_2b_model.clean_payload(generated)
+        results.append(payload)
     return results

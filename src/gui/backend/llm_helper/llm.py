@@ -60,6 +60,14 @@ class Gemma2B:
         response = self.tokenizer.decode(outputs[0][input_length:], skip_special_tokens=True)
         return response
     
+    def clean_payload(self, generated_text: str) -> str:
+        payload = generated_text.strip()
+        if payload.startswith("```") or payload.startswith("`"):
+            lines = payload.split("\n")
+            payload = "\n".join([l for l in lines if not l.strip().startswith("`")])
+            payload = payload.strip()
+        return payload
+    
     def build_phase1_prompt(self, waf_name: str, attack_type: str, technique: str) -> str:
         # Simple Phase 1 prompt
         prompt = f"""Generate a {attack_type} payload using {technique} technique to bypass {waf_name} WAF.
