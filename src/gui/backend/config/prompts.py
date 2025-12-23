@@ -93,15 +93,15 @@ Generate {num_rules} PRODUCTION-GRADE defense rules to block these bypasses:
 - Testing methodology"""
 
 def build_adaptive_prompt(waf_info, attack_type, blocked_examples, passed_examples, technique):
-    """Build Phase 3 style prompt with BLOCKED/PASSED examples"""
-    
-    # Format examples
-    blocked_str = "\n".join([f"  - {p['payload']}" for p in blocked_examples]) if blocked_examples else "  (none)"
-    passed_str = "\n".join([f"  - {p['payload']}" for p in passed_examples]) if passed_examples else "  (none)"
-    
-    attack_str = "SQL injection" if attack_type == "SQLI" else "XSS"
-    
-    prompt = f"""Generate WAF-evasion payloads.
+      """Build Phase 3 style prompt with BLOCKED/PASSED examples"""
+      
+      # Format examples
+      blocked_str = "\n".join([f"  - {p['payload']}" for p in blocked_examples]) if blocked_examples else "  (none)"
+      passed_str = "\n".join([f"  - {p['payload']}" for p in passed_examples]) if passed_examples else "  (none)"
+      
+      attack_str = "SQL injection" if attack_type == "SQLI" else "XSS"
+      
+      prompt = f"""Generate WAF-evasion payloads.
 
 Target: {attack_str} on {waf_info}.
 Technique: {technique}
@@ -113,5 +113,5 @@ Technique: {technique}
 {passed_str}
 
 Instruction: Generate a NEW payload using the target technique, learning from the PASSED examples if available. Output ONLY the payload."""
-    
-    return prompt
+   
+      return prompt
