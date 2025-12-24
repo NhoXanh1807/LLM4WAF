@@ -11,22 +11,27 @@ CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
 
 @app.route("/api/attack", methods=["POST"])
-def api_detect_waf():
+def api_attack():
     try:
         data = dict(request.get_json())
-
         domain = dict.get(data, "domain")
         attack_type = dict.get(data, "attack_type")
         num_payloads = dict.get(data, "num_payloads", 5)
-        if not domain or not attack_type:
-            return jsonify({"error": "Missing 'domain' or 'attack_type' field"}), 400
+        
+        if not domain:
+            return jsonify({"error": "Missing 'domain' field"}), 400
 
         if not domain.startswith("http://") and not domain.startswith("https://"):
             domain = "https://" + domain
+        
+        valid_attack_types = ["xss_dom", "xss_reflected", "xss_stored", "sql_injection", "sql_injection_blind"]
+        if attack_type not in valid_attack_types:
+            return jsonify({"error": "'attack_type' must be in " + str(valid_attack_types)}), 400
 
         # Get WAF information
         w = WAFW00F(domain)
         waf_info = w.identwaf()
+        waf_info = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
 
         USE_LOCAL_LLM = True
         if not USE_LOCAL_LLM:
@@ -73,9 +78,11 @@ def api_detect_waf():
                 result = attack_func(payload, session_id)
                 ins["bypassed"] = not result["blocked"]  # bypassed = not blocked
                 ins["status_code"] = result["status_code"]
+                print(f"Tested payload: {payload}, Bypassed: {ins['bypassed']}, Status Code: {ins['status_code']}")
             else:
-                ins["bypassed"] = False
+                ins["bypassed"] = "not tested"
                 ins["status_code"] = None
+                print(f"Skipped testing for payload: {payload}")
 
             ins["attack_type"] = attack_type
 

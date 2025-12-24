@@ -1,16 +1,12 @@
 
-import time
-from datasets import load_dataset
+
 import torch
 from transformers import (
     AutoTokenizer,
     AutoModelForCausalLM,
     BitsAndBytesConfig,
 )
-from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training, PeftModel # Keep PeftModel import for compatibility, though not directly used in this version for initial loading
-from trl import SFTTrainer, SFTConfig
-from transformers import TrainingArguments, TrainerCallback
-import sys
+from peft import PeftModel # Keep PeftModel import for compatibility, though not directly used in this version for initial loading
 import os
 from dataclasses import dataclass
 from config.settings import HF_ACCESS_TOKEN
@@ -38,7 +34,7 @@ class Gemma2B:
             raise ValueError("Phase must be 1 or 3")
 
         self.base_model = "google/gemma-2-2b-it"
-        self.adapter_path = os.join(os.abspath(os.path.dirname(__file__)), f"remote_gemma2_2b_phase3_rl")
+        self.adapter_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model', f"remote_gemma2_2b_phase3_rl")
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16
         )
