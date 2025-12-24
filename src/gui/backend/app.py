@@ -7,6 +7,7 @@ from wafw00f.main import WAFW00F
 from llm_helper.llm import PayloadResult
 import utils
 import json
+import requests
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
@@ -76,18 +77,20 @@ def api_attack():
         session_id = utils.loginDVWA()
         
         # Test each payload
-        for payload in payloads:
+        for i in range(len(payloads)):
+            payload = payloads[i]
             attack_func = DVWA_ATTACK_FUNC.get(payload.attack_type)
             result = attack_func(payload.payload, session_id)
-            print(f"Tested payload: {payload.payload}, Bypassed: {not result['blocked']}, Status Code: {result['status_code']}")
             payload.bypassed = not result["blocked"]
             payload.status_code = result["status_code"]
+            print(f"Tested {i+1}/{len(payloads)} -> {('BYPASSED' if payload.bypassed else 'BLOCKED')} code({payload.status_code}) : {payload.payload}")
 
         # Auto-generate defense rules if any payload bypassed
         bypassed_payloads = [payload.payload for payload in payloads if payload.bypassed]
         bypassed_instructions = ["Put the payload into any input on vul web then submit" for bypassed_payload in bypassed_payloads]
         defense_rules = []
-        if bypassed_payloads:
+        if len(bypassed_payloads) > 0:
+            print("Generating defense rules for bypassed payloads...")
             defend_result = utils.generate_defend_rules_and_instructions(
                 waf_name, bypassed_payloads, bypassed_instructions
             )

@@ -106,13 +106,13 @@ def generate_payload_phase1(waf_info, attack_type, num_of_payloads=1) -> List[Pa
     }
     results = []
     for i in range(num_of_payloads):
-        print(f"Generating phase 1 payload {i+1}/{num_of_payloads} for attack type {attack_type}")
         if "xss" in attack_type.lower():
             selected_techniques = random.sample(techniques["xss"], random.randint(1, int(len(techniques["xss"])/2)))
         elif "sql" in attack_type.lower():
             selected_techniques = random.sample(techniques["sqli"], random.randint(1, int(len(techniques["sqli"])/2)))
         technique = "+".join(selected_techniques)
-
+        
+        print(f"Phase 1 : generating {i}/{num_of_payloads} {attack_type} using {technique}")
         prompt = gemma_2b_model.build_phase1_prompt(waf_info, attack_type, technique)
         generated = gemma_2b_model.generate_response(prompt)
         payload = gemma_2b_model.clean_payload(generated)
@@ -127,7 +127,7 @@ def generate_payload_phase1(waf_info, attack_type, num_of_payloads=1) -> List[Pa
 def generate_payload_phase3(waf_name, attack_type, num_of_payloads=1, probe_history: List[PayloadResult] = []) -> List[PayloadResult]:
     results = []
     for i in range(num_of_payloads):
-        print(f"Generating phase 3 payload {i+1}/{num_of_payloads} for attack type {attack_type}")
+        print(f"Phase 3 : generating {i}/{num_of_payloads} {attack_type} using Adaptive Generation")
         prompt = gemma_2b_model.build_phase3_prompt(waf_name, attack_type, probe_history)
         generated = gemma_2b_model.generate_response(prompt)
         payload = gemma_2b_model.clean_payload(generated)

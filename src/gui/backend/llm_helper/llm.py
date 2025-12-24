@@ -78,7 +78,7 @@ Output ONLY the payload string. Do NOT add explanations or code fences."""
     def build_phase3_prompt(self, waf_name: str, attack_type: str, probe_history: List[PayloadResult]) -> str:
         history_str = ""
         for i, h in enumerate(probe_history):
-            history_str += f"{i+1}. Payload: `{h.payload}` (Technique: {h.technique}) -> RESULT: {'PASSED' if h.passed else 'BLOCKED'}\n"
+            history_str += f"{i+1}. Payload: `{h.payload}` (Technique: {h.technique}) -> RESULT: {'BYPASSED' if h.bypassed else 'BLOCKED'}\n"
 
         prompt = f"""You are an offensive security assistant specialized in generating WAF-evasion payloads.
 
