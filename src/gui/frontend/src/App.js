@@ -6,7 +6,6 @@ function App() {
   const [activeTab, setActiveTab] = useState('Attack');
   const [wafInfo, setWafInfo] = useState(null);
   const [payloads, setPayloads] = useState([]);
-  const [instructions, setInstructions] = useState([]);
   const [domain, setDomain] = useState('');
   const [attackType, setAttackType] = useState('xss_dom');
   const [numPayloads, setNumPayloads] = useState(5);
@@ -36,8 +35,6 @@ function App() {
       data = wafInfo;
     else if (filename === "payloads")
       data = payloads;
-    else if (filename === "instructions")
-      data = instructions;
     const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -118,9 +115,9 @@ function App() {
               try {
                 const res = await Services.attack(domain, attackType, numPayloads);
                 const data = res.ok ? await res.json() : null;
+                console.log(data);
                 setWafInfo(data?.waf_info);
                 setPayloads(data?.payloads || []);
-                setInstructions(data?.instructions || []);
                 setDefenseRules(data?.defense_rules || []);
                 setRawResponse(data);
 
@@ -198,19 +195,11 @@ function App() {
               >
                 📥 Payloads
               </button>
-              <button
-                className="px-5 py-2 rounded-lg font-semibold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow hover:shadow-lg transition-all duration-200 disabled:cursor-not-allowed"
-                disabled={!instructions || !instructions.length}
-                onClick={() => handleDownload('instructions')}
-              >
-                📥 Instructions
-              </button>
             </div>
             {/* Results Table */}
             <BypassedDataTable
               wafInfo={wafInfo}
               payloads={payloads}
-              instructions={instructions}
               darkMode={darkMode}
             />
             {/* Toggle Raw Response */}
@@ -265,13 +254,6 @@ function App() {
                             return retestResult ? { ...p, bypassed: retestResult.bypassed, status_code: retestResult.status_code } : p;
                           });
                           setPayloads(updatedPayloads);
-
-                          // Update instructions
-                          const updatedInstructions = instructions.map((ins, idx) => {
-                            const retestResult = data.results.find(r => r.payload === ins.payload);
-                            return retestResult ? { ...ins, bypassed: retestResult.bypassed } : ins;
-                          });
-                          setInstructions(updatedInstructions);
                         }
                       } finally {
                         setIsRetesting(false);
@@ -287,7 +269,6 @@ function App() {
               <BypassedDataTable
                 wafInfo={wafInfo}
                 payloads={payloads.filter(p => p.bypassed === true)}
-                instructions={instructions.filter((_, idx) => payloads[idx]?.bypassed === true)}
                 darkMode={darkMode}
               />
             </div>
