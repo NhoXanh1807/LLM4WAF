@@ -64,7 +64,7 @@ function BypassedDataTable({ wafInfo, payloads, instructions, darkMode }) {
                                 <td className={`px-4 py-3 font-mono text-xs break-all ${darkMode ? 'text-yellow-400' : 'text-gray-800'}`}>
                                     {item.payload || JSON.stringify(item)}
                                 </td>
-                                <td className={`px-4 py-3 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                                <td className={`px-4 py-3 text-sm break-all ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                                     {getInstructions(idx)}
                                 </td>
                                 <td className={`px-4 py-3 text-center font-mono font-bold ${darkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
