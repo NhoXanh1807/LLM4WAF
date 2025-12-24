@@ -1,6 +1,6 @@
 import React from 'react';
 
-function BypassedDataTable({ wafInfo, payloads, darkMode }) {
+function BypassedDataTable({ wafName, payloads, darkMode }) {
     const data = Array.isArray(payloads) ? payloads : [];
 
     const getStatusBadge = (item) => {
@@ -21,7 +21,7 @@ function BypassedDataTable({ wafInfo, payloads, darkMode }) {
                             ? 'bg-gray-900 border-gray-700 text-cyan-400'
                             : 'bg-gray-50 border-gray-300 text-gray-800'
                         }`}
-                    value={wafInfo ? (typeof wafInfo === 'string' ? wafInfo : JSON.stringify(wafInfo, null, 2)) : ''}
+                    value={wafName ? (typeof wafName === 'string' ? wafName : JSON.stringify(wafName, null, 2)) : ''}
                     readOnly
                 />
             </div>
