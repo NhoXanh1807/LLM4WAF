@@ -12,20 +12,24 @@ from dataclasses import dataclass
 from config.settings import HF_ACCESS_TOKEN
 
 
-def check_gpu():
+def get_best_device():
     if torch.cuda.is_available():
-        return [torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())]
+        print("Using CUDA device")
+        print([torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())])
+        return torch.device("cuda")
     else:
-        return []
+        print("Using CPU device")
+        return torch.device("cpu")
 
-
-from typing import List, Optional
+from typing import List
 
 @dataclass
 class PayloadResult:
     payload: str
     technique: str
+    attack_type: str
     passed: bool
+    status_code: int = None
 
 class Gemma2B:
     def __init__(self, phase=3):
@@ -41,7 +45,7 @@ class Gemma2B:
         self.model = AutoModelForCausalLM.from_pretrained(
             self.base_model, quantization_config=bnb_config, device_map="auto", token=HF_ACCESS_TOKEN
         )
-        self.model = PeftModel.from_pretrained(self.model, self.adapter_path)
+        self.model = PeftModel.from_pretrained(self.model, self.adapter_path).to(get_best_device())
         self.tokenizer = AutoTokenizer.from_pretrained(self.base_model, token=HF_ACCESS_TOKEN)
         
     def _format_prompt(self, prompt: str) -> str:
@@ -74,7 +78,7 @@ Output ONLY the payload string. Do NOT add explanations or code fences."""
     def build_phase3_prompt(self, waf_name: str, attack_type: str, probe_history: List[PayloadResult]) -> str:
         history_str = ""
         for i, h in enumerate(probe_history):
-            history_str += f"{i+1}. Payload: `{h.payload}` (Technique: {h.technique}) -> RESULT: {h.passed}\n"
+            history_str += f"{i+1}. Payload: `{h.payload}` (Technique: {h.technique}) -> RESULT: {'PASSED' if h.passed else 'BLOCKED'}\n"
 
         prompt = f"""You are an offensive security assistant specialized in generating WAF-evasion payloads.
 

@@ -1,14 +1,33 @@
+from typing import List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
+from gui.backend.llm_helper.llm import PayloadResult
 import utils
 import json
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
+
+# Map attack types to functions
+DVWA_ATTACK_FUNC = {
+    "xss_dom": utils.attack_xss_dom,
+    "xss_reflected": utils.attack_xss_reflected,
+    "xss_stored": utils.attack_xss_stored,
+    "sql_injection": utils.attack_sql_injection,
+    "sql_injection_blind": utils.attack_sql_injection_blind,
+}
+
+VALID_ATTACK_TYPES = [
+    "xss_dom", 
+    "xss_reflected", 
+    "xss_stored", 
+    "sql_injection", 
+    "sql_injection_blind"
+]
 
 @app.route("/api/attack", methods=["POST"])
 def api_attack():
@@ -17,6 +36,8 @@ def api_attack():
         domain = dict.get(data, "domain")
         attack_type = dict.get(data, "attack_type")
         num_payloads = dict.get(data, "num_payloads", 5)
+        payloads_history = dict.get(data, "payloads_history", [])
+        probe_history = [PayloadResult(**h) for h in payloads_history]
         
         if not domain:
             return jsonify({"error": "Missing 'domain' field"}), 400
@@ -24,82 +45,47 @@ def api_attack():
         if not domain.startswith("http://") and not domain.startswith("https://"):
             domain = "https://" + domain
         
-        valid_attack_types = ["xss_dom", "xss_reflected", "xss_stored", "sql_injection", "sql_injection_blind"]
-        if attack_type not in valid_attack_types:
-            return jsonify({"error": "'attack_type' must be in " + str(valid_attack_types)}), 400
+        if attack_type not in VALID_ATTACK_TYPES:
+            return jsonify({"error": "'attack_type' must be in " + str(VALID_ATTACK_TYPES)}), 400
 
         # Get WAF information
         w = WAFW00F(domain)
         waf_info = w.identwaf()
         waf_info = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
 
-        USE_LOCAL_LLM = True
-        if not USE_LOCAL_LLM:
-            openai_result = utils.generate_payloads_from_domain_waf_info(
-                waf_info, attack_type, num_payloads
-            )
-            openai_result = dict(openai_result)
-            content = (
-                openai_result.get("choices", [])[0].get("message", {}).get("content", None)
-            )
-            content_json = json.loads(content) if content else {}
-            instructions = content_json.get("items", [])
-        else:
-            payloads = utils.generate_payloads_by_local_llm(
+        # openai_result = utils.generate_payloads_from_domain_waf_info(
+        #     waf_info, attack_type, num_payloads
+        # )
+        # openai_result = dict(openai_result)
+        # content = (
+        #     openai_result.get("choices", [])[0].get("message", {}).get("content", None)
+        # )
+        # content_json = json.loads(content) if content else {}
+        # instructions = content_json.get("items", [])
+
+        if len(probe_history) <= 0:
+            payloads = utils.generate_payload_phase1(
                 waf_info, attack_type, num_of_payloads=num_payloads
-            )
-            instructions = [
-                {
-                    "payload": p,
-                    "instruction": None
-                }
-                for p in payloads
-            ]
-            openai_result = None
+            )  # type: List[PayloadResult]
+        else:
+            payloads = utils.generate_payload_phase3(
+                waf_info, attack_type, num_of_payloads=num_payloads, probe_history=probe_history
+            )  # type: List[PayloadResult]
 
         # Login to DVWA
         session_id = utils.loginDVWA()
-
-        # Map attack types to functions
-        attack_functions = {
-            "xss_dom": utils.attack_xss_dom,
-            "xss_reflected": utils.attack_xss_reflected,
-            "xss_stored": utils.attack_xss_stored,
-            "sql_injection": utils.attack_sql_injection,
-            "sql_injection_blind": utils.attack_sql_injection_blind,
-        }
-
+        
         # Test each payload
-        for ins in instructions:
-            payload = ins.get("payload")
-            attack_func = attack_functions.get(attack_type)
-
-            if attack_func and payload:
-                result = attack_func(payload, session_id)
-                ins["bypassed"] = not result["blocked"]  # bypassed = not blocked
-                ins["status_code"] = result["status_code"]
-                print(f"Tested payload: {payload}, Bypassed: {ins['bypassed']}, Status Code: {ins['status_code']}")
-            else:
-                ins["bypassed"] = "not tested"
-                ins["status_code"] = None
-                print(f"Skipped testing for payload: {payload}")
-
-            ins["attack_type"] = attack_type
-
-        payloads = [
-            {
-                "attack_type": attack_type,
-                "payload": ins.get("payload"),
-                "bypassed": ins.get("bypassed", False),
-                "status_code": ins.get("status_code"),
-            }
-            for ins in instructions
-        ]
+        for payload in payloads:
+            attack_func = DVWA_ATTACK_FUNC.get(payload.attack_type)
+            result = attack_func(payload.payload, session_id)
+            print(f"Tested payload: {payload.payload}, Bypassed: {not result['blocked']}, Status Code: {result['status_code']}")
+            payload.passed = not result["blocked"]
+            payload.status_code = result["status_code"]
 
         # Auto-generate defense rules if any payload bypassed
-        bypassed_payloads = [ins["payload"] for ins in instructions if ins.get("bypassed")]
-        bypassed_instructions = [ins["instruction"] for ins in instructions if ins.get("bypassed")]
-
+        bypassed_payloads = [payload.payload for payload in payloads if payload.passed]
+        bypassed_instructions = ["Put the payload into any input on vul web then submit" for bypassed_payload in bypassed_payloads]
         defense_rules = []
         if bypassed_payloads:
             defend_result = utils.generate_defend_rules_and_instructions(
@@ -116,9 +102,7 @@ def api_attack():
                     "domain": domain,
                     "waf_info": waf_info,
                     "payloads": payloads,
-                    "instructions": instructions,
                     "defense_rules": defense_rules,
-                    "raw_openai_response": openai_result,
                 }
             ),
             200,
@@ -144,21 +128,13 @@ def api_retest():
         # Login to DVWA
         session_id = utils.loginDVWA()
 
-        # Map attack types to functions
-        attack_functions = {
-            "xss_dom": utils.attack_xss_dom,
-            "xss_reflected": utils.attack_xss_reflected,
-            "xss_stored": utils.attack_xss_stored,
-            "sql_injection": utils.attack_sql_injection,
-            "sql_injection_blind": utils.attack_sql_injection_blind,
-        }
 
         # Retest each payload
         results = []
         for item in bypassed_payloads:
             payload = item.get("payload")
             attack_type = item.get("attack_type")
-            attack_func = attack_functions.get(attack_type)
+            attack_func = DVWA_ATTACK_FUNC.get(attack_type)
 
             if attack_func and payload:
                 result = attack_func(payload, session_id)
@@ -188,7 +164,7 @@ def api_retest():
 
 
 @app.route("/api/defend", methods=["POST"])
-def api_test():
+def api_defend():
     try:
         data = dict(request.get_json())
 

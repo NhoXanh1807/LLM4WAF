@@ -4,7 +4,9 @@ Payload generation service using LLM
 
 import json
 import random
-from llm_helper.llm import gemma_2b_model
+
+from gradio import List
+from llm_helper.llm import PayloadResult, gemma_2b_model
 try:
     from .llm_service import chatgpt_completion
     from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
@@ -88,10 +90,10 @@ def generate_payloads_from_domain_waf_info(waf_info, attack_type, num_of_payload
     chat_result["messages"] = messages
     return chat_result
 
-def generate_payloads_by_local_llm(
+def generate_payload_phase1(
         waf_info,                   
         attack_type, 
-        num_of_payloads=1):
+        num_of_payloads=1) -> List[PayloadResult]:
     techniques = {
         "xss":[
             "SVG Event Handler", "Unicode Normalization", "IMG Tag with OnError",
@@ -107,7 +109,7 @@ def generate_payloads_by_local_llm(
     }
     results = []
     for i in range(num_of_payloads):
-        print(f"Generating payload {i+1}/{num_of_payloads} for attack type {attack_type}")
+        print(f"Generating phase 1 payload {i+1}/{num_of_payloads} for attack type {attack_type}")
         if "xss" in attack_type.lower():
             selected_techniques = random.sample(techniques["xss"], random.randint(1, int(len(techniques["xss"])/2)))
         elif "sql" in attack_type.lower():
@@ -117,5 +119,25 @@ def generate_payloads_by_local_llm(
         prompt = gemma_2b_model.build_phase1_prompt(waf_info, attack_type, technique)
         generated = gemma_2b_model.generate_response(prompt)
         payload = gemma_2b_model.clean_payload(generated)
-        results.append(payload)
+        results.append(PayloadResult(
+            payload=payload,
+            technique=technique,
+            attack_type=attack_type,
+            passed=False
+        ))
+    return results
+
+def generate_payload_phase3(waf_name, attack_type, num_of_payloads=1, probe_history: List[PayloadResult] = []) -> List[PayloadResult]:
+    results = []
+    for i in range(num_of_payloads):
+        print(f"Generating phase 3 payload {i+1}/{num_of_payloads} for attack type {attack_type}")
+        prompt = gemma_2b_model.build_phase3_prompt(waf_name, attack_type, probe_history)
+        generated = gemma_2b_model.generate_response(prompt)
+        payload = gemma_2b_model.clean_payload(generated)
+        results.append(PayloadResult(
+            payload=payload,
+            technique="Adaptive Generation",
+            attack_type=attack_type,
+            passed=False
+        ))
     return results
