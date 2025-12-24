@@ -28,7 +28,7 @@ class PayloadResult:
     payload: str
     technique: str
     attack_type: str
-    passed: bool
+    bypassed: bool
     status_code: int = None
 
 class Gemma2B:

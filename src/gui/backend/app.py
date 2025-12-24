@@ -4,7 +4,7 @@ from flask_cors import CORS
 
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
-from gui.backend.llm_helper.llm import PayloadResult
+from llm_helper.llm import PayloadResult
 import utils
 import json
 
@@ -51,10 +51,10 @@ def api_attack():
         # Get WAF information
         w = WAFW00F(domain)
         waf_info = w.identwaf()
-        waf_info = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
+        waf_name = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
 
         # openai_result = utils.generate_payloads_from_domain_waf_info(
-        #     waf_info, attack_type, num_payloads
+        #     waf_name, attack_type, num_payloads
         # )
         # openai_result = dict(openai_result)
         # content = (
@@ -65,11 +65,11 @@ def api_attack():
 
         if len(probe_history) <= 0:
             payloads = utils.generate_payload_phase1(
-                waf_info, attack_type, num_of_payloads=num_payloads
+                waf_name, attack_type, num_of_payloads=num_payloads
             )  # type: List[PayloadResult]
         else:
             payloads = utils.generate_payload_phase3(
-                waf_info, attack_type, num_of_payloads=num_payloads, probe_history=probe_history
+                waf_name, attack_type, num_of_payloads=num_payloads, probe_history=probe_history
             )  # type: List[PayloadResult]
 
         # Login to DVWA
@@ -80,16 +80,16 @@ def api_attack():
             attack_func = DVWA_ATTACK_FUNC.get(payload.attack_type)
             result = attack_func(payload.payload, session_id)
             print(f"Tested payload: {payload.payload}, Bypassed: {not result['blocked']}, Status Code: {result['status_code']}")
-            payload.passed = not result["blocked"]
+            payload.bypassed = not result["blocked"]
             payload.status_code = result["status_code"]
 
         # Auto-generate defense rules if any payload bypassed
-        bypassed_payloads = [payload.payload for payload in payloads if payload.passed]
+        bypassed_payloads = [payload.payload for payload in payloads if payload.bypassed]
         bypassed_instructions = ["Put the payload into any input on vul web then submit" for bypassed_payload in bypassed_payloads]
         defense_rules = []
         if bypassed_payloads:
             defend_result = utils.generate_defend_rules_and_instructions(
-                waf_info, bypassed_payloads, bypassed_instructions
+                waf_name, bypassed_payloads, bypassed_instructions
             )
             defend_result = dict(defend_result)
             defend_content = defend_result.get("choices", [])[0].get("message", {}).get("content", None)
@@ -100,7 +100,7 @@ def api_attack():
             jsonify(
                 {
                     "domain": domain,
-                    "waf_info": waf_info,
+                    "waf_name": waf_name,
                     "payloads": payloads,
                     "defense_rules": defense_rules,
                 }

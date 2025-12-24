@@ -5,7 +5,7 @@ Payload generation service using LLM
 import json
 import random
 
-from gradio import List
+from typing import List
 from llm_helper.llm import PayloadResult, gemma_2b_model
 try:
     from .llm_service import chatgpt_completion
@@ -90,17 +90,14 @@ def generate_payloads_from_domain_waf_info(waf_info, attack_type, num_of_payload
     chat_result["messages"] = messages
     return chat_result
 
-def generate_payload_phase1(
-        waf_info,                   
-        attack_type, 
-        num_of_payloads=1) -> List[PayloadResult]:
+def generate_payload_phase1(waf_info, attack_type, num_of_payloads=1) -> List[PayloadResult]:
     techniques = {
         "xss":[
             "SVG Event Handler", "Unicode Normalization", "IMG Tag with OnError",
             "Body Tag with OnLoad", "Javascript Pseudo-protocol in A Tag",
             "Case Manipulation (<ScRiPt>)", "Attribute Injection (breaking out of quotes)"
         ],
-        "sqli": [    
+        "sqli": [
             "Double URL Encode", "Comment Obfuscation (/**/)", "Inline Comment Versioning (/*!50000*/)",
             "Hex Encoding", "Whitespace Bypass using Newlines/Tabs", "Boolean-based Blind (AND 1=1)",
             "Time-based Blind (SLEEP/BENCHMARK)", "Union Select with Null Bytes",
@@ -123,7 +120,7 @@ def generate_payload_phase1(
             payload=payload,
             technique=technique,
             attack_type=attack_type,
-            passed=False
+            bypassed=False
         ))
     return results
 
@@ -138,6 +135,6 @@ def generate_payload_phase3(waf_name, attack_type, num_of_payloads=1, probe_hist
             payload=payload,
             technique="Adaptive Generation",
             attack_type=attack_type,
-            passed=False
+            bypassed=False
         ))
     return results
