@@ -20,6 +20,12 @@ except ImportError:
         DVWA_SECURITY_LEVEL
     )
 
+from dataclasses import dataclass
+@dataclass
+class AttackResult:
+    status_code: int
+    blocked: bool
+
 
 def loginDVWA():
     """
@@ -73,7 +79,7 @@ def _check_blocked(response):
     return "ModSecurity" in response.text or response.status_code == 403
 
 
-def attack_xss_dom(payload, session_id):
+def attack_xss_dom(payload, session_id) -> AttackResult:
     """
     Execute XSS DOM-Based attack
 
@@ -89,13 +95,13 @@ def attack_xss_dom(payload, session_id):
         url,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
     )
-    return {
-        "status_code": response.status_code,
-        "blocked": _check_blocked(response)
-    }
+    return AttackResult(
+        status_code=response.status_code,
+        blocked=_check_blocked(response)
+    )
 
 
-def attack_xss_reflected(payload, session_id):
+def attack_xss_reflected(payload, session_id) -> AttackResult:
     """
     Execute XSS Reflected attack
 
@@ -111,13 +117,13 @@ def attack_xss_reflected(payload, session_id):
         url,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
     )
-    return {
-        "status_code": response.status_code,
-        "blocked": _check_blocked(response)
-    }
+    return AttackResult(
+        status_code=response.status_code,
+        blocked=_check_blocked(response)
+    )
 
 
-def attack_xss_stored(payload, session_id):
+def attack_xss_stored(payload, session_id) -> AttackResult:
     """
     Execute XSS Stored attack
 
@@ -139,13 +145,13 @@ def attack_xss_stored(payload, session_id):
         data=data,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
     )
-    return {
-        "status_code": response.status_code,
-        "blocked": _check_blocked(response)
-    }
+    return AttackResult(
+        status_code=response.status_code,
+        blocked=_check_blocked(response)
+    )
 
 
-def attack_sql_injection(payload, session_id):
+def attack_sql_injection(payload, session_id) -> AttackResult:
     """
     Execute SQL Injection attack
 
@@ -161,13 +167,13 @@ def attack_sql_injection(payload, session_id):
         url,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
     )
-    return {
-        "status_code": response.status_code,
-        "blocked": _check_blocked(response)
-    }
+    return AttackResult(
+        status_code=response.status_code,
+        blocked=_check_blocked(response)
+    )
 
 
-def attack_sql_injection_blind(payload, session_id):
+def attack_sql_injection_blind(payload, session_id) -> AttackResult:
     """
     Execute Blind SQL Injection attack
 
@@ -183,7 +189,7 @@ def attack_sql_injection_blind(payload, session_id):
         url,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
     )
-    return {
-        "status_code": response.status_code,
-        "blocked": _check_blocked(response)
-    }
+    return AttackResult(
+        status_code=response.status_code,
+        blocked=_check_blocked(response)
+    )

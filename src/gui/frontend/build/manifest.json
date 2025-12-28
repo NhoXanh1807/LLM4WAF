@@ -1,0 +1,15 @@
+{
+  "short_name": "LLMShield",
+  "name": "LLMShield - AI-Powered WAF Testing Platform",
+  "icons": [
+    {
+      "src": "llmshield.png",
+      "type": "image/png",
+      "sizes": "500x500"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#EF4444",
+  "background_color": "#1F2937"
+}

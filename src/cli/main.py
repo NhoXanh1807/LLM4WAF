@@ -8,6 +8,8 @@ import argparse
 import sys
 import json
 from pathlib import Path
+from gui.backend.llm_helper.llm import PayloadResult
+from typing import List
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -42,64 +44,54 @@ def print_banner():
         print(BOLD + c + line + RESET)
 
 
-def detect_waf(domain):
+def detect_waf(domain) -> str:
     print(f"\n[*] Detecting WAF on {domain}...")
     try:
         w = WAFW00F(domain)
         waf_info = w.identwaf()
+        waf_name = waf_info[0][0] if len(waf_info[0]) > 0 else None
         print(f"[+] WAF: {json.dumps(waf_info, indent=2)}")
-        return waf_info
+        return waf_name
     except Exception as e:
         print(f"[-] Failed: {e}")
-        return {"detected": False}
+        return None
 
 
-def generate_payloads(waf_info, attack_type, num):
+def generate_payloads(waf_info, attack_type, num) -> List[PayloadResult]:
     print(f"\n[*] Generating {num} {attack_type} payloads...")
     try:
-        result = utils.generate_payloads_from_domain_waf_info(waf_info, attack_type, num)
-        content = json.loads(result["choices"][0]["message"]["content"])
-        payloads = content.get("items", [])
+        payloads = utils.generate_payload_phase1(waf_info, attack_type, num)
         print(f"[+] Generated {len(payloads)} payloads")
         for i, p in enumerate(payloads, 1):
-            print(f"\n  [{i}] {p['payload']}")
+            print(f"\n  [{i}] {p.payload}")
         return payloads
     except Exception as e:
         print(f"[-] Failed: {e}")
         return []
 
 
-def test_payloads(payloads, attack_type):
+def test_payloads(payloads: List[PayloadResult], attack_type) -> List[PayloadResult]:
     print(f"\n[*] Testing payloads...")
-    attack_funcs = {
-        "xss_dom": utils.attack_xss_dom,
-        "xss_reflected": utils.attack_xss_reflected,
-        "xss_stored": utils.attack_xss_stored,
-        "sql_injection": utils.attack_sql_injection,
-        "sql_injection_blind": utils.attack_sql_injection_blind,
-    }
 
     try:
         session_id = utils.loginDVWA()
-        func = attack_funcs.get(attack_type)
-        results = []
 
         for i, item in enumerate(payloads, 1):
-            payload = item["payload"]
-            result = func(payload, session_id)
-            bypassed = not result["blocked"]
-            status = "⚠️  BYPASSED" if bypassed else "✅ BLOCKED"
+            payload = item.payload
+            attack_type = item.attack_type
+            result = utils.attack(attack_type, payload, session_id)
+            payloads[i].bypassed = not result.blocked
+            payloads[i].status_code = result.status_code
+            status = "⚠️  BYPASSED" if not result.blocked else "✅ BLOCKED"
             print(f"  [{i}] {status} - {payload}")
-            results.append({**item, "bypassed": bypassed, "status_code": result["status_code"]})
-
-        return results
+        return payloads
     except Exception as e:
         print(f"[-] Failed: {e}")
         return []
 
 
-def generate_defense(waf_info, results):
-    bypassed = [r for r in results if r.get("bypassed")]
+def generate_defense(waf_info, payload_results: List[PayloadResult]) -> List[dict]:
+    bypassed = [r for r in payload_results if r.bypassed]
     if not bypassed:
         print("\n[+] No bypassed payloads! WAF is secure.")
         return []
@@ -108,8 +100,8 @@ def generate_defense(waf_info, results):
     try:
         result = utils.generate_defend_rules_and_instructions(
             waf_info,
-            [r["payload"] for r in bypassed],
-            [r["instruction"] for r in bypassed]
+            [r.payload for r in bypassed],
+            ["Put the payload into any input on vul web then submit" for r in bypassed]
         )
         content = json.loads(result["choices"][0]["message"]["content"])
         rules = content.get("items", [])
@@ -136,15 +128,13 @@ def main():
     # Generate
     p_gen = subparsers.add_parser('generate')
     p_gen.add_argument('-d', '--domain', required=True)
-    p_gen.add_argument('-t', '--type', required=True,
-                       choices=['xss_dom', 'xss_reflected', 'xss_stored', 'sql_injection', 'sql_injection_blind'])
+    p_gen.add_argument('-t', '--type', required=True, choices=utils.VALID_ATTACK_TYPES)
     p_gen.add_argument('-n', '--num', type=int, default=5)
 
     # Attack (full workflow)
     p_attack = subparsers.add_parser('attack')
     p_attack.add_argument('-d', '--domain', required=True)
-    p_attack.add_argument('-t', '--type', required=True,
-                          choices=['xss_dom', 'xss_reflected', 'xss_stored', 'sql_injection', 'sql_injection_blind'])
+    p_attack.add_argument('-t', '--type', required=True, choices=utils.VALID_ATTACK_TYPES)
     p_attack.add_argument('-n', '--num', type=int, default=5)
     p_attack.add_argument('-o', '--output', help='Output JSON file')
 

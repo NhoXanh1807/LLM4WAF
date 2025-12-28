@@ -1,25 +1,11 @@
 
 
-import torch
-from transformers import (
-    AutoTokenizer,
-    AutoModelForCausalLM,
-    BitsAndBytesConfig,
-)
-from peft import PeftModel # Keep PeftModel import for compatibility, though not directly used in this version for initial loading
+
 import os
 from dataclasses import dataclass
-from config.settings import HF_ACCESS_TOKEN
+from ..config.settings import HF_ACCESS_TOKEN
 
 
-def get_best_device():
-    if torch.cuda.is_available():
-        print("Using CUDA device")
-        print([torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())])
-        return torch.device("cuda")
-    else:
-        print("Using CPU device")
-        return torch.device("cpu")
 
 from typing import List
 
@@ -32,11 +18,32 @@ class PayloadResult:
     status_code: int = None
 
 class Gemma2B:
-    def __init__(self, phase=3):
-
-        if phase not in [1,3]:
-            raise ValueError("Phase must be 1 or 3")
-
+    def __init__(self):
+        self.loaded = False
+    
+    def load_model(self):
+        if self.loaded:
+            return
+        
+        # Lazy load model dependencies
+        import torch
+        from transformers import (
+            AutoTokenizer,
+            AutoModelForCausalLM,
+            BitsAndBytesConfig,
+        )
+        from peft import PeftModel
+        
+        self.no_grad = torch.no_grad
+        # Check for CUDA availability
+        if torch.cuda.is_available():
+            print("Using CUDA device")
+            print([torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())])
+            self.device = torch.device("cuda")
+        else:
+            print("Using CPU device")
+            self.device = torch.device("cpu")
+            
         self.base_model = "google/gemma-2-2b-it"
         self.adapter_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model', f"remote_gemma2_2b_phase3_rl")
         bnb_config = BitsAndBytesConfig(
@@ -45,17 +52,20 @@ class Gemma2B:
         self.model = AutoModelForCausalLM.from_pretrained(
             self.base_model, quantization_config=bnb_config, device_map="auto", token=HF_ACCESS_TOKEN
         )
-        self.model = PeftModel.from_pretrained(self.model, self.adapter_path).to(get_best_device())
+        self.model = PeftModel.from_pretrained(self.model, self.adapter_path).to(self.device)
         self.tokenizer = AutoTokenizer.from_pretrained(self.base_model, token=HF_ACCESS_TOKEN)
-        
+        self.loaded = True
+    
     def _format_prompt(self, prompt: str) -> str:
         return f"<start_of_turn>user\n{prompt}<end_of_turn>\n<start_of_turn>model\n"
     
     def generate_response(self, prompt: str, max_new_tokens: int = 256, temperature: float = 0.7) -> str:
+        if not self.loaded:
+            self.load_model()
         formatted_prompt = self._format_prompt(prompt)
         inputs = self.tokenizer(formatted_prompt, return_tensors="pt").to(self.model.device)
         input_length = inputs.input_ids.shape[1]
-        with torch.no_grad():
+        with self.no_grad():
             outputs = self.model.generate(**inputs, max_new_tokens=max_new_tokens, temperature=temperature, do_sample=True)
         response = self.tokenizer.decode(outputs[0][input_length:], skip_special_tokens=True)
         return response

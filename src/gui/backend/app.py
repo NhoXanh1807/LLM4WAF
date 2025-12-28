@@ -13,22 +13,7 @@ app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
 
 
-# Map attack types to functions
-DVWA_ATTACK_FUNC = {
-    "xss_dom": utils.attack_xss_dom,
-    "xss_reflected": utils.attack_xss_reflected,
-    "xss_stored": utils.attack_xss_stored,
-    "sql_injection": utils.attack_sql_injection,
-    "sql_injection_blind": utils.attack_sql_injection_blind,
-}
 
-VALID_ATTACK_TYPES = [
-    "xss_dom", 
-    "xss_reflected", 
-    "xss_stored", 
-    "sql_injection", 
-    "sql_injection_blind"
-]
 
 @app.route("/api/attack", methods=["POST"])
 def api_attack():
@@ -46,8 +31,8 @@ def api_attack():
         if not domain.startswith("http://") and not domain.startswith("https://"):
             domain = "https://" + domain
         
-        if attack_type not in VALID_ATTACK_TYPES:
-            return jsonify({"error": "'attack_type' must be in " + str(VALID_ATTACK_TYPES)}), 400
+        if attack_type not in utils.VALID_ATTACK_TYPES:
+            return jsonify({"error": "'attack_type' must be in " + str(utils.VALID_ATTACK_TYPES)}), 400
 
         # Get WAF information
         w = WAFW00F(domain)
@@ -79,7 +64,7 @@ def api_attack():
         # Test each payload
         for i in range(len(payloads)):
             payload = payloads[i]
-            attack_func = DVWA_ATTACK_FUNC.get(payload.attack_type)
+            attack_func = utils.DVWA_ATTACK_FUNC.get(payload.attack_type)
             result = attack_func(payload.payload, session_id)
             payload.bypassed = not result["blocked"]
             payload.status_code = result["status_code"]
@@ -137,7 +122,7 @@ def api_retest():
         for item in bypassed_payloads:
             payload = item.get("payload")
             attack_type = item.get("attack_type")
-            attack_func = DVWA_ATTACK_FUNC.get(attack_type)
+            attack_func = utils.DVWA_ATTACK_FUNC.get(attack_type)
 
             if attack_func and payload:
                 result = attack_func(payload, session_id)

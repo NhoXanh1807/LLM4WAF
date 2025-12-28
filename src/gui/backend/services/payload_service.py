@@ -6,15 +6,17 @@ import json
 import random
 
 from typing import List
-from llm_helper.llm import PayloadResult, gemma_2b_model
-try:
-    from .llm_service import chatgpt_completion
-    from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
-    from ..config.prompts import RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt
-except ImportError:
-    from services.llm_service import chatgpt_completion
-    from config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
-    from config.prompts import RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt
+from ..llm_helper.llm import *
+from ..config.settings import *
+from ..config.prompts import *
+# try:
+#     from .llm_service import chatgpt_completion
+#     from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
+#     from ..config.prompts import RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt
+# except ImportError:
+#     from services.llm_service import chatgpt_completion
+#     from config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
+#     from config.prompts import RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt
     
 
 def generate_payloads_from_domain_waf_info(waf_info, attack_type, num_of_payloads=None):
