@@ -13,7 +13,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = "gpt-4o"
 
 # DVWA Configuration
-DVWA_BASE_URL = "http://modsec.llmshield.click"
+DVWA_BASE_URL = "http://llmshield.akng.io.vn"
 DVWA_USERNAME = "admin"
 DVWA_PASSWORD = "password"
 DVWA_SECURITY_LEVEL = "low"
