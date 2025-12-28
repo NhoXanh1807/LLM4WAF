@@ -5,12 +5,13 @@ from flask_cors import CORS
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
 from .llm_helper.llm import PayloadResult
-from .utils import *
+from .utils import VALID_ATTACK_TYPES, generate_payload_phase1, generate_payload_phase3, DVWA_ATTACK_FUNC, loginDVWA, generate_defend_rules_and_instructions
 import json
 import requests
 
+
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["http://localhost:3000"])
+CORS(app, supports_credentials=True, origins=["http://localhost:3000", "http://localhost:3001"])
 
 
 
@@ -31,15 +32,15 @@ def api_attack():
         if not domain.startswith("http://") and not domain.startswith("https://"):
             domain = "https://" + domain
         
-        if attack_type not in utils.VALID_ATTACK_TYPES:
-            return jsonify({"error": "'attack_type' must be in " + str(utils.VALID_ATTACK_TYPES)}), 400
+        if attack_type not in VALID_ATTACK_TYPES:
+            return jsonify({"error": "'attack_type' must be in " + str(VALID_ATTACK_TYPES)}), 400
 
         # Get WAF information
         w = WAFW00F(domain)
         waf_info = w.identwaf()
         waf_name = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
 
-        # openai_result = utils.generate_payloads_from_domain_waf_info(
+        # openai_result = generate_payloads_from_domain_waf_info(
         #     waf_name, attack_type, num_payloads
         # )
         # openai_result = dict(openai_result)
@@ -50,21 +51,21 @@ def api_attack():
         # instructions = content_json.get("items", [])
 
         if len(probe_history) <= 0:
-            payloads = utils.generate_payload_phase1(
+            payloads = generate_payload_phase1(
                 waf_name, attack_type, num_of_payloads=num_payloads
             )  # type: List[PayloadResult]
         else:
-            payloads = utils.generate_payload_phase3(
+            payloads = generate_payload_phase3(
                 waf_name, attack_type, num_of_payloads=num_payloads, probe_history=probe_history
             )  # type: List[PayloadResult]
 
         # Login to DVWA
-        session_id = utils.loginDVWA()
+        session_id = loginDVWA()
         
         # Test each payload
         for i in range(len(payloads)):
             payload = payloads[i]
-            attack_func = utils.DVWA_ATTACK_FUNC.get(payload.attack_type)
+            attack_func = DVWA_ATTACK_FUNC.get(payload.attack_type)
             result = attack_func(payload.payload, session_id)
             payload.bypassed = not result["blocked"]
             payload.status_code = result["status_code"]
@@ -76,7 +77,7 @@ def api_attack():
         defense_rules = []
         if len(bypassed_payloads) > 0:
             print("Generating defense rules for bypassed payloads...")
-            defend_result = utils.generate_defend_rules_and_instructions(
+            defend_result = generate_defend_rules_and_instructions(
                 waf_name, bypassed_payloads, bypassed_instructions
             )
             defend_result = dict(defend_result)
@@ -114,7 +115,7 @@ def api_retest():
             return jsonify({"error": "No payloads provided for retest"}), 400
 
         # Login to DVWA
-        session_id = utils.loginDVWA()
+        session_id = loginDVWA()
 
 
         # Retest each payload
@@ -122,7 +123,7 @@ def api_retest():
         for item in bypassed_payloads:
             payload = item.get("payload")
             attack_type = item.get("attack_type")
-            attack_func = utils.DVWA_ATTACK_FUNC.get(attack_type)
+            attack_func = DVWA_ATTACK_FUNC.get(attack_type)
 
             if attack_func and payload:
                 result = attack_func(payload, session_id)
@@ -169,7 +170,7 @@ def api_defend():
                 400,
             )
 
-        openai_result = utils.generate_defend_rules_and_instructions(
+        openai_result = generate_defend_rules_and_instructions(
             waf_info, bypassed_payloads, bypassed_instructions
         )
         # return jsonify(openai_result)
