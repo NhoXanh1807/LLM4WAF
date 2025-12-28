@@ -24,7 +24,7 @@ class Gemma2B:
     def load_model(self):
         if self.loaded:
             return
-        print("Loading Gemma-2-2B model...")
+        print("Lazy loading Gemma-2-2B model...")
         # Lazy load model dependencies
         import torch
         from transformers import (
