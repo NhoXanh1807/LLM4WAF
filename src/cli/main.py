@@ -8,11 +8,13 @@ import argparse
 import sys
 import json
 from pathlib import Path
-from gui.backend.llm_helper.llm import PayloadResult
 from typing import List
 
 # Add parent directory to path
+sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
+from gui.backend.llm_helper.llm import PayloadResult
 
 from gui.backend import utils
 from wafw00f.main import WAFW00F

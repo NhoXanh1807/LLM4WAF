@@ -9,7 +9,7 @@ from typing import List
 from ..llm_helper.llm import *
 from ..config.settings import *
 from ..config.prompts import *
-import utils
+from .. import utils
 # try:
 #     from .llm_service import chatgpt_completion
 #     from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
