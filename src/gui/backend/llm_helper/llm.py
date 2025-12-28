@@ -24,7 +24,7 @@ class Gemma2B:
     def load_model(self):
         if self.loaded:
             return
-        
+        print("Loading Gemma-2-2B model...")
         # Lazy load model dependencies
         import torch
         from transformers import (
@@ -55,6 +55,7 @@ class Gemma2B:
         self.model = PeftModel.from_pretrained(self.model, self.adapter_path).to(self.device)
         self.tokenizer = AutoTokenizer.from_pretrained(self.base_model, token=HF_ACCESS_TOKEN)
         self.loaded = True
+        print("Model loaded successfully.")
     
     def _format_prompt(self, prompt: str) -> str:
         return f"<start_of_turn>user\n{prompt}<end_of_turn>\n<start_of_turn>model\n"
