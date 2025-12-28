@@ -4,8 +4,8 @@ from flask_cors import CORS
 
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
-from llm_helper.llm import PayloadResult
-import utils
+from .llm_helper.llm import PayloadResult
+from .utils import *
 import json
 import requests
 
