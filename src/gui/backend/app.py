@@ -5,7 +5,7 @@ from flask_cors import CORS
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
 from .llm_helper.llm import PayloadResult
-from .utils import VALID_ATTACK_TYPES, generate_payload_phase1, generate_payload_phase3, DVWA_ATTACK_FUNC, loginDVWA, generate_defend_rules_and_instructions
+from .utils import VALID_ATTACK_TYPES, generate_payload_phase1, generate_payload_phase3, DVWA_ATTACK_FUNC, loginDVWA, generate_defend_rules_and_instructions, attack
 import json
 import requests
 
@@ -67,8 +67,8 @@ def api_attack():
             payload = payloads[i]
             attack_func = DVWA_ATTACK_FUNC.get(payload.attack_type)
             result = attack_func(payload.payload, session_id)
-            payload.bypassed = not result["blocked"]
-            payload.status_code = result["status_code"]
+            payload.bypassed = not result.blocked
+            payload.status_code = result.status_code
             print(f"Tested {i+1}/{len(payloads)} -> {('BYPASSED' if payload.bypassed else 'BLOCKED')} code({payload.status_code}) : {payload.payload}")
 
         # Auto-generate defense rules if any payload bypassed
@@ -126,12 +126,12 @@ def api_retest():
             attack_func = DVWA_ATTACK_FUNC.get(attack_type)
 
             if attack_func and payload:
-                result = attack_func(payload, session_id)
+                result = attack(attack_type, payload, session_id)
                 results.append({
                     "payload": payload,
                     "attack_type": attack_type,
-                    "bypassed": not result["blocked"],
-                    "status_code": result["status_code"]
+                    "bypassed": not result.blocked,
+                    "status_code": result.status_code
                 })
             else:
                 results.append({
