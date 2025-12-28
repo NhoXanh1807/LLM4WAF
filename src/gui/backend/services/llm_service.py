@@ -37,7 +37,3 @@ def chatgpt_completion(messages=[], model=None, response_format=None):
 
     response = requests.post(url, headers=headers, json=body)
     return response.json()
-
-def local_gemma_2b_generation(prompt: str, genCfg):
-    from ..llm_helper.llm import gemma_2b_model
-    return gemma_2b_model.generate_once(prompt, genCfg)

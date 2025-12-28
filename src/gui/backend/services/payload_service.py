@@ -9,6 +9,7 @@ from typing import List
 from ..llm_helper.llm import *
 from ..config.settings import *
 from ..config.prompts import *
+import utils
 # try:
 #     from .llm_service import chatgpt_completion
 #     from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_PAYLOADS
@@ -82,7 +83,7 @@ def generate_payloads_from_domain_waf_info(waf_info, attack_type, num_of_payload
     }
 
     # Call LLM
-    chat_result = chatgpt_completion(
+    chat_result = utils.chatgpt_completion(
         messages=messages,
         model=OPENAI_MODEL,
         response_format=response_format
