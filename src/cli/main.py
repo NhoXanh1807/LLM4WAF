@@ -78,7 +78,7 @@ def test_payloads(payloads: List[PayloadResult], attack_type) -> List[PayloadRes
     try:
         session_id = utils.loginDVWA()
 
-        for i, item in enumerate(payloads, 1):
+        for i, item in enumerate(payloads, 0):
             payload = item.payload
             attack_type = item.attack_type
             result = utils.attack(attack_type, payload, session_id)
@@ -163,15 +163,15 @@ def main():
     elif args.cmd == 'attack':
         waf = detect_waf(args.domain)
         payloads = generate_payloads(waf, args.type, args.num)
-        results = test_payloads(payloads, args.type)
-        rules = generate_defense(waf, results)
+        payloads = test_payloads(payloads, args.type)
+        rules = generate_defense(waf, payloads)
 
         if args.output:
             with open(args.output, 'w') as f:
                 json.dump({
                     'domain': args.domain,
                     'waf_info': waf,
-                    'results': results,
+                    'results': payloads,
                     'defense_rules': rules
                 }, f, indent=2)
             print(f"\n[+] Saved to {args.output}")
