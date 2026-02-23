@@ -141,3 +141,4 @@ def generate_payload_phase3(waf_name, attack_type, num_of_payloads=1, probe_hist
             bypassed=False
         ))
     return results
+
