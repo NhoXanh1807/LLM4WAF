@@ -23,3 +23,4 @@ wafw00f
 beautifulsoup4
 scikit-learn
 python-dotenv
+hdbscan
