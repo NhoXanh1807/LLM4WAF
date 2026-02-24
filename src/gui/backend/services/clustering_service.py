@@ -1,4 +1,5 @@
 import os
+import json
 from collections import defaultdict
 import hdbscan
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -98,27 +99,28 @@ def save_output(data, labels, output_path):
             for item in items:
                 cf.write(item + "\n")
 
-# Example usage
-# def main():
-#     if not os.path.exists("output"):
-#         os.makedirs("output", exist_ok=True)
+# hàm này chỉ để ví dụ thôi
+def example_usage():
+    output_folder = "clustering_output"
+    if not os.path.exists(output_folder):
+        os.makedirs(output_folder, exist_ok=True)
 
-#     with open("phase1_balanced_10k.jsonl", "r", encoding="utf-8") as f:
-#         data = [json.loads(line) for line in f]
+    with open("phase1_balanced_10k.jsonl", "r", encoding="utf-8") as f:
+        data = [json.loads(line) for line in f]
 
-#     payloads = []
-#     for item in data:
-#         if item['result'] != 'passed':
-#             continue
-#         payloads.append({
-#             "payload":item["messages"][1]["content"],
-#             "attack_type":item["attack_type"],
-#             "technique":item["technique"]
-#         })
+    payloads = []
+    for item in data:
+        if item['result'] != 'passed':
+            continue
+        payloads.append({
+            "payload":item["messages"][1]["content"],
+            "attack_type":item["attack_type"],
+            "technique":item["technique"]
+        })
 
-#     RAW_PAYLOADS = [item["payload"] for item in payloads] # type: list[str]
-#     RAW_PAYLOADS = list(set(RAW_PAYLOADS)) # type: list[str]
-#     print(f"Loaded {len(RAW_PAYLOADS)} unique payloads.")
+    RAW_PAYLOADS = [item["payload"] for item in payloads] # type: list[str]
+    RAW_PAYLOADS = list(set(RAW_PAYLOADS)) # type: list[str]
+    print(f"Loaded {len(RAW_PAYLOADS)} unique payloads.")
     
-#     cluster_labels = clustering(RAW_PAYLOADS, reduce_dim_to=100, method="HAC", cluster_kwargs={"distance_threshold":1.5})
-#     save_output(RAW_PAYLOADS, cluster_labels, output_path="clustering_output")
+    cluster_labels = clustering(RAW_PAYLOADS, reduce_dim_to=100, method="HAC", cluster_kwargs={"distance_threshold":1.5})
+    save_output(RAW_PAYLOADS, cluster_labels, output_path=output_folder)
