@@ -24,3 +24,11 @@ beautifulsoup4
 scikit-learn
 python-dotenv
 hdbscan
+sentence-transformers
+langchain-community
+langchain-core
+langchain-text-splitters
+faiss-cpu
+python-docx
+docx2txt
+pypdf

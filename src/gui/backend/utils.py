@@ -37,10 +37,10 @@ New code should import directly from services:
 #         attack_sql_injection,
 #         attack_sql_injection_blind
 #     )
-from .services.payload_service import *
-from .services.defense_service import *
-from .services.dvwa_service import *
-from .services.llm_service import *
+from services.payload_service import *
+from services.defense_service import *
+from services.dvwa_service import *
+from services.llm_service import *
 
 # Re-export for backwards compatibility
 __all__ = [

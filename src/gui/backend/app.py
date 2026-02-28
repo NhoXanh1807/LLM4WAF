@@ -4,8 +4,8 @@ from flask_cors import CORS
 
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
-from .llm_helper.llm import PayloadResult
-from .utils import VALID_ATTACK_TYPES, generate_payload_phase1, generate_payload_phase3, DVWA_ATTACK_FUNC, loginDVWA, generate_defend_rules_and_instructions, attack
+from llm_helper.llm import PayloadResult
+from utils import VALID_ATTACK_TYPES, generate_payload_phase1, generate_payload_phase3, DVWA_ATTACK_FUNC, loginDVWA, generate_defend_rules_and_instructions, attack
 import json
 import requests
 

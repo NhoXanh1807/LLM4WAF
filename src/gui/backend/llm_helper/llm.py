@@ -3,7 +3,7 @@
 
 import os
 from dataclasses import dataclass
-from ..config.settings import HF_ACCESS_TOKEN
+from config.settings import HF_ACCESS_TOKEN
 
 
 

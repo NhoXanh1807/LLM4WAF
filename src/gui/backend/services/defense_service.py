@@ -92,18 +92,11 @@ ENHANCED WITH RAG SUPPORT
 """
 
 import json
-try:
-    from .llm_service import chatgpt_completion
-    from ..config.settings import OPENAI_MODEL, DEFAULT_NUM_DEFENSE_RULES
-    from ..config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
-    # Import RAG service
-    from ....RAG.rag_service import enhance_defense_generation
-except ImportError:
-    from services.llm_service import chatgpt_completion
-    from config.settings import OPENAI_MODEL, DEFAULT_NUM_DEFENSE_RULES
-    from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
-    # Import RAG service
-    from ....RAG.rag_service import enhance_defense_generation
+from services.llm_service import chatgpt_completion
+from config.settings import OPENAI_MODEL, DEFAULT_NUM_DEFENSE_RULES
+from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
+# Import RAG service
+from RAG.rag_service import enhance_defense_generation
 
 
 def generate_defend_rules_and_instructions(waf_info, bypassed_payloads, bypassed_instructions, 
