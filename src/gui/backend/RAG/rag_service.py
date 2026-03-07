@@ -1,6 +1,6 @@
 """
 RAG service for defense rule generation
-With persistent vector store and auto-rebuild detection
+With persistent vector store, auto-rebuild detection, and WAF-specific filtering
 """
 
 import os
@@ -64,7 +64,8 @@ class DocumentIndexManager:
         if not os.path.exists(self.docs_folder):
             return index
         
-        data_types = ["XSS", "SQLi", "Rules"]
+        data_types = ["Rules", "XSS", "SQLi"]
+        waf_types = ["Cloudflare", "ModSecurity", "AWS", "Naxsi"]
         
         for data_type in data_types:
             folder_path = os.path.join(self.docs_folder, data_type)
@@ -72,27 +73,54 @@ class DocumentIndexManager:
             if not os.path.exists(folder_path):
                 continue
             
-            files = [f for f in os.listdir(folder_path) 
-                    if os.path.isfile(os.path.join(folder_path, f))]
-            
-            for filename in files:
-                # Support .txt, .pdf, .docx, .md
-                if not filename.endswith(('.txt', '.pdf', '.docx', '.md')):
-                    continue
+            if data_type == "Rules":
+                # Rules folder has WAF subfolders
+                for waf_type in waf_types:
+                    waf_folder_path = os.path.join(folder_path, waf_type)
+                    
+                    if not os.path.exists(waf_folder_path):
+                        continue
+                    
+                    files = [f for f in os.listdir(waf_folder_path) 
+                            if os.path.isfile(os.path.join(waf_folder_path, f))]
+                    
+                    for filename in files:
+                        if not filename.endswith(('.txt', '.pdf', '.docx', '.md')):
+                            continue
+                        
+                        file_path = os.path.join(waf_folder_path, filename)
+                        stats = os.stat(file_path)
+                        file_hash = self._compute_file_hash(file_path)
+                        
+                        index[file_path] = {
+                            "filename": filename,
+                            "data_type": data_type,
+                            "waf_type": waf_type,
+                            "size": stats.st_size,
+                            "modified": stats.st_mtime,
+                            "hash": file_hash
+                        }
+            else:
+                # XSS and SQLi folders have no subfolders
+                files = [f for f in os.listdir(folder_path) 
+                        if os.path.isfile(os.path.join(folder_path, f))]
                 
-                file_path = os.path.join(folder_path, filename)
-                
-                # Get file metadata
-                stats = os.stat(file_path)
-                file_hash = self._compute_file_hash(file_path)
-                
-                index[file_path] = {
-                    "filename": filename,
-                    "data_type": data_type,
-                    "size": stats.st_size,
-                    "modified": stats.st_mtime,
-                    "hash": file_hash
-                }
+                for filename in files:
+                    if not filename.endswith(('.txt', '.pdf', '.docx', '.md')):
+                        continue
+                    
+                    file_path = os.path.join(folder_path, filename)
+                    stats = os.stat(file_path)
+                    file_hash = self._compute_file_hash(file_path)
+                    
+                    index[file_path] = {
+                        "filename": filename,
+                        "data_type": data_type,
+                        "waf_type": "None",
+                        "size": stats.st_size,
+                        "modified": stats.st_mtime,
+                        "hash": file_hash
+                    }
         
         return index
     
@@ -121,29 +149,22 @@ class DocumentIndexManager:
         Returns:
             (needs_rebuild: bool, reason: str)
         """
-        # Load previous index
         old_index = self.load_index()
-        
-        # Scan current documents
         new_index = self._scan_documents()
         
         self.current_index = new_index
         
-        # Compare indices
         if not old_index:
             return True, "No previous index found"
         
-        # Check for added files
         added = set(new_index.keys()) - set(old_index.keys())
         if added:
             return True, f"Added {len(added)} new file(s)"
         
-        # Check for removed files
         removed = set(old_index.keys()) - set(new_index.keys())
         if removed:
             return True, f"Removed {len(removed)} file(s)"
         
-        # Check for modified files (by hash)
         modified = []
         for filepath in new_index.keys():
             if filepath in old_index:
@@ -162,7 +183,7 @@ class DocumentIndexManager:
 
 class RAGDefenseService:
     """
-    RAG-enhanced defense service with persistent vector store
+    RAG-enhanced defense service with persistent vector store and WAF-specific filtering
     """
     
     def __init__(self, docs_folder: str = "./docs/", 
@@ -173,10 +194,10 @@ class RAGDefenseService:
         Initialize RAG service
         
         Args:
-            docs_folder: Path to documents folder (expects XSS/, SQLi/, Rules/ subfolders)
+            docs_folder: Path to documents folder
             vector_store_path: Path to save/load vector store
-            enable_rag: Whether to enable RAG (set False to bypass RAG for testing)
-            force_rebuild: Force rebuild vector store even if no changes detected
+            enable_rag: Whether to enable RAG
+            force_rebuild: Force rebuild vector store
         """
         self.enable_rag = enable_rag
         self.docs_folder = docs_folder
@@ -194,7 +215,6 @@ class RAGDefenseService:
         print("Initializing RAG service...")
         
         try:
-            # Check if rebuild is needed
             needs_rebuild, reason = self.index_manager.needs_rebuild()
             
             if force_rebuild:
@@ -202,7 +222,6 @@ class RAGDefenseService:
                 needs_rebuild = True
                 reason = "Force rebuild"
             
-            # Try to load existing vector store
             if not needs_rebuild and os.path.exists(self.vector_store_path):
                 print(f"No changes detected - loading existing vector store...")
                 self._load_vector_store()
@@ -210,7 +229,6 @@ class RAGDefenseService:
                 print(f"Rebuild required: {reason}")
                 self._build_vector_store()
             
-            # Initialize re-ranker
             print("[4/4] Loading re-ranker...")
             self.reranker = CrossEncoderReranker()
             print("      Re-ranker ready")
@@ -250,7 +268,6 @@ class RAGDefenseService:
     
     def _build_vector_store(self):
         """Build new vector store from documents"""
-        # Load documents
         print("[1/4] Loading documents...")
         all_docs = self._load_documents()
         if not all_docs:
@@ -259,12 +276,10 @@ class RAGDefenseService:
             return
         print(f"      Loaded {len(all_docs)} documents")
         
-        # Chunk documents
         print("[2/4] Chunking documents...")
         chunks = self._chunk_documents(all_docs)
         print(f"      Created {len(chunks)} chunks")
         
-        # Create embeddings and vector store
         print("[3/4] Creating vector store...")
         embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-mpnet-base-v2",
@@ -273,12 +288,10 @@ class RAGDefenseService:
         
         self.vector_store = FAISS.from_documents(chunks, embeddings)
         
-        # Save vector store to disk
         print("      Saving vector store to disk...")
         os.makedirs(self.vector_store_path, exist_ok=True)
         self.vector_store.save_local(self.vector_store_path)
         
-        # Save index
         self.index_manager.save_current_index()
         
         print("      Vector store ready and saved")
@@ -293,7 +306,8 @@ class RAGDefenseService:
             print(f"Warning: Documents folder not found: {self.docs_folder}")
             return all_docs
         
-        data_types = ["XSS", "SQLi", "Rules"]
+        data_types = ["Rules", "XSS", "SQLi"]
+        waf_types = ["Cloudflare", "ModSecurity", "AWS", "Naxsi"]
         
         for data_type in data_types:
             folder_path = os.path.join(self.docs_folder, data_type)
@@ -301,41 +315,86 @@ class RAGDefenseService:
             if not os.path.exists(folder_path):
                 continue
             
-            files = [f for f in os.listdir(folder_path) 
-                    if os.path.isfile(os.path.join(folder_path, f))]
-            
-            for filename in files:
-                file_path = os.path.join(folder_path, filename)
-                
-                try:
-                    # Determine loader based on file extension
-                    if filename.endswith(".txt") or filename.endswith(".md"):
-                        loader = TextLoader(file_path, encoding="utf-8")
-                        file_type = "txt" if filename.endswith(".txt") else "md"
-                    elif filename.endswith(".pdf"):
-                        loader = PyPDFLoader(file_path)
-                        file_type = "pdf"
-                    elif filename.endswith(".docx"):
-                        loader = Docx2txtLoader(file_path)
-                        file_type = "docx"
-                    else:
+            if data_type == "Rules":
+                # Rules folder has WAF subfolders
+                for waf_type in waf_types:
+                    waf_folder_path = os.path.join(folder_path, waf_type)
+                    
+                    if not os.path.exists(waf_folder_path):
                         continue
                     
-                    docs = loader.load()
+                    files = [f for f in os.listdir(waf_folder_path) 
+                            if os.path.isfile(os.path.join(waf_folder_path, f))]
                     
-                    for doc in docs:
-                        doc.metadata = {
-                            "source": filename,
-                            "data_type": data_type,
-                            "file_type": file_type,
-                            "file_path": file_path
-                        }
+                    for filename in files:
+                        file_path = os.path.join(waf_folder_path, filename)
+                        
+                        try:
+                            if filename.endswith(".txt") or filename.endswith(".md"):
+                                loader = TextLoader(file_path, encoding="utf-8")
+                                file_type = "txt" if filename.endswith(".txt") else "md"
+                            elif filename.endswith(".pdf"):
+                                loader = PyPDFLoader(file_path)
+                                file_type = "pdf"
+                            elif filename.endswith(".docx"):
+                                loader = Docx2txtLoader(file_path)
+                                file_type = "docx"
+                            else:
+                                continue
+                            
+                            docs = loader.load()
+                            
+                            for doc in docs:
+                                doc.metadata = {
+                                    "source": filename,
+                                    "data_type": data_type,
+                                    "waf_type": waf_type,
+                                    "file_type": file_type,
+                                    "file_path": file_path
+                                }
+                            
+                            all_docs.extend(docs)
+                            
+                        except Exception as e:
+                            print(f"Warning: Failed to load {filename}: {str(e)}")
+                            continue
+            else:
+                # XSS and SQLi folders - no subfolders
+                files = [f for f in os.listdir(folder_path) 
+                        if os.path.isfile(os.path.join(folder_path, f))]
+                
+                for filename in files:
+                    file_path = os.path.join(folder_path, filename)
                     
-                    all_docs.extend(docs)
-                    
-                except Exception as e:
-                    print(f"Warning: Failed to load {filename}: {str(e)}")
-                    continue
+                    try:
+                        if filename.endswith(".txt") or filename.endswith(".md"):
+                            loader = TextLoader(file_path, encoding="utf-8")
+                            file_type = "txt" if filename.endswith(".txt") else "md"
+                        elif filename.endswith(".pdf"):
+                            loader = PyPDFLoader(file_path)
+                            file_type = "pdf"
+                        elif filename.endswith(".docx"):
+                            loader = Docx2txtLoader(file_path)
+                            file_type = "docx"
+                        else:
+                            continue
+                        
+                        docs = loader.load()
+                        
+                        for doc in docs:
+                            doc.metadata = {
+                                "source": filename,
+                                "data_type": data_type,
+                                "waf_type": "None",
+                                "file_type": file_type,
+                                "file_path": file_path
+                            }
+                        
+                        all_docs.extend(docs)
+                        
+                    except Exception as e:
+                        print(f"Warning: Failed to load {filename}: {str(e)}")
+                        continue
         
         return all_docs
     
@@ -376,21 +435,17 @@ class RAGDefenseService:
         """Generate multiple query variants for multi-query retrieval"""
         queries = []
         
-        # Base query - general defense
         attack_name = "XSS" if attack_type == "XSS" else "SQL injection"
         queries.append(f"{attack_name} defense strategies and prevention")
         
-        # WAF-specific query
         if waf_info:
             waf_name = waf_info.get("waf", "")
             if waf_name:
                 queries.append(f"{waf_name} {attack_name} protection rules")
         
-        # Technique-specific query
         if bypassed_payloads:
             sample_payload = str(bypassed_payloads[0])[:100].lower()
             
-            # Detect specific techniques
             if "script" in sample_payload or "onerror" in sample_payload:
                 queries.append("XSS bypass techniques and mitigation")
             elif "union" in sample_payload or "select" in sample_payload:
@@ -400,10 +455,32 @@ class RAGDefenseService:
             else:
                 queries.append(f"{attack_name} bypass techniques")
         
-        # Best practices query
         queries.append(f"security rules best practices {attack_name}")
         
         return queries
+    
+    def _extract_waf_name(self, waf_info: dict) -> Optional[str]:
+        """Extract WAF name from waf_info and map to WAF_type"""
+        if not waf_info:
+            return None
+        
+        waf_name = waf_info.get("waf", "").lower()
+        
+        # Map WAF names to WAF_type
+        waf_mapping = {
+            "cloudflare": "Cloudflare",
+            "modsecurity": "ModSecurity",
+            "mod_security": "ModSecurity",
+            "aws": "AWS",
+            "aws waf": "AWS",
+            "naxsi": "Naxsi"
+        }
+        
+        for key, value in waf_mapping.items():
+            if key in waf_name:
+                return value
+        
+        return None
     
     def get_relevant_context(self, attack_type: str, waf_info: dict, 
                            bypassed_payloads: list, 
@@ -432,10 +509,8 @@ class RAGDefenseService:
             }
         
         try:
-            # Generate multiple query variants
             queries = self._generate_query_variants(attack_type, waf_info, bypassed_payloads)
             
-            # Retrieve documents for each query
             all_retrieved_docs = []
             seen_contents = set()
             
@@ -444,7 +519,6 @@ class RAGDefenseService:
             for query in queries:
                 docs = self.retriever.invoke(query)
                 
-                # Deduplicate by content
                 for doc in docs:
                     content_hash = hash(doc.page_content[:200])
                     if content_hash not in seen_contents:
@@ -458,22 +532,50 @@ class RAGDefenseService:
                     "rag_enabled": True
                 }
             
-            # Filter by metadata if enabled
+            # WAF-specific filtering
+            waf_name = self._extract_waf_name(waf_info)
+            
             if filter_rules_only:
-                # Separate Rules documents and others
-                rules_docs = [doc for doc in all_retrieved_docs 
-                             if doc.metadata.get("data_type") == "Rules"]
-                other_docs = [doc for doc in all_retrieved_docs 
-                             if doc.metadata.get("data_type") != "Rules"]
+                # Separate by data_type and waf_type
+                waf_specific_docs = []
+                rules_docs = []
+                other_docs = []
                 
-                # Prioritize Rules documents (take at least 50% if available)
-                if rules_docs:
-                    rules_count = max(len(rules_docs), final_k // 2)
-                    other_count = final_k - min(rules_count, len(rules_docs))
+                for doc in all_retrieved_docs:
+                    doc_data_type = doc.metadata.get("data_type", "")
+                    doc_waf_type = doc.metadata.get("waf_type", "None")
                     
-                    filtered_docs = rules_docs[:rules_count] + other_docs[:other_count]
+                    if doc_data_type == "Rules" and waf_name and doc_waf_type == waf_name:
+                        # WAF-specific rules (highest priority)
+                        waf_specific_docs.append(doc)
+                    elif doc_data_type == "Rules":
+                        # General rules (medium priority)
+                        rules_docs.append(doc)
+                    else:
+                        # XSS/SQLi docs (lower priority)
+                        other_docs.append(doc)
+                
+                # Prioritize WAF-specific docs (at least 3 if available)
+                if waf_specific_docs:
+                    waf_count = min(len(waf_specific_docs), max(3, final_k // 2))
+                    remaining = final_k - waf_count
+                    
+                    # Fill remaining slots with general rules and attack-specific
+                    rules_count = min(len(rules_docs), remaining // 2)
+                    other_count = remaining - rules_count
+                    
+                    filtered_docs = (waf_specific_docs[:waf_count] + 
+                                   rules_docs[:rules_count] + 
+                                   other_docs[:other_count])
                 else:
-                    filtered_docs = all_retrieved_docs
+                    # No WAF-specific docs, fall back to general filtering
+                    if rules_docs:
+                        rules_count = max(len(rules_docs), final_k // 2)
+                        other_count = final_k - min(rules_count, len(rules_docs))
+                        
+                        filtered_docs = rules_docs[:rules_count] + other_docs[:other_count]
+                    else:
+                        filtered_docs = all_retrieved_docs
             else:
                 filtered_docs = all_retrieved_docs
             
@@ -492,6 +594,7 @@ class RAGDefenseService:
                 sources.append({
                     "source": doc.metadata.get("source", "Unknown"),
                     "data_type": doc.metadata.get("data_type", "Unknown"),
+                    "waf_type": doc.metadata.get("waf_type", "None"),
                     "relevance_score": f"{score:.3f}"
                 })
             
@@ -502,7 +605,8 @@ class RAGDefenseService:
                 "sources": sources,
                 "rag_enabled": True,
                 "num_docs": len(reranked_docs),
-                "num_queries": len(queries)
+                "num_queries": len(queries),
+                "waf_filtered": waf_name is not None
             }
             
         except Exception as e:
@@ -531,10 +635,8 @@ class RAGDefenseService:
         Returns:
             Dict with enhanced prompt and metadata
         """
-        # Detect attack type from payloads
         attack_type = self._detect_attack_type(bypassed_payloads)
         
-        # Get relevant context with multi-query retrieval
         rag_result = self.get_relevant_context(
             attack_type=attack_type,
             waf_info=waf_info,
@@ -550,7 +652,6 @@ class RAGDefenseService:
                 "rag_used": False
             }
         
-        # Enhance prompt with context
         enhanced_prompt = f"""{base_user_prompt}
 
 ---
@@ -570,7 +671,8 @@ Please consider these references when generating defense rules, but prioritize t
             "sources": rag_result["sources"],
             "rag_used": True,
             "num_docs": rag_result.get("num_docs", 0),
-            "num_queries": rag_result.get("num_queries", 0)
+            "num_queries": rag_result.get("num_queries", 0),
+            "waf_filtered": rag_result.get("waf_filtered", False)
         }
     
     def _detect_attack_type(self, payloads: list) -> str:
