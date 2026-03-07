@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html secret="llm4waf">
+
+<body secret="llm4waf">
+    <div secret="llm4waf">
+        <h1 secret="llm4waf">Payload will be showed below</h1>
+        <p id="output" secret="llm4waf"></p>
+    </div>
+
+    <script secret="llm4waf">
+        const params = new URLSearchParams(window.location.search);
+        const input = params.get('payload');
+        document.getElementById("output").innerHTML = input;
+    </script>
+</body>
+
+</html>

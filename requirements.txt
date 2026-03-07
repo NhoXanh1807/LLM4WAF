@@ -32,3 +32,4 @@ faiss-cpu
 python-docx
 docx2txt
 pypdf
+sqlglot
