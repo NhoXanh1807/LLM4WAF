@@ -59,14 +59,14 @@ def api_attack():
                 waf_name, attack_type, num_of_payloads=num_payloads, probe_history=probe_history
             )  # type: List[PayloadResult]
 
-        # Login to DVWA
-        session_id = loginDVWA()
+        # Login to DVWA at the target domain (behind the WAF being tested)
+        session_id = loginDVWA(base_url=domain)
         
-        # Test each payload
+        # Test each payload against the target domain
         for i in range(len(payloads)):
             payload = payloads[i]
             attack_func = DVWA_ATTACK_FUNC.get(payload.attack_type)
-            result = attack_func(payload.payload, session_id)
+            result = attack_func(payload.payload, session_id, base_url=domain)
             payload.bypassed = not result.blocked
             payload.status_code = result.status_code
             print(f"Tested {i+1}/{len(payloads)} -> {('BYPASSED' if payload.bypassed else 'BLOCKED')} code({payload.status_code}) : {payload.payload}")
@@ -114,8 +114,9 @@ def api_retest():
         if not bypassed_payloads:
             return jsonify({"error": "No payloads provided for retest"}), 400
 
-        # Login to DVWA
-        session_id = loginDVWA()
+        # Login to DVWA at target domain for retesting
+        retest_domain = dict.get(data, "domain", None)
+        session_id = loginDVWA(base_url=retest_domain)
 
 
         # Retest each payload
@@ -126,7 +127,7 @@ def api_retest():
             attack_func = DVWA_ATTACK_FUNC.get(attack_type)
 
             if attack_func and payload:
-                result = attack(attack_type, payload, session_id)
+                result = attack(attack_type, payload, session_id, base_url=retest_domain)
                 results.append({
                     "payload": payload,
                     "attack_type": attack_type,

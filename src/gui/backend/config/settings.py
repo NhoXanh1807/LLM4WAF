@@ -13,7 +13,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = "gpt-4o"
 
 # DVWA Configuration
-DVWA_BASE_URL = "http://modsec.llmshield.click"
+DVWA_BASE_URL = os.getenv("DVWA_BASE_URL", "http://localhost:8000/dvwa")
 DVWA_USERNAME = "admin"
 DVWA_PASSWORD = "password"
 DVWA_SECURITY_LEVEL = "low"

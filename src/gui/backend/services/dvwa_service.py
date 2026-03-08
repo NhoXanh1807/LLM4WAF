@@ -123,15 +123,16 @@ class VerifiedAttackResult:
         }
 
 
-def loginDVWA():
+def loginDVWA(base_url=None):
     """
     Login to DVWA and return session ID
 
     Returns:
         str: PHPSESSID for authenticated requests
     """
+    _base = (base_url or DVWA_BASE_URL).rstrip("/")
     # Get PHPSESSID from login page
-    response = requests.get(f"{DVWA_BASE_URL}/login.php")
+    response = requests.get(f"{_base}/login.php")
     cookies = response.cookies
     php_session_id = cookies.get("PHPSESSID")
 
@@ -154,7 +155,7 @@ def loginDVWA():
 
     # Perform login
     response = requests.post(
-        f"{DVWA_BASE_URL}/login.php",
+        f"{_base}/login.php",
         data=login_data,
         cookies={"PHPSESSID": php_session_id}
     )
@@ -175,7 +176,7 @@ def _check_blocked(response):
     return "ModSecurity" in response.text or response.status_code == 403
 
 
-def attack_xss_dom(payload, session_id) -> AttackResult:
+def attack_xss_dom(payload, session_id, base_url=None) -> AttackResult:
     """
     Execute XSS DOM-Based attack
 
@@ -186,7 +187,8 @@ def attack_xss_dom(payload, session_id) -> AttackResult:
     Returns:
         dict: {status_code, blocked}
     """
-    url = f"{DVWA_BASE_URL}/vulnerabilities/xss_d/?default={payload}"
+    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+    url = f"{_base}/vulnerabilities/xss_d/?default={payload}"
     response = requests.get(
         url,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
@@ -197,7 +199,7 @@ def attack_xss_dom(payload, session_id) -> AttackResult:
     )
 
 
-def attack_xss_reflected(payload, session_id) -> AttackResult:
+def attack_xss_reflected(payload, session_id, base_url=None) -> AttackResult:
     """
     Execute XSS Reflected attack
 
@@ -208,7 +210,8 @@ def attack_xss_reflected(payload, session_id) -> AttackResult:
     Returns:
         dict: {status_code, blocked}
     """
-    url = f"{DVWA_BASE_URL}/vulnerabilities/xss_r/?name={payload}"
+    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+    url = f"{_base}/vulnerabilities/xss_r/?name={payload}"
     response = requests.get(
         url,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
@@ -219,7 +222,7 @@ def attack_xss_reflected(payload, session_id) -> AttackResult:
     )
 
 
-def attack_xss_stored(payload, session_id) -> AttackResult:
+def attack_xss_stored(payload, session_id, base_url=None) -> AttackResult:
     """
     Execute XSS Stored attack
 
@@ -230,7 +233,8 @@ def attack_xss_stored(payload, session_id) -> AttackResult:
     Returns:
         dict: {status_code, blocked}
     """
-    url = f"{DVWA_BASE_URL}/vulnerabilities/xss_s/"
+    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+    url = f"{_base}/vulnerabilities/xss_s/"
     data = {
         "txtName": payload,
         "mtxMessage": "test",
@@ -247,7 +251,7 @@ def attack_xss_stored(payload, session_id) -> AttackResult:
     )
 
 
-def attack_sql_injection(payload, session_id) -> AttackResult:
+def attack_sql_injection(payload, session_id, base_url=None) -> AttackResult:
     """
     Execute SQL Injection attack
 
@@ -258,7 +262,8 @@ def attack_sql_injection(payload, session_id) -> AttackResult:
     Returns:
         dict: {status_code, blocked}
     """
-    url = f"{DVWA_BASE_URL}/vulnerabilities/sqli/?id={payload}&Submit=Submit"
+    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+    url = f"{_base}/vulnerabilities/sqli/?id={payload}&Submit=Submit"
     response = requests.get(
         url,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
@@ -269,7 +274,7 @@ def attack_sql_injection(payload, session_id) -> AttackResult:
     )
 
 
-def attack_sql_injection_blind(payload, session_id) -> AttackResult:
+def attack_sql_injection_blind(payload, session_id, base_url=None) -> AttackResult:
     """
     Execute Blind SQL Injection attack
 
@@ -280,7 +285,8 @@ def attack_sql_injection_blind(payload, session_id) -> AttackResult:
     Returns:
         dict: {status_code, blocked}
     """
-    url = f"{DVWA_BASE_URL}/vulnerabilities/sqli_blind/?id={payload}&Submit=Submit"
+    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+    url = f"{_base}/vulnerabilities/sqli_blind/?id={payload}&Submit=Submit"
     response = requests.get(
         url,
         cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}

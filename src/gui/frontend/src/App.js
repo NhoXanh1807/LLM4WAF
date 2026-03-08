@@ -14,6 +14,7 @@ function App() {
   const [rawResponse, setRawResponse] = useState(null);
   const [showRaw, setShowRaw] = useState(false);
   const [isRetesting, setIsRetesting] = useState(false);
+  const [error, setError] = useState(null);
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
@@ -46,9 +47,14 @@ function App() {
 
   const handleAttack = async (phase) => {
     setIsSubmitting(true);
+    setError(null);
     try {
       const res = await Services.attack(domain, attackType, numPayloads, phase === 3 ? payloads : []);
-      const data = res.ok ? await res.json() : null;
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data?.error || `Server error: ${res.status}`);
+        return;
+      }
       console.log(data);
       setWafName(data?.waf_name);
       setPayloads(data?.payloads || []);
@@ -60,6 +66,8 @@ function App() {
       if (hasBypassed) {
         setActiveTab('Defend');
       }
+    } catch (err) {
+      setError(err.message || 'Failed to connect to backend');
     } finally {
       setIsSubmitting(false);
     }
@@ -184,6 +192,11 @@ function App() {
                   </button>
                 )}
               </form>
+              {error && (
+                <div className="mt-4 p-4 rounded-lg bg-red-100 border border-red-400 text-red-800 font-semibold">
+                  ⚠️ {error}
+                </div>
+              )}
               {/* Download Buttons */}
               <div className="flex gap-3 mb-6">
                 <button

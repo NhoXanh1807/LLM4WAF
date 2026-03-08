@@ -74,9 +74,9 @@ VALID_ATTACK_TYPES = [
     "sql_injection_blind"
 ]
 
-def attack(type : str, payload : str, session_id : str) -> AttackResult:
+def attack(type : str, payload : str, session_id : str, base_url : str = None) -> AttackResult:
     func = DVWA_ATTACK_FUNC.get(type)
     if func:
-        return func(payload, session_id)
+        return func(payload, session_id, base_url=base_url)
     else:
         raise ValueError(f"Invalid attack type: {type}")
