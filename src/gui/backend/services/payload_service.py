@@ -6,7 +6,7 @@ import json
 import random
 
 from typing import List
-from llm_helper.llm import *
+from llm_helper.llm import PayloadResult, gemma_2b_model, qwen_3b_model
 from config.settings import *
 from config.prompts import *
 from services.llm_service import chatgpt_completion
@@ -14,26 +14,39 @@ import utils
 
 
 def _has_gpu() -> bool:
-    """Returns True only if GPU is available AND the Gemma base model is fully downloaded."""
+    """Returns True only if GPU is available."""
     try:
         import torch
-        if not torch.cuda.is_available():
-            return False
-        # Check if Gemma model shards are fully downloaded (no .incomplete files)
-        import os, glob
-        hf_cache = os.path.expanduser("~/.cache/huggingface/hub/models--google--gemma-2-2b-it")
-        incomplete = glob.glob(os.path.join(hf_cache, "**/*.incomplete"), recursive=True)
-        if incomplete:
-            print(f"[GPU check] Gemma model cache incomplete ({len(incomplete)} file(s) pending) — falling back to GPT-4o")
-            return False
-        # Confirm at least one large shard exists
-        shard1 = glob.glob(os.path.join(hf_cache, "**/model-00001-of-00002.safetensors"), recursive=True)
-        if not shard1:
-            print("[GPU check] Gemma model-00001-of-00002.safetensors not found — falling back to GPT-4o")
-            return False
-        return True
+        return torch.cuda.is_available()
     except Exception:
         return False
+
+
+def _get_active_model():
+    """Return the best available local model instance, or None if no GPU.
+    Priority: Qwen2.5-3B (if adapters present) > Gemma-2-2B (if base model cached) > None
+    """
+    if not _has_gpu():
+        return None
+    import os, glob
+
+    # Check Qwen adapters (stored locally in model dir — no HF cache check needed)
+    qwen_phase1 = os.path.join(
+        os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'llm_helper', 'model')),
+        'remote_qwen_3b_phase1', 'adapter_model.safetensors'
+    )
+    if os.path.exists(qwen_phase1):
+        return qwen_3b_model
+
+    # Fall back to Gemma if its HF cache is complete
+    hf_cache = os.path.expanduser("~/.cache/huggingface/hub/models--google--gemma-2-2b-it")
+    incomplete = glob.glob(os.path.join(hf_cache, "**/*.incomplete"), recursive=True)
+    shard1 = glob.glob(os.path.join(hf_cache, "**/model-00001-of-00002.safetensors"), recursive=True)
+    if not incomplete and shard1:
+        return gemma_2b_model
+
+    return None
+
 
 
 def _generate_phase1_openai(waf_info, attack_type, num_of_payloads, technique) -> List[PayloadResult]:
@@ -207,9 +220,11 @@ def generate_payloads_from_domain_waf_info(waf_info, attack_type, num_of_payload
     return chat_result
 
 def generate_payload_phase1(waf_info, attack_type, num_of_payloads=1) -> List[PayloadResult]:
-    if not _has_gpu():
-        print("[Phase 1] No GPU detected — falling back to GPT-4o")
+    local_model = _get_active_model()
+    if local_model is None:
+        print("[Phase 1] No GPU/local model detected — falling back to GPT-4o")
         return _generate_phase1_openai(waf_info, attack_type, num_of_payloads, "GPT-4o Fallback")
+    model_name = "Qwen2.5-3B" if local_model is qwen_3b_model else "Gemma-2-2B"
     techniques = {
         "xss": [
             "obf_double_url_encode+obf_case_random_full_bypass",
@@ -241,13 +256,13 @@ def generate_payload_phase1(waf_info, attack_type, num_of_payloads=1) -> List[Pa
             selected_techniques = random.sample(techniques["sqli"], random.randint(1, int(len(techniques["sqli"])/2)))
         technique = "+".join(selected_techniques)
         
-        print(f"[No history] Generating {i}/{num_of_payloads} {attack_type} using {technique}")
-        prompt = gemma_2b_model.build_phase1_prompt(waf_info, attack_type, technique)
-        generated = gemma_2b_model.generate_response(prompt, adapter_name="phase1")
-        payload = gemma_2b_model.clean_payload(generated)
-        if not gemma_2b_model._is_valid_payload(payload, attack_type):
+        print(f"[No history] Generating {i}/{num_of_payloads} {attack_type} using {technique} [{model_name}]")
+        prompt = local_model.build_phase1_prompt(waf_info, attack_type, technique)
+        generated = local_model.generate_response(prompt, adapter_name="phase1")
+        payload = local_model.clean_payload(generated)
+        if not local_model._is_valid_payload(payload, attack_type):
             print(f"[Phase 1] Model output invalid, using curated fallback payload")
-            payload = gemma_2b_model.get_fallback_payload(attack_type)
+            payload = local_model.get_fallback_payload(attack_type)
         results.append(PayloadResult(
             payload=payload,
             technique=technique,
@@ -257,18 +272,20 @@ def generate_payload_phase1(waf_info, attack_type, num_of_payloads=1) -> List[Pa
     return results
 
 def generate_payload_phase3(waf_name, attack_type, num_of_payloads=1, probe_history: List[PayloadResult] = []) -> List[PayloadResult]:
-    if not _has_gpu():
-        print("[Phase 3] No GPU detected — falling back to GPT-4o")
+    local_model = _get_active_model()
+    if local_model is None:
+        print("[Phase 3] No GPU/local model detected — falling back to GPT-4o")
         return _generate_phase3_openai(waf_name, attack_type, num_of_payloads, probe_history)
+    model_name = "Qwen2.5-3B" if local_model is qwen_3b_model else "Gemma-2-2B"
     results = []
     for i in range(num_of_payloads):
-        print(f"[With history] Generating {i}/{num_of_payloads} {attack_type} using Adaptive Generation")
-        prompt = gemma_2b_model.build_phase3_prompt(waf_name, attack_type, probe_history)
-        generated = gemma_2b_model.generate_response(prompt, adapter_name="phase3_rl")
-        payload = gemma_2b_model.clean_payload(generated)
-        if not gemma_2b_model._is_valid_payload(payload, attack_type):
+        print(f"[With history] Generating {i}/{num_of_payloads} {attack_type} using Adaptive Generation [{model_name}]")
+        prompt = local_model.build_phase3_prompt(waf_name, attack_type, probe_history)
+        generated = local_model.generate_response(prompt, adapter_name="phase3_rl")
+        payload = local_model.clean_payload(generated)
+        if not local_model._is_valid_payload(payload, attack_type):
             print(f"[Phase 3] Model output invalid, using curated fallback payload")
-            payload = gemma_2b_model.get_fallback_payload(attack_type)
+            payload = local_model.get_fallback_payload(attack_type)
         results.append(PayloadResult(
             payload=payload,
             technique="Adaptive Generation",

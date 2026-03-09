@@ -1,6 +1,5 @@
 
 
-
 import os
 from dataclasses import dataclass
 from config.settings import HF_ACCESS_TOKEN
@@ -17,74 +16,10 @@ class PayloadResult:
     bypassed: bool
     status_code: int = None
 
-class Gemma2B:
-    def __init__(self):
-        self.loaded = False
-    
-    def load_model(self):
-        if self.loaded:
-            return
-        print("Lazy loading Gemma-2-2B model...")
-        # Lazy load model dependencies
-        import torch
-        from transformers import (
-            AutoTokenizer,
-            AutoModelForCausalLM,
-            BitsAndBytesConfig,
-        )
-        from peft import PeftModel
-        
-        self.no_grad = torch.no_grad
-        # Check for CUDA availability
-        if torch.cuda.is_available():
-            print("Using CUDA device")
-            print([torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())])
-            self.device = torch.device("cuda")
-        else:
-            print("Using CPU device")
-            self.device = torch.device("cpu")
-            
-        self.base_model = "google/gemma-2-2b-it"
-        model_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model')
-        self.phase1_adapter_path = os.path.join(model_dir, "remote_gemma2_2b_phase1")
-        self.phase3_adapter_path = os.path.join(model_dir, "remote_gemma2_2b_phase3_rl")
-        bnb_config = BitsAndBytesConfig(
-            load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16
-        )
-        self.model = AutoModelForCausalLM.from_pretrained(
-            self.base_model, quantization_config=bnb_config, device_map={"": 0}, token=HF_ACCESS_TOKEN, local_files_only=True
-        )
-        # Load phase3_rl as primary adapter, then phase1 as a named adapter
-        self.model = PeftModel.from_pretrained(self.model, self.phase3_adapter_path, adapter_name="phase3_rl")
-        self.model.load_adapter(self.phase1_adapter_path, adapter_name="phase1")
-        self.tokenizer = AutoTokenizer.from_pretrained(self.base_model, token=HF_ACCESS_TOKEN, local_files_only=True)
-        self.loaded = True
-        print("Model loaded successfully (phase1 + phase3_rl adapters).")
-    
-    def generate_response(self, prompt: str, max_new_tokens: int = 128, temperature: float = 0.7, adapter_name: str = "phase3_rl") -> str:
-        if not self.loaded:
-            self.load_model()
-        self.model.set_adapter(adapter_name)
-        messages = [{"role": "user", "content": prompt}]
-        formatted_prompt = self.tokenizer.apply_chat_template(
-            messages, tokenize=False, add_generation_prompt=True
-        )
-        inputs = self.tokenizer(formatted_prompt, return_tensors="pt").to(self.model.device)
-        input_length = inputs.input_ids.shape[1]
-        eos_id = self.tokenizer.eos_token_id
-        with self.no_grad():
-            outputs = self.model.generate(
-                **inputs,
-                max_new_tokens=max_new_tokens,
-                temperature=temperature,
-                do_sample=True,
-                eos_token_id=eos_id,
-                pad_token_id=eos_id,
-                repetition_penalty=1.3,
-            )
-        response = self.tokenizer.decode(outputs[0][input_length:], skip_special_tokens=True)
-        return response
-    
+
+class _WafAttackModel:
+    """Shared helpers for all WAF attack payload generation models."""
+
     def clean_payload(self, generated_text: str) -> str:
         payload = generated_text.strip()
         # Strip code fences
@@ -150,19 +85,39 @@ class Gemma2B:
     ]
 
     def _is_valid_payload(self, payload: str, attack_type: str) -> bool:
-        """Return True if model output looks like a real attack payload."""
+        """Return True if model output looks like a real attack payload.
+        Checks both raw and URL-decoded forms to handle encoded payloads."""
         import re
-        p = payload.lower()
+        from urllib.parse import unquote
+
+        def _decode_all(s):
+            """URL-decode repeatedly until stable, then lower."""
+            prev = s
+            while True:
+                decoded = unquote(prev)
+                if decoded == prev:
+                    break
+                prev = decoded
+            return prev.lower()
+
+        p_raw = payload.lower()
+        p_decoded = _decode_all(payload)
+
         if "xss" in attack_type.lower():
-            # Must contain at least ONE attack indicator
-            return bool(re.search(r'<\s*(script|svg|img|iframe|body|input|details|math|object|embed)', p)
+            for p in (p_raw, p_decoded):
+                if (re.search(r'<\s*(script|svg|img|iframe|body|input|details|math|object|embed)', p)
                         or re.search(r'\bon\w+\s*=', p)
                         or re.search(r'javascript\s*:', p)
                         or 'fromcharcode' in p
-                        or '&#' in p)
+                        or '&#' in p):
+                    return True
+            return False
         elif "sql" in attack_type.lower():
-            return bool(re.search(r'\b(union|select|from|sleep|benchmark|wait|or|and)\b', p)
-                        or '--' in payload or '#' in payload)
+            for p in (p_raw, p_decoded):
+                if (re.search(r'\b(union|select|from|sleep|benchmark|wait|or|and)\b', p)
+                        or '--' in p or '#' in p or "'" in p):
+                    return True
+            return False
         return True  # for unknown attack types, accept anything
 
     def get_fallback_payload(self, attack_type: str) -> str:
@@ -230,4 +185,139 @@ IMPORTANT:
         return prompt
 
 
+# ---------------------------------------------------------------------------
+# Concrete model classes
+# ---------------------------------------------------------------------------
+
+class Gemma2B(_WafAttackModel):
+    def __init__(self):
+        self.loaded = False
+
+    def load_model(self):
+        if self.loaded:
+            return
+        print("Lazy loading Gemma-2-2B model...")
+        import torch
+        from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+        from peft import PeftModel
+
+        self.no_grad = torch.no_grad
+        if torch.cuda.is_available():
+            print("Using CUDA device")
+            print([torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())])
+            self.device = torch.device("cuda")
+        else:
+            print("Using CPU device")
+            self.device = torch.device("cpu")
+
+        self.base_model = "google/gemma-2-2b-it"
+        model_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model')
+        self.phase1_adapter_path = os.path.join(model_dir, "remote_gemma2_2b_phase1")
+        self.phase3_adapter_path = os.path.join(model_dir, "remote_gemma2_2b_phase3_rl")
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16
+        )
+        self.model = AutoModelForCausalLM.from_pretrained(
+            self.base_model, quantization_config=bnb_config, device_map={"": 0},
+            token=HF_ACCESS_TOKEN, local_files_only=True
+        )
+        self.model = PeftModel.from_pretrained(self.model, self.phase3_adapter_path, adapter_name="phase3_rl")
+        self.model.load_adapter(self.phase1_adapter_path, adapter_name="phase1")
+        self.tokenizer = AutoTokenizer.from_pretrained(self.base_model, token=HF_ACCESS_TOKEN, local_files_only=True)
+        self.loaded = True
+        print("Gemma-2-2B model loaded successfully (phase1 + phase3_rl adapters).")
+
+    def generate_response(self, prompt: str, max_new_tokens: int = 128, temperature: float = 0.7, adapter_name: str = "phase3_rl") -> str:
+        if not self.loaded:
+            self.load_model()
+        self.model.set_adapter(adapter_name)
+        messages = [{"role": "user", "content": prompt}]
+        formatted_prompt = self.tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        inputs = self.tokenizer(formatted_prompt, return_tensors="pt").to(self.model.device)
+        input_length = inputs.input_ids.shape[1]
+        eos_id = self.tokenizer.eos_token_id
+        with self.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                do_sample=True,
+                eos_token_id=eos_id,
+                pad_token_id=eos_id,
+                repetition_penalty=1.3,
+            )
+        response = self.tokenizer.decode(outputs[0][input_length:], skip_special_tokens=True)
+        return response
+
+
+class Qwen25_3B(_WafAttackModel):
+    """Qwen2.5-3B-Instruct with LoRA adapters (phase1 + phase3_rl)."""
+
+    def __init__(self):
+        self.loaded = False
+
+    def load_model(self):
+        if self.loaded:
+            return
+        print("Lazy loading Qwen2.5-3B-Instruct model...")
+        import torch
+        from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+        from peft import PeftModel
+
+        self.no_grad = torch.no_grad
+        if torch.cuda.is_available():
+            print("Using CUDA device")
+            print([torch.cuda.get_device_name(i) for i in range(torch.cuda.device_count())])
+            self.device = torch.device("cuda")
+        else:
+            print("Using CPU device")
+            self.device = torch.device("cpu")
+
+        self.base_model = "Qwen/Qwen2.5-3B-Instruct"
+        model_dir = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'model')
+        self.phase1_adapter_path = os.path.join(model_dir, "remote_qwen_3b_phase1")
+        self.phase3_adapter_path = os.path.join(model_dir, "remote_qwen_3b_phase3_rl")
+        bnb_config = BitsAndBytesConfig(
+            load_in_4bit=True, bnb_4bit_quant_type="nf4", bnb_4bit_compute_dtype=torch.float16
+        )
+        self.model = AutoModelForCausalLM.from_pretrained(
+            self.base_model, quantization_config=bnb_config, device_map={"": 0}
+        )
+        self.model = PeftModel.from_pretrained(self.model, self.phase3_adapter_path, adapter_name="phase3_rl")
+        self.model.load_adapter(self.phase1_adapter_path, adapter_name="phase1")
+        self.tokenizer = AutoTokenizer.from_pretrained(self.base_model)
+        self.loaded = True
+        print("Qwen2.5-3B model loaded successfully (phase1 + phase3_rl adapters).")
+
+    def generate_response(self, prompt: str, max_new_tokens: int = 128, temperature: float = 0.7, adapter_name: str = "phase3_rl") -> str:
+        if not self.loaded:
+            self.load_model()
+        self.model.set_adapter(adapter_name)
+        # Qwen2.5-Instruct uses ChatML — apply_chat_template handles it correctly
+        messages = [{"role": "user", "content": prompt}]
+        formatted_prompt = self.tokenizer.apply_chat_template(
+            messages, tokenize=False, add_generation_prompt=True
+        )
+        inputs = self.tokenizer(formatted_prompt, return_tensors="pt").to(self.model.device)
+        input_length = inputs.input_ids.shape[1]
+        # Qwen2.5 EOS: <|im_end|>=151645, <|endoftext|>=151643
+        eos_ids = list({self.tokenizer.eos_token_id, 151645, 151643})
+        with self.no_grad():
+            outputs = self.model.generate(
+                **inputs,
+                max_new_tokens=max_new_tokens,
+                temperature=temperature,
+                do_sample=True,
+                eos_token_id=eos_ids,
+                pad_token_id=self.tokenizer.eos_token_id,
+                repetition_penalty=1.3,
+            )
+        response = self.tokenizer.decode(outputs[0][input_length:], skip_special_tokens=True)
+        return response
+
+
 gemma_2b_model = Gemma2B()
+qwen_3b_model = Qwen25_3B()
+
