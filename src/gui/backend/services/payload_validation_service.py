@@ -1,6 +1,7 @@
 
 from dataclasses import dataclass
 from sqlglot import Expression, parse_one, TokenError
+import requests
 
 # =========================
 # 🔴 BASIC TEMPLATES
@@ -228,14 +229,19 @@ def compare_trees(tree1, tree2):
     return True
 
 @dataclass
-class EvaluateResult:
+class EvaluateSQLResult:
     payload: str
     safe_queries: list[str] = None
     harm_queries: list[str] = None
     error_queries: list[str] = None
+@dataclass
+class EvaluateXSSResult:
+    payload: str
+    is_safe: bool = None
+    harms: None
     
-def evaluate_sql_payload(payload) -> EvaluateResult:
-    result = EvaluateResult(payload, safe_queries=[], harm_queries=[], error_queries=[])
+def evaluate_sql_payload(payload) -> EvaluateSQLResult:
+    result = EvaluateSQLResult(payload, safe_queries=[], harm_queries=[], error_queries=[])
     for template in SQL_INJECTION_TEMPLATES:
         test_sql = template(payload)
         test_tree = try_parse(test_sql)
@@ -248,3 +254,14 @@ def evaluate_sql_payload(payload) -> EvaluateResult:
             else:
                 result.safe_queries.append(test_sql)
     return result
+
+def evaluate_xss_payload(payload) -> EvaluateXSSResult:
+    try:
+        res = requests.post("http://api.akng.io.vn:89/validate_payload", data=payload)
+        return EvaluateXSSResult(
+            payload=payload,
+            is_safe=res.json()["data"]["is_safe"],
+            harms=res.json()["data"]["harms"],
+        )
+    except Exception as e:
+        return None
