@@ -29,10 +29,6 @@ SQL_INJECTTION_CONTEXTS = {
     "ASC_DESC": [
         f"SELECT * FROM users ORDER BY id {PAYLOAD_PLACEHOLDER}",
     ],
-    "FUNCTION_ARGUMENT": [
-        f"SELECT *, SUM({PAYLOAD_PLACEHOLDER}) as calc_result FROM orders WHERE paid = 1",
-        f"SELECT * FROM products WHERE paid_price = SUM({PAYLOAD_PLACEHOLDER})",
-    ],
 }
 
 @dataclass
@@ -75,7 +71,7 @@ def evaluate_sql_payload(payload) -> EvaluateSQLResult:
             safe_sql = template.replace(PAYLOAD_PLACEHOLDER, "1")
             test_tree = try_parse(test_sql)
             safe_tree = try_parse(safe_sql)
-            # Payload làm sai cú pháp SQL
+            # Payload phá vỡ cú pháp SQL
             if test_tree is None:
                 result.error_queries.append(test_sql)
             else:
