@@ -5,54 +5,35 @@ import requests
 
 PAYLOAD_PLACEHOLDER = "###payload###"
 
-# f"SELECT * FROM users WHERE username = 'akng'"
-
-# Danh sách template SQL injection dạng string với PAYLOAD_PLACEHOLDER
-SQL_INJECTION_TEMPLATES_STRINGS = [
-    # ===== BASIC =====
-    f"SELECT * FROM users WHERE username = '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT * FROM users WHERE age = '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT id, name FROM users WHERE age > '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT * FROM users WHERE name LIKE '%{PAYLOAD_PLACEHOLDER}%'",
-
-    # ===== AUTH =====
-    f"SELECT * FROM users WHERE username = 'admin' AND password = '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT * FROM users WHERE username = '{PAYLOAD_PLACEHOLDER}' AND password = '123456'",
-
-    # ===== SEARCH =====
-    f"SELECT * FROM products WHERE name LIKE '%{PAYLOAD_PLACEHOLDER}%' OR description LIKE '%{PAYLOAD_PLACEHOLDER}%'",
-    f"SELECT * FROM orders WHERE status = 'active' AND ({PAYLOAD_PLACEHOLDER})",
-
-    # ===== LOGIC =====
-    f"SELECT * FROM users WHERE id = '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT * FROM users WHERE id IN ('{PAYLOAD_PLACEHOLDER}')",
-
-    # ===== ORDER / LIMIT =====
-    f"SELECT * FROM users ORDER BY {PAYLOAD_PLACEHOLDER}",
-    f"SELECT * FROM users ORDER BY created_at {PAYLOAD_PLACEHOLDER}",
-    f"SELECT * FROM users LIMIT '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT * FROM users LIMIT 10 OFFSET '{PAYLOAD_PLACEHOLDER}'",
-
-    # ===== QUERY EXTENSION =====
-    f"SELECT id, name FROM users WHERE id = '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT * FROM users WHERE id = (SELECT {PAYLOAD_PLACEHOLDER})",
-    f"SELECT * FROM users WHERE EXISTS (SELECT {PAYLOAD_PLACEHOLDER})",
-    f"SELECT CASE WHEN ('{PAYLOAD_PLACEHOLDER}') THEN 1 ELSE 0 END",
-
-    # ===== WRITE =====
-    f"INSERT INTO users(name) VALUES ('{PAYLOAD_PLACEHOLDER}')",
-    f"UPDATE users SET name = '{PAYLOAD_PLACEHOLDER}' WHERE id = 1",
-    f"DELETE FROM users WHERE name = '{PAYLOAD_PLACEHOLDER}'",
-
-    # ===== ADVANCED =====
-    f"SELECT * FROM users WHERE LENGTH('{PAYLOAD_PLACEHOLDER}') > 3",
-    f"SELECT * FROM users u JOIN orders o ON u.id = '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT age, COUNT(*) FROM users GROUP BY {PAYLOAD_PLACEHOLDER}",
-    f"SELECT age, COUNT(*) FROM users GROUP BY age HAVING COUNT(*) > '{PAYLOAD_PLACEHOLDER}'",
-    f"SELECT * FROM users WHERE JSON_EXTRACT(data, '$.role') = '{PAYLOAD_PLACEHOLDER}'",
-    f"EXEC('{PAYLOAD_PLACEHOLDER}')",
-    f"SELECT {PAYLOAD_PLACEHOLDER} FROM users",
-]
+SQL_INJECTTION_CONTEXTS = {
+    "STRING": [
+        f"SELECT * FROM users WHERE username = '{PAYLOAD_PLACEHOLDER}'",
+        f"SELECT * FROM users WHERE email = '{PAYLOAD_PLACEHOLDER}' AND active = 1",
+    ],
+    "NUMERIC": [
+        f"SELECT * FROM users WHERE id = {PAYLOAD_PLACEHOLDER}",
+        f"SELECT * FROM orders WHERE amount > {PAYLOAD_PLACEHOLDER} AND active = 1",
+        f"SELECT * FROM users LIMIT {PAYLOAD_PLACEHOLDER}",
+        f"SELECT * FROM products LIMIT 10 OFFSET {PAYLOAD_PLACEHOLDER}",
+        f"SELECT * FROM orders LIMIT {PAYLOAD_PLACEHOLDER} OFFSET 0",
+    ],
+    "IDENTIFIER": [
+        f"SELECT * FROM users ORDER BY {PAYLOAD_PLACEHOLDER}",
+        f"SELECT * FROM users ORDER BY {PAYLOAD_PLACEHOLDER} DESC",
+        f"SELECT * FROM {PAYLOAD_PLACEHOLDER} WHERE active = 1",
+        f"SELECT * FROM users WHERE {PAYLOAD_PLACEHOLDER} IS NOT NULL",
+    ],
+    "COLUMN_LIST": [
+        f"SELECT {PAYLOAD_PLACEHOLDER} FROM users",
+    ],
+    "ASC_DESC": [
+        f"SELECT * FROM users ORDER BY id {PAYLOAD_PLACEHOLDER}",
+    ],
+    "FUNCTION_ARGUMENT": [
+        f"SELECT *, SUM({PAYLOAD_PLACEHOLDER}) as calc_result FROM orders WHERE paid = 1",
+        f"SELECT * FROM products WHERE paid_price = SUM({PAYLOAD_PLACEHOLDER})",
+    ],
+}
 
 @dataclass
 class EvaluateSQLResult:
@@ -88,21 +69,22 @@ def compare_trees(tree1, tree2):
 
 def evaluate_sql_payload(payload) -> EvaluateSQLResult:
     result = EvaluateSQLResult(payload, safe_queries=[], harm_queries=[], error_queries=[])
-    for template in SQL_INJECTION_TEMPLATES_STRINGS:
-        test_sql = template.replace(PAYLOAD_PLACEHOLDER, payload)
-        safe_sql = template.replace(PAYLOAD_PLACEHOLDER, "1")
-        test_tree = try_parse(test_sql)
-        safe_tree = try_parse(safe_sql)
-        # Payload làm sai cú pháp SQL
-        if test_tree is None:
-            result.error_queries.append(test_sql)
-        else:
-            # AST mới KHÁC cấu trúc với AST an toàn
-            if not compare_trees(test_tree, safe_tree):
-                result.harm_queries.append(test_sql)
-            # AST mới cùng cấu trúc với AST an toàn
+    for context in SQL_INJECTTION_CONTEXTS:
+        for template in SQL_INJECTTION_CONTEXTS[context]:
+            test_sql = template.replace(PAYLOAD_PLACEHOLDER, payload)
+            safe_sql = template.replace(PAYLOAD_PLACEHOLDER, "1")
+            test_tree = try_parse(test_sql)
+            safe_tree = try_parse(safe_sql)
+            # Payload làm sai cú pháp SQL
+            if test_tree is None:
+                result.error_queries.append(test_sql)
             else:
-                result.safe_queries.append(test_sql)
+                # AST mới KHÁC cấu trúc với AST an toàn
+                if not compare_trees(test_tree, safe_tree):
+                    result.harm_queries.append(test_sql)
+                # AST mới cùng cấu trúc với AST an toàn
+                else:
+                    result.safe_queries.append(test_sql)
     return result
 
 def evaluate_xss_payload(payload) -> EvaluateXSSResult:
