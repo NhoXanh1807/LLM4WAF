@@ -3,210 +3,68 @@ from dataclasses import dataclass
 from sqlglot import Expression, parse_one, TokenError
 import requests
 
-# =========================
-# 🔴 BASIC TEMPLATES
-# =========================
+PAYLOAD_PLACEHOLDER = "###payload###"
 
-def tpl_where_string(payload):
-    return f"SELECT * FROM users WHERE username = '{payload}'"
+# f"SELECT * FROM users WHERE username = 'akng'"
 
-def tpl_where_number(payload):
-    return f"SELECT * FROM users WHERE age = '{payload}'"
-
-def tpl_where_compare(payload):
-    return f"SELECT id, name FROM users WHERE age > '{payload}'"
-
-def tpl_like(payload):
-    return f"SELECT * FROM users WHERE name LIKE '%{payload}%'"
-
-# =========================
-# 🔐 AUTH / LOGIN (IMPORTANT)
-# =========================
-
-def tpl_login(payload):
-    return f"""
-    SELECT * FROM users 
-    WHERE username = 'admin' AND password = '{payload}'
-    """
-
-def tpl_login_user(payload):
-    return f"""
-    SELECT * FROM users 
-    WHERE username = '{payload}' AND password = '123456'
-    """
-
-# =========================
-# 🔍 SEARCH / FILTER
-# =========================
-
-def tpl_search(payload):
-    return f"""
-    SELECT * FROM products 
-    WHERE name LIKE '%{payload}%' 
-       OR description LIKE '%{payload}%'
-    """
-
-def tpl_filter(payload):
-    return f"""
-    SELECT * FROM orders 
-    WHERE status = 'active' AND ({payload})
-    """
-
-# =========================
-# 🔢 ORDER / LIMIT
-# =========================
-
-def tpl_order_by(payload):
-    return f"SELECT * FROM users ORDER BY {payload}"
-
-def tpl_order_direction(payload):
-    return f"""
-    SELECT * FROM users 
-    ORDER BY created_at {payload}
-    """
-
-def tpl_limit(payload):
-    return f"SELECT * FROM users LIMIT '{payload}'"
-
-def tpl_limit_offset(payload):
-    return f"""
-    SELECT * FROM users LIMIT 10 OFFSET '{payload}'
-    """
-
-# =========================
-# 🔗 LOGIC / BOOLEAN
-# =========================
-
-def tpl_boolean(payload):
-    return f"SELECT * FROM users WHERE id = '{payload}'"
-
-def tpl_in_clause(payload):
-    return f"""
-    SELECT * FROM users WHERE id IN ('{payload}')
-    """
-
-# =========================
-# 🔄 QUERY EXTENSION
-# =========================
-
-def tpl_union(payload):
-    return f"SELECT id, name FROM users WHERE id = '{payload}'"
-
-def tpl_subquery(payload):
-    return f"""
-    SELECT * FROM users WHERE id = (SELECT {payload})
-    """
-
-def tpl_exists(payload):
-    return f"""
-    SELECT * FROM users WHERE EXISTS (SELECT {payload})
-    """
-
-def tpl_case_when(payload):
-    return f"""
-    SELECT CASE WHEN ('{payload}') THEN 1 ELSE 0 END
-    """
-
-# =========================
-# ✏️ WRITE OPERATIONS
-# =========================
-
-def tpl_insert(payload):
-    return f"INSERT INTO users(name) VALUES ('{payload}')"
-
-def tpl_update(payload):
-    return f"UPDATE users SET name = '{payload}' WHERE id = 1"
-
-def tpl_delete(payload):
-    return f"DELETE FROM users WHERE name = '{payload}'"
-
-# =========================
-# ⚙️ ADVANCED / SPECIAL
-# =========================
-
-def tpl_function(payload):
-    return f"SELECT * FROM users WHERE LENGTH('{payload}') > 3"
-
-def tpl_join(payload):
-    return f"""
-    SELECT * FROM users u 
-    JOIN orders o ON u.id = '{payload}'
-    """
-
-def tpl_group_by(payload):
-    return f"""
-    SELECT age, COUNT(*) FROM users GROUP BY {payload}
-    """
-
-def tpl_having(payload):
-    return f"""
-    SELECT age, COUNT(*) FROM users 
-    GROUP BY age 
-    HAVING COUNT(*) > '{payload}'
-    """
-
-def tpl_json(payload):
-    return f"""
-    SELECT * FROM users 
-    WHERE JSON_EXTRACT(data, '$.role') = '{payload}'
-    """
-
-def tpl_exec(payload):
-    return f"EXEC('{payload}')"
-
-def tpl_column(payload):
-    return f"SELECT {payload} FROM users"
-
-
-# =========================
-# 📋 TEMPLATE LIST (FINAL)
-# =========================
-
-SQL_INJECTION_TEMPLATES = [
+# Danh sách template SQL injection dạng string với PAYLOAD_PLACEHOLDER
+SQL_INJECTION_TEMPLATES_STRINGS = [
     # ===== BASIC =====
-    tpl_where_string,
-    tpl_where_number,
-    tpl_where_compare,
-    tpl_like,
+    f"SELECT * FROM users WHERE username = '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT * FROM users WHERE age = '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT id, name FROM users WHERE age > '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT * FROM users WHERE name LIKE '%{PAYLOAD_PLACEHOLDER}%'",
 
     # ===== AUTH =====
-    tpl_login,
-    tpl_login_user,
+    f"SELECT * FROM users WHERE username = 'admin' AND password = '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT * FROM users WHERE username = '{PAYLOAD_PLACEHOLDER}' AND password = '123456'",
 
     # ===== SEARCH =====
-    tpl_search,
-    tpl_filter,
+    f"SELECT * FROM products WHERE name LIKE '%{PAYLOAD_PLACEHOLDER}%' OR description LIKE '%{PAYLOAD_PLACEHOLDER}%'",
+    f"SELECT * FROM orders WHERE status = 'active' AND ({PAYLOAD_PLACEHOLDER})",
 
     # ===== LOGIC =====
-    tpl_boolean,
-    tpl_in_clause,
+    f"SELECT * FROM users WHERE id = '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT * FROM users WHERE id IN ('{PAYLOAD_PLACEHOLDER}')",
 
     # ===== ORDER / LIMIT =====
-    tpl_order_by,
-    tpl_order_direction,
-    tpl_limit,
-    tpl_limit_offset,
+    f"SELECT * FROM users ORDER BY {PAYLOAD_PLACEHOLDER}",
+    f"SELECT * FROM users ORDER BY created_at {PAYLOAD_PLACEHOLDER}",
+    f"SELECT * FROM users LIMIT '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT * FROM users LIMIT 10 OFFSET '{PAYLOAD_PLACEHOLDER}'",
 
     # ===== QUERY EXTENSION =====
-    tpl_union,
-    tpl_subquery,
-    tpl_exists,
-    tpl_case_when,
+    f"SELECT id, name FROM users WHERE id = '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT * FROM users WHERE id = (SELECT {PAYLOAD_PLACEHOLDER})",
+    f"SELECT * FROM users WHERE EXISTS (SELECT {PAYLOAD_PLACEHOLDER})",
+    f"SELECT CASE WHEN ('{PAYLOAD_PLACEHOLDER}') THEN 1 ELSE 0 END",
 
     # ===== WRITE =====
-    tpl_insert,
-    tpl_update,
-    tpl_delete,
+    f"INSERT INTO users(name) VALUES ('{PAYLOAD_PLACEHOLDER}')",
+    f"UPDATE users SET name = '{PAYLOAD_PLACEHOLDER}' WHERE id = 1",
+    f"DELETE FROM users WHERE name = '{PAYLOAD_PLACEHOLDER}'",
 
     # ===== ADVANCED =====
-    tpl_function,
-    tpl_join,
-    tpl_group_by,
-    tpl_having,
-    tpl_json,
-    tpl_exec,
-    tpl_column,
+    f"SELECT * FROM users WHERE LENGTH('{PAYLOAD_PLACEHOLDER}') > 3",
+    f"SELECT * FROM users u JOIN orders o ON u.id = '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT age, COUNT(*) FROM users GROUP BY {PAYLOAD_PLACEHOLDER}",
+    f"SELECT age, COUNT(*) FROM users GROUP BY age HAVING COUNT(*) > '{PAYLOAD_PLACEHOLDER}'",
+    f"SELECT * FROM users WHERE JSON_EXTRACT(data, '$.role') = '{PAYLOAD_PLACEHOLDER}'",
+    f"EXEC('{PAYLOAD_PLACEHOLDER}')",
+    f"SELECT {PAYLOAD_PLACEHOLDER} FROM users",
 ]
+
+@dataclass
+class EvaluateSQLResult:
+    payload: str
+    safe_queries: list[str] = None
+    harm_queries: list[str] = None
+    error_queries: list[str] = None
+@dataclass
+class EvaluateXSSResult:
+    payload: str
+    is_safe: bool = None
+    harms: None
 
 def try_parse(sql):
     try:
@@ -228,29 +86,21 @@ def compare_trees(tree1, tree2):
             return False
     return True
 
-@dataclass
-class EvaluateSQLResult:
-    payload: str
-    safe_queries: list[str] = None
-    harm_queries: list[str] = None
-    error_queries: list[str] = None
-@dataclass
-class EvaluateXSSResult:
-    payload: str
-    is_safe: bool = None
-    harms: None
-    
 def evaluate_sql_payload(payload) -> EvaluateSQLResult:
     result = EvaluateSQLResult(payload, safe_queries=[], harm_queries=[], error_queries=[])
-    for template in SQL_INJECTION_TEMPLATES:
-        test_sql = template(payload)
+    for template in SQL_INJECTION_TEMPLATES_STRINGS:
+        test_sql = template.replace(PAYLOAD_PLACEHOLDER, payload)
+        safe_sql = template.replace(PAYLOAD_PLACEHOLDER, "1")
         test_tree = try_parse(test_sql)
-        safe_tree = try_parse(template("1"))
+        safe_tree = try_parse(safe_sql)
+        # Payload làm sai cú pháp SQL
         if test_tree is None:
             result.error_queries.append(test_sql)
         else:
+            # AST mới KHÁC cấu trúc với AST an toàn
             if not compare_trees(test_tree, safe_tree):
                 result.harm_queries.append(test_sql)
+            # AST mới cùng cấu trúc với AST an toàn
             else:
                 result.safe_queries.append(test_sql)
     return result
