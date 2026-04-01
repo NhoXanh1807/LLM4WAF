@@ -292,15 +292,21 @@ function App() {
               {/* Defense Rules */}
               {defenseRules && defenseRules.length > 0 ? (
                 <div className="mt-8">
-                  <h2 className={`text-2xl font-bold mb-4 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                    🛡️ Defense Rules Generated
-                  </h2>
-                  <div className="overflow-x-auto rounded-xl border-2 ${darkMode ? 'border-gray-700' : 'border-gray-200'}">
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className={`text-2xl font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
+                      🛡️ Defense Rules Generated
+                    </h2>
+                    <span className={`text-sm font-semibold px-3 py-1 rounded-full ${darkMode ? 'bg-blue-900/40 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>
+                      {defenseRules.length} rule{defenseRules.length !== 1 ? 's' : ''}
+                    </span>
+                  </div>
+                  <div className={`overflow-x-auto rounded-xl border-2 ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
                     <table className="min-w-full">
                       <thead>
                         <tr className={darkMode ? 'bg-blue-900/30' : 'bg-blue-100'}>
-                          <th className={`text-left font-bold p-4 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>#</th>
-                          <th className={`text-left font-bold p-4 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>ModSecurity Rule</th>
+                          <th className={`text-left font-bold p-4 w-8 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>#</th>
+                          <th className={`text-left font-bold p-4 w-24 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>WAF Type</th>
+                          <th className={`text-left font-bold p-4 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>WAF Rule</th>
                           <th className={`text-left font-bold p-4 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>Implementation Guide</th>
                         </tr>
                       </thead>
@@ -308,10 +314,23 @@ function App() {
                         {defenseRules.map((item, idx) => (
                           <tr key={idx} className={idx % 2 === 0 ? (darkMode ? 'bg-gray-800/30' : 'bg-white') : (darkMode ? 'bg-gray-800/50' : 'bg-gray-50')}>
                             <td className={`align-top p-4 text-center font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{idx + 1}</td>
+                            <td className="align-top p-4">
+                              <span className={`px-2 py-1 rounded text-xs font-semibold uppercase ${darkMode ? 'bg-cyan-900/30 text-cyan-400' : 'bg-cyan-100 text-cyan-700'}`}>
+                                {item.waf_type || 'modsecurity'}
+                              </span>
+                              {item.is_valid === false && (
+                                <span className="ml-1 px-2 py-1 rounded text-xs font-semibold bg-red-500 text-white">invalid</span>
+                              )}
+                            </td>
                             <td className="align-top p-4 w-1/2">
                               <pre className={`whitespace-pre-wrap text-xs font-mono p-3 rounded-lg ${darkMode ? 'bg-gray-900 text-green-400' : 'bg-gray-100 text-gray-800'}`}>{item.rule}</pre>
+                              {item.refinement_notes && (
+                                <p className={`mt-2 text-xs italic ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                                  ✨ {item.refinement_notes}
+                                </p>
+                              )}
                             </td>
-                            <td className={`align-top p-4 w-1/2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                            <td className={`align-top p-4 w-1/3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
                               <p className="text-sm leading-relaxed">{item.instructions}</p>
                             </td>
                           </tr>

@@ -18,6 +18,8 @@ from gui.backend.llm_helper.llm import PayloadResult
 
 from gui.backend import utils
 from wafw00f.main import WAFW00F
+from defense.defense_pipeline import DefensePipeline
+from validator_syntax_rule.base import WAFType
 
 
 
@@ -92,25 +94,52 @@ def test_payloads(payloads: List[PayloadResult], attack_type) -> List[PayloadRes
         return []
 
 
+_WAF_NAME_MAP = {
+    "modsecurity": WAFType.MODSECURITY,
+    "cloudflare": WAFType.CLOUDFLARE,
+    "aws": WAFType.AWS_WAF,
+    "naxsi": WAFType.NAXSI,
+}
+
+def _map_waf_type(waf_name: str) -> WAFType:
+    name_lower = (waf_name or "").lower()
+    for key, waf_type in _WAF_NAME_MAP.items():
+        if key in name_lower:
+            return waf_type
+    return WAFType.MODSECURITY
+
+_pipeline: DefensePipeline = None
+
+def _get_pipeline() -> DefensePipeline:
+    global _pipeline
+    if _pipeline is None:
+        _pipeline = DefensePipeline(enable_rag=True, enable_gemini=True, enable_clustering=True)
+    return _pipeline
+
+
 def generate_defense(waf_info, payload_results: List[PayloadResult]) -> List[dict]:
     bypassed = [r for r in payload_results if r.bypassed]
     if not bypassed:
         print("\n[+] No bypassed payloads! WAF is secure.")
         return []
 
-    print(f"\n[*] Generating defense rules for {len(bypassed)} bypassed payloads...")
+    print(f"\n[*] Running defense pipeline for {len(bypassed)} bypassed payloads...")
     try:
-        result = utils.generate_defend_rules_and_instructions(
-            waf_info,
-            [r.payload for r in bypassed],
-            ["Put the payload into any input on vul web then submit" for r in bypassed]
+        pipeline_result = _get_pipeline().generate_defense_rules(
+            bypassed_payloads=[r.payload for r in bypassed],
+            waf_info={"waf_name": waf_info},
+            waf_type=_map_waf_type(waf_info),
         )
-        content = json.loads(result["choices"][0]["message"]["content"])
-        rules = content.get("items", [])
+
+        rules = [r.to_dict() for r in pipeline_result.final_rules]
+        stats = pipeline_result.to_dict()["stats"]
+        print(f"[+] Pipeline stats: {stats}")
 
         for i, rule in enumerate(rules, 1):
-            print(f"\n{'='*60}\nRule {i}:\n{'='*60}")
+            print(f"\n{'='*60}\nRule {i} [{rule.get('waf_type', '')}]:\n{'='*60}")
             print(rule["rule"])
+            if rule.get("refinement_notes"):
+                print(f"\nRefinement: {rule['refinement_notes']}")
             print(f"\nImplementation:\n{rule['instructions']}\n")
 
         return rules
@@ -171,9 +200,9 @@ def main():
                 json.dump({
                     'domain': args.domain,
                     'waf_info': waf,
-                    'results': payloads,
-                    'defense_rules': rules
-                }, f, indent=2)
+                    'results': [vars(p) if hasattr(p, '__dict__') else p for p in payloads],
+                    'defense_rules': rules,
+                }, f, indent=2, default=str)
             print(f"\n[+] Saved to {args.output}")
 
     print("\n[+] Done!\n")

@@ -1,13 +1,56 @@
+import sys
+import os
 from typing import List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
+# Add src/ to sys.path so defense/ and validator_syntax_rule/ are importable
+_SRC_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+if _SRC_DIR not in sys.path:
+    sys.path.insert(0, _SRC_DIR)
+
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
 from llm_helper.llm import PayloadResult
-from utils import VALID_ATTACK_TYPES, generate_payload_phase1, generate_payload_phase3, DVWA_ATTACK_FUNC, loginDVWA, generate_defend_rules_and_instructions, attack
+from utils import VALID_ATTACK_TYPES, generate_payload_phase1, generate_payload_phase3, DVWA_ATTACK_FUNC, loginDVWA, attack
+from config.settings import DEFAULT_NUM_DEFENSE_RULES
 import json
 import requests
+
+# Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> Gemini
+from defense.defense_pipeline import DefensePipeline
+from validator_syntax_rule.base import WAFType
+
+# Lazy-initialized pipeline instance (shared across requests)
+_defense_pipeline: DefensePipeline = None
+
+def _get_pipeline() -> DefensePipeline:
+    global _defense_pipeline
+    if _defense_pipeline is None:
+        _docs_folder = os.path.join(os.path.dirname(__file__), 'RAG', 'docs') + os.sep
+        _defense_pipeline = DefensePipeline(
+            docs_folder=_docs_folder,
+            enable_rag=True,
+            enable_gemini=True,
+            enable_clustering=True,
+        )
+    return _defense_pipeline
+
+
+_WAF_NAME_MAP = {
+    "modsecurity": WAFType.MODSECURITY,
+    "cloudflare": WAFType.CLOUDFLARE,
+    "aws": WAFType.AWS_WAF,
+    "naxsi": WAFType.NAXSI,
+}
+
+def _map_waf_type(waf_name: str) -> WAFType:
+    """Map WAFW00F string to WAFType enum. Defaults to MODSECURITY."""
+    name_lower = (waf_name or "").lower()
+    for key, waf_type in _WAF_NAME_MAP.items():
+        if key in name_lower:
+            return waf_type
+    return WAFType.MODSECURITY
 
 
 app = Flask(__name__)
@@ -71,19 +114,18 @@ def api_attack():
             payload.status_code = result.status_code
             print(f"Tested {i+1}/{len(payloads)} -> {('BYPASSED' if payload.bypassed else 'BLOCKED')} code({payload.status_code}) : {payload.payload}")
 
-        # Auto-generate defense rules if any payload bypassed
+        # Auto-generate defense rules via full pipeline if any payload bypassed
         bypassed_payloads = [payload.payload for payload in payloads if payload.bypassed]
-        bypassed_instructions = ["Put the payload into any input on vul web then submit" for bypassed_payload in bypassed_payloads]
         defense_rules = []
         if len(bypassed_payloads) > 0:
             print("Generating defense rules for bypassed payloads...")
-            defend_result = generate_defend_rules_and_instructions(
-                waf_name, bypassed_payloads, bypassed_instructions
+            pipeline_result = _get_pipeline().generate_defense_rules(
+                bypassed_payloads=bypassed_payloads,
+                waf_info={"waf_name": waf_name},
+                waf_type=_map_waf_type(waf_name),
+                num_rules=DEFAULT_NUM_DEFENSE_RULES,
             )
-            defend_result = dict(defend_result)
-            defend_content = defend_result.get("choices", [])[0].get("message", {}).get("content", None)
-            defend_json = json.loads(defend_content) if defend_content else {}
-            defense_rules = defend_json.get("items", [])
+            defense_rules = [r.to_dict() for r in pipeline_result.final_rules]
 
         return (
             jsonify(
@@ -160,30 +202,30 @@ def api_defend():
 
         waf_info = dict.get(data, "waf_info")
         bypassed_payloads = dict.get(data, "bypassed_payloads")
-        bypassed_instructions = dict.get(data, "bypassed_instructions")
-        if not waf_info or not bypassed_payloads or not bypassed_instructions:
-            return (
-                jsonify(
-                    {
-                        "error": "Missing 'waf_info' or 'bypassed_payloads' or 'bypassed_instructions' field"
-                    }
-                ),
-                400,
-            )
+        num_rules = dict.get(data, "num_rules", DEFAULT_NUM_DEFENSE_RULES)
 
-        openai_result = generate_defend_rules_and_instructions(
-            waf_info, bypassed_payloads, bypassed_instructions
-        )
-        # return jsonify(openai_result)
-        openai_result = dict(openai_result)
-        content = (
-            openai_result.get("choices", [])[0].get("message", {}).get("content", None)
-        )
-        content_json = json.loads(content) if content else {}
-        rules = content_json.get("items", [])
+        if not waf_info or not bypassed_payloads:
+            return jsonify({"error": "Missing 'waf_info' or 'bypassed_payloads' field"}), 400
 
-        return jsonify({"rules": rules, "raw_openai_response": openai_result}), 200
+        waf_name = waf_info if isinstance(waf_info, str) else waf_info.get("waf_name", "")
+
+        pipeline_result = _get_pipeline().generate_defense_rules(
+            bypassed_payloads=bypassed_payloads,
+            waf_info={"waf_name": waf_name},
+            waf_type=_map_waf_type(waf_name),
+            num_rules=num_rules,
+        )
+
+        return jsonify({
+            "rules": [r.to_dict() for r in pipeline_result.final_rules],
+            "stats": pipeline_result.to_dict()["stats"],
+        }), 200
     except Exception as e:
+        import traceback
+        print("=" * 50)
+        print("ERROR in /api/defend:")
+        print(traceback.format_exc())
+        print("=" * 50)
         return jsonify({"error": str(e)}), 500
 
 

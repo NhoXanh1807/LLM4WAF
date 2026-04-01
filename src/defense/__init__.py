@@ -56,7 +56,12 @@ from .gemini_agent import (
 )
 
 # Re-export WAFType for convenience
-from ..validator_syntax_rule import WAFType
+try:
+    # When src/ is in sys.path (absolute import)
+    from validator_syntax_rule import WAFType
+except ImportError:
+    # When imported as part of src package (relative import)
+    from ..validator_syntax_rule import WAFType
 
 
 __all__ = [

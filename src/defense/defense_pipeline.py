@@ -302,8 +302,11 @@ class DefensePipeline:
             )]
 
         try:
-            # Import clustering service
-            from ..gui.backend.services.clustering_service import clustering
+            # Import clustering service — support both run contexts
+            try:
+                from services.clustering_service import clustering
+            except ImportError:
+                from gui.backend.services.clustering_service import clustering
 
             labels = clustering(payloads, reduce_dim_to=50, method="HAC", cluster_kwargs={"distance_threshold": 1.5})
 
@@ -355,9 +358,15 @@ class DefensePipeline:
     ) -> list[GeneratedRule]:
         """Generate rules using LLM with RAG enhancement."""
         try:
-            # Import LLM service
-            from ..gui.backend.services.llm_service import chatgpt_completion
-            from ..gui.backend.config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
+            # Import LLM service — support both run contexts:
+            # (a) python app.py  from src/gui/backend/   → absolute imports work
+            # (b) python -m src.xxx                      → relative imports work
+            try:
+                from services.llm_service import chatgpt_completion
+                from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
+            except ImportError:
+                from gui.backend.services.llm_service import chatgpt_completion
+                from gui.backend.config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
 
             # Build prompt
             base_prompt = get_blue_team_user_prompt(
@@ -370,7 +379,10 @@ class DefensePipeline:
             # Enhance with RAG if enabled
             if self.enable_rag:
                 try:
-                    from ..RAG.rag_service import enhance_defense_generation
+                    try:
+                        from RAG.rag_service import enhance_defense_generation
+                    except ImportError:
+                        from gui.backend.RAG.rag_service import enhance_defense_generation
 
                     rag_result = enhance_defense_generation(
                         waf_info=waf_info,
@@ -423,19 +435,26 @@ class DefensePipeline:
 
             result = chatgpt_completion(messages=messages, response_format=response_format)
 
-            # Parse response
-            if result.get("success"):
-                content = json.loads(result["content"])
-                rules = []
-                for item in content.get("items", []):
-                    rules.append(GeneratedRule(
-                        rule=item.get("rule", ""),
-                        instructions=item.get("instructions", ""),
-                        waf_type=waf_type,
-                    ))
-                return rules
+            # Parse response — chatgpt_completion returns raw OpenAI JSON:
+            # {"choices": [{"message": {"content": "{...}"}}], ...}
+            content_str = (
+                result.get("choices", [{}])[0]
+                      .get("message", {})
+                      .get("content")
+            )
+            if not content_str:
+                print(f"      LLM returned empty content. Full response: {result}")
+                return []
 
-            return []
+            content = json.loads(content_str)
+            rules = []
+            for item in content.get("items", []):
+                rules.append(GeneratedRule(
+                    rule=item.get("rule", ""),
+                    instructions=item.get("instructions", ""),
+                    waf_type=waf_type,
+                ))
+            return rules
 
         except Exception as e:
             print(f"      LLM generation failed: {e}")
@@ -480,7 +499,10 @@ class DefensePipeline:
         fixed_rules = []
 
         try:
-            from ..gui.backend.services.llm_service import chatgpt_completion
+            try:
+                from services.llm_service import chatgpt_completion
+            except ImportError:
+                from gui.backend.services.llm_service import chatgpt_completion
 
             for rule in invalid_rules[:self.max_retries]:  # Limit retries
                 fix_prompt = f"""The following WAF rule has a syntax error:
@@ -497,9 +519,14 @@ Return ONLY the fixed rule, no explanations."""
                     messages=[{"role": "user", "content": fix_prompt}]
                 )
 
-                if result.get("success"):
+                fixed_content = (
+                    result.get("choices", [{}])[0]
+                          .get("message", {})
+                          .get("content", "")
+                )
+                if fixed_content:
                     fixed_rule = GeneratedRule(
-                        rule=result["content"].strip(),
+                        rule=fixed_content.strip(),
                         instructions=rule.instructions,
                         waf_type=waf_type,
                     )

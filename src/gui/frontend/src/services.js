@@ -17,8 +17,8 @@ export const Services = {
     attack: async (domain, attack_type, num_payloads = 5, payloads_history = []) => {
         return Call("/attack", "POST", { domain, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
     },
-    defend: async (waf_info, bypassed_payloads, bypassed_instructions) => {
-        return Call("/defend", "POST", { waf_info, bypassed_payloads, bypassed_instructions }, { "Content-Type": "application/json" });
+    defend: async (waf_info, bypassed_payloads, num_rules = 3) => {
+        return Call("/defend", "POST", { waf_info, bypassed_payloads, num_rules }, { "Content-Type": "application/json" });
     },
     retest: async (bypassed_payloads) => {
         return Call("/retest", "POST", { bypassed_payloads }, { "Content-Type": "application/json" });
