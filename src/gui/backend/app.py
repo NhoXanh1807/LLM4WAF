@@ -1,3 +1,5 @@
+
+print("importing libs...")
 import sys
 import os
 from typing import List
@@ -11,11 +13,10 @@ if _SRC_DIR not in sys.path:
 
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
-from llm_helper.llm import PayloadResult
-from utils import VALID_ATTACK_TYPES, generate_payload_phase1, generate_payload_phase3, DVWA_ATTACK_FUNC, loginDVWA, attack
+from services.generator import PayloadResult, generate_payload_phase1, generate_payload_phase3
+from services_external.dvwa import loginDVWA, attack, VALID_ATTACK_TYPES, DVWA_ATTACK_FUNC
+from services.generator import PayloadResult
 from config.settings import DEFAULT_NUM_DEFENSE_RULES
-import json
-import requests
 
 # Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> Gemini
 from defense.defense_pipeline import DefensePipeline
@@ -52,11 +53,9 @@ def _map_waf_type(waf_name: str) -> WAFType:
             return waf_type
     return WAFType.MODSECURITY
 
-
+print("Setting-up Flask app...")
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://localhost:3000", "http://localhost:3001"])
-
-
 
 
 @app.route("/api/attack", methods=["POST"])
@@ -82,16 +81,6 @@ def api_attack():
         w = WAFW00F(domain)
         waf_info = w.identwaf()
         waf_name = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
-
-        # openai_result = generate_payloads_from_domain_waf_info(
-        #     waf_name, attack_type, num_payloads
-        # )
-        # openai_result = dict(openai_result)
-        # content = (
-        #     openai_result.get("choices", [])[0].get("message", {}).get("content", None)
-        # )
-        # content_json = json.loads(content) if content else {}
-        # instructions = content_json.get("items", [])
 
         if len(probe_history) <= 0:
             payloads = generate_payload_phase1(
@@ -230,4 +219,5 @@ def api_defend():
 
 
 if __name__ == "__main__":
+    print("Starting Flask app...")
     app.run(host="0.0.0.0", port=5000, debug=True)

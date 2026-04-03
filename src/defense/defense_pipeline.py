@@ -304,9 +304,9 @@ class DefensePipeline:
         try:
             # Import clustering service — support both run contexts
             try:
-                from services.clustering_service import clustering
+                from services.clustering import clustering
             except ImportError:
-                from gui.backend.services.clustering_service import clustering
+                from gui.backend.services.clustering import clustering
 
             labels = clustering(payloads, reduce_dim_to=50, method="HAC", cluster_kwargs={"distance_threshold": 1.5})
 
@@ -362,10 +362,10 @@ class DefensePipeline:
             # (a) python app.py  from src/gui/backend/   → absolute imports work
             # (b) python -m src.xxx                      → relative imports work
             try:
-                from services.llm_service import chatgpt_completion
+                from services_external.llm import chatgpt_completion
                 from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
             except ImportError:
-                from gui.backend.services.llm_service import chatgpt_completion
+                from gui.backend.services_external.llm import chatgpt_completion
                 from gui.backend.config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
 
             # Build prompt
@@ -500,9 +500,9 @@ class DefensePipeline:
 
         try:
             try:
-                from services.llm_service import chatgpt_completion
+                from services_external.llm import chatgpt_completion
             except ImportError:
-                from gui.backend.services.llm_service import chatgpt_completion
+                from gui.backend.services_external.llm import chatgpt_completion
 
             for rule in invalid_rules[:self.max_retries]:  # Limit retries
                 fix_prompt = f"""The following WAF rule has a syntax error:
@@ -521,8 +521,8 @@ Return ONLY the fixed rule, no explanations."""
 
                 fixed_content = (
                     result.get("choices", [{}])[0]
-                          .get("message", {})
-                          .get("content", "")
+                        .get("message", {})
+                        .get("content", "")
                 )
                 if fixed_content:
                     fixed_rule = GeneratedRule(

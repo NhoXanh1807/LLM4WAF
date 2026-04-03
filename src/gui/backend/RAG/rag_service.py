@@ -7,8 +7,6 @@ import os
 import json
 import hashlib
 from typing import List, Dict, Any, Optional
-from datetime import datetime
-
 from sentence_transformers import CrossEncoder
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import TextLoader, PyPDFLoader, Docx2txtLoader
@@ -187,9 +185,9 @@ class RAGDefenseService:
     """
     
     def __init__(self, docs_folder: str = "./docs/", 
-                 vector_store_path: str = "./vector_store/",
-                 enable_rag: bool = True,
-                 force_rebuild: bool = False):
+                vector_store_path: str = "./vector_store/",
+                enable_rag: bool = True,
+                force_rebuild: bool = False):
         """
         Initialize RAG service
         
@@ -431,7 +429,7 @@ class RAGDefenseService:
         return chunks
     
     def _generate_query_variants(self, attack_type: str, waf_info: dict, 
-                                 bypassed_payloads: list) -> List[str]:
+                                bypassed_payloads: list) -> List[str]:
         """Generate multiple query variants for multi-query retrieval"""
         queries = []
         
@@ -483,10 +481,10 @@ class RAGDefenseService:
         return None
     
     def get_relevant_context(self, attack_type: str, waf_info: dict, 
-                           bypassed_payloads: list, 
-                           initial_k: int = 8,
-                           final_k: int = 3,
-                           filter_rules_only: bool = True) -> Dict[str, Any]:
+                        bypassed_payloads: list, 
+                        initial_k: int = 8,
+                        final_k: int = 3,
+                        filter_rules_only: bool = True) -> Dict[str, Any]:
         """
         Retrieve relevant context from knowledge base using multi-query retrieval
         
@@ -565,8 +563,8 @@ class RAGDefenseService:
                     other_count = remaining - rules_count
                     
                     filtered_docs = (waf_specific_docs[:waf_count] + 
-                                   rules_docs[:rules_count] + 
-                                   other_docs[:other_count])
+                                rules_docs[:rules_count] + 
+                                other_docs[:other_count])
                 else:
                     # No WAF-specific docs, fall back to general filtering
                     if rules_docs:
@@ -619,9 +617,10 @@ class RAGDefenseService:
             }
     
     def enhance_defense_prompt(self, waf_info: dict, bypassed_payloads: list, 
-                               bypassed_instructions: list, 
-                               base_user_prompt: str,
-                               filter_rules_only: bool = True) -> Dict[str, Any]:
+            bypassed_instructions: list, 
+            base_user_prompt: str,
+            filter_rules_only: bool = True
+        ) -> Dict[str, Any]:
         """
         Enhance defense generation prompt with RAG context
         
@@ -698,9 +697,10 @@ _rag_service_instance = None
 
 
 def get_rag_service(docs_folder: str = "./docs/", 
-                   vector_store_path: str = "./vector_store/",
-                   enable_rag: bool = True,
-                   force_rebuild: bool = False) -> RAGDefenseService:
+        vector_store_path: str = "./vector_store/",
+        enable_rag: bool = True,
+        force_rebuild: bool = False
+    ) -> RAGDefenseService:
     """
     Get or create RAG service singleton
     
@@ -727,13 +727,14 @@ def get_rag_service(docs_folder: str = "./docs/",
 
 
 def enhance_defense_generation(waf_info: dict, bypassed_payloads: list,
-                               bypassed_instructions: list,
-                               base_user_prompt: str,
-                               docs_folder: str = "./docs/",
-                               vector_store_path: str = "./vector_store/",
-                               enable_rag: bool = True,
-                               filter_rules_only: bool = True,
-                               force_rebuild: bool = False) -> Dict[str, Any]:
+        bypassed_instructions: list,
+        base_user_prompt: str,
+        docs_folder: str = "./docs/",
+        vector_store_path: str = "./vector_store/",
+        enable_rag: bool = True,
+        filter_rules_only: bool = True,
+        force_rebuild: bool = False
+    ) -> Dict[str, Any]:
     """
     Convenience function to enhance defense prompt with RAG
     

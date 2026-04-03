@@ -14,9 +14,8 @@ from typing import List
 sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from gui.backend.llm_helper.llm import PayloadResult
-
-from gui.backend import utils
+from gui.backend.services.generator import PayloadResult, generate_payload_phase1, generate_payload_phase3, generate_defend_rules_and_instructions
+from gui.backend.services_external.dvwa import loginDVWA, attack, VALID_ATTACK_TYPES
 from wafw00f.main import WAFW00F
 from defense.defense_pipeline import DefensePipeline
 from validator_syntax_rule.base import WAFType
@@ -64,7 +63,7 @@ def detect_waf(domain) -> str:
 def generate_payloads(waf_info, attack_type, num) -> List[PayloadResult]:
     print(f"\n[*] Generating {num} {attack_type} payloads...")
     try:
-        payloads = utils.generate_payload_phase1(waf_info, attack_type, num)
+        payloads = generate_payload_phase1(waf_info, attack_type, num)
         print(f"[+] Generated {len(payloads)} payloads")
         for i, p in enumerate(payloads, 1):
             print(f"\n  [{i}] {p.payload}")
@@ -78,12 +77,12 @@ def test_payloads(payloads: List[PayloadResult], attack_type) -> List[PayloadRes
     print(f"\n[*] Testing payloads...")
 
     try:
-        session_id = utils.loginDVWA()
+        session_id = loginDVWA()
 
         for i, item in enumerate(payloads, 0):
             payload = item.payload
             attack_type = item.attack_type
-            result = utils.attack(attack_type, payload, session_id)
+            result = attack(attack_type, payload, session_id)
             payloads[i].bypassed = not result.blocked
             payloads[i].status_code = result.status_code
             status = "⚠️  BYPASSED" if not result.blocked else "✅ BLOCKED"
@@ -159,13 +158,13 @@ def main():
     # Generate
     p_gen = subparsers.add_parser('generate')
     p_gen.add_argument('-d', '--domain', required=True)
-    p_gen.add_argument('-t', '--type', required=True, choices=utils.VALID_ATTACK_TYPES)
+    p_gen.add_argument('-t', '--type', required=True, choices=VALID_ATTACK_TYPES)
     p_gen.add_argument('-n', '--num', type=int, default=5)
 
     # Attack (full workflow)
     p_attack = subparsers.add_parser('attack')
     p_attack.add_argument('-d', '--domain', required=True)
-    p_attack.add_argument('-t', '--type', required=True, choices=utils.VALID_ATTACK_TYPES)
+    p_attack.add_argument('-t', '--type', required=True, choices=VALID_ATTACK_TYPES)
     p_attack.add_argument('-n', '--num', type=int, default=5)
     p_attack.add_argument('-o', '--output', help='Output JSON file')
 

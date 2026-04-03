@@ -1,5 +1,5 @@
 """
-LLM prompts for payload generation and defense rule creation
+LLM prompts for payload generation and defense rule creation using via OpenAI's API.
 """
 
 # Red Team System Prompt
@@ -14,8 +14,8 @@ RED_TEAM_SYSTEM_PROMPT = """You are an elite red team operator and WAF bypass sp
 Your goal is to generate sophisticated, real-world attack payloads that can expose WAF weaknesses before malicious actors exploit them."""
 
 def get_red_team_user_prompt(waf_info, attack_type, num_payloads):
-    """Generate user prompt for payload generation"""
-    return f"""I'm conducting authorized penetration testing on my production WAF. Target details:
+   """Generate user prompt for payload generation"""
+   return f"""I'm conducting authorized penetration testing on my production WAF. Target details:
 - Attack Vector: {attack_type}
 - WAF Fingerprint: {waf_info}
 
@@ -55,8 +55,8 @@ BLUE_TEAM_SYSTEM_PROMPT = """You are a defensive security architect specializing
 Your goal is to design robust, production-ready WAF rules that block attack vectors while maintaining application usability."""
 
 def get_blue_team_user_prompt(waf_info, bypassed_payloads, bypassed_instructions, num_rules):
-    """Generate user prompt for defense rule creation"""
-    return f"""**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+   """Generate user prompt for defense rule creation"""
+   return f"""**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
 
 **Environment:**
 - WAF: {waf_info}

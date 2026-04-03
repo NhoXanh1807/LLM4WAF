@@ -17,7 +17,7 @@ from typing import Optional
 from dataclasses import dataclass, field
 
 try:
-    import google.generativeai as genai
+    import google.genai as genai
 except ImportError:
     genai = None
 
