@@ -10,7 +10,8 @@ from typing import List, Dict, Any, Optional
 from sentence_transformers import CrossEncoder
 from langchain_community.vectorstores import FAISS
 from langchain_community.document_loaders import TextLoader, PyPDFLoader, Docx2txtLoader
-from langchain_community.embeddings import HuggingFaceEmbeddings
+#from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 import torch
@@ -20,7 +21,7 @@ class CrossEncoderReranker:
     """Re-rank retrieved documents using cross-encoder"""
     
     def __init__(self, model_name: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"):
-        self.model = CrossEncoder(model_name)
+        self.model = CrossEncoder(model_name, device="cuda")
     
     def rerank(self, query: str, documents: List[Document], top_k: int = 3) -> List[tuple]:
         """Re-rank documents based on relevance to query"""
@@ -244,7 +245,7 @@ class RAGDefenseService:
             print("[1/4] Loading embeddings model...")
             embeddings = HuggingFaceEmbeddings(
                 model_name="sentence-transformers/all-mpnet-base-v2",
-                model_kwargs={"device": "cpu"}
+                model_kwargs={"device": "cuda"}
             )
             print("      Embeddings ready")
             
