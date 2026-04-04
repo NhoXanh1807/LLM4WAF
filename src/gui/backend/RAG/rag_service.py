@@ -14,6 +14,7 @@ from langchain_community.document_loaders import TextLoader, PyPDFLoader, Docx2t
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+import torch
 
 
 class CrossEncoderReranker:
@@ -280,11 +281,15 @@ class RAGDefenseService:
         print(f"      Created {len(chunks)} chunks")
         
         print("[3/4] Creating vector store...")
+        embedding_kwargs = {"device": "cpu"}
+        if torch.cuda.is_available():
+            embedding_kwargs["device"] = "cuda"
         embeddings = HuggingFaceEmbeddings(
             model_name="sentence-transformers/all-mpnet-base-v2",
-            model_kwargs={"device": "cuda"}
+            model_kwargs=embedding_kwargs
         )
         
+        print("      Generating embeddings and building FAISS index...")
         self.vector_store = FAISS.from_documents(chunks, embeddings)
         
         print("      Saving vector store to disk...")
@@ -292,7 +297,6 @@ class RAGDefenseService:
         self.vector_store.save_local(self.vector_store_path)
         
         self.index_manager.save_current_index()
-        
         print("      Vector store ready and saved")
         
         self.retriever = self.vector_store.as_retriever(search_kwargs={"k": 10})

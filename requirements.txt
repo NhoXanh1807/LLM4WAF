@@ -25,3 +25,4 @@ docx2txt
 pypdf
 sqlglot
 google.genai
+ngrok

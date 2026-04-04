@@ -6,6 +6,7 @@ const Call = async (path, method, body = null, headers = {}) => {
         credentials: "include",
         headers: {
             ...headers,
+            "ngrok-skip-browser-warning": "true",
         },
         body: body ? JSON.stringify(body) : null,
     };
