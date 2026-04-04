@@ -16,7 +16,7 @@ from wafw00f.main import WAFW00F
 from services.generator import PayloadResult, generate_payload_phase1, generate_payload_phase3
 from services_external.dvwa import loginDVWA, attack, VALID_ATTACK_TYPES, DVWA_ATTACK_FUNC
 from services.generator import PayloadResult
-from config.settings import DEFAULT_NUM_DEFENSE_RULES
+from config.settings import DEFAULT_NUM_DEFENSE_RULES, NGROK_AUTHTOKEN, NGROK_DOMAIN
 
 # Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> Gemini
 from defense.defense_pipeline import DefensePipeline
@@ -36,7 +36,7 @@ def _get_pipeline() -> DefensePipeline:
             enable_clustering=True,
         )
     return _defense_pipeline
-
+_get_pipeline()
 
 _WAF_NAME_MAP = {
     "modsecurity": WAFType.MODSECURITY,
@@ -72,7 +72,7 @@ def api_attack():
             return jsonify({"error": "Missing 'domain' field"}), 400
 
         if not domain.startswith("http://") and not domain.startswith("https://"):
-            domain = "https://" + domain
+            domain = "http://" + domain
         
         if attack_type not in VALID_ATTACK_TYPES:
             return jsonify({"error": "'attack_type' must be in " + str(VALID_ATTACK_TYPES)}), 400

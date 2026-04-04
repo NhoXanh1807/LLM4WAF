@@ -40,7 +40,7 @@ def chatgpt_completion(messages=[], model=None, response_format=None):
     response = requests.post(url, headers=headers, json=body)
     return response.json()
 
-NGROK_STATIC_ENDPOINT = "https://overrigged-savingly-nelle.ngrok-free.dev"
+LLMSHIELD_ENDPOINT = "http://127.0.0.1:89/llm"
 
 def llmshield_build_prompt(waf_name: str, attack_type: str, technique: str, probe_history: list[PayloadResult]|None = None) -> str:
     data = {
@@ -49,7 +49,7 @@ def llmshield_build_prompt(waf_name: str, attack_type: str, technique: str, prob
         "technique": technique,
         "probe_history": [asdict(p) for p in probe_history] if probe_history is not None else None
     }
-    url = NGROK_STATIC_ENDPOINT + "?action=" + "build_prompt"
+    url = LLMSHIELD_ENDPOINT + "?action=" + "build_prompt"
     response = requests.post(url, json=data)
     return response.text
 
@@ -60,7 +60,7 @@ def llmshield_generate_response(prompt: str, max_new_tokens: int = 128, temperat
         "adapter_name": adapter_name,
         "prompt": prompt,
     }
-    url = NGROK_STATIC_ENDPOINT + "?action=" + "generate"
+    url = LLMSHIELD_ENDPOINT + "?action=" + "generate"
     response = requests.post(url, json=data)
     return response.text
 
@@ -74,6 +74,6 @@ def llmshield_generate_payloads(waf_name: str, attack_type: str, techniques: str
         "adapter_name": adapter_name,
         "probe_history": [asdict(p) for p in probe_history] if probe_history is not None else None,
     }
-    url = NGROK_STATIC_ENDPOINT + "?action=" + "generate_payload"
+    url = LLMSHIELD_ENDPOINT + "?action=" + "generate_payload"
     response = requests.post(url, json=data)
     return response.text
