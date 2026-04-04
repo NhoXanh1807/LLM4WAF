@@ -2,9 +2,9 @@
 OpenAI API client service for LLM interactions
 """
 
-import json
-
 import requests
+from dataclasses import asdict
+from classes import PayloadResult
 try:
     from ..config.settings import OPENAI_API_KEY, OPENAI_MODEL
 except ImportError:
@@ -40,25 +40,28 @@ def chatgpt_completion(messages=[], model=None, response_format=None):
     response = requests.post(url, headers=headers, json=body)
     return response.json()
 
-def llmshield_build_prompt(waf_name: str, attack_type: str, technique: str, probe_history: list|None = None) -> str:
+NGROK_STATIC_ENDPOINT = "https://overrigged-savingly-nelle.ngrok-free.dev"
+
+def llmshield_build_prompt(waf_name: str, attack_type: str, technique: str, probe_history: list[PayloadResult]|None = None) -> str:
     data = {
         "waf_name": waf_name,
         "attack_type": attack_type,
         "technique": technique,
-        "probe_history": probe_history
+        "probe_history": [asdict(p) for p in probe_history] if probe_history is not None else None
     }
-    url = "http://api.akng.io.vn:89/llm?action=build_prompt"
-    response = requests.post(url, params=json.dumps(data))
+    url = NGROK_STATIC_ENDPOINT + "?action=" + "build_prompt"
+    response = requests.post(url, json=data)
     return response.text
 
 def llmshield_generate_response(prompt: str, max_new_tokens: int = 128, temperature: float = 0.7, adapter_name: str = "phase1") -> dict:
     data = {
         "max_new_tokens": max_new_tokens,
         "temperature": temperature,
-        "adapter_name": adapter_name
+        "adapter_name": adapter_name,
+        "prompt": prompt,
     }
-    url = "http://api.akng.io.vn:89/llm?action=generate"
-    response = requests.post(url, params=data, data=prompt)
+    url = NGROK_STATIC_ENDPOINT + "?action=" + "generate"
+    response = requests.post(url, json=data)
     return response.text
 
 def llmshield_generate_payloads(waf_name: str, attack_type: str, techniques: str, probe_history: list|None = None, max_new_tokens: int = 128, temperature: float = 0.7, adapter_name: str = "phase1") -> dict:
@@ -66,12 +69,11 @@ def llmshield_generate_payloads(waf_name: str, attack_type: str, techniques: str
         "waf_name": waf_name,
         "attack_type": attack_type,
         "technique": techniques,
-        "probe_history": probe_history,
         "max_new_tokens": max_new_tokens,
         "temperature": temperature,
-        "adapter_name": adapter_name
+        "adapter_name": adapter_name,
+        "probe_history": [asdict(p) for p in probe_history] if probe_history is not None else None,
     }
-    url = "http://api.akng.io.vn:89/llm?action=generate_payload"
-    response = requests.post(url, params=data)
+    url = NGROK_STATIC_ENDPOINT + "?action=" + "generate_payload"
+    response = requests.post(url, json=data)
     return response.text
-

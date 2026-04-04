@@ -6,18 +6,12 @@ import json
 import random
 from typing import List
 from services_external import llm
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from config.settings import OPENAI_MODEL, DEFAULT_NUM_DEFENSE_RULES
 from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt, get_blue_team_user_prompt, build_adaptive_prompt
 from RAG.rag_service import enhance_defense_generation
+from classes import PayloadResult
 
-@dataclass
-class PayloadResult:
-    payload: str
-    technique: str
-    attack_type: str
-    bypassed: bool
-    status_code: int = None
 
 def _generate_phase1_openai(waf_info, attack_type, num_of_payloads, technique) -> List[PayloadResult]:
     """Fallback: generate Phase 1 payloads using GPT-4o when no GPU."""
