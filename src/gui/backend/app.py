@@ -97,11 +97,12 @@ def api_attack():
         # Test each payload against the target domain
         for i in range(len(payloads)):
             payload = payloads[i]
+            print(f"[DVWA-Check] {i+1}/{len(payloads)} : {payload.payload}")
             attack_func = DVWA_ATTACK_FUNC.get(payload.attack_type)
             result = attack_func(payload.payload, session_id, base_url=domain)
             payload.bypassed = not result.blocked
             payload.status_code = result.status_code
-            print(f"Tested {i+1}/{len(payloads)} -> {('BYPASSED' if payload.bypassed else 'BLOCKED')} code({payload.status_code}) : {payload.payload}")
+            print(f"\t{('BYPASSED' if payload.bypassed else 'BLOCKED')} code({payload.status_code})")
 
         # Auto-generate defense rules via full pipeline if any payload bypassed
         bypassed_payloads = [payload.payload for payload in payloads if payload.bypassed]
@@ -110,7 +111,7 @@ def api_attack():
             print("Generating defense rules for bypassed payloads...")
             pipeline_result = _get_pipeline().generate_defense_rules(
                 bypassed_payloads=bypassed_payloads,
-                waf_info={"waf_name": waf_name},
+                waf_name=waf_name,
                 waf_type=_map_waf_type(waf_name),
                 num_rules=DEFAULT_NUM_DEFENSE_RULES,
             )
@@ -196,11 +197,11 @@ def api_defend():
         if not waf_info or not bypassed_payloads:
             return jsonify({"error": "Missing 'waf_info' or 'bypassed_payloads' field"}), 400
 
-        waf_name = waf_info if isinstance(waf_info, str) else waf_info.get("waf_name", "")
+        waf_name = dict.get(waf_info, "name", dict.get(waf_info, "waf_name", str(waf_info)))
 
         pipeline_result = _get_pipeline().generate_defense_rules(
             bypassed_payloads=bypassed_payloads,
-            waf_info={"waf_name": waf_name},
+            waf_name=waf_name,
             waf_type=_map_waf_type(waf_name),
             num_rules=num_rules,
         )

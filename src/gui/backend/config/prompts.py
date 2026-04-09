@@ -13,11 +13,11 @@ RED_TEAM_SYSTEM_PROMPT = """You are an elite red team operator and WAF bypass sp
 
 Your goal is to generate sophisticated, real-world attack payloads that can expose WAF weaknesses before malicious actors exploit them."""
 
-def get_red_team_user_prompt(waf_info, attack_type, num_payloads):
+def get_red_team_user_prompt(waf_name, attack_type, num_payloads):
    """Generate user prompt for payload generation"""
    return f"""I'm conducting authorized penetration testing on my production WAF. Target details:
 - Attack Vector: {attack_type}
-- WAF Fingerprint: {waf_info}
+- WAF Fingerprint: {waf_name}
 
 Generate {num_payloads} ADVANCED payloads designed to bypass this specific WAF using:
 
@@ -54,14 +54,16 @@ BLUE_TEAM_SYSTEM_PROMPT = """You are a defensive security architect specializing
 
 Your goal is to design robust, production-ready WAF rules that block attack vectors while maintaining application usability."""
 
-def get_blue_team_user_prompt(waf_info, bypassed_payloads, bypassed_instructions, num_rules):
+def get_blue_team_user_prompt(waf_name, bypassed_payloads:list, bypassed_instructions:list, num_rules):
    """Generate user prompt for defense rule creation"""
    return f"""**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
 
 **Environment:**
-- WAF: {waf_info}
-- Bypassed Payloads: {bypassed_payloads}
-- Attack Techniques Used: {bypassed_instructions}
+- WAF: {waf_name}
+- Bypassed Payloads: 
+{'\n\t'.join(bypassed_payloads)}
+- Attack Techniques Used: 
+{'\n\t'.join(bypassed_instructions)}
 
 Generate {num_rules} PRODUCTION-GRADE defense rules to block these bypasses:
 
@@ -92,7 +94,7 @@ Generate {num_rules} PRODUCTION-GRADE defense rules to block these bypasses:
 - Deployment phase
 - Testing methodology"""
 
-def build_adaptive_prompt(waf_info, attack_type, blocked_examples, passed_examples, technique):
+def build_adaptive_prompt(waf_name, attack_type, blocked_examples, passed_examples, technique):
       """Build Phase 3 style prompt with BLOCKED/PASSED examples"""
       
       # Format examples
@@ -103,7 +105,7 @@ def build_adaptive_prompt(waf_info, attack_type, blocked_examples, passed_exampl
       
       prompt = f"""Generate WAF-evasion payloads.
 
-Target: {attack_str} on {waf_info}.
+Target: {attack_str} on {waf_name}.
 Technique: {technique}
 
 [Observations]

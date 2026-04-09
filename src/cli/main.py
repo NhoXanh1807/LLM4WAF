@@ -60,10 +60,10 @@ def detect_waf(domain) -> str:
         return None
 
 
-def generate_payloads(waf_info, attack_type, num) -> List[PayloadResult]:
+def generate_payloads(waf_name, attack_type, num) -> List[PayloadResult]:
     print(f"\n[*] Generating {num} {attack_type} payloads...")
     try:
-        payloads = generate_payload_phase1(waf_info, attack_type, num)
+        payloads = generate_payload_phase1(waf_name, attack_type, num)
         print(f"[+] Generated {len(payloads)} payloads")
         for i, p in enumerate(payloads, 1):
             print(f"\n  [{i}] {p.payload}")
@@ -116,7 +116,7 @@ def _get_pipeline() -> DefensePipeline:
     return _pipeline
 
 
-def generate_defense(waf_info, payload_results: List[PayloadResult]) -> List[dict]:
+def generate_defense(waf_name, payload_results: List[PayloadResult]) -> List[dict]:
     bypassed = [r for r in payload_results if r.bypassed]
     if not bypassed:
         print("\n[+] No bypassed payloads! WAF is secure.")
@@ -126,8 +126,8 @@ def generate_defense(waf_info, payload_results: List[PayloadResult]) -> List[dic
     try:
         pipeline_result = _get_pipeline().generate_defense_rules(
             bypassed_payloads=[r.payload for r in bypassed],
-            waf_info={"waf_name": waf_info},
-            waf_type=_map_waf_type(waf_info),
+            waf_name=waf_name,
+            waf_type=_map_waf_type(waf_name),
         )
 
         rules = [r.to_dict() for r in pipeline_result.final_rules]
@@ -185,20 +185,20 @@ def main():
         detect_waf(args.domain)
 
     elif args.cmd == 'generate':
-        waf = detect_waf(args.domain)
-        generate_payloads(waf, args.type, args.num)
+        waf_name = detect_waf(args.domain)
+        generate_payloads(waf_name, args.type, args.num)
 
     elif args.cmd == 'attack':
-        waf = detect_waf(args.domain)
-        payloads = generate_payloads(waf, args.type, args.num)
+        waf_name = detect_waf(args.domain)
+        payloads = generate_payloads(waf_name, args.type, args.num)
         payloads = test_payloads(payloads, args.type)
-        rules = generate_defense(waf, payloads)
+        rules = generate_defense(waf_name, payloads)
 
         if args.output:
             with open(args.output, 'w') as f:
                 json.dump({
                     'domain': args.domain,
-                    'waf_info': waf,
+                    'waf_name': waf_name,
                     'results': [vars(p) if hasattr(p, '__dict__') else p for p in payloads],
                     'defense_rules': rules,
                 }, f, indent=2, default=str)

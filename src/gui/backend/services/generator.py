@@ -6,18 +6,18 @@ import json
 import random
 from typing import List
 from services_external import llm
+from services import rag
 from dataclasses import asdict
 from config.settings import OPENAI_MODEL, DEFAULT_NUM_DEFENSE_RULES
 from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, RED_TEAM_SYSTEM_PROMPT, get_red_team_user_prompt, get_blue_team_user_prompt, build_adaptive_prompt
-from RAG.rag_service import enhance_defense_generation
 from classes import PayloadResult
 
 
-def _generate_phase1_openai(waf_info, attack_type, num_of_payloads, technique) -> List[PayloadResult]:
+def _generate_phase1_openai(waf_name, attack_type, num_of_payloads, technique) -> List[PayloadResult]:
     """Fallback: generate Phase 1 payloads using GPT-4o when no GPU."""
     messages = [
         {"role": "system", "content": RED_TEAM_SYSTEM_PROMPT},
-        {"role": "user", "content": get_red_team_user_prompt(waf_info, attack_type, num_of_payloads)}
+        {"role": "user", "content": get_red_team_user_prompt(waf_name, attack_type, num_of_payloads)}
     ]
     response_format = {
         "type": "json_schema",
@@ -134,13 +134,14 @@ def generate_payload_phase1(waf_name:str, attack_type, num_of_payloads=1) -> Lis
             selected_techniques = random.sample(techniques["sqli"], random.randint(1, int(len(techniques["sqli"])/2)))
         technique = "+".join(selected_techniques)
         
-        print(f"[No history] Generating {i}/{num_of_payloads} {attack_type} using {technique}")
+        print(f"[RANDOM-PAYLOAD] {i}/{num_of_payloads} | {attack_type} | {technique}")
         payload = llm.llmshield_generate_payloads(
             waf_name=waf_name,
             attack_type=attack_type,
             techniques=technique,
             adapter_name="phase1"
         )
+        print(f"\t{payload}")
         
         results.append(PayloadResult(
             payload=payload,
@@ -153,13 +154,14 @@ def generate_payload_phase1(waf_name:str, attack_type, num_of_payloads=1) -> Lis
 def generate_payload_phase3(waf_name, attack_type, num_of_payloads=1, probe_history: List[PayloadResult] = []) -> List[PayloadResult]:
     results = []
     for i in range(num_of_payloads):
-        print(f"[With history] Generating {i}/{num_of_payloads} {attack_type} using Adaptive Generation")
+        print(f"[ADAPTIVE-PAYLOAD] {i}/{num_of_payloads} | {attack_type} | {len(probe_history)} probe(s)")
         payload = llm.llmshield_generate_payloads(
             waf_name=waf_name,
             attack_type=attack_type,
             probe_history=[asdict(p) for p in probe_history],
             adapter_name="phase3_rl",
         )
+        print(f"\t{payload}")
         results.append(PayloadResult(
             payload=payload,
             technique="Adaptive Generation",
@@ -172,14 +174,14 @@ def generate_payload_phase3(waf_name, attack_type, num_of_payloads=1, probe_hist
 
 
 
-def generate_defend_rules_and_instructions(waf_info, bypassed_payloads, bypassed_instructions, 
+def generate_defend_rules_and_instructions(waf_name, bypassed_payloads, bypassed_instructions, 
     enable_rag=True, docs_folder="./docs/" , filter_rules_only=True):
     """
     Generate ModSecurity defense rules using GPT-4
     ENHANCED: Now supports RAG-based context enrichment
 
     Args:
-        waf_info (dict): WAF detection information
+        waf_name (str): WAF detection information
         bypassed_payloads (list): List of payloads that bypassed the WAF
         bypassed_instructions (list): Instructions for each bypassed payload
         enable_rag (bool): Whether to use RAG for context enhancement (default: True)
@@ -192,7 +194,7 @@ def generate_defend_rules_and_instructions(waf_info, bypassed_payloads, bypassed
 
     # Generate base user prompt using existing function
     base_user_prompt = get_blue_team_user_prompt(
-        json.dumps(waf_info),
+        waf_name,
         json.dumps(bypassed_payloads),
         json.dumps(bypassed_instructions),
         num_of_rules
@@ -200,8 +202,8 @@ def generate_defend_rules_and_instructions(waf_info, bypassed_payloads, bypassed
     
     # Enhance with RAG if enabled
     if enable_rag:
-        rag_result = enhance_defense_generation(
-            waf_info=waf_info,
+        rag_result = rag.enhance_defense_generation(
+            waf_name=waf_name,
             bypassed_payloads=bypassed_payloads,
             bypassed_instructions=bypassed_instructions,
             base_user_prompt=base_user_prompt,

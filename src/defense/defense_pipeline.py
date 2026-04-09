@@ -165,7 +165,7 @@ class DefensePipeline:
     def generate_defense_rules(
         self,
         bypassed_payloads: list[str],
-        waf_info: Optional[dict] = None,
+        waf_name: Optional[str] = None,
         waf_type: WAFType = WAFType.MODSECURITY,
         existing_rules: Optional[list[str]] = None,
         num_rules: int = 5,
@@ -176,7 +176,7 @@ class DefensePipeline:
 
         Args:
             bypassed_payloads: List of payloads that bypassed the WAF
-            waf_info: WAF information dict
+            waf_name: Name of the WAF
             waf_type: Target WAF type for generated rules
             existing_rules: Existing rules to avoid duplicates
             num_rules: Number of rules to generate
@@ -215,7 +215,7 @@ class DefensePipeline:
             generated_rules = self._generate_rules_with_llm(
                 payloads=bypassed_payloads,
                 clusters=clusters,
-                waf_info=waf_info or {},
+                waf_name=waf_name,
                 waf_type=waf_type,
                 num_rules=num_rules,
                 attack_type=attack_type,
@@ -351,7 +351,7 @@ class DefensePipeline:
         self,
         payloads: list[str],
         clusters: list[ClusterInfo],
-        waf_info: dict,
+        waf_name: str,
         waf_type: WAFType,
         num_rules: int,
         attack_type: str,
@@ -365,36 +365,41 @@ class DefensePipeline:
                 from services_external.llm import chatgpt_completion
                 from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
             except ImportError:
-                from gui.backend.services_external.llm import chatgpt_completion
+                from services_external.llm import chatgpt_completion
                 from gui.backend.config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
 
             # Build prompt
             base_prompt = get_blue_team_user_prompt(
-                waf_info=json.dumps(waf_info),
+                waf_name=waf_name,
                 bypassed_payloads=json.dumps(payloads[:20]),  # Limit for token efficiency
                 bypassed_instructions=json.dumps([f"Payload from cluster {c.cluster_id}" for c in clusters]),
                 num_rules=num_rules,
             )
+            print(f"[BASE DEFEND PROMPT]\n\t{base_prompt.replace('\n', '\n\t')}")
 
             # Enhance with RAG if enabled
             if self.enable_rag:
                 try:
                     try:
-                        from RAG.rag_service import enhance_defense_generation
+                        from services.rag import enhance_defense_generation
                     except ImportError:
-                        from gui.backend.RAG.rag_service import enhance_defense_generation
+                        from gui.backend.services.rag import enhance_defense_generation
 
                     rag_result = enhance_defense_generation(
-                        waf_info=waf_info,
+                        attack_type=attack_type,
+                        waf_name=waf_name,
                         bypassed_payloads=payloads,
-                        bypassed_instructions=[],
                         base_user_prompt=base_prompt,
-                        docs_folder=self.docs_folder,
-                        enable_rag=True,
                     )
                     user_prompt = rag_result["enhanced_prompt"]
+                    print("[RAG Results]")
+                    print(f"\tQueries: {rag_result.get('num_queries', 'N/A')}")
+                    print(f"\tDocs (all): {rag_result.get('num_docs_all', 'N/A')}")
+                    print(f"\tDocs (filtered): {rag_result.get('num_docs_filtered', 'N/A')}")
+                    print(f"\tSources: {len(rag_result.get('sources', []))}")
+                    print(f"[Enhanced Prompt with RAG]\n\t{user_prompt.replace('\n', '\n\t')}")
                 except Exception as e:
-                    print(f"      RAG enhancement failed: {e}, using base prompt")
+                    print(f"RAG enhancement failed, using base prompt: {e}")
                     user_prompt = base_prompt
             else:
                 user_prompt = base_prompt
@@ -502,7 +507,7 @@ class DefensePipeline:
             try:
                 from services_external.llm import chatgpt_completion
             except ImportError:
-                from gui.backend.services_external.llm import chatgpt_completion
+                from services_external.llm import chatgpt_completion
 
             for rule in invalid_rules[:self.max_retries]:  # Limit retries
                 fix_prompt = f"""The following WAF rule has a syntax error:

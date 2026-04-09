@@ -74,7 +74,7 @@ class AttackStatus(Enum):
 class AttackResult:
     """Basic attack result (backward compatible)."""
     status_code: int
-    blocked: bool
+    blocked: bool|None
 
 
 @dataclass
@@ -626,7 +626,7 @@ DVWA_ATTACK_FUNC = {
 }
 
 VALID_ATTACK_TYPES = [
-    "xss_dom", 
+    "xss_dom",
     "xss_reflected", 
     "xss_stored", 
     "sql_injection", 
@@ -636,6 +636,10 @@ VALID_ATTACK_TYPES = [
 def attack(type : str, payload : str, session_id : str, base_url : str = None) -> AttackResult:
     func = DVWA_ATTACK_FUNC.get(type)
     if func:
-        return func(payload, session_id, base_url=base_url)
+        try:
+            return func(payload, session_id, base_url=base_url)
+        except Exception as e:
+            print(f"Error executing attack {type}: {str(e)}")
+            return AttackResult(status_code=0, blocked=None)
     else:
         raise ValueError(f"Invalid attack type: {type}")
