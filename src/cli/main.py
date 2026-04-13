@@ -14,7 +14,7 @@ from typing import List
 sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from gui.backend.services.generator import PayloadResult, generate_payload_phase1, generate_payload_phase3, generate_defend_rules_and_instructions
+from gui.backend.services.generator import PayloadResult, generate_payloads_phase1, generate_payloads_phase3, generate_defend_rules_and_instructions
 from gui.backend.services_external.dvwa import loginDVWA, attack, VALID_ATTACK_TYPES
 from wafw00f.main import WAFW00F
 from defense.defense_pipeline import DefensePipeline
@@ -63,7 +63,7 @@ def detect_waf(domain) -> str:
 def generate_payloads(waf_name, attack_type, num) -> List[PayloadResult]:
     print(f"\n[*] Generating {num} {attack_type} payloads...")
     try:
-        payloads = generate_payload_phase1(waf_name, attack_type, num)
+        payloads = generate_payloads_phase1(waf_name, attack_type, num)
         print(f"[+] Generated {len(payloads)} payloads")
         for i, p in enumerate(payloads, 1):
             print(f"\n  [{i}] {p.payload}")

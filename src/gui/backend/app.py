@@ -13,7 +13,7 @@ if _SRC_DIR not in sys.path:
 
 # from waf_detector import detect_waf
 from wafw00f.main import WAFW00F
-from services.generator import PayloadResult, generate_payload_phase1, generate_payload_phase3
+from services.generator import PayloadResult, generate_payloads_phase1, generate_payloads_phase3
 from services_external.dvwa import loginDVWA, attack, VALID_ATTACK_TYPES, DVWA_ATTACK_FUNC
 from services.generator import PayloadResult
 from config.settings import DEFAULT_NUM_DEFENSE_RULES, NGROK_AUTHTOKEN, NGROK_DOMAIN
@@ -83,11 +83,11 @@ def api_attack():
         waf_name = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
 
         if len(probe_history) <= 0:
-            payloads = generate_payload_phase1(
+            payloads = generate_payloads_phase1(
                 waf_name, attack_type, num_of_payloads=num_payloads
             )  # type: List[PayloadResult]
         else:
-            payloads = generate_payload_phase3(
+            payloads = generate_payloads_phase3(
                 waf_name, attack_type, num_of_payloads=num_payloads, probe_history=probe_history
             )  # type: List[PayloadResult]
 
