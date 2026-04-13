@@ -64,5 +64,9 @@ def llmshield_generate_payloads(waf_name: str, attack_type: str, techniques: str
         "probe_history": probe_history,
     }
     url = LLMSHIELD_ENDPOINT + "?action=" + "generate_payload"
-    response = requests.post(url, json=data)
-    return response.text
+    while True:
+        try:
+            response = requests.post(url, json=data)
+            return response.text
+        except Exception as e:
+            continue
