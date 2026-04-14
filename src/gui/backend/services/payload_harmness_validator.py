@@ -10,27 +10,27 @@ from dataclasses import dataclass
 PAYLOAD_PLACEHOLDER = "###payload###"
 SQL_INJECTTION_CONTEXTS = {
     "STRING": [
-        f"SELECT * FROM users WHERE username = '{PAYLOAD_PLACEHOLDER}'",
-        f"SELECT * FROM users WHERE email = '{PAYLOAD_PLACEHOLDER}' AND active = 1",
+        (f"SELECT * FROM users WHERE username = '{PAYLOAD_PLACEHOLDER}'", "1"),
+        (f"SELECT * FROM users WHERE email = '{PAYLOAD_PLACEHOLDER}' AND active = 1", "1"),
     ],
     "NUMERIC": [
-        f"SELECT * FROM users WHERE id = {PAYLOAD_PLACEHOLDER}",
-        f"SELECT * FROM orders WHERE amount > {PAYLOAD_PLACEHOLDER} AND active = 1",
-        f"SELECT * FROM users LIMIT {PAYLOAD_PLACEHOLDER}",
-        f"SELECT * FROM products LIMIT 10 OFFSET {PAYLOAD_PLACEHOLDER}",
-        f"SELECT * FROM orders LIMIT {PAYLOAD_PLACEHOLDER} OFFSET 0",
+        (f"SELECT * FROM users WHERE id = {PAYLOAD_PLACEHOLDER}", "1"),
+        (f"SELECT * FROM orders WHERE amount > {PAYLOAD_PLACEHOLDER} AND active = 1", "1"),
+        (f"SELECT * FROM users LIMIT {PAYLOAD_PLACEHOLDER}", "10"),
+        (f"SELECT * FROM products LIMIT 10 OFFSET {PAYLOAD_PLACEHOLDER}", "10"),
+        (f"SELECT * FROM orders LIMIT {PAYLOAD_PLACEHOLDER} OFFSET 0", "10"),
     ],
     "IDENTIFIER": [
-        f"SELECT * FROM users ORDER BY {PAYLOAD_PLACEHOLDER}",
-        f"SELECT * FROM users ORDER BY {PAYLOAD_PLACEHOLDER} DESC",
-        f"SELECT * FROM {PAYLOAD_PLACEHOLDER} WHERE active = 1",
-        f"SELECT * FROM users WHERE {PAYLOAD_PLACEHOLDER} IS NOT NULL",
+        (f"SELECT * FROM users ORDER BY {PAYLOAD_PLACEHOLDER}", "name"),
+        (f"SELECT * FROM users ORDER BY {PAYLOAD_PLACEHOLDER} DESC", "name"),
+        (f"SELECT * FROM {PAYLOAD_PLACEHOLDER} WHERE active = 1", "users"),
+        (f"SELECT * FROM users WHERE {PAYLOAD_PLACEHOLDER} IS NOT NULL", "name"),
     ],
     "COLUMN_LIST": [
-        f"SELECT {PAYLOAD_PLACEHOLDER} FROM users",
+        (f"SELECT {PAYLOAD_PLACEHOLDER} FROM users", "name"),
     ],
     "ASC_DESC": [
-        f"SELECT * FROM users ORDER BY id {PAYLOAD_PLACEHOLDER}",
+        (f"SELECT * FROM users ORDER BY id {PAYLOAD_PLACEHOLDER}", "DESC"),
     ],
 }
 
@@ -45,7 +45,7 @@ class EvaluateSQLResult:
 class EvaluateXSSResult:
     payload: str
     is_safe: bool = None
-    harms: None
+    harms: dict|None = None
     
 HOMOGLYPH_MAP = {
     'а': 'a', 'ɑ': 'a', 'α': 'a', 'ａ': 'a',#
@@ -173,9 +173,9 @@ def evaluate_sql_payload(payload) -> EvaluateSQLResult:
     payload, decode_stack = _fully_decode_payload(payload)
     result = EvaluateSQLResult(payload, safe_queries=[], harm_queries=[], error_queries=[])
     for context in SQL_INJECTTION_CONTEXTS:
-        for template in SQL_INJECTTION_CONTEXTS[context]:
+        for template, safe_payload in SQL_INJECTTION_CONTEXTS[context]:
             test_sql = template.replace(PAYLOAD_PLACEHOLDER, payload)
-            safe_sql = template.replace(PAYLOAD_PLACEHOLDER, "1")
+            safe_sql = template.replace(PAYLOAD_PLACEHOLDER, safe_payload)
             test_tree = _try_parse_sql_ast(test_sql)
             safe_tree = _try_parse_sql_ast(safe_sql)
             # Payload phá vỡ cú pháp SQL
