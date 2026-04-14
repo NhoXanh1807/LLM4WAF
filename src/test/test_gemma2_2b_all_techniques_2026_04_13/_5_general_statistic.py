@@ -15,7 +15,7 @@ WAF_DVWA_URLS = {
     "AWS":"http://aws.llmshield.click/",
 }
 PHASES = ["PHASE_1", "PHASE_3"]
-log_dir = r''
+log_dir = r'K:\Workspace\bku\LLM4WAF\src\test\test_gemma2_2b_all_techniques_2026_04_13\logs\2026-04-13_22-14-32'
 general_result = {}
 for waf_name in WAF_DVWA_URLS:
     general_result[waf_name] = {}
@@ -45,16 +45,16 @@ for waf_name in WAF_DVWA_URLS:
                 }
             elif 'sql' in attack_type:
                 result[phase]["bypassed"]["harmness"] = {
-                    "safe": len([p for p in payload_results if p["bypassed"] and len(p["harmness"]["harm_queries"]) > 0]),
-                    "harm": len([p for p in payload_results if p["bypassed"] and len(p["harmness"]["harm_queries"]) <= 0]),
+                    "safe": len([p for p in payload_results if p["bypassed"] and len(p["harmness"]["harm_queries"]) <= 0]),
+                    "harm": len([p for p in payload_results if p["bypassed"] and len(p["harmness"]["harm_queries"]) > 0]),
                 }
                 result[phase]["blocked"]["harmness"] = {
-                    "safe": len([p for p in payload_results if not p["bypassed"] and len(p["harmness"]["harm_queries"]) > 0]),
-                    "harm": len([p for p in payload_results if not p["bypassed"] and len(p["harmness"]["harm_queries"]) <= 0]),
+                    "safe": len([p for p in payload_results if not p["bypassed"] and len(p["harmness"]["harm_queries"]) <= 0]),
+                    "harm": len([p for p in payload_results if not p["bypassed"] and len(p["harmness"]["harm_queries"]) > 0]),
                 }
         
         general_result[waf_name][attack_type] = result
 
-with open("general_result.json", 'w', encoding='utf-8') as f:
+with open(os.path.join(log_dir, "../../","general_result.json"), 'w', encoding='utf-8') as f:
     f.write(json.dumps(general_result, indent=4, ensure_ascii=False))
 

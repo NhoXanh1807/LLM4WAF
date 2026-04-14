@@ -114,15 +114,15 @@
                 "bypassed": {
                     "total_payload": 18,
                     "harmness": {
-                        "safe": 11,
-                        "harm": 7
+                        "safe": 7,
+                        "harm": 11
                     }
                 },
                 "blocked": {
                     "total_payload": 32,
                     "harmness": {
-                        "safe": 27,
-                        "harm": 5
+                        "safe": 5,
+                        "harm": 27
                     }
                 }
             },
@@ -131,15 +131,15 @@
                 "bypassed": {
                     "total_payload": 45,
                     "harmness": {
-                        "safe": 26,
-                        "harm": 19
+                        "safe": 19,
+                        "harm": 26
                     }
                 },
                 "blocked": {
                     "total_payload": 5,
                     "harmness": {
-                        "safe": 5,
-                        "harm": 0
+                        "safe": 0,
+                        "harm": 5
                     }
                 }
             }
@@ -150,15 +150,15 @@
                 "bypassed": {
                     "total_payload": 24,
                     "harmness": {
-                        "safe": 7,
-                        "harm": 17
+                        "safe": 17,
+                        "harm": 7
                     }
                 },
                 "blocked": {
                     "total_payload": 26,
                     "harmness": {
-                        "safe": 20,
-                        "harm": 6
+                        "safe": 6,
+                        "harm": 20
                     }
                 }
             },
@@ -167,15 +167,15 @@
                 "bypassed": {
                     "total_payload": 42,
                     "harmness": {
-                        "safe": 16,
-                        "harm": 26
+                        "safe": 26,
+                        "harm": 16
                     }
                 },
                 "blocked": {
                     "total_payload": 8,
                     "harmness": {
-                        "safe": 8,
-                        "harm": 0
+                        "safe": 0,
+                        "harm": 8
                     }
                 }
             }
@@ -296,15 +296,15 @@
                 "bypassed": {
                     "total_payload": 1,
                     "harmness": {
-                        "safe": 1,
-                        "harm": 0
+                        "safe": 0,
+                        "harm": 1
                     }
                 },
                 "blocked": {
                     "total_payload": 49,
                     "harmness": {
-                        "safe": 29,
-                        "harm": 20
+                        "safe": 20,
+                        "harm": 29
                     }
                 }
             },
@@ -313,15 +313,15 @@
                 "bypassed": {
                     "total_payload": 26,
                     "harmness": {
-                        "safe": 20,
-                        "harm": 6
+                        "safe": 6,
+                        "harm": 20
                     }
                 },
                 "blocked": {
                     "total_payload": 24,
                     "harmness": {
-                        "safe": 17,
-                        "harm": 7
+                        "safe": 7,
+                        "harm": 17
                     }
                 }
             }
@@ -332,15 +332,15 @@
                 "bypassed": {
                     "total_payload": 1,
                     "harmness": {
-                        "safe": 0,
-                        "harm": 1
+                        "safe": 1,
+                        "harm": 0
                     }
                 },
                 "blocked": {
                     "total_payload": 49,
                     "harmness": {
-                        "safe": 37,
-                        "harm": 12
+                        "safe": 12,
+                        "harm": 37
                     }
                 }
             },
@@ -349,15 +349,15 @@
                 "bypassed": {
                     "total_payload": 19,
                     "harmness": {
-                        "safe": 14,
-                        "harm": 5
+                        "safe": 5,
+                        "harm": 14
                     }
                 },
                 "blocked": {
                     "total_payload": 31,
                     "harmness": {
-                        "safe": 20,
-                        "harm": 11
+                        "safe": 11,
+                        "harm": 20
                     }
                 }
             }
@@ -478,15 +478,15 @@
                 "bypassed": {
                     "total_payload": 14,
                     "harmness": {
-                        "safe": 6,
-                        "harm": 8
+                        "safe": 8,
+                        "harm": 6
                     }
                 },
                 "blocked": {
                     "total_payload": 36,
                     "harmness": {
-                        "safe": 29,
-                        "harm": 7
+                        "safe": 7,
+                        "harm": 29
                     }
                 }
             },
@@ -495,15 +495,15 @@
                 "bypassed": {
                     "total_payload": 41,
                     "harmness": {
-                        "safe": 28,
-                        "harm": 13
+                        "safe": 13,
+                        "harm": 28
                     }
                 },
                 "blocked": {
                     "total_payload": 9,
                     "harmness": {
-                        "safe": 5,
-                        "harm": 4
+                        "safe": 4,
+                        "harm": 5
                     }
                 }
             }
@@ -514,15 +514,15 @@
                 "bypassed": {
                     "total_payload": 15,
                     "harmness": {
-                        "safe": 4,
-                        "harm": 11
+                        "safe": 11,
+                        "harm": 4
                     }
                 },
                 "blocked": {
                     "total_payload": 35,
                     "harmness": {
-                        "safe": 27,
-                        "harm": 8
+                        "safe": 8,
+                        "harm": 27
                     }
                 }
             },
@@ -531,15 +531,15 @@
                 "bypassed": {
                     "total_payload": 45,
                     "harmness": {
-                        "safe": 32,
-                        "harm": 13
+                        "safe": 13,
+                        "harm": 32
                     }
                 },
                 "blocked": {
                     "total_payload": 5,
                     "harmness": {
-                        "safe": 5,
-                        "harm": 0
+                        "safe": 0,
+                        "harm": 5
                     }
                 }
             }
@@ -660,8 +660,8 @@
                 "bypassed": {
                     "total_payload": 50,
                     "harmness": {
-                        "safe": 36,
-                        "harm": 14
+                        "safe": 14,
+                        "harm": 36
                     }
                 },
                 "blocked": {
@@ -677,8 +677,8 @@
                 "bypassed": {
                     "total_payload": 50,
                     "harmness": {
-                        "safe": 40,
-                        "harm": 10
+                        "safe": 10,
+                        "harm": 40
                     }
                 },
                 "blocked": {
@@ -696,8 +696,8 @@
                 "bypassed": {
                     "total_payload": 50,
                     "harmness": {
-                        "safe": 33,
-                        "harm": 17
+                        "safe": 17,
+                        "harm": 33
                     }
                 },
                 "blocked": {
@@ -713,8 +713,8 @@
                 "bypassed": {
                     "total_payload": 50,
                     "harmness": {
-                        "safe": 28,
-                        "harm": 22
+                        "safe": 22,
+                        "harm": 28
                     }
                 },
                 "blocked": {
