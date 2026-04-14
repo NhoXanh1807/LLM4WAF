@@ -30,7 +30,7 @@ WAF_DVWA_URLS = {
 
 SESSION_IDS = {}
 
-payload_log_dir = r"K:\Workspace\bku\LLM4WAF\src\test\test_gemma2_2b_all_techniques_2026_04_13\logs\2026-04-13_22-14-32"
+payload_log_dir = r""
 
 for waf_name, url in WAF_DVWA_URLS.items():
     waf_index = list(WAF_DVWA_URLS.keys()).index(waf_name)

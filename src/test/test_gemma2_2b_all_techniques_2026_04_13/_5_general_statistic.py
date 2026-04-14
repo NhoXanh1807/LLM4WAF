@@ -15,7 +15,7 @@ WAF_DVWA_URLS = {
     "AWS":"http://aws.llmshield.click/",
 }
 PHASES = ["PHASE_1", "PHASE_3"]
-log_dir = r'K:\Workspace\bku\LLM4WAF\src\test\test_gemma2_2b_all_techniques_2026_04_13\logs\2026-04-13_22-14-32'
+log_dir = r''
 general_result = {}
 for waf_name in WAF_DVWA_URLS:
     general_result[waf_name] = {}

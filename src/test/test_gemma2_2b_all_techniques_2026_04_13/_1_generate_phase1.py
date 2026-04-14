@@ -5,12 +5,7 @@ import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../gui/backend")))
 from datetime import datetime
 
-run_session = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-log_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), 'logs', run_session))
-if not os.path.exists(log_dir):
-    os.makedirs(log_dir)
-
-log_dir = r"K:\Workspace\bku\LLM4WAF\src\test\test_gemma2_2b_all_techniques_2026_04_13\logs\2026-04-13_22-14-32"
+log_dir = r""
 
 VALID_ATTACK_TYPES = [
     "xss_dom",
