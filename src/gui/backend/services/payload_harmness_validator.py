@@ -169,8 +169,9 @@ def _compare_trees(tree1, tree2):
     return True
 
 
-def evaluate_sql_payload(payload) -> EvaluateSQLResult:
-    payload, decode_stack = _fully_decode_payload(payload)
+def evaluate_sql_payload(payload, auto_decode=True) -> EvaluateSQLResult:
+    if auto_decode:
+        payload, decode_stack = _fully_decode_payload(payload)
     result = EvaluateSQLResult(payload, safe_queries=[], harm_queries=[], error_queries=[])
     for context in SQL_INJECTTION_CONTEXTS:
         for template, safe_payload in SQL_INJECTTION_CONTEXTS[context]:
@@ -190,8 +191,9 @@ def evaluate_sql_payload(payload) -> EvaluateSQLResult:
                     result.safe_queries.append(test_sql)
     return result
 
-def evaluate_xss_payload(payload) -> EvaluateXSSResult:
-    payload, decode_stack = _fully_decode_payload(payload)
+def evaluate_xss_payload(payload, auto_decode=True) -> EvaluateXSSResult:
+    if auto_decode:
+        payload, decode_stack = _fully_decode_payload(payload)
     try:
         res = requests.post("http://api.akng.io.vn:89/validate_payload", data=payload)
         return EvaluateXSSResult(

@@ -1,0 +1,730 @@
+{
+    "ModSecurity": {
+        "xss_dom": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 9,
+                    "harmness": {
+                        "safe": 9,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 41,
+                    "harmness": {
+                        "safe": 31,
+                        "harm": 10
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 35,
+                    "harmness": {
+                        "safe": 35,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 15,
+                    "harmness": {
+                        "safe": 14,
+                        "harm": 1
+                    }
+                }
+            }
+        },
+        "xss_reflected": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 7,
+                    "harmness": {
+                        "safe": 7,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 43,
+                    "harmness": {
+                        "safe": 35,
+                        "harm": 8
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 42,
+                    "harmness": {
+                        "safe": 42,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 8,
+                    "harmness": {
+                        "safe": 8,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "xss_stored": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 38,
+                    "harmness": {
+                        "safe": 38,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 12,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 12
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 44,
+                    "harmness": {
+                        "safe": 43,
+                        "harm": 1
+                    }
+                },
+                "blocked": {
+                    "total_payload": 6,
+                    "harmness": {
+                        "safe": 6,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "sql_injection": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 18,
+                    "harmness": {
+                        "safe": 16,
+                        "harm": 2
+                    }
+                },
+                "blocked": {
+                    "total_payload": 32,
+                    "harmness": {
+                        "safe": 27,
+                        "harm": 5
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 45,
+                    "harmness": {
+                        "safe": 6,
+                        "harm": 39
+                    }
+                },
+                "blocked": {
+                    "total_payload": 5,
+                    "harmness": {
+                        "safe": 1,
+                        "harm": 4
+                    }
+                }
+            }
+        },
+        "sql_injection_blind": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 24,
+                    "harmness": {
+                        "safe": 17,
+                        "harm": 7
+                    }
+                },
+                "blocked": {
+                    "total_payload": 26,
+                    "harmness": {
+                        "safe": 21,
+                        "harm": 5
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 42,
+                    "harmness": {
+                        "safe": 7,
+                        "harm": 35
+                    }
+                },
+                "blocked": {
+                    "total_payload": 8,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 8
+                    }
+                }
+            }
+        }
+    },
+    "Naxsi": {
+        "xss_dom": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 1,
+                    "harmness": {
+                        "safe": 1,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 49,
+                    "harmness": {
+                        "safe": 32,
+                        "harm": 17
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 40,
+                    "harmness": {
+                        "safe": 40,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 10,
+                    "harmness": {
+                        "safe": 10,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "xss_reflected": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 1,
+                    "harmness": {
+                        "safe": 1,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 49,
+                    "harmness": {
+                        "safe": 40,
+                        "harm": 9
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 42,
+                    "harmness": {
+                        "safe": 42,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 8,
+                    "harmness": {
+                        "safe": 8,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "xss_stored": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 0,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 50,
+                    "harmness": {
+                        "safe": 41,
+                        "harm": 9
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 34,
+                    "harmness": {
+                        "safe": 34,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 16,
+                    "harmness": {
+                        "safe": 15,
+                        "harm": 1
+                    }
+                }
+            }
+        },
+        "sql_injection": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 1,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 1
+                    }
+                },
+                "blocked": {
+                    "total_payload": 49,
+                    "harmness": {
+                        "safe": 40,
+                        "harm": 9
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 26,
+                    "harmness": {
+                        "safe": 4,
+                        "harm": 22
+                    }
+                },
+                "blocked": {
+                    "total_payload": 24,
+                    "harmness": {
+                        "safe": 9,
+                        "harm": 15
+                    }
+                }
+            }
+        },
+        "sql_injection_blind": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 1,
+                    "harmness": {
+                        "safe": 1,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 49,
+                    "harmness": {
+                        "safe": 38,
+                        "harm": 11
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 19,
+                    "harmness": {
+                        "safe": 3,
+                        "harm": 16
+                    }
+                },
+                "blocked": {
+                    "total_payload": 31,
+                    "harmness": {
+                        "safe": 11,
+                        "harm": 20
+                    }
+                }
+            }
+        }
+    },
+    "Cloudflare": {
+        "xss_dom": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 9,
+                    "harmness": {
+                        "safe": 9,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 41,
+                    "harmness": {
+                        "safe": 28,
+                        "harm": 13
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 45,
+                    "harmness": {
+                        "safe": 45,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 5,
+                    "harmness": {
+                        "safe": 5,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "xss_reflected": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 12,
+                    "harmness": {
+                        "safe": 12,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 38,
+                    "harmness": {
+                        "safe": 26,
+                        "harm": 12
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 40,
+                    "harmness": {
+                        "safe": 40,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 10,
+                    "harmness": {
+                        "safe": 10,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "xss_stored": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 41,
+                    "harmness": {
+                        "safe": 41,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 9,
+                    "harmness": {
+                        "safe": 4,
+                        "harm": 5
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 45,
+                    "harmness": {
+                        "safe": 45,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 5,
+                    "harmness": {
+                        "safe": 5,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "sql_injection": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 14,
+                    "harmness": {
+                        "safe": 12,
+                        "harm": 2
+                    }
+                },
+                "blocked": {
+                    "total_payload": 36,
+                    "harmness": {
+                        "safe": 29,
+                        "harm": 7
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 41,
+                    "harmness": {
+                        "safe": 5,
+                        "harm": 36
+                    }
+                },
+                "blocked": {
+                    "total_payload": 9,
+                    "harmness": {
+                        "safe": 4,
+                        "harm": 5
+                    }
+                }
+            }
+        },
+        "sql_injection_blind": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 15,
+                    "harmness": {
+                        "safe": 9,
+                        "harm": 6
+                    }
+                },
+                "blocked": {
+                    "total_payload": 35,
+                    "harmness": {
+                        "safe": 28,
+                        "harm": 7
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 45,
+                    "harmness": {
+                        "safe": 5,
+                        "harm": 40
+                    }
+                },
+                "blocked": {
+                    "total_payload": 5,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 5
+                    }
+                }
+            }
+        }
+    },
+    "AWS": {
+        "xss_dom": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 12,
+                    "harmness": {
+                        "safe": 12,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 38,
+                    "harmness": {
+                        "safe": 27,
+                        "harm": 11
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 42,
+                    "harmness": {
+                        "safe": 42,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 8,
+                    "harmness": {
+                        "safe": 8,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "xss_reflected": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 11,
+                    "harmness": {
+                        "safe": 11,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 39,
+                    "harmness": {
+                        "safe": 28,
+                        "harm": 11
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 45,
+                    "harmness": {
+                        "safe": 45,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 5,
+                    "harmness": {
+                        "safe": 5,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "xss_stored": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 40,
+                    "harmness": {
+                        "safe": 40,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 10,
+                    "harmness": {
+                        "safe": 1,
+                        "harm": 9
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 49,
+                    "harmness": {
+                        "safe": 49,
+                        "harm": 0
+                    }
+                },
+                "blocked": {
+                    "total_payload": 1,
+                    "harmness": {
+                        "safe": 1,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "sql_injection": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 50,
+                    "harmness": {
+                        "safe": 41,
+                        "harm": 9
+                    }
+                },
+                "blocked": {
+                    "total_payload": 0,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 0
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 50,
+                    "harmness": {
+                        "safe": 3,
+                        "harm": 47
+                    }
+                },
+                "blocked": {
+                    "total_payload": 0,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 0
+                    }
+                }
+            }
+        },
+        "sql_injection_blind": {
+            "PHASE_1": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 50,
+                    "harmness": {
+                        "safe": 41,
+                        "harm": 9
+                    }
+                },
+                "blocked": {
+                    "total_payload": 0,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 0
+                    }
+                }
+            },
+            "PHASE_3": {
+                "total_payload": 50,
+                "bypassed": {
+                    "total_payload": 50,
+                    "harmness": {
+                        "safe": 14,
+                        "harm": 36
+                    }
+                },
+                "blocked": {
+                    "total_payload": 0,
+                    "harmness": {
+                        "safe": 0,
+                        "harm": 0
+                    }
+                }
+            }
+        }
+    }
+}

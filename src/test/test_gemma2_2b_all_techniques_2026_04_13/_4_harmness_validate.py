@@ -31,10 +31,14 @@ import random
 
 from services import payload_harmness_validator as pv
 
-payload_log_dir = r""
+payload_log_dir = r"K:\Workspace\bku\LLM4WAF\src\test\test_gemma2_2b_all_techniques_2026_04_13\logs\2026-04-13_22-14-32"
 
 cp_waf_index = 0
-cp_attack_type_index = 3
+cp_attack_type_index = 0
+
+output_dir = os.path.join(payload_log_dir, "harmness_hard")
+os.makedirs(output_dir, exist_ok=True)
+
 for waf_name, url in WAF_DVWA_URLS.items():
     waf_index = list(WAF_DVWA_URLS.keys()).index(waf_name)
     for attack_type in VALID_ATTACK_TYPES:
@@ -58,11 +62,14 @@ for waf_name, url in WAF_DVWA_URLS.items():
         for phase, payloads in phases.items():
             for payload in tqdm.tqdm(payloads, desc=f"{phase} | {waf_name}({waf_index+1}/{len(WAF_DVWA_URLS)}) | {attack_type}({attack_type_index+1}/{len(VALID_ATTACK_TYPES)})"):
                 if 'xss' in payload.attack_type:
-                    harmness = pv.evaluate_xss_payload(payload.payload).__dict__
+                    harmness = pv.evaluate_xss_payload(payload.payload, False).__dict__
+                    harm = not harmness["is_safe"]
                 elif 'sql_injection' in payload.attack_type:
-                    harmness = pv.evaluate_sql_payload(payload.payload).__dict__
+                    harmness = pv.evaluate_sql_payload(payload.payload, False).__dict__
+                    harm = len(harmness["harm_queries"]) > 0
                 payload_dict = payload.__dict__
                 payload_dict["harmness"] = harmness
+                payload_dict["harm"] = harm
                 
-                with open(os.path.join(payload_log_dir, f"harmness_{phase}_{waf_name}_{attack_type}.txt"), "a", encoding="utf-8") as f:
+                with open(os.path.join(output_dir, f"harmness_hard_{phase}_{waf_name}_{attack_type}.txt"), "a", encoding="utf-8") as f:
                     f.write(json.dumps(payload_dict) + "\n")
