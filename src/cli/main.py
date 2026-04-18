@@ -116,11 +116,43 @@ def _get_pipeline() -> DefensePipeline:
     return _pipeline
 
 
-def generate_defense(waf_name, payload_results: List[PayloadResult]) -> List[dict]:
+def load_existing_rules(file_path: str) -> List[str]:
+    """Load existing WAF rules from a JSON or TXT file."""
+    path = Path(file_path)
+    if not path.exists():
+        print(f"[-] File not found: {file_path}")
+        return []
+    try:
+        content = path.read_text(encoding="utf-8").strip()
+        if path.suffix.lower() == ".json":
+            data = json.loads(content)
+            if isinstance(data, list):
+                # List of strings or list of dicts with "rule" key
+                rules = []
+                for item in data:
+                    if isinstance(item, str):
+                        rules.append(item)
+                    elif isinstance(item, dict):
+                        rules.append(item.get("rule", str(item)))
+                return rules
+            elif isinstance(data, dict) and "rules" in data:
+                return [r if isinstance(r, str) else r.get("rule", str(r)) for r in data["rules"]]
+        else:
+            # TXT: one rule per line, skip blank lines and comments
+            return [line.strip() for line in content.splitlines() if line.strip() and not line.strip().startswith("#")]
+    except Exception as e:
+        print(f"[-] Failed to load existing rules: {e}")
+    return []
+
+
+def generate_defense(waf_name, payload_results: List[PayloadResult], existing_rules: List[str] = None) -> List[dict]:
     bypassed = [r for r in payload_results if r.bypassed]
     if not bypassed:
         print("\n[+] No bypassed payloads! WAF is secure.")
         return []
+
+    if existing_rules:
+        print(f"\n[*] Advanced Defense Mode: comparing against {len(existing_rules)} existing rule(s)")
 
     print(f"\n[*] Running defense pipeline for {len(bypassed)} bypassed payloads...")
     try:
@@ -128,6 +160,7 @@ def generate_defense(waf_name, payload_results: List[PayloadResult]) -> List[dic
             bypassed_payloads=[r.payload for r in bypassed],
             waf_name=waf_name,
             waf_type=_map_waf_type(waf_name),
+            existing_rules=existing_rules or [],
         )
 
         rules = [r.to_dict() for r in pipeline_result.final_rules]
@@ -167,6 +200,11 @@ def main():
     p_attack.add_argument('-t', '--type', required=True, choices=VALID_ATTACK_TYPES)
     p_attack.add_argument('-n', '--num', type=int, default=5)
     p_attack.add_argument('-o', '--output', help='Output JSON file')
+    p_attack.add_argument(
+        '--existing-rules',
+        metavar='FILE',
+        help='Path to JSON or TXT file containing existing WAF rules (advanced defense: Gemini will avoid duplicates and tune new rules against these)'
+    )
 
     args = parser.parse_args()
 
@@ -192,7 +230,8 @@ def main():
         waf_name = detect_waf(args.domain)
         payloads = generate_payloads(waf_name, args.type, args.num)
         payloads = test_payloads(payloads, args.type)
-        rules = generate_defense(waf_name, payloads)
+        existing_rules = load_existing_rules(args.existing_rules) if getattr(args, 'existing_rules', None) else []
+        rules = generate_defense(waf_name, payloads, existing_rules=existing_rules)
 
         if args.output:
             with open(args.output, 'w') as f:

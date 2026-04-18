@@ -111,13 +111,13 @@ You must output valid JSON only. Be concise and technical."""
 
 Respond ONLY with valid JSON, no markdown code blocks."""
 
-    def __init__(self, api_key: Optional[str] = None, model: str = "gemini-1.5-flash"):
+    def __init__(self, api_key: Optional[str] = None, model: str = "gemini-2.5-flash"):
         """
         Initialize Gemini agent.
 
         Args:
             api_key: Google AI API key (or set GOOGLE_API_KEY env var)
-            model: Gemini model to use (default: gemini-1.5-flash for speed)
+            model: Gemini model to use (default: gemini-2.5-flash for rule comparison)
         """
         self.model_name = model
         self.model = None
@@ -315,7 +315,7 @@ Output JSON:
 
 def get_gemini_agent(
     api_key: Optional[str] = None,
-    model: str = "gemini-1.5-flash"
+    model: str = "gemini-2.5-flash"
 ) -> GeminiRuleAgent:
     """
     Get Gemini agent instance.

@@ -185,6 +185,39 @@ def api_retest():
         return jsonify({"error": str(e)}), 500
 
 
+def _parse_existing_rules(raw: object) -> list:
+    """
+    Parse existing_rules from various input formats:
+    - list of strings → return as-is
+    - list of dicts with "rule" key → extract rule strings
+    - newline-separated string (TXT content) → split lines
+    - JSON string → parse then extract
+    """
+    if not raw:
+        return []
+    if isinstance(raw, list):
+        rules = []
+        for item in raw:
+            if isinstance(item, str):
+                rules.append(item.strip())
+            elif isinstance(item, dict):
+                r = item.get("rule", "")
+                if r:
+                    rules.append(r.strip())
+        return [r for r in rules if r]
+    if isinstance(raw, str):
+        raw = raw.strip()
+        if raw.startswith("[") or raw.startswith("{"):
+            try:
+                parsed = __import__("json").loads(raw)
+                return _parse_existing_rules(parsed)
+            except Exception:
+                pass
+        # Plain text: one rule per line
+        return [line.strip() for line in raw.splitlines() if line.strip() and not line.strip().startswith("#")]
+    return []
+
+
 @app.route("/api/defend", methods=["POST"])
 def api_defend():
     try:
@@ -193,22 +226,30 @@ def api_defend():
         waf_info = dict.get(data, "waf_info")
         bypassed_payloads = dict.get(data, "bypassed_payloads")
         num_rules = dict.get(data, "num_rules", DEFAULT_NUM_DEFENSE_RULES)
+        existing_rules_raw = dict.get(data, "existing_rules", None)
 
         if not waf_info or not bypassed_payloads:
             return jsonify({"error": "Missing 'waf_info' or 'bypassed_payloads' field"}), 400
 
         waf_name = dict.get(waf_info, "name", dict.get(waf_info, "waf_name", str(waf_info)))
+        existing_rules = _parse_existing_rules(existing_rules_raw)
+
+        if existing_rules:
+            print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
 
         pipeline_result = _get_pipeline().generate_defense_rules(
             bypassed_payloads=bypassed_payloads,
             waf_name=waf_name,
             waf_type=_map_waf_type(waf_name),
             num_rules=num_rules,
+            existing_rules=existing_rules if existing_rules else None,
         )
 
         return jsonify({
             "rules": [r.to_dict() for r in pipeline_result.final_rules],
             "stats": pipeline_result.to_dict()["stats"],
+            "advanced_defense": bool(existing_rules),
+            "existing_rules_count": len(existing_rules),
         }), 200
     except Exception as e:
         import traceback
