@@ -182,29 +182,12 @@ class NaxsiValidator(BaseValidator):
                     score_result.waf_type = WAFType.NAXSI
                     return score_result
 
-        # Check required components
+        # Check required components — hard-fail only on the absolute minimum
         if not has_pattern:
             return ValidationResult(
                 is_valid=False,
                 waf_type=WAFType.NAXSI,
-                error_message="MainRule requires pattern (rx:, str:, or d:)"
-            )
-
-        if not has_msg:
-            warnings.append("MainRule missing msg: (recommended)")
-
-        if not has_mz:
-            return ValidationResult(
-                is_valid=False,
-                waf_type=WAFType.NAXSI,
-                error_message="MainRule requires match zone (mz:)"
-            )
-
-        if not has_score:
-            return ValidationResult(
-                is_valid=False,
-                waf_type=WAFType.NAXSI,
-                error_message="MainRule requires score (s:)"
+                error_message="MainRule requires a detection pattern (rx:, str:, or d:)"
             )
 
         if not has_id:
@@ -213,6 +196,14 @@ class NaxsiValidator(BaseValidator):
                 waf_type=WAFType.NAXSI,
                 error_message="MainRule requires id:N"
             )
+
+        # Downgrade missing mz/score to warnings — rule may still be deployable
+        if not has_msg:
+            warnings.append("MainRule missing msg: (recommended for logging)")
+        if not has_mz:
+            warnings.append("MainRule missing mz: — match zone defaults to ALL if omitted")
+        if not has_score:
+            warnings.append("MainRule missing s: — no scoring applied")
 
         return ValidationResult(
             is_valid=True,
@@ -370,33 +361,37 @@ class NaxsiValidator(BaseValidator):
         return ValidationResult(is_valid=True, warnings=warnings if warnings else None)
 
     def _validate_score(self, score: str) -> ValidationResult:
-        """Validate score specification."""
-        # Format: $VAR:N or $VAR:+N
-        parts = score.split(':')
+        """Validate score specification.
 
-        if len(parts) != 2:
-            return ValidationResult(
-                is_valid=False,
-                error_message=f"Invalid score format: {score}. Expected: $VAR:N"
-            )
+        Supports single ($VAR:N) and multiple ($VAR1:N,$VAR2:N) score entries.
+        """
+        # Multiple scores are comma-separated: $SQL:4,$XSS:4
+        entries = score.split(',')
+        for entry in entries:
+            entry = entry.strip()
+            if not entry:
+                continue
+            # Each entry is $VAR:N — split on first colon only
+            colon_idx = entry.find(':')
+            if colon_idx == -1:
+                return ValidationResult(
+                    is_valid=False,
+                    error_message=f"Invalid score format: '{entry}'. Expected: $VAR:N"
+                )
+            var_name = entry[:colon_idx]
+            value = entry[colon_idx + 1:]
 
-        var_name, value = parts
+            if not var_name.startswith('$'):
+                var_name = f"${var_name}"
+            # Unknown score vars are allowed (custom vars) — no hard fail
 
-        # Check variable name
-        if not var_name.startswith('$'):
-            var_name = f"${var_name}"
-
-        if var_name.upper() not in self.VALID_SCORE_VARS:
-            # Allow but it's unusual
-            pass
-
-        # Check value is numeric (can have + prefix)
-        value = value.lstrip('+')
-        if not value.lstrip('-').isdigit():
-            return ValidationResult(
-                is_valid=False,
-                error_message=f"Invalid score value: {value}. Must be numeric"
-            )
+            # Value must be numeric, optionally prefixed with + or -
+            value = value.lstrip('+')
+            if not value.lstrip('-').isdigit():
+                return ValidationResult(
+                    is_valid=False,
+                    error_message=f"Invalid score value: '{value}'. Must be numeric"
+                )
 
         return ValidationResult(is_valid=True)
 

@@ -165,41 +165,66 @@ def api_attack_dvwa():
         return jsonify({"error": str(e)}), 500
 
 
+def _parse_existing_rules(raw: object) -> list:
+    """
+    Parse existing_rules from various input formats:
+    - list of strings → return as-is
+    - list of dicts with "rule" key → extract rule strings
+    - newline-separated string (TXT content) → split lines
+    - JSON string → parse then extract
+    """
+    if not raw:
+        return []
+    if isinstance(raw, list):
+        rules = []
+        for item in raw:
+            if isinstance(item, str):
+                rules.append(item.strip())
+            elif isinstance(item, dict):
+                r = item.get("rule", "")
+                if r:
+                    rules.append(r.strip())
+        return [r for r in rules if r]
+    if isinstance(raw, str):
+        raw = raw.strip()
+        if raw.startswith("[") or raw.startswith("{"):
+            try:
+                parsed = __import__("json").loads(raw)
+                return _parse_existing_rules(parsed)
+            except Exception:
+                pass
+        # Plain text: one rule per line
+        return [line.strip() for line in raw.splitlines() if line.strip() and not line.strip().startswith("#")]
+    return []
+
+
 @app.route("/api/defend", methods=["POST"])
 def api_defend():
     try:
         data = dict(request.get_json())
         waf_name = dict.get(data, "waf_name")
-        payloads = dict.get(data, "payloads")
+        payloads = dict.get(data, "payloads", [])
+        payloads = [PayloadResult(**payload) for payload in payloads]
         num_rules = dict.get(data, "num_rules", DEFAULT_NUM_DEFENSE_RULES)
-        
-        if not waf_name or not payloads:
-            return jsonify({"error": "Missing 'waf_name' or 'payloads' field"}), 400
-
-        payloads = [PayloadResult(**p) for p in payloads]
-        bypassed_payloads = [payload.payload for payload in payloads if payload.bypassed]
-        
-        if len(bypassed_payloads) <= 0:
-            return (
-                jsonify({
-                    "message": "No bypassed payloads, no defense rules generated.",
-                    "rules": [],
-                    "stats": {},
-                }), 200
-            )
-        
-        print("Generating defense rules for bypassed payloads...")
+        existing_rules_raw = dict.get(data, "existing_rules", None)
+        existing_rules = _parse_existing_rules(existing_rules_raw)
+        if existing_rules:
+            print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
+        bypassed_payloads = [payload for payload in payloads if payload.bypassed]
         pipeline_result = _get_pipeline().generate_defense_rules(
             bypassed_payloads=bypassed_payloads,
             waf_name=waf_name,
             waf_type=_map_waf_type(waf_name),
-            num_rules=DEFAULT_NUM_DEFENSE_RULES,
+            num_rules=num_rules,
+            existing_rules=existing_rules if existing_rules else None
         )
 
         return jsonify({
             "rules": [rule.to_dict() for rule in pipeline_result.final_rules],
             "stats": pipeline_result.to_dict()["stats"],
             "clustered_payloads": [cluster.__dict__ for cluster in pipeline_result.cluster_info],
+            "advanced_defense": bool(existing_rules),
+            "existing_rules_count": len(existing_rules)
         }), 200
 
     except Exception as e:

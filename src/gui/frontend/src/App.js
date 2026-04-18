@@ -14,7 +14,11 @@ function App() {
   const [rawResponse, setRawResponse] = useState(null);
   const [showRaw, setShowRaw] = useState(false);
   const [isRetesting, setIsRetesting] = useState(false);
+  const [isRegenerating, setIsRegenerating] = useState(false);
   const [error, setError] = useState(null);
+  const [advancedDefense, setAdvancedDefense] = useState(false);
+  const [existingRulesContent, setExistingRulesContent] = useState(null);
+  const [existingRulesFileName, setExistingRulesFileName] = useState('');
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
@@ -28,6 +32,40 @@ function App() {
       document.documentElement.classList.remove('dark');
     }
   }, [darkMode]);
+
+  const handleExistingRulesFile = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    setExistingRulesFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (ev) => setExistingRulesContent(ev.target.result);
+    reader.readAsText(file);
+  };
+
+  const handleRegenerate = async () => {
+    const bypassed = payloads.filter(p => p.bypassed === true);
+    if (!bypassed.length) return;
+    setIsRegenerating(true);
+    setError(null);
+    try {
+      const res = await Services.defend(
+        { waf_name: wafName },
+        bypassed.map(p => p.payload),
+        3,
+        advancedDefense && existingRulesContent ? existingRulesContent : null
+      );
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data?.error || `Server error: ${res.status}`);
+        return;
+      }
+      setDefenseRules(data?.rules || []);
+    } catch (err) {
+      setError(err.message || 'Failed to connect to backend');
+    } finally {
+      setIsRegenerating(false);
+    }
+  };
 
   // Helper download
   const handleDownload = (filename) => {
@@ -287,6 +325,78 @@ function App() {
                   payloads={payloads.filter(p => p.bypassed === true)}
                   darkMode={darkMode}
                 />
+              </div>
+
+              {/* Advanced Defense Mode */}
+              <div className={`mb-6 p-5 rounded-xl border-2 transition-colors duration-200 ${darkMode ? 'bg-gray-800/60 border-blue-700/40' : 'bg-blue-50/60 border-blue-200'}`}>
+                <label className="flex items-center gap-3 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    className="w-5 h-5 accent-blue-500 cursor-pointer"
+                    checked={advancedDefense}
+                    onChange={e => {
+                      setAdvancedDefense(e.target.checked);
+                      if (!e.target.checked) {
+                        setExistingRulesContent(null);
+                        setExistingRulesFileName('');
+                      }
+                    }}
+                  />
+                  <span className={`font-bold text-base ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
+                    Advanced Defense Mode
+                  </span>
+                  <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                    — Gemini compares new rules against your existing ruleset to avoid duplicates and tune syntax
+                  </span>
+                </label>
+
+                {advancedDefense && (
+                  <div className="mt-4 flex flex-col gap-3">
+                    <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                      Import your existing WAF rules file <span className="font-semibold">(JSON array or .txt, one rule per line)</span>:
+                    </p>
+                    <label className={`flex items-center gap-3 px-4 py-3 rounded-lg border-2 border-dashed cursor-pointer transition-all duration-200 ${darkMode ? 'border-blue-600 bg-gray-900/40 hover:bg-gray-700/50 text-blue-300' : 'border-blue-400 bg-white hover:bg-blue-50 text-blue-600'}`}>
+                      <span className="text-xl">📂</span>
+                      <span className="font-medium text-sm">
+                        {existingRulesFileName ? existingRulesFileName : 'Click to import rules file (.json or .txt)'}
+                      </span>
+                      <input
+                        type="file"
+                        accept=".json,.txt"
+                        className="hidden"
+                        onChange={handleExistingRulesFile}
+                      />
+                    </label>
+                    {existingRulesContent && (
+                      <p className={`text-xs font-semibold ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
+                        ✅ Rules file loaded — Gemini will use these during rule generation
+                      </p>
+                    )}
+                    {advancedDefense && !existingRulesContent && (
+                      <p className={`text-xs ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
+                        ⚠️ Please import a rules file to enable advanced comparison
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* Re-generate button */}
+                {payloads.filter(p => p.bypassed === true).length > 0 && (
+                  <div className="mt-4">
+                    <button
+                      onClick={handleRegenerate}
+                      disabled={isRegenerating || (advancedDefense && !existingRulesContent)}
+                      className="px-6 py-2 rounded-lg font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed text-sm"
+                    >
+                      {isRegenerating ? '🔄 Generating...' : '🛡️ Re-generate Defense Rules'}
+                    </button>
+                    {advancedDefense && existingRulesContent && (
+                      <span className={`ml-3 text-xs font-semibold ${darkMode ? 'text-cyan-400' : 'text-cyan-600'}`}>
+                        with advanced rule comparison
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Defense Rules */}
