@@ -5,5 +5,5 @@ class PayloadResult:
     payload: str
     technique: str
     attack_type: str
-    bypassed: bool
-    status_code: int = None
+    bypassed: bool|None = None
+    status_code: int|None = None

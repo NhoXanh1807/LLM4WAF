@@ -1,6 +1,18 @@
 
+import os
+import sys
+import json
 
-with open(r'K:\Workspace\bku\LLM4WAF\src\test\test_gemma2_2b_all_techniques_2026_04_13\logs\2026-04-13_22-14-32\ModSecurity_xss_dom.txt',
-        'r', encoding='utf-8') as f:
-    lines = f.readlines()
-    print(f"Total lines: {len(lines)}")
+import tqdm
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../gui/backend")))
+from services_external.rag import rag_retrieve
+
+
+
+result = rag_retrieve(
+    attack_type="sqli",
+    waf_name="CloudFlare",
+    filter_rules_only=True
+)
+
+print(json.dumps(result, indent=4, ensure_ascii=False))
