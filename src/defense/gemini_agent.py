@@ -17,7 +17,7 @@ from typing import Optional
 from dataclasses import dataclass, field
 
 try:
-    import google.genai as genai
+    from google import genai
 except ImportError:
     genai = None
 
@@ -135,11 +135,7 @@ Respond ONLY with valid JSON, no markdown code blocks."""
             return
 
         try:
-            genai.configure(api_key=api_key)
-            self.model = genai.GenerativeModel(
-                model_name=model,
-                system_instruction=self.SYSTEM_PROMPT
-            )
+            self.client = genai.Client(api_key=api_key)
             self.available = True
         except Exception as e:
             print(f"Warning: Failed to initialize Gemini: {e}")
@@ -191,7 +187,10 @@ Respond ONLY with valid JSON, no markdown code blocks."""
             )
 
             # Call Gemini
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=self.SYSTEM_PROMPT + "\n\n" + prompt,
+            )
 
             # Parse response
             response_text = response.text.strip()
@@ -266,7 +265,10 @@ Output JSON:
     "reason": "explanation"
 }}"""
 
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=prompt,
+            )
             return json.loads(response.text.strip())
 
         except Exception as e:
@@ -306,7 +308,10 @@ Output JSON:
     "issues": ["any issues with the rule"]
 }}"""
 
-            response = self.model.generate_content(prompt)
+            response = self.client.models.generate_content(
+                model=self.model_name,
+                contents=prompt,
+            )
             return json.loads(response.text.strip())
 
         except Exception as e:
