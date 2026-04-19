@@ -37,7 +37,11 @@ export const Services = {
         // /api/detect_waf expects { domain }
         return Call("/detect_waf", "POST", { domain }, { "Content-Type": "application/json" });
     },
-    apiGeneratePayload: async (waf_name, attack_type, num_payloads = 5, payloads_history = []) => {
+    apiGeneratePayloadRandom: async (waf_name, attack_type, num_payloads, payloads_history = []) => {
+        // /api/generate_payload expects { waf_name, attack_type, num_payloads }
+        return Call("/generate_payload", "POST", { waf_name, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
+    },
+    apiGeneratePayloadAdaptive: async (waf_name, attack_type, num_payloads, payloads_history) => {
         // /api/generate_payload expects { waf_name, attack_type, num_payloads, payloads_history }
         return Call("/generate_payload", "POST", { waf_name, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
     },
@@ -45,8 +49,8 @@ export const Services = {
         // /api/attack_dvwa expects { domain, payloads }
         return Call("/attack_dvwa", "POST", { domain, payloads }, { "Content-Type": "application/json" });
     },
-    apiDefend: async (waf_name, payloads, num_rules = 3) => {
-        // /api/defend expects { waf_name, payloads, num_rules }
-        return Call("/defend", "POST", { waf_name, payloads, num_rules }, { "Content-Type": "application/json" });
+    apiDefend: async (waf_name, payloads, num_rules = 3, existing_rules = null) => {
+        // /api/defend expects { waf_name, payloads, num_rules, existing_rules }
+        return Call("/defend", "POST", { waf_name, payloads, num_rules, existing_rules }, { "Content-Type": "application/json" });
     },
 }

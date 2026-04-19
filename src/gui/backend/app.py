@@ -127,6 +127,9 @@ def api_attack():
         payloads_history = dict.get(data, "payloads_history", [])
         probe_history = [PayloadResult(**h) for h in payloads_history]
         
+        if not waf_name:
+            return jsonify({"error": "Missing 'waf_name' field"}), 400
+        
         if attack_type not in dvwa.VALID_ATTACK_TYPES:
             return jsonify({"error": "'attack_type' must be in " + str(dvwa.VALID_ATTACK_TYPES)}), 400
 
@@ -181,15 +184,15 @@ def api_attack_dvwa():
             attack_type = item.attack_type
             attack_func = dvwa.DVWA_ATTACK_FUNC.get(attack_type)
 
-            print(f"[DVWA-Check] {i+1}/{len(payloads)} : {payload.payload}")
+            print(f"[DVWA-Check] {i+1}/{len(payloads)} : {item.payload}")
             if attack_func and payload:
                 result = dvwa.attack(attack_type, payload, session_id, base_url=domain)
-                payload.bypassed = not result.blocked
-                payload.status_code = result.status_code
-                print(f"\t{('BYPASSED' if payload.bypassed else 'BLOCKED')} code({payload.status_code})")
+                item.bypassed = not result.blocked
+                item.status_code = result.status_code
+                print(f"\t{('BYPASSED' if item.bypassed else 'BLOCKED')} code({item.status_code})")
             else:
-                payload.bypassed = None
-                payload.status_code = None
+                item.bypassed = None
+                item.status_code = None
                 print(f"\tSKIPPED (missing attack_func or payload)")
             
         return jsonify({"payloads": payloads}), 200
@@ -247,7 +250,7 @@ def api_defend():
         existing_rules = _parse_existing_rules(existing_rules_raw)
         if existing_rules:
             print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
-        bypassed_payloads = [payload for payload in payloads if payload.bypassed]
+        bypassed_payloads = [payload.payload for payload in payloads if payload.bypassed]
         pipeline_result = _get_pipeline().generate_defense_rules(
             bypassed_payloads=bypassed_payloads,
             waf_name=waf_name,
@@ -257,11 +260,14 @@ def api_defend():
         )
 
         return jsonify({
-            "rules": [rule.to_dict() for rule in pipeline_result.final_rules],
-            "stats": pipeline_result.to_dict()["stats"],
-            "clustered_payloads": [cluster.__dict__ for cluster in pipeline_result.cluster_info],
+            "waf_name": waf_name,
+            "clustered_payloads": [cluster.to_dict() for cluster in pipeline_result.cluster_info],
+            "rag_sources": pipeline_result.rag_sources,
+            "generated_rules": [rule.to_dict() for rule in pipeline_result.generated_rules],
             "advanced_defense": bool(existing_rules),
-            "existing_rules_count": len(existing_rules)
+            "existing_rules_count": len(existing_rules),
+            "final_rules": [rule.to_dict() for rule in pipeline_result.final_rules],
+            "stats": pipeline_result.to_dict()["stats"],
         }), 200
 
     except Exception as e:

@@ -1,0 +1,221 @@
+Bypassed payloads:
+	％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІpT％２５３Е
+	％２５３СѕсrІPt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ЅсrіpT％２５３Е
+	％２５３сЅСrіpT％２５３еАⅼЕRT％２５２８１％２５２９％２５３с／ѕсRpT％２５３е
+	％２５３сіfRАMе％２５２０ѕrС％２５３djАVаЅсRІpT％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е
+	оnсⅼісk＝
+[1/4] Clustering payloads...
+Created 2 clusters
+	#1: 3 payloads
+		％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІpT％２５３Е
+		％２５３СѕсrІPt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ЅсrіpT％２５３Е
+		％２５３сЅСrіpT％２５３еАⅼЕRT％２５２８１％２５２９％２５３с／ѕсRpT％２５３е
+	#0: 2 payloads
+		％２５３сіfRАMе％２５２０ѕrС％２５３djАVаЅсRІpT％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е
+		оnсⅼісk＝
+[2/4] Generating rules with LLM + RAG...
+[BASE DEFEND PROMPT]
+	**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+	
+	**Environment:**
+	- WAF: NAXSI (NBS Systems)
+	- Bypassed Payloads by clusters:
+		Cluster 1 (3 payloads):
+			％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІpT％２５３Е
+			％２５３СѕсrІPt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ЅсrіpT％２５３Е
+			％２５３сЅСrіpT％２５３еАⅼЕRT％２５２８１％２５２９％２５３с／ѕсRpT％２５３е
+		Cluster 0 (2 payloads):
+			％２５３сіfRАMе％２５２０ѕrС％２５３djАVаЅсRІpT％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е
+			оnсⅼісk＝
+	
+	
+	Generate 3 PRODUCTION-GRADE defense rules to block these bypasses:
+	
+	1. **Multi-Layer Detection**: Create rules that detect:
+	   - Raw pattern matching (regex)
+	   - Normalized/decoded variants (URL decoding, Unicode normalization)
+	   - Obfuscation techniques (comment injection, case variations)
+	   - Anomaly patterns (unusual character sequences, excessive encoding)
+	
+	2. **Rule Requirements**:
+	   - Match both obvious and obfuscated forms
+	   - Include pre-processing steps (normalize, decode, lowercase)
+	   - Minimize false positives with negative lookaheads
+	   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
+	
+	3. **Implementation Details**:
+	   - Provide rules in ModSecurity SecRule format
+	   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
+	   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
+	   - Add actionable deployment instructions
+	
+	4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+	
+	**FORMAT**: For each rule, provide:
+	- SecRule syntax
+	- Transformation pipeline
+	- Severity level
+	- Deployment phase
+	- Testing methodology
+[RAG Results]
+	Queries: 4
+	Docs (all): 24
+	Docs (filtered): 4
+	Sources: 4
+[Enhanced Prompt with RAG]
+	**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+	
+	**Environment:**
+	- WAF: NAXSI (NBS Systems)
+	- Bypassed Payloads by clusters:
+		Cluster 1 (3 payloads):
+			％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІpT％２５３Е
+			％２５３СѕсrІPt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ЅсrіpT％２５３Е
+			％２５３сЅСrіpT％２５３еАⅼЕRT％２５２８１％２５２９％２５３с／ѕсRpT％２５３е
+		Cluster 0 (2 payloads):
+			％２５３сіfRАMе％２５２０ѕrС％２５３djАVаЅсRІpT％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е
+			оnсⅼісk＝
+	
+	
+	Generate 3 PRODUCTION-GRADE defense rules to block these bypasses:
+	
+	1. **Multi-Layer Detection**: Create rules that detect:
+	   - Raw pattern matching (regex)
+	   - Normalized/decoded variants (URL decoding, Unicode normalization)
+	   - Obfuscation techniques (comment injection, case variations)
+	   - Anomaly patterns (unusual character sequences, excessive encoding)
+	
+	2. **Rule Requirements**:
+	   - Match both obvious and obfuscated forms
+	   - Include pre-processing steps (normalize, decode, lowercase)
+	   - Minimize false positives with negative lookaheads
+	   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
+	
+	3. **Implementation Details**:
+	   - Provide rules in ModSecurity SecRule format
+	   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
+	   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
+	   - Add actionable deployment instructions
+	
+	4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+	
+	**FORMAT**: For each rule, provide:
+	- SecRule syntax
+	- Transformation pipeline
+	- Severity level
+	- Deployment phase
+	- Testing methodology
+	
+	---
+	**KNOWLEDGE BASE REFERENCES**
+	
+	The following references from our security knowledge base may help inform your defense strategy:
+	
+	[Reference #1 : Naxsi Rules.docx]naxsi
+	
+	Naxsi Rules
+	
+	A Naxsi rule is a search pattern which is applied to a request to detect malicious behaviour.
+	
+	A rule is defined by MainRule or BasicRule directive, an id, a score, a search parameter (i.e. case-insensitive string or regex), a matchzone and an optional description.
+	
+	Example of rule:
+	
+																	MainRule id:12345 "s:$FOO:8,$BAR:4" "str:malicious" "mz:URL" "msg:string rule description";
+	
+																	BasicRule id:67890 "s:$TOO:4" "rx:[a-z]{5}" "mz:ARGS" "msg:regex rule description";
+	
+	MainRule and BasicRule directives
+	
+	As explained in the directives chapter we can have 2 kinds of rules:
+	
+	A global rule defined by the MainRule directive
+	
+	A location-specific rule defined by the BasicRule directive
+	
+	These two directives are mandatory to define rule.
+	
+	Rule Id
+	
+	The rule identifier, which identifies triggered rules for blocked requests, must always be a positive integer greater than 999. These identifiers follows the format id:<number>, for example id:12345.
+	
+	ℹ️ Info
+	
+	[Reference #2 : Basic Configurations.docx]naxsi
+	
+	Naxsi Basic Configuration
+	
+	To get started with Naxsi, you can explore the following basic configuration.
+	
+	Configuring Naxsi
+	
+	Naxsi must be configured based on what it is going to protect.
+	
+	The first step, once compiled dynamically compiled, you will have a shared library which will need to be loaded by nginx by adding an entry to the /etc/nginx/nginx.conf file.
+	
+																	load_module /usr/lib/nginx/modules/ngx_http_naxsi_module.so;
+	
+	Once the module is added to the NGINX configuration, the next step is to include global rules; in the Naxsi repository you can find the naxsi_core.rules which gives to the user the ability to add the most basic ruleset to Naxsi itself.
+	
+	💡 Tip
+	
+	It is possible to include these rules directly in /etc/nginx/nginx.conf.
+	
+																	include /etc/nginx/naxsi/naxsi_core.rules
+	
+	[Reference #3 : Basic Configurations.docx]# - https://github.com/wargio/naxsi/tree/main/naxsi_rules/blocking
+	
+																			# - https://github.com/wargio/naxsi/blob/main/naxsi_rules/naxsi_core.rules
+	
+																	
+	
+																			CheckRule "$SQL >= 8" BLOCK; # SQL injection action (unrelated to libinjection)
+	
+																			CheckRule "$XSS >= 8" BLOCK; # XSS action (unrelated to libinjection)
+	
+																			CheckRule "$RFI >= 8" BLOCK; # Remote File Inclusion action
+	
+																			CheckRule "$UWA >= 8" BLOCK; # Unwanted Access action
+	
+																			CheckRule "$EVADE >= 8" BLOCK; # Evade action (some tools may try to avoid detection).
+	
+																			CheckRule "$UPLOAD >= 5" BLOCK; # Malicious upload action
+	
+																			CheckRule "$TRAVERSAL >= 5" BLOCK; # Traversal access action
+	
+																			CheckRule "$LIBINJECTION_XSS >= 8" BLOCK; # libinjection XSS action
+	
+																			CheckRule "$LIBINJECTION_SQL >= 8" BLOCK; # libinjection SQLi action
+	
+																		}
+	
+	[Reference #4 : SQL Injection Bypassing WAF.docx]•
+	
+	AlienVault Open Threat Exchange (OTX) [99]: AlienVault OTX gathers intelligence feeds through “pulses”. Each pulse contains threat information, associated techniques and indicators of compromise (IoCs) like URLs, hashes, and hostnames. For this project, the malware families and the TTPs of the threat actor associated with the detected malicious source of the attack are extracted [100].
+	
+	•
+	
+	Shodan [101]: Shodan scans and indexes information related to Internet-facing devices such as the operating system, running services and vulnerabilities. By monitoring the attacker’s machine over time, it is possible to gain insights into their behaviour and tactics [102].
+	
+	4. Evaluation
+	
+	Through an in-depth review of the literature, the following research questions (RQs) were established to underpin the analysis of existing gaps in state-of-the-art SQLi detection and prevention solutions.
+	
+	•
+	
+	---
+	
+	Please consider these references when generating defense rules, but prioritize the specific bypassed payloads mentioned above.
+	
+Generated 3 rules
+	MainRule "rx:%25?[cеs]|scr[iі]pt|alert|oncl[iі]ck" "msg:D detects JS payload variants by detecting double-encoded patterns related to 'script', 'alert', and potential event handlers." "mz:ARGS|BODY|URL" "s:$XSS:8" id:200001;
+	MainRule "rx:(%25)?[cе]script(%25)?|alert|iframe|(?:on[a-z]+=)" "msg:D detects encoded and obfuscated components of XSS such as cseript, alert, and iframe tags." "mz:ARGS|BODY|URL" "s:$XSS:8" id:200002;
+	MainRule "rx:%25{2,3}(\w{2,4}){2,10}" "msg:D detects excessive double URL encoding, which can suggest potential injection attempts." "mz:ARGS|BODY|URL" "s:$EVADE:8" id:200003;
+[3/4] Validating rule syntax...
+Valid: 3, Invalid: 0
+	MainRule "rx:%25?[cеs]|scr[iі]pt|alert|oncl[iі]ck" "msg:D detects JS payload variants by detecting double-encoded patterns related to 'script', 'alert', and potential event handlers." "mz:ARGS|BODY|URL" "s:$XSS:8" id:200001;
+	MainRule "rx:(%25)?[cе]script(%25)?|alert|iframe|(?:on[a-z]+=)" "msg:D detects encoded and obfuscated components of XSS such as cseript, alert, and iframe tags." "mz:ARGS|BODY|URL" "s:$XSS:8" id:200002;
+	MainRule "rx:%25{2,3}(\w{2,4}){2,10}" "msg:D detects excessive double URL encoding, which can suggest potential injection attempts." "mz:ARGS|BODY|URL" "s:$EVADE:8" id:200003;
+[4/4] Skipping Gemini refinement (disabled or unavailable)
+
+Pipeline complete! Generated 3 valid rules.

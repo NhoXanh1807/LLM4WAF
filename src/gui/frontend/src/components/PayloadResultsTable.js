@@ -6,16 +6,16 @@ function PayloadResultsTable({ wafName, payloads, darkMode, onClear }) {
     const getStatusBadge = (item) => {
         if (item.bypassed === true) {
             return <span className="px-4 py-1.5 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-full font-bold text-xs shadow-lg">⚠️ BYPASSED</span>;
-        } else if (item.bypassed === false && item.status_code) {
+        } else if (item.bypassed === false && item.status_code != null) {
             return <span className="px-4 py-1.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-bold text-xs shadow-lg">✅ BLOCKED</span>;
         }
-        return <span className="px-4 py-1.5 bg-gray-400 text-white rounded-full text-xs">⏳ PENDING</span>;
+        // If bypassed is null/undefined, treat as not tested
+        return <span className="px-4 py-1.5 bg-gray-400 text-white rounded-full text-xs">--</span>;
     };
 
     return (
         <div className="overflow-x-auto">
             <div className="mb-6 flex">
-                <h3 className={`font-bold mb-3 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>📋 Payloads and results</h3>
                 {onClear && (
                     <button
                         className="px-4 py-2 rounded-lg font-bold text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 shadow-lg hover:shadow-xl transition-all duration-200"
@@ -53,7 +53,7 @@ function PayloadResultsTable({ wafName, payloads, darkMode, onClear }) {
                                     {item.payload || JSON.stringify(item)}
                                 </td>
                                 <td className={`px-4 py-3 text-center font-mono font-bold ${darkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
-                                    {item.status_code || '-'}
+                                    {item.status_code == null ? '--' : item.status_code}
                                 </td>
                                 <td className="px-4 py-3 text-center whitespace-nowrap">{getStatusBadge(item)}</td>
                             </tr>

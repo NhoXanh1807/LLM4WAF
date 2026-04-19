@@ -1,0 +1,282 @@
+Bypassed payloads:
+	%253cImG%2509SRC%253DX%2509onERrOr%253daLert%25281%2529%253e
+	%253cIfrAME%252509SRc%253dJaVasCRipT%253aAleRT%25281%2529%253e
+	%25253Csvg/onloaD%25253DALERT%2525281%252529%25253E
+	%253Ciframe%2520src%253Ddata%253Atext/html%253Bbase64%252CPHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg%253D%253D%2527 /*8*/
+	%253Csvg/onmousedown%253Dprompt%25281%2529%253E
+	%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253e
+	%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253eExtendWith/Full_Bypass.
+	%253csvg/OnlOad%253dalErt%25281%2529%253e
+	%253ciMG%2520SRC%253dx%2520onErRoR%253daLert%25281%2529%253e
+	%253Csvg/onmousedown%253Dalert106%25281%2529%253E Cliquez ici!%253C/svg%253E
+	%25253CsCRIPT%25253eALErT%2525281%252529%25253C/scrIPT%25253E
+	%253cSVg/OnLOaD%253dAleRt%25281%2529%253E
+	%253CiMG%250ASRc%253Dx%250AoneRroR%253DaleRt%25281%2529%253E
+	%253cSVg/OnLOaD%253dAlERt%25281%2529%253E
+	%253Csvg/onMOuSEMOvE%253Dalert%25281%2529%253E
+	%253cImG%252509sRc%253dx%252509onERROR%253dJaVaSCRipT%253aAleRt%2560XsS%2560%253e
+	%253cSvG/onlOad%253dAleRT%25281%2529%253e
+[1/4] Clustering payloads...
+Created 4 clusters
+	#2: 3 payloads
+		%253cImG%2509SRC%253DX%2509onERrOr%253daLert%25281%2529%253e
+		%253ciMG%2520SRC%253dx%2520onErRoR%253daLert%25281%2529%253e
+		%253CiMG%250ASRc%253Dx%250AoneRroR%253DaleRt%25281%2529%253E
+	#0: 6 payloads
+		%253cIfrAME%252509SRc%253dJaVasCRipT%253aAleRT%25281%2529%253e
+		%253Ciframe%2520src%253Ddata%253Atext/html%253Bbase64%252CPHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg%253D%253D%2527 /*8*/
+		%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253e
+		%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253eExtendWith/Full_Bypass.
+		%25253CsCRIPT%25253eALErT%2525281%252529%25253C/scrIPT%25253E
+		%253cImG%252509sRc%253dx%252509onERROR%253dJaVaSCRipT%253aAleRt%2560XsS%2560%253e
+	#1: 5 payloads
+		%25253Csvg/onloaD%25253DALERT%2525281%252529%25253E
+		%253csvg/OnlOad%253dalErt%25281%2529%253e
+		%253cSVg/OnLOaD%253dAleRt%25281%2529%253E
+		%253cSVg/OnLOaD%253dAlERt%25281%2529%253E
+		%253cSvG/onlOad%253dAleRT%25281%2529%253e
+	#3: 3 payloads
+		%253Csvg/onmousedown%253Dprompt%25281%2529%253E
+		%253Csvg/onmousedown%253Dalert106%25281%2529%253E Cliquez ici!%253C/svg%253E
+		%253Csvg/onMOuSEMOvE%253Dalert%25281%2529%253E
+[2/4] Generating rules with LLM + RAG...
+[BASE DEFEND PROMPT]
+	**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+	
+	**Environment:**
+	- WAF: ModSecurity (SpiderLabs)
+	- Bypassed Payloads by clusters:
+		Cluster 2 (3 payloads):
+			%253cImG%2509SRC%253DX%2509onERrOr%253daLert%25281%2529%253e
+			%253ciMG%2520SRC%253dx%2520onErRoR%253daLert%25281%2529%253e
+			%253CiMG%250ASRc%253Dx%250AoneRroR%253DaleRt%25281%2529%253E
+		Cluster 0 (6 payloads):
+			%253cIfrAME%252509SRc%253dJaVasCRipT%253aAleRT%25281%2529%253e
+			%253Ciframe%2520src%253Ddata%253Atext/html%253Bbase64%252CPHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg%253D%253D%2527 /*8*/
+			%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253e
+			%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253eExtendWith/Full_Bypass.
+			%25253CsCRIPT%25253eALErT%2525281%252529%25253C/scrIPT%25253E
+			%253cImG%252509sRc%253dx%252509onERROR%253dJaVaSCRipT%253aAleRt%2560XsS%2560%253e
+		Cluster 1 (5 payloads):
+			%25253Csvg/onloaD%25253DALERT%2525281%252529%25253E
+			%253csvg/OnlOad%253dalErt%25281%2529%253e
+			%253cSVg/OnLOaD%253dAleRt%25281%2529%253E
+			%253cSVg/OnLOaD%253dAlERt%25281%2529%253E
+			%253cSvG/onlOad%253dAleRT%25281%2529%253e
+		Cluster 3 (3 payloads):
+			%253Csvg/onmousedown%253Dprompt%25281%2529%253E
+			%253Csvg/onmousedown%253Dalert106%25281%2529%253E Cliquez ici!%253C/svg%253E
+			%253Csvg/onMOuSEMOvE%253Dalert%25281%2529%253E
+	
+	
+	Generate 3 PRODUCTION-GRADE defense rules to block these bypasses:
+	
+	1. **Multi-Layer Detection**: Create rules that detect:
+	   - Raw pattern matching (regex)
+	   - Normalized/decoded variants (URL decoding, Unicode normalization)
+	   - Obfuscation techniques (comment injection, case variations)
+	   - Anomaly patterns (unusual character sequences, excessive encoding)
+	
+	2. **Rule Requirements**:
+	   - Match both obvious and obfuscated forms
+	   - Include pre-processing steps (normalize, decode, lowercase)
+	   - Minimize false positives with negative lookaheads
+	   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
+	
+	3. **Implementation Details**:
+	   - Provide rules in ModSecurity SecRule format
+	   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
+	   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
+	   - Add actionable deployment instructions
+	
+	4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+	
+	**FORMAT**: For each rule, provide:
+	- SecRule syntax
+	- Transformation pipeline
+	- Severity level
+	- Deployment phase
+	- Testing methodology
+[RAG Results]
+	Queries: 4
+	Docs (all): 33
+	Docs (filtered): 4
+	Sources: 4
+[Enhanced Prompt with RAG]
+	**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+	
+	**Environment:**
+	- WAF: ModSecurity (SpiderLabs)
+	- Bypassed Payloads by clusters:
+		Cluster 2 (3 payloads):
+			%253cImG%2509SRC%253DX%2509onERrOr%253daLert%25281%2529%253e
+			%253ciMG%2520SRC%253dx%2520onErRoR%253daLert%25281%2529%253e
+			%253CiMG%250ASRc%253Dx%250AoneRroR%253DaleRt%25281%2529%253E
+		Cluster 0 (6 payloads):
+			%253cIfrAME%252509SRc%253dJaVasCRipT%253aAleRT%25281%2529%253e
+			%253Ciframe%2520src%253Ddata%253Atext/html%253Bbase64%252CPHNjcmlwdD5hbGVydCgxKTwvc2NyaXB0Pg%253D%253D%2527 /*8*/
+			%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253e
+			%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253eExtendWith/Full_Bypass.
+			%25253CsCRIPT%25253eALErT%2525281%252529%25253C/scrIPT%25253E
+			%253cImG%252509sRc%253dx%252509onERROR%253dJaVaSCRipT%253aAleRt%2560XsS%2560%253e
+		Cluster 1 (5 payloads):
+			%25253Csvg/onloaD%25253DALERT%2525281%252529%25253E
+			%253csvg/OnlOad%253dalErt%25281%2529%253e
+			%253cSVg/OnLOaD%253dAleRt%25281%2529%253E
+			%253cSVg/OnLOaD%253dAlERt%25281%2529%253E
+			%253cSvG/onlOad%253dAleRT%25281%2529%253e
+		Cluster 3 (3 payloads):
+			%253Csvg/onmousedown%253Dprompt%25281%2529%253E
+			%253Csvg/onmousedown%253Dalert106%25281%2529%253E Cliquez ici!%253C/svg%253E
+			%253Csvg/onMOuSEMOvE%253Dalert%25281%2529%253E
+	
+	
+	Generate 3 PRODUCTION-GRADE defense rules to block these bypasses:
+	
+	1. **Multi-Layer Detection**: Create rules that detect:
+	   - Raw pattern matching (regex)
+	   - Normalized/decoded variants (URL decoding, Unicode normalization)
+	   - Obfuscation techniques (comment injection, case variations)
+	   - Anomaly patterns (unusual character sequences, excessive encoding)
+	
+	2. **Rule Requirements**:
+	   - Match both obvious and obfuscated forms
+	   - Include pre-processing steps (normalize, decode, lowercase)
+	   - Minimize false positives with negative lookaheads
+	   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
+	
+	3. **Implementation Details**:
+	   - Provide rules in ModSecurity SecRule format
+	   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
+	   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
+	   - Add actionable deployment instructions
+	
+	4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+	
+	**FORMAT**: For each rule, provide:
+	- SecRule syntax
+	- Transformation pipeline
+	- Severity level
+	- Deployment phase
+	- Testing methodology
+	
+	---
+	**KNOWLEDGE BASE REFERENCES**
+	
+	The following references from our security knowledge base may help inform your defense strategy:
+	
+	[Reference #1 : XSSSurvey_GR.pdf]• On the server side
+	• Hybrid (client-server combination)
+	Most of the proposals aimed at the DOM Cross Site
+	Scripting detection method (DOM-XSS) have been divided
+	into three types: black box fuzzing, static analysis and dynamic
+	analysis [64].
+	Other defense methods found in [9] are based on the
+	analysis of code extraction:
+	• Through input validation
+	• Through escape characters
+	• Through ﬁlters
+	• Through the set of characters that is speciﬁed
+	To complement this classiﬁcation, the analysis of tables
+	II, III, IV and V has been presented. The information has
+	been structured according to the interest of our research, which
+	in this case would be to analyze all the tools and methods
+	proposed or used to mitigate attacks XSS. In Fig. 12 we
+	propose a mental map that is summarized below:
+	TABLE II. S UMMARY OF TOOLS AND METHODS FOUND TO MITIGATE
+	XSS ATTACKS
+	Tool/Method Description Reference
+	Laboratories Activity Emulation,
+	Simulation, Honeypots
+	[50][53][54]
+	IDS Snort, Containers [43][60][65]
+	
+	[Reference #2 : technical_note_waf_rule_writing_guide_2026-02-23-20-31-45.pdf]"id:101,\ 
+	    deny,\ 
+	    status:404,\ 
+	    msg:'XSS Attack'" 
+	Variables 
+	Details about the variables in this rule example are in the table below: 
+	Variable Definition 
+	ARGS Request parameters 
+	REQUEST_HEADERS All of the request headers 
+	Operator 
+	“@rx <script>” – Performs a regular expression match of the pattern (in this case <script>) provided as a 
+	parameter. 
+	Actions 
+	Details of the actions contained in this rule example are provided in the table below: 
+	Action(s) Description 
+	id, msg, severity, deny, status These are all of the actions to be performed if the pattern 
+	is matched. 
+	id:101 The unique ID that is assigned to the rule (or chain) in 
+	which it appears. 
+	msg: “XSS Attack” The custom message (i.e. XSS Attack) assigned to the 
+	ModSecurity Rule Writing
+	10
+	
+	[Reference #3 : Making Rules.md]---
+	title: Making Rules
+	weight: 31
+	disableToc: false
+	chapter: false
+	---
+	
+	{{% notice note %}}
+	**The content on this page may be outdated.** We are currently in the process of rewriting all of our documentation: please bear with us while we update our older content.
+	{{% /notice %}}
+	
+	## Making Rules
+	
+	### The Basic Syntax
+	
+	A [SecRule](https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-(v2.x)#SecRule)
+	is a directive like any other understood by ModSecurity. The difference
+	is that this directive is way more powerful in what it is capable of
+	representing. Generally, a SecRule is made up of 4 parts:
+	- Variables - Instructs ModSecurity *where* to look (sometimes called Targets) 
+	- Operators - Instructs ModSecurity *when* to trigger a match 
+	- Transformations - Instructs ModSecurity *how* it should normalize variable data 
+	- Actions - Instructs ModSecurity *what* to do if a rule matches
+	
+	The structure of the rule is as follows:
+	
+	[Reference #4 : technical_note_waf_rule_writing_guide_2026-02-23-20-31-45.pdf]The rule consists of four parts: 
+	• VARIABLES: Tells the WAF engine where to look in the transactional data (HTTP request and response 
+	data). 
+	• OPERATOR: Tells the WAF engine how to process the variable data. 
+	• TRANSFORMATION_FUNCTIONS: Tells the WAF engine how to normalize data before an operator is 
+	applied. 
+	• ACTIONS: Tells the WAF engine what to do if a rule matches. 
+	The four parts are explained in the sections below. 
+	Contents 
+	• Variables 
+	• Operator 
+	• Transformation Functions 
+	• Actions 
+	• Rule Syntax 
+	• WUI Settings 
+	• Rule Block Function 
+	Variables 
+	This specifies which places to check in a HTTP transaction. Examples of variables include: 
+	• ARGS – all arguments including the POST payload 
+	• REQUEST_METHOD – request method used in the transaction 
+	• REQUEST_HEADERS – can be used as either a collection of all of the request headers or can be used 
+	to inspect selected headers 
+	• And so on. The full list of variables is available here: ModSecurity Reference Manual
+	
+	---
+	
+	Please consider these references when generating defense rules, but prioritize the specific bypassed payloads mentioned above.
+	
+Generated 3 rules
+	SecRule ARGS "(?i)<(script|style|svg|iframe|img)([^>\n]+)?(on\w+|src|javascript):" "id:900001,phase:2,deny,status:403,msg:'Attempt to exploit client-side vulnerabilities via HTML tags and event handlers',t:urlDecode,t:lowercase,t:htmlEntityDecode,t:removeComments,t:compressWhitespace,t:normalizePath"
+	SecRule ARGS "(%[0-9a-f]{2}){3,}" "id:900002,phase:2,deny,status:403,msg:'Excessive encoding detected, potential obfuscation attempt',t:urlDecode,t:lowercase"
+	SecRule ARGS "(?i)alert\s*\(([^()]+)\)" "id:900003,phase:2,deny,status:403,msg:'JavaScript alert usage inappropriately',t:urlDecode,t:lowercase,t:htmlEntityDecode"
+[3/4] Validating rule syntax...
+Valid: 3, Invalid: 0
+	SecRule ARGS "(?i)<(script|style|svg|iframe|img)([^>\n]+)?(on\w+|src|javascript):" "id:900001,phase:2,deny,status:403,msg:'Attempt to exploit client-side vulnerabilities via HTML tags and event handlers',t:urlDecode,t:lowercase,t:htmlEntityDecode,t:removeComments,t:compressWhitespace,t:normalizePath"
+	SecRule ARGS "(%[0-9a-f]{2}){3,}" "id:900002,phase:2,deny,status:403,msg:'Excessive encoding detected, potential obfuscation attempt',t:urlDecode,t:lowercase"
+	SecRule ARGS "(?i)alert\s*\(([^()]+)\)" "id:900003,phase:2,deny,status:403,msg:'JavaScript alert usage inappropriately',t:urlDecode,t:lowercase,t:htmlEntityDecode"
+[4/4] Skipping Gemini refinement (disabled or unavailable)
+
+Pipeline complete! Generated 3 valid rules.

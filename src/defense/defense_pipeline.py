@@ -57,6 +57,15 @@ class ClusterInfo:
     attack_type: str
     representative_payload: str
     size: int
+    
+    def to_dict(self):
+        return {
+            "cluster_id": int(self.cluster_id),
+            "payloads": self.payloads,
+            "attack_type": self.attack_type,
+            "representative_payload": self.representative_payload,
+            "size": int(self.size),
+        }
 
 
 @dataclass
@@ -88,6 +97,7 @@ class PipelineResult:
     """Result of the defense pipeline execution."""
     success: bool
     stage: PipelineStage
+    generated_rules: list[GeneratedRule] = field(default_factory=list)
     final_rules: list[GeneratedRule] = field(default_factory=list)
     # Metadata
     total_payloads: int = 0
@@ -219,7 +229,7 @@ class DefensePipeline:
             if not attack_type:
                 attack_type = self._detect_attack_type(bypassed_payloads)
 
-            generated_rules = self._generate_rules_with_llm(
+            result.generated_rules = self._generate_rules_with_llm(
                 payloads=bypassed_payloads,
                 clusters=clusters,
                 waf_name=waf_name,
@@ -227,16 +237,16 @@ class DefensePipeline:
                 num_rules=num_rules,
                 attack_type=attack_type,
             )
-            result.rules_generated = len(generated_rules)
-            print(f"Generated {len(generated_rules)} rules")
-            for rule in generated_rules:
+            result.rules_generated = len(result.generated_rules)
+            print(f"Generated {len(result.generated_rules)} rules")
+            for rule in result.generated_rules:
                 print(f"\t{rule.rule}")
 
             # Stage 3: Syntax Validation
             result.stage = PipelineStage.SYNTAX_VALIDATION
             print("[3/4] Validating rule syntax...")
 
-            valid_rules, invalid_rules = self._validate_rules(generated_rules, waf_type)
+            valid_rules, invalid_rules = self._validate_rules(result.generated_rules, waf_type)
             result.rules_valid = len(valid_rules)
             result.rules_invalid = len(invalid_rules)
             result.validation_errors = [r.validation_error for r in invalid_rules if r.validation_error]
@@ -387,6 +397,7 @@ class DefensePipeline:
                 payload_clusters=[c.__dict__ for c in clusters],
                 num_rules=num_rules,
             )
+            
             print(f"[BASE DEFEND PROMPT]\n\t{base_prompt.replace('\n', '\n\t')}")
 
             # Enhance with RAG if enabled
@@ -403,27 +414,27 @@ class DefensePipeline:
                         bypassed_payloads=payloads,
                         base_user_prompt=base_prompt,
                     )
-                    user_prompt = rag_result["enhanced_prompt"]
+                    enhanced_prompt = rag_result["enhanced_prompt"]
                     print("[RAG Results]")
                     print(f"\tQueries: {rag_result.get('num_queries', 'N/A')}")
                     print(f"\tDocs (all): {rag_result.get('num_docs_all', 'N/A')}")
                     print(f"\tDocs (filtered): {rag_result.get('num_docs_filtered', 'N/A')}")
                     print(f"\tSources: {len(rag_result.get('sources', []))}")
-                    print(f"[Enhanced Prompt with RAG]\n\t{user_prompt.replace('\n', '\n\t')}")
+                    print(f"[Enhanced Prompt with RAG]\n\t{enhanced_prompt.replace('\n', '\n\t')}")
                 except Exception as e:
                     print(f"RAG enhancement failed, using base prompt: {e}")
-                    user_prompt = base_prompt
+                    enhanced_prompt = base_prompt
             else:
-                user_prompt = base_prompt
+                enhanced_prompt = base_prompt
 
             # Add WAF type instruction
             waf_format_instruction = self._get_waf_format_instruction(waf_type)
-            user_prompt += f"\n\n{waf_format_instruction}"
+            enhanced_prompt += f"\n\n{waf_format_instruction}"
 
             # Call LLM
             messages = [
                 {"role": "system", "content": BLUE_TEAM_SYSTEM_PROMPT},
-                {"role": "user", "content": user_prompt},
+                {"role": "user", "content": enhanced_prompt},
             ]
 
             response_format = {
