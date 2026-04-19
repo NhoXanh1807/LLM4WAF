@@ -9,3 +9,4 @@ src/gui/backend/.env
 .json
 .log
 src/gui/frontend/.env
+/src/gui/backend/session_logs
