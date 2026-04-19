@@ -1,6 +1,6 @@
 import React from 'react';
 
-function BypassedDataTable({ wafName, payloads, darkMode }) {
+function PayloadResultsTable({ wafName, payloads, darkMode, onClear }) {
     const data = Array.isArray(payloads) ? payloads : [];
 
     const getStatusBadge = (item) => {
@@ -14,16 +14,17 @@ function BypassedDataTable({ wafName, payloads, darkMode }) {
 
     return (
         <div className="overflow-x-auto">
-            <div className="mb-6">
-                <h3 className={`font-bold mb-3 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>📋 WAF Information</h3>
-                <textarea
-                    className={`w-full h-28 border-2 rounded-lg p-4 text-sm font-mono transition-colors duration-200 ${darkMode
-                            ? 'bg-gray-900 border-gray-700 text-cyan-400'
-                            : 'bg-gray-50 border-gray-300 text-gray-800'
-                        }`}
-                    value={wafName ? (typeof wafName === 'string' ? wafName : JSON.stringify(wafName, null, 2)) : ''}
-                    readOnly
-                />
+            <div className="mb-6 flex">
+                <h3 className={`font-bold mb-3 text-lg ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>📋 Payloads and results</h3>
+                {onClear && (
+                    <button
+                        className="px-4 py-2 rounded-lg font-bold text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 shadow-lg hover:shadow-xl transition-all duration-200"
+                        onClick={onClear}
+                        type="button"
+                    >
+                        🧹 Clear
+                    </button>
+                )}
             </div>
             <div className={`rounded-xl overflow-hidden border-2 ${darkMode ? 'border-gray-700' : 'border-gray-200'} shadow-lg`}>
                 <table className="min-w-full table-fixed">
@@ -64,4 +65,4 @@ function BypassedDataTable({ wafName, payloads, darkMode }) {
     );
 }
 
-export default BypassedDataTable;
+export default PayloadResultsTable;
