@@ -1,4 +1,41 @@
 
+import datetime
+import sys
+import os
+from typing import List
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+
+# --- Logging setup: redirect stdout/stderr ---
+session_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+log_dir = os.path.join(os.path.dirname(__file__), "session_logs")
+os.makedirs(log_dir, exist_ok=True)
+log_filename = f"log_{session_id}.log"
+log_path = os.path.join(log_dir, log_filename)
+    
+
+class TeeStream:
+    def __init__(self, *streams):
+        self.streams = streams
+    def write(self, data):
+        for s in self.streams:
+            try:
+                s.write(data)
+                s.flush()
+            except Exception:
+                pass
+    def flush(self):
+        for s in self.streams:
+            try:
+                s.flush()
+            except Exception:
+                pass
+
+# Open log file in append mode
+_log_file = open(log_path, 'a', encoding='utf-8')
+sys.stdout = TeeStream(sys.__stdout__, _log_file)
+sys.stderr = TeeStream(sys.__stderr__, _log_file)
+
 print("importing libs...")
 import sys
 import os

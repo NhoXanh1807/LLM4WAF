@@ -198,11 +198,18 @@ class DefensePipeline:
 
         try:
             # Stage 1: Clustering
+            print("Bypassed payloads:")
+            for p in bypassed_payloads:
+                print(f"\t{p}")
             print("[1/4] Clustering payloads...")
             clusters = self._cluster_payloads(bypassed_payloads)
             result.cluster_info = clusters
             result.num_clusters = len(clusters)
-            print(f"      Created {len(clusters)} clusters")
+            print(f"Created {len(clusters)} clusters")
+            for c in clusters:
+                print(f"\t#{c.cluster_id}: {c.size} payloads")
+                for p in c.payloads:
+                    print(f"\t\t{p}")
 
             # Stage 2: LLM Generation
             result.stage = PipelineStage.LLM_GENERATION
@@ -221,7 +228,9 @@ class DefensePipeline:
                 attack_type=attack_type,
             )
             result.rules_generated = len(generated_rules)
-            print(f"      Generated {len(generated_rules)} rules")
+            print(f"Generated {len(generated_rules)} rules")
+            for rule in generated_rules:
+                print(f"\t{rule.rule}")
 
             # Stage 3: Syntax Validation
             result.stage = PipelineStage.SYNTAX_VALIDATION
@@ -231,16 +240,18 @@ class DefensePipeline:
             result.rules_valid = len(valid_rules)
             result.rules_invalid = len(invalid_rules)
             result.validation_errors = [r.validation_error for r in invalid_rules if r.validation_error]
-            print(f"      Valid: {len(valid_rules)}, Invalid: {len(invalid_rules)}")
+            print(f"Valid: {len(valid_rules)}, Invalid: {len(invalid_rules)}")
 
             # Retry invalid rules
             if invalid_rules and self.max_retries > 0:
-                print(f"      Retrying {len(invalid_rules)} invalid rules...")
+                print(f"Retrying {len(invalid_rules)} invalid rules...")
                 retry_rules = self._retry_invalid_rules(
                     invalid_rules, waf_type, bypassed_payloads, attack_type
                 )
                 valid_rules.extend(retry_rules)
                 result.rules_valid = len(valid_rules)
+            for rule in valid_rules:
+                print(f"\t{rule.rule}")
 
             # Stage 4: Gemini Refinement
             result.stage = PipelineStage.GEMINI_REFINEMENT
@@ -268,9 +279,11 @@ class DefensePipeline:
                     valid_rules = refined_rules
                     result.rules_refined = len(refined_rules)
                     result.duplicates_removed = refinement_result.removed_duplicates
-                    print(f"      Refined {len(refined_rules)} rules, removed {result.duplicates_removed} duplicates")
+                    print(f"Refined {len(refined_rules)} rules, removed {result.duplicates_removed} duplicates")
+                    for rule in refined_rules:
+                        print(f"\t{rule.rule}")
                 else:
-                    print(f"      Refinement failed: {refinement_result.error_message}")
+                    print(f"Refinement failed: {refinement_result.error_message}")
             else:
                 print("[4/4] Skipping Gemini refinement (disabled or unavailable)")
 
@@ -371,8 +384,7 @@ class DefensePipeline:
             # Build prompt
             base_prompt = get_blue_team_user_prompt(
                 waf_name=waf_name,
-                bypassed_payloads=json.dumps(payloads[:20]),  # Limit for token efficiency
-                bypassed_instructions=json.dumps([f"Payload from cluster {c.cluster_id}" for c in clusters]),
+                payload_clusters=[c.__dict__ for c in clusters],
                 num_rules=num_rules,
             )
             print(f"[BASE DEFEND PROMPT]\n\t{base_prompt.replace('\n', '\n\t')}")

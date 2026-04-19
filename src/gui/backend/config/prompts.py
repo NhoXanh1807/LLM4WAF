@@ -54,16 +54,20 @@ BLUE_TEAM_SYSTEM_PROMPT = """You are a defensive security architect specializing
 
 Your goal is to design robust, production-ready WAF rules that block attack vectors while maintaining application usability."""
 
-def get_blue_team_user_prompt(waf_name, bypassed_payloads:list, bypassed_instructions:list, num_rules):
+def get_blue_team_user_prompt(waf_name, payload_clusters:list[dict], num_rules:int):
+   payload_cluster_string = ""
+   for c in payload_clusters:
+      payload_cluster_string += f"\tCluster {c['cluster_id']} ({c['size']} payloads):\n"
+      for p in c['payloads']:
+         payload_cluster_string += f"\t\t{p}\n"
+   
    """Generate user prompt for defense rule creation"""
    return f"""**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
 
 **Environment:**
 - WAF: {waf_name}
-- Bypassed Payloads: 
-{'\n\t'.join(bypassed_payloads)}
-- Attack Techniques Used: 
-{'\n\t'.join(bypassed_instructions)}
+- Bypassed Payloads by clusters:
+{payload_cluster_string}
 
 Generate {num_rules} PRODUCTION-GRADE defense rules to block these bypasses:
 
