@@ -53,6 +53,7 @@ from wafw00f.main import WAFW00F
 from services.generator import PayloadResult, generate_payloads_phase1, generate_payloads_phase3
 from services_external import dvwa
 from services.generator import PayloadResult
+import services.payload_harmness_validator as harmfulness
 from config.settings import DEFAULT_NUM_DEFENSE_RULES, NGROK_AUTHTOKEN, NGROK_DOMAIN
 
 # Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> Gemini
@@ -162,7 +163,7 @@ def api_generate_payload():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route("/api/attack_dvwa", methods=["POST"])
+@app.route("/api/test_attack", methods=["POST"])
 def api_attack_dvwa():
     try:
         data = dict(request.get_json())
@@ -182,8 +183,19 @@ def api_attack_dvwa():
         for i, item in enumerate(payloads):
             payload = item.payload
             attack_type = item.attack_type
+            
+            # Check harmfulness
+            if "xss" in attack_type.lower():
+                harmfulness_result = harmfulness.evaluate_xss_payload(payload)
+                if harmfulness_result:
+                    item.is_harmful = not harmfulness_result.is_safe
+            elif "sql" in attack_type.lower():
+                harmfulness_result = harmfulness.evaluate_sql_payload(payload)
+                if harmfulness_result:
+                    item.is_harmful = len(harmfulness_result.harm_queries) > 0
+            
+            # Test on DVWA
             attack_func = dvwa.DVWA_ATTACK_FUNC.get(attack_type)
-
             print(f"[DVWA-Check] {i+1}/{len(payloads)} : {item.payload}")
             if attack_func and payload:
                 result = dvwa.attack(attack_type, payload, session_id, base_url=domain)
@@ -199,7 +211,7 @@ def api_attack_dvwa():
     except Exception as e:
         import traceback
         print("=" * 50)
-        print("ERROR in /api/attack_dvwa:")
+        print("ERROR in /api/test_attack:")
         print(traceback.format_exc())
         print("=" * 50)
         return jsonify({"error": str(e)}), 500

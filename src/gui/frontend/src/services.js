@@ -45,9 +45,9 @@ export const Services = {
         // /api/generate_payload expects { waf_name, attack_type, num_payloads, payloads_history }
         return Call("/generate_payload", "POST", { waf_name, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
     },
-    apiAttackDVWA: async (domain, payloads = []) => {
-        // /api/attack_dvwa expects { domain, payloads }
-        return Call("/attack_dvwa", "POST", { domain, payloads }, { "Content-Type": "application/json" });
+    apiTestAttack: async (domain, payloads = []) => {
+        // /api/test_attack expects { domain, payloads }
+        return Call("/test_attack", "POST", { domain, payloads }, { "Content-Type": "application/json" });
     },
     apiDefend: async (waf_name, payloads, num_rules = 3, existing_rules = null) => {
         // /api/defend expects { waf_name, payloads, num_rules, existing_rules }

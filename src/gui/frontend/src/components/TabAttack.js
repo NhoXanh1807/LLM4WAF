@@ -21,6 +21,8 @@ const AttackTab = ({
     setPayloadsAdaptive,
     setAttackResults,
     setActiveTab,
+    setIsAutoDefend,
+    handleDefend,
 }) => {
     // Per-button loading states
     const [loadingDetect, setLoadingDetect] = useState(false);
@@ -82,19 +84,19 @@ const AttackTab = ({
             setLoadingAttackRandom(true);
             let is_attack_successful = false;
             try {
-                let res = await Services.apiAttackDVWA(domain, randomPayloads);
+                let res = await Services.apiTestAttack(domain, randomPayloads);
                 let data = await res.json();
                 if (!res.ok) throw new Error(data?.error || `Attack DVWA error: ${res.status}`);
                 // Cập nhật kết quả attack vào payloads
                 randomPayloads = randomPayloads.map(p => {
                     const found = (data?.payloads || []).find(r => r.payload === p.payload);
                     if (found) {
-                        return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
+                        return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
                     }
                     return p;
                 });
                 setPayloadsRandom(randomPayloads);
-                is_attack_successful = !randomPayloads.some(p => p.is_bypassed == null && p.status_code == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code) thì coi như attack thành công
+                is_attack_successful = !randomPayloads.some(p => p.is_bypassed == null && p.status_code == null && p.is_harmful == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code hoặc is_harmful) thì coi như attack thành công
             }
             finally {
                 setLoadingAttackRandom(false);
@@ -123,19 +125,19 @@ const AttackTab = ({
                 let is_attack_adaptive_successful = false;
                 setLoadingAttackAdaptive(true);
                 try {
-                    let res = await Services.apiAttackDVWA(domain, adaptivePayloads);
+                    let res = await Services.apiTestAttack(domain, adaptivePayloads);
                     let data = await res.json();
                     if (!res.ok) throw new Error(data?.error || `Attack DVWA error: ${res.status}`);
                     // Cập nhật kết quả attack vào payloads
                     adaptivePayloads = adaptivePayloads.map(p => {
                         const found = (data?.payloads || []).find(r => r.payload === p.payload);
                         if (found) {
-                            return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
+                            return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
                         }
                         return p;
                     });
                     setPayloadsAdaptive(adaptivePayloads);
-                    is_attack_adaptive_successful = !adaptivePayloads.some(p => p.is_bypassed == null && p.status_code == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code) thì coi như attack thành công
+                    is_attack_adaptive_successful = !adaptivePayloads.some(p => p.is_bypassed == null && p.status_code == null && p.is_harmful == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code hoặc is_harmful) thì coi như attack thành công
                 }
                 finally {
                     setLoadingAttackAdaptive(false);
@@ -147,6 +149,7 @@ const AttackTab = ({
             }
             setAttackResults(attackResultsForDefend);
             setActiveTab('Defend');
+            handleDefend(); // Tự động chuyển sang defend sau khi attack thành công
         } catch (err) {
             setError(err.message || 'Auto attack failed');
         } finally {
@@ -249,7 +252,7 @@ const AttackTab = ({
         setLoadingAttackRandom(true);
         setError(null);
         try {
-            const res = await Services.apiAttackDVWA(domain, payloadsRandom);
+            const res = await Services.apiTestAttack(domain, payloadsRandom);
             const data = await res.json();
             if (!res.ok) {
                 setError(data?.error || `Server error: ${res.status}`);
@@ -258,7 +261,7 @@ const AttackTab = ({
             setPayloadsRandom(prev => prev.map(p => {
                 const found = (data?.payloads || []).find(r => r.payload === p.payload);
                 if (found) {
-                    return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
+                    return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
                 }
                 return p;
             }));
@@ -274,7 +277,7 @@ const AttackTab = ({
         setLoadingAttackAdaptive(true);
         setError(null);
         try {
-            const res = await Services.apiAttackDVWA(domain, payloadsAdaptive);
+            const res = await Services.apiTestAttack(domain, payloadsAdaptive);
             const data = await res.json();
             if (!res.ok) {
                 setError(data?.error || `Server error: ${res.status}`);
@@ -283,7 +286,7 @@ const AttackTab = ({
             setPayloadsAdaptive(prev => prev.map(p => {
                 const found = (data?.payloads || []).find(r => r.payload === p.payload);
                 if (found) {
-                    return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
+                    return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
                 }
                 return p;
             }));
@@ -316,9 +319,9 @@ const AttackTab = ({
                 <h2 className="text-3xl font-bold mb-4 text-red-500 tracking-tight">
                     Auto Attack
                 </h2>
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-6">
                     <div className="flex flex-row gap-4 items-center">
-                        <span className="text-lg font-medium dark:text-white">Domain : </span>
+                        <span className="text-lg font-medium dark:text-white">Domain</span>
                         <input
                             type="text"
                             className={`w-1/4 flex px-5 py-3 rounded-xl border-2 text-lg font-medium shadow-sm focus:ring-2 focus:ring-green-400 transition-all duration-200 ${darkMode ? 'bg-gray-800 text-white border-gray-700 placeholder-gray-400' : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400'}`}
@@ -328,7 +331,7 @@ const AttackTab = ({
                             required
                             disabled={loadingAutoAttack || anyLoading}
                         />
-                        <span className="text-lg font-medium dark:text-white">Attack Type : </span>
+                        <span className="text-lg font-medium dark:text-white">AttackType</span>
                         <select
                             className={`px-5 py-3 rounded-xl border-2 text-lg font-medium shadow-sm focus:ring-2 focus:ring-green-400 transition-all duration-200 ${darkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}
                             value={attackType}
@@ -341,7 +344,7 @@ const AttackTab = ({
                             <option value="sql_injection">SQL Injection</option>
                             <option value="sql_injection_blind">Blind SQL Injection</option>
                         </select>
-                        <span className="text-lg font-medium dark:text-white">Number of Payloads : </span>
+                        <span className="text-lg font-medium dark:text-white">NumPayloads</span>
                         <input
                             type="number"
                             className={`w-28 px-5 py-3 rounded-xl border-2 text-center text-lg font-medium shadow-sm focus:ring-2 focus:ring-green-400 transition-all duration-200 ${darkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}

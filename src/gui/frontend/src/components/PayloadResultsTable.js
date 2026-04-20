@@ -9,14 +9,36 @@ function PayloadResultsTable({ wafName, payloads, darkMode, onClear, maxHeight =
     const blocked = data.filter(item => item.status_code != null && item.is_bypassed === false).length;
     const notTested = data.filter(item => item.status_code == null).length;
 
-    const getStatusBadge = (item) => {
+    const getResultCell = (item) => {
+        if (item.status_code == null || item.is_bypassed == null || item.is_harmful == null)
+            return <span className="px-2 py-2 bg-gray-400 text-white rounded-full text-xs">Not tested</span>;
+        // Status code
+        const status = item.status_code == null ? '--' : item.status_code;
+        // Bypassed/Blocked
+        let bypassedBadge;
         if (item.is_bypassed === true) {
-            return <span className="px-4 py-1.5 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-full font-bold text-xs shadow-lg">⚠️ BYPASSED</span>;
+            bypassedBadge = <span className="px-2 py-2 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-full font-bold text-xs shadow">⚠️ BYPASSED</span>;
         } else if (item.is_bypassed === false && item.status_code != null) {
-            return <span className="px-4 py-1.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-bold text-xs shadow-lg">✅ BLOCKED</span>;
+            bypassedBadge = <span className="px-2 py-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-bold text-xs shadow">✅ BLOCKED</span>;
+        } else {
+            bypassedBadge = <span className="px-2 py-2 bg-gray-400 text-white rounded-full text-xs">--</span>;
         }
-        // If bypassed is null/undefined, treat as not tested
-        return <span className="px-4 py-1.5 bg-gray-400 text-white rounded-full text-xs">--</span>;
+        // Harmful/Safe
+        let harmfulBadge;
+        if (item.is_harmful === true) {
+            harmfulBadge = <span className="px-2 py-1 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-full font-bold text-xs shadow">☠️ Harmful</span>;
+        } else if (item.is_harmful === false) {
+            harmfulBadge = <span className="px-2 py-1 bg-gradient-to-r from-green-400 to-emerald-500 text-white rounded-full font-bold text-xs shadow">🛡️ Safe</span>;
+        } else {
+            harmfulBadge = <span className="px-2 py-1 bg-gray-400 text-white rounded-full text-xs">--</span>;
+        }
+        return (
+            <div className="flex flex-col items-center gap-1">
+                <span className="font-mono text-base font-bold dark:text-gray-300">status({status})</span>
+                {bypassedBadge}
+                {harmfulBadge}
+            </div>
+        );
     };
 
     return (
@@ -46,7 +68,6 @@ function PayloadResultsTable({ wafName, payloads, darkMode, onClear, maxHeight =
                             <th className={`w-12 px-2 py-3 font-bold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>#</th>
                             <th className={`w-12 px-2 py-3 font-bold text-left ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Type</th>
                             <th className={`w-full px-2 py-3 font-bold text-left ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Payload</th>
-                            <th className={`w-20 px-2 py-3 font-bold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Status</th>
                             <th className={`w-40 px-2 py-3 font-bold ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>Result</th>
                         </tr>
                     </thead>
@@ -65,10 +86,7 @@ function PayloadResultsTable({ wafName, payloads, darkMode, onClear, maxHeight =
                                 <td className={`px-2 py-3 font-mono text-xs break-all ${darkMode ? 'text-yellow-400' : 'text-gray-800'}`}>
                                     {item.payload || JSON.stringify(item)}
                                 </td>
-                                <td className={`px-2 py-3 text-center font-mono font-bold ${darkMode ? 'text-cyan-400' : 'text-blue-600'}`}>
-                                    {item.status_code == null ? '--' : item.status_code}
-                                </td>
-                                <td className="px-2 py-3 text-center whitespace-nowrap">{getStatusBadge(item)}</td>
+                                <td className="px-2 py-3 text-center whitespace-nowrap">{getResultCell(item)}</td>
                             </tr>
                         ))}
                     </tbody>

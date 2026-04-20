@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import TabAttack from './components/TabAttack';
 import TabDefend from './components/TabDefend';
+import { Services } from './services';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Attack');
+  const [error, setError] = useState(null);
+  const [isAutoDefend, setIsAutoDefend] = useState(false); // Thêm state để theo dõi chế độ Auto Defend
 
   // step 1 - detect WAF
   const [domain, setDomain] = useState('');
@@ -19,7 +22,11 @@ function App() {
   const [attackResults, setAttackResults] = useState([]);
 
   // step 4 - defend
-  const [error, setError] = useState(null);
+  const [defenseRules, setDefenseRules] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [rawResponse, setRawResponse] = useState(null);
+  const [existingRules, setExistingRules] = useState('');
+
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
@@ -35,7 +42,29 @@ function App() {
   }, [darkMode]);
 
 
-
+  // Handler to call defense API
+  const handleDefend = async () => {
+    setLoading(true);
+    setError && setError(null);
+    try {
+      // Prepare existingRules for backend: send as string (can be JSON, plain text, or array)
+      let existingRulesToSend = existingRules && existingRules.trim() ? existingRules : null;
+      const res = await Services.apiDefend(wafName, attackResults, 3, existingRulesToSend);
+      const data = await res.json();
+      setRawResponse(data);
+      if (res.ok && data && data.final_rules) {
+        setDefenseRules(data.final_rules);
+      } else {
+        setDefenseRules([]);
+        setError && setError(data?.error || 'Failed to generate defense rules');
+      }
+    } catch (err) {
+      setDefenseRules([]);
+      setError && setError(err.message || 'Failed to connect to backend');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'}`}>
@@ -117,6 +146,8 @@ function App() {
             attackResults={attackResults}
             setAttackResults={setAttackResults}
             setActiveTab={setActiveTab}
+            setIsAutoDefend={setIsAutoDefend}
+            handleDefend={handleDefend}
           />}
           {activeTab === 'Defend' && <TabDefend
             domain={domain}
@@ -125,8 +156,17 @@ function App() {
             setAttackResults={setAttackResults}
             darkMode={darkMode}
             setError={setError}
+            isAutoDefend={isAutoDefend}
+            setIsAutoDefend={setIsAutoDefend}
+            defenseRules={defenseRules}
+            setDefenseRules={setDefenseRules}
+            loading={loading}
+            handleDefend={handleDefend}
+            rawResponse={rawResponse}
+            existingRules={existingRules}
+            setExistingRules={setExistingRules}
           />}
-          
+
           {/* Error Popup Modal */}
           {error && (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">

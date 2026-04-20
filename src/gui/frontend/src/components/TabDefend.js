@@ -1,49 +1,38 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Services } from '../services';
 import PayloadResultsTable from './PayloadResultsTable';
 
 
-const TabDefend = ({ wafName, attackResults, darkMode, setError, setAttackResults, domain }) => {
-    const [defenseRules, setDefenseRules] = useState([]);
-    const [loading, setLoading] = useState(false);
+const TabDefend = ({ 
+    wafName, 
+    attackResults, 
+    darkMode, 
+    setError, 
+    setAttackResults, 
+    domain, 
+    isAutoDefend, 
+    setIsAutoDefend,
+    defenseRules,
+    setDefenseRules,
+    loading,
+    handleDefend,
+    rawResponse,
+    existingRules,
+    setExistingRules,
+}) => {
+    
     const [loadingRetest, setLoadingRetest] = useState(false);
-    const [rawResponse, setRawResponse] = useState(null);
     const [showRaw, setShowRaw] = useState(false);
-    const [existingRules, setExistingRules] = useState('');
-
-    // Handler to call defense API
-    const handleDefend = async () => {
-        setLoading(true);
-        setError && setError(null);
-        try {
-            // Prepare existingRules for backend: send as string (can be JSON, plain text, or array)
-            let existingRulesToSend = existingRules && existingRules.trim() ? existingRules : null;
-            const res = await Services.apiDefend(wafName, attackResults, 3, existingRulesToSend);
-            const data = await res.json();
-            setRawResponse(data);
-            if (res.ok && data && data.final_rules) {
-                setDefenseRules(data.final_rules);
-            } else {
-                setDefenseRules([]);
-                setError && setError(data?.error || 'Failed to generate defense rules');
-            }
-        } catch (err) {
-            setDefenseRules([]);
-            setError && setError(err.message || 'Failed to connect to backend');
-        } finally {
-            setLoading(false);
-        }
-    };
 
     // Handler to retest attack DVWA (update attackResults in-place)
     const handleRetestAttack = async () => {
         if (!attackResults || attackResults.length === 0) return;
-        setAttackResults(prev => prev.map(p => ({ ...p, bypassed: null, status_code: null }))); // Reset bypassed/status_code before retest
+        setAttackResults(prev => prev.map(p => ({ ...p, bypassed: null, status_code: null, is_harmful: null }))); // Reset bypassed/status_code before retest
         setLoadingRetest(true);
         setError && setError(null);
         try {
-            const res = await Services.apiAttackDVWA(
+            const res = await Services.apiTestAttack(
                 domain,
                 attackResults
             );
@@ -58,7 +47,7 @@ const TabDefend = ({ wafName, attackResults, darkMode, setError, setAttackResult
                 setAttackResults(prev => prev.map(p => {
                     const found = (data?.payloads || []).find(r => r.payload === p.payload);
                     if (found) {
-                        return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
+                        return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
                     }
                     return p;
                 }));
