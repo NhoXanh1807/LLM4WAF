@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import PayloadResultsTable from './components/PayloadResultsTable';
 import TabAttack from './components/TabAttack';
-import { Services } from './services';
 import TabDefend from './components/TabDefend';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Attack');
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // step 1 - detect WAF
   const [domain, setDomain] = useState('');
@@ -108,8 +105,6 @@ function App() {
             setAttackType={setAttackType}
             numPayloads={numPayloads}
             setNumPayloads={setNumPayloads}
-            isSubmitting={isSubmitting}
-            setIsSubmitting={setIsSubmitting}
             error={error}
             setError={setError}
             wafName={wafName}

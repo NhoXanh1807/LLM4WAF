@@ -10,20 +10,15 @@ const AttackTab = ({
     setAttackType,
     numPayloads,
     setNumPayloads,
-    isSubmitting,
-    setIsSubmitting,
     error,
     setError,
     wafName,
     setWafName,
-    payloads,
-    setPayloads,
     darkMode,
     payloadsRandom,
     setPayloadsRandom,
     payloadsAdaptive,
     setPayloadsAdaptive,
-    attackResults,
     setAttackResults,
     setActiveTab,
 }) => {
@@ -33,6 +28,136 @@ const AttackTab = ({
     const [loadingGenAdaptive, setLoadingGenAdaptive] = useState(false);
     const [loadingAttackRandom, setLoadingAttackRandom] = useState(false);
     const [loadingAttackAdaptive, setLoadingAttackAdaptive] = useState(false);
+    // State cho auto attack
+    const [autoDomain, setAutoDomain] = useState(domain || "");
+    const [autoAttackType, setAutoAttackType] = useState(attackType || "xss_dom");
+    const [autoNumPayloads, setAutoNumPayloads] = useState(numPayloads || 5);
+    const [autoUseAdaptive, setAutoUseAdaptive] = useState(false);
+    const [autoNumAdaptive, setAutoNumAdaptive] = useState(5);
+    const [loadingAutoAttack, setLoadingAutoAttack] = useState(false);
+
+    // Hàm auto attack
+    const handleAutoAttack = async () => {
+        setLoadingAutoAttack(true);
+        setError(null);
+        try {
+            // Step 1: Detect WAF
+            setDomain(autoDomain);
+            setWafName('');
+            setPayloadsRandom([]);
+            setPayloadsAdaptive([]);
+            setAttackType(autoAttackType);
+            setNumPayloads(autoNumPayloads);
+            var wafNameVal = '';
+            setLoadingDetect(true);
+            try {
+                let res = await Services.apiDetectWAF(autoDomain);
+                let data = await res.json();
+                if (!res.ok) throw new Error(data?.error || `Detect WAF error: ${res.status}`);
+                wafNameVal = data?.waf_name || '';
+                setWafName(wafNameVal);
+            }
+            finally {
+                setLoadingDetect(false);
+            }
+            if (!wafNameVal) {
+                setError('No WAF detected, cannot proceed with attack');
+                return;
+            }
+
+            // Step 2: Generate Random Payloads
+            var randomPayloads = [];
+            setLoadingGenRandom(true);
+            try {
+                let res = await Services.apiGeneratePayloadRandom(wafNameVal, autoAttackType, autoNumPayloads, []);
+                let data = await res.json();
+                if (!res.ok) throw new Error(data?.error || `Generate random payloads error: ${res.status}`);
+                randomPayloads = data?.payloads || [];
+                setPayloadsRandom(randomPayloads);
+            }
+            finally {
+                setLoadingGenRandom(false);
+            }
+            if (randomPayloads.length === 0) {
+                setError('No random payloads generated, cannot proceed with attack');
+                return;
+            }
+
+            // Step 2.1: Attack DVWA with random payloads to get initial feedback
+            setLoadingAttackRandom(true);
+            let is_attack_successful = false;
+            try {
+                let res = await Services.apiAttackDVWA(autoDomain, randomPayloads);
+                let data = await res.json();
+                if (!res.ok) throw new Error(data?.error || `Attack DVWA error: ${res.status}`);
+                // Cập nhật kết quả attack vào payloads
+                randomPayloads = randomPayloads.map(p => {
+                    const found = (data?.payloads || []).find(r => r.payload === p.payload);
+                    if (found) {
+                        return { ...p, bypassed: found.bypassed, status_code: found.status_code };
+                    }
+                    return p;
+                });
+                setPayloadsRandom(randomPayloads);
+                is_attack_successful = !randomPayloads.some(p => p.bypassed == null && p.status_code == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code) thì coi như attack thành công
+            }
+            finally {
+                setLoadingAttackRandom(false);
+            }
+            if (!is_attack_successful) {
+                throw new Error('Initial attack with random payloads failed, cannot proceed with adaptive attack');
+            }
+
+            var attackResultsForDefend = randomPayloads;
+            // Step 3: Nếu dùng adaptive thì generate adaptive payloads
+            if (autoUseAdaptive) {
+                setLoadingGenAdaptive(true);
+                let adaptivePayloads = [];
+                try {
+                    let res = await Services.apiGeneratePayloadAdaptive(wafNameVal, autoAttackType, autoNumAdaptive, randomPayloads);
+                    let data = await res.json();
+                    if (!res.ok) throw new Error(data?.error || `Generate adaptive payloads error: ${res.status}`);
+                    adaptivePayloads = data?.payloads || [];
+                    setPayloadsAdaptive(adaptivePayloads);
+                }
+                finally {
+                    setLoadingGenAdaptive(false);
+                }
+
+                // Step 3.1: Attack DVWA with adaptive payloads
+                let is_attack_adaptive_successful = false;
+                setLoadingAttackAdaptive(true);
+                try {
+                    let res = await Services.apiAttackDVWA(autoDomain, adaptivePayloads);
+                    let data = await res.json();
+                    if (!res.ok) throw new Error(data?.error || `Attack DVWA error: ${res.status}`);
+                    // Cập nhật kết quả attack vào payloads
+                    adaptivePayloads = adaptivePayloads.map(p => {
+                        const found = (data?.payloads || []).find(r => r.payload === p.payload);
+                        if (found) {
+                            return { ...p, bypassed: found.bypassed, status_code: found.status_code };
+                        }
+                        return p;
+                    });
+                    setPayloadsAdaptive(adaptivePayloads);
+                    is_attack_adaptive_successful = !adaptivePayloads.some(p => p.bypassed == null && p.status_code == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code) thì coi như attack thành công
+                }
+                finally {
+                    setLoadingAttackAdaptive(false);
+                }
+                if (!is_attack_adaptive_successful) {
+                    throw new Error('Adaptive attack failed, cannot proceed with defense generation');
+                }
+                attackResultsForDefend = [...randomPayloads, ...adaptivePayloads];
+            }
+            setAttackResults(attackResultsForDefend);
+            setActiveTab('Defend');
+        } catch (err) {
+            setError(err.message || 'Auto attack failed');
+        } finally {
+            setLoadingAutoAttack(false);
+        }
+    };
 
     // Step 1: Detect WAF
     const handleDetectWAFClick = async () => {
@@ -186,13 +311,100 @@ const AttackTab = ({
     const anyLoading = loadingDetect || loadingGenRandom || loadingGenAdaptive || loadingAttackRandom || loadingAttackAdaptive;
 
     return (
-        <div className="relative space-y-8">
+        <div className="relative gap-6 flex flex-col">
             {anyLoading && (
                 <div className="absolute inset-0 z-40 bg-black/30 cursor-not-allowed" style={{ pointerEvents: 'all' }}></div>
             )}
+
+            {/* Auto Attack Form */}
+            <div className="p-4 rounded-2xl shadow-2xl bg-white/90 dark:bg-gray-900/80 backdrop-blur-md">
+                <h2 className="text-xl font-bold mb-4 text-green-600 dark:text-green-400 tracking-tight">
+                    Auto Attack
+                </h2>
+                <div className="flex flex-col gap-4">
+                    <div className="flex flex-row gap-4 items-center">
+                        <span className="text-lg font-medium dark:text-white">Domain : </span>
+                        <input
+                            type="text"
+                            className={`w-1/4 flex px-5 py-3 rounded-xl border-2 text-lg font-medium shadow-sm focus:ring-2 focus:ring-green-400 transition-all duration-200 ${darkMode ? 'bg-gray-800 text-white border-gray-700 placeholder-gray-400' : 'bg-white text-gray-900 border-gray-300 placeholder-gray-400'}`}
+                            placeholder="Target Domain (e.g., modsec.llmshield.click)"
+                            value={autoDomain}
+                            onChange={e => setAutoDomain(e.target.value)}
+                            required
+                            disabled={loadingAutoAttack || anyLoading}
+                        />
+                        <span className="text-lg font-medium dark:text-white">Attack Type : </span>
+                        <select
+                            className={`px-5 py-3 rounded-xl border-2 text-lg font-medium shadow-sm focus:ring-2 focus:ring-green-400 transition-all duration-200 ${darkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}
+                            value={autoAttackType}
+                            onChange={e => setAutoAttackType(e.target.value)}
+                            disabled={loadingAutoAttack || anyLoading}
+                        >
+                            <option value="xss_dom">XSS DOM-Based</option>
+                            <option value="xss_reflected">XSS Reflected</option>
+                            <option value="xss_stored">XSS Stored</option>
+                            <option value="sql_injection">SQL Injection</option>
+                            <option value="sql_injection_blind">Blind SQL Injection</option>
+                        </select>
+                        <span className="text-lg font-medium dark:text-white">Number of Payloads : </span>
+                        <input
+                            type="number"
+                            className={`w-28 px-5 py-3 rounded-xl border-2 text-center text-lg font-medium shadow-sm focus:ring-2 focus:ring-green-400 transition-all duration-200 ${darkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}
+                            placeholder="#"
+                            min="1"
+                            max="20"
+                            value={autoNumPayloads}
+                            onChange={e => setAutoNumPayloads(parseInt(e.target.value) || 5)}
+                            title="Number of payloads (1-20)"
+                            disabled={loadingAutoAttack || anyLoading}
+                        />
+                    </div>
+                    <div className="flex flex-col gap-4 items-start">
+                        <label className="flex items-center gap-2 cursor-pointer">
+                            <input
+                                type="checkbox"
+                                checked={autoUseAdaptive}
+                                onChange={e => setAutoUseAdaptive(e.target.checked)}
+                                disabled={loadingAutoAttack || anyLoading}
+                            />
+                            <span className="text-lg font-bold dark:text-purple-400">Enable Adaptive Attack</span>
+                        </label>
+                        {autoUseAdaptive && (<div className='flex flex-row items-center gap-3'>
+                            <span className="text-lg font-medium dark:text-white">Number of Adaptive Payloads : </span>
+                            <input
+                                type="number"
+                                className={`w-32 px-5 py-3 rounded-xl border-2 text-center text-lg font-medium shadow-sm focus:ring-2 focus:ring-pink-400 transition-all duration-200 ${darkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}
+                                placeholder="Số lượng adaptive payloads"
+                                min="1"
+                                max="20"
+                                value={autoNumAdaptive}
+                                onChange={e => setAutoNumAdaptive(parseInt(e.target.value) || 5)}
+                                title="Số lượng adaptive payloads (1-20)"
+                                disabled={loadingAutoAttack || anyLoading}
+                            />
+                        </div>
+                        )}
+                    </div>
+                    <button
+                        className={`px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed
+                            ${loadingAutoAttack
+                                ? 'bg-gradient-to-r from-yellow-400 to-yellow-600'
+                                : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500'}
+                        `}
+                        onClick={(e) => { e.preventDefault(); handleAutoAttack() }}
+                        disabled={loadingAutoAttack || anyLoading || !autoDomain}
+                    >
+                        {loadingAutoAttack ? '🔄 Auto attacking...' : '🚀 Auto Attack'}
+                    </button>
+                </div>
+            </div>
+
+
             {/* Step 1: Detect WAF */}
-            <div className="mb-8 p-8 rounded-2xl shadow-2xl bg-white/90 dark:bg-gray-900/80 backdrop-blur-md">
-                <h2 className="text-xl font-bold mb-4 text-red-600 dark:text-red-400 tracking-tight">Bước 1: Nhập domain và phát hiện WAF</h2>
+            <div className="p-4 rounded-2xl shadow-2xl bg-white/90 dark:bg-gray-900/80 backdrop-blur-md">
+                <h2 className="text-xl font-bold mb-4 text-red-600 dark:text-red-400 tracking-tight">
+                    Step 1: Detect WAF
+                </h2>
                 <div className="flex flex-col md:flex-row gap-4 items-center mb-4">
                     <input
                         type="text"
@@ -204,7 +416,11 @@ const AttackTab = ({
                         disabled={anyLoading}
                     />
                     <button
-                        className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
+                        className={`px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed
+                            ${loadingDetect
+                                ? 'bg-gradient-to-r from-yellow-400 to-yellow-600'
+                                : 'bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-500'}
+                        `}
                         onClick={handleDetectWAFClick}
                         disabled={anyLoading || !domain || loadingDetect}
                         type="button"
@@ -221,8 +437,10 @@ const AttackTab = ({
             </div>
 
             {/* Step 2: Generate Payloads */}
-            <div className="mb-8 p-8 rounded-2xl shadow-2xl bg-white/90 dark:bg-gray-900/80 backdrop-blur-md">
-                <h2 className="text-xl font-bold mb-4 text-orange-600 dark:text-orange-400 tracking-tight">Bước 2: Sinh payloads</h2>
+            <div className="p-4 rounded-2xl shadow-2xl bg-white/90 dark:bg-gray-900/80 backdrop-blur-md">
+                <h2 className="text-xl font-bold mb-4 text-orange-600 dark:text-orange-400 tracking-tight">
+                    Step 2: Generate Payloads
+                </h2>
                 <div className="flex flex-col md:flex-row gap-4 items-center mb-4 flex-wrap">
                     <select
                         className={`px-5 py-3 rounded-xl border-2 text-lg font-medium shadow-sm focus:ring-2 focus:ring-orange-400 transition-all duration-200 ${darkMode ? 'bg-gray-800 text-white border-gray-700' : 'bg-white text-gray-900 border-gray-300'}`}
@@ -248,7 +466,11 @@ const AttackTab = ({
                         disabled={anyLoading}
                     />
                     <button
-                        className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
+                        className={`px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed
+                            ${loadingGenRandom
+                                ? 'bg-gradient-to-r from-yellow-400 to-yellow-600'
+                                : 'bg-gradient-to-r from-orange-500 to-pink-600 hover:from-orange-600 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-500'}
+                        `}
                         onClick={handleGenerateRandomPayloadsClick}
                         disabled={anyLoading || loadingGenRandom}
                         type="button"
@@ -256,7 +478,11 @@ const AttackTab = ({
                         {loadingGenRandom ? '🔄 Generating...' : '🚀 Generate Random Payloads'}
                     </button>
                     <button
-                        className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-orange-600 to-pink-700 hover:from-orange-700 hover:to-pink-800 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
+                        className={`px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed
+                            ${loadingGenAdaptive
+                                ? 'bg-gradient-to-r from-yellow-400 to-yellow-600'
+                                : 'bg-gradient-to-r from-orange-600 to-pink-700 hover:from-orange-700 hover:to-pink-800 disabled:from-gray-400 disabled:to-gray-500'}
+                        `}
                         onClick={handleGenerateAdaptivePayloadsClick}
                         disabled={anyLoading || !payloadsRandom || payloadsRandom.length === 0 || loadingGenAdaptive}
                         type="button"
@@ -267,7 +493,7 @@ const AttackTab = ({
             </div>
 
             {/* Step 2.2 & 2.3: Two columns for random/adaptive */}
-            <div className="mb-8 flex flex-col md:flex-row gap-8">
+            <div className="flex flex-col md:flex-row gap-8">
                 {/* Random Payloads Column */}
                 <div className="flex-1 p-6 rounded-2xl bg-white/90 dark:bg-gray-900/80 shadow flex flex-col gap-3">
                     <h2 className="font-bold text-lg mb-3 text-orange-700 dark:text-orange-300 tracking-tight">Random Payloads</h2>
@@ -285,24 +511,26 @@ const AttackTab = ({
                             <span className="text-base">📤</span> Export
                         </button>
                     </div>
-                    <div className="overflow-y-auto rounded-xl border border-gray-200 dark:border-gray-700" style={{maxHeight: 340}}>
-                        <PayloadResultsTable wafName={wafName} payloads={payloadsRandom} darkMode={darkMode} onClear={() => handleClearPayloads("random")} />
-                    </div>
+                    <PayloadResultsTable wafName={wafName} payloads={payloadsRandom} darkMode={darkMode} onClear={() => handleClearPayloads("random")} />
                     <button
-                        className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
+                        className={`px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed
+                            ${loadingAttackRandom
+                                ? 'bg-gradient-to-r from-yellow-400 to-yellow-600'
+                                : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500'}
+                        `}
                         onClick={handleTestAttackRandom}
                         disabled={anyLoading || !payloadsRandom.length || loadingAttackRandom}
                         type="button"
                     >
-                        {loadingAttackRandom ? '🔄 Attacking...' : '🧪 Attack to DVWA'}
+                        {loadingAttackRandom ? '🔄 Attacking...' : '🧪 Step 3: Attack to DVWA'}
                     </button>
                     <button
                         className="mt-2 px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
-                        onClick={() => {setAttackResults(payloadsRandom); setActiveTab('Defend');}}
+                        onClick={() => { setAttackResults(payloadsRandom); setActiveTab('Defend'); }}
                         disabled={!payloadsRandom.length || anyLoading}
                         type="button"
                     >
-                        🛡️ Defend
+                        🛡️ Step 4: Defend
                     </button>
                 </div>
                 {/* Adaptive Payloads Column */}
@@ -322,24 +550,26 @@ const AttackTab = ({
                             <span className="text-base">📤</span> Export
                         </button>
                     </div>
-                    <div className="overflow-y-auto rounded-xl border border-gray-200 dark:border-gray-700" style={{maxHeight: 340}}>
-                        <PayloadResultsTable wafName={wafName} payloads={payloadsAdaptive} darkMode={darkMode} onClear={() => handleClearPayloads("adaptive")}/>
-                    </div>
+                    <PayloadResultsTable wafName={wafName} payloads={payloadsAdaptive} darkMode={darkMode} onClear={() => handleClearPayloads("adaptive")} />
                     <button
-                        className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
+                        className={`px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed
+                            ${loadingAttackAdaptive
+                                ? 'bg-gradient-to-r from-yellow-400 to-yellow-600'
+                                : 'bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500'}
+                        `}
                         onClick={handleTestAttackAdaptive}
                         disabled={anyLoading || !payloadsAdaptive.length || loadingAttackAdaptive}
                         type="button"
                     >
-                        {loadingAttackAdaptive ? '🔄 Attacking...' : '🧪 Attack to DVWA'}
+                        {loadingAttackAdaptive ? '🔄 Attacking...' : '🧪 Step 3: Attack to DVWA'}
                     </button>
                     <button
                         className="mt-2 px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
-                        onClick={() => {setAttackResults(payloadsAdaptive); setActiveTab('Defend');}}
+                        onClick={() => { setAttackResults(payloadsAdaptive); setActiveTab('Defend'); }}
                         disabled={!payloadsAdaptive.length || anyLoading}
                         type="button"
                     >
-                        🛡️ Defend
+                        🛡️ Step 4: Defend
                     </button>
                 </div>
             </div>

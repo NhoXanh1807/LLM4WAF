@@ -39,6 +39,7 @@ const TabDefend = ({ wafName, attackResults, darkMode, setError, setAttackResult
     // Handler to retest attack DVWA (update attackResults in-place)
     const handleRetestAttack = async () => {
         if (!attackResults || attackResults.length === 0) return;
+        setAttackResults(prev => prev.map(p => ({ ...p, bypassed: null, status_code: null }))); // Reset bypassed/status_code before retest
         setLoadingRetest(true);
         setError && setError(null);
         try {
