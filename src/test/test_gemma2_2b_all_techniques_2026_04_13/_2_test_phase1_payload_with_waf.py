@@ -57,7 +57,7 @@ for waf_name, url in WAF_DVWA_URLS.items():
                 SESSION_IDS[waf_name],
                 WAF_DVWA_URLS[waf_name]
             )
-            payload_result.bypassed = attack_result.blocked == False
+            payload_result.is_bypassed = attack_result.blocked == False
             payload_result.status_code = attack_result.status_code
             
             with open(os.path.join(payload_log_dir, f"result_{waf_name}_{attack_type}.txt"), "a", encoding="utf-8") as f:

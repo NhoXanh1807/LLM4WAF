@@ -58,7 +58,7 @@ const TabDefend = ({ wafName, attackResults, darkMode, setError, setAttackResult
                 setAttackResults(prev => prev.map(p => {
                     const found = (data?.payloads || []).find(r => r.payload === p.payload);
                     if (found) {
-                        return { ...p, bypassed: found.bypassed, status_code: found.status_code };
+                        return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
                     }
                     return p;
                 }));
@@ -85,7 +85,7 @@ const TabDefend = ({ wafName, attackResults, darkMode, setError, setAttackResult
                 </div>
                 <PayloadResultsTable
                     wafName={wafName}
-                    payloads={attackResults.filter(p => p.bypassed === true)}
+                    payloads={attackResults.filter(p => p.is_bypassed === true)}
                     darkMode={darkMode}
                 />
             </div>

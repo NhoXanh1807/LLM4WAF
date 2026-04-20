@@ -107,7 +107,7 @@ class VerifiedAttackResult:
             "status_code": self.status_code,
             "status": self.status.value,
             "blocked": self.blocked,
-            "bypassed": self.bypassed,
+            "is_bypassed": self.is_bypassed,
             "exploited": self.exploited,
             "evidence": self.evidence,
             "payload": self.payload,
@@ -301,7 +301,7 @@ def _convert_exploit_result(result, payload: str, attack_type: str) -> VerifiedA
             status_code=0,
             status=AttackStatus.ERROR,
             blocked=False,
-            bypassed=False,
+            is_bypassed=False,
             exploited=False,
             payload=payload,
             attack_type=attack_type,
@@ -319,7 +319,7 @@ def _convert_exploit_result(result, payload: str, attack_type: str) -> VerifiedA
         status_code=result.status_code,
         status=status_map.get(result.status, AttackStatus.ERROR),
         blocked=result.is_blocked,
-        bypassed=result.bypassed_waf,
+        is_bypassed=result.is_bypassed_waf,
         exploited=result.is_exploited,
         evidence=result.evidence,
         payload=payload,
@@ -351,7 +351,7 @@ def attack_xss_reflected_verified(payload: str, session_id: str) -> VerifiedAtta
             status_code=basic_result.status_code,
             status=AttackStatus.BLOCKED if basic_result.blocked else AttackStatus.PASSED_NO_EFFECT,
             blocked=basic_result.blocked,
-            bypassed=not basic_result.blocked,
+            is_bypassed=not basic_result.blocked,
             exploited=False,  # Cannot verify without verifier
             payload=payload,
             attack_type="xss_reflected",
@@ -379,7 +379,7 @@ def attack_xss_dom_verified(payload: str, session_id: str) -> VerifiedAttackResu
             status_code=basic_result.status_code,
             status=AttackStatus.BLOCKED if basic_result.blocked else AttackStatus.PASSED_NO_EFFECT,
             blocked=basic_result.blocked,
-            bypassed=not basic_result.blocked,
+            is_bypassed=not basic_result.blocked,
             exploited=False,
             payload=payload,
             attack_type="xss_dom",
@@ -407,7 +407,7 @@ def attack_xss_stored_verified(payload: str, session_id: str) -> VerifiedAttackR
             status_code=basic_result.status_code,
             status=AttackStatus.BLOCKED if basic_result.blocked else AttackStatus.PASSED_NO_EFFECT,
             blocked=basic_result.blocked,
-            bypassed=not basic_result.blocked,
+            is_bypassed=not basic_result.blocked,
             exploited=False,
             payload=payload,
             attack_type="xss_stored",
@@ -437,7 +437,7 @@ def attack_sqli_verified(payload: str, session_id: str) -> VerifiedAttackResult:
             status_code=basic_result.status_code,
             status=AttackStatus.BLOCKED if basic_result.blocked else AttackStatus.PASSED_NO_EFFECT,
             blocked=basic_result.blocked,
-            bypassed=not basic_result.blocked,
+            is_bypassed=not basic_result.blocked,
             exploited=False,
             payload=payload,
             attack_type="sqli",
@@ -467,7 +467,7 @@ def attack_sqli_blind_verified(payload: str, session_id: str) -> VerifiedAttackR
             status_code=basic_result.status_code,
             status=AttackStatus.BLOCKED if basic_result.blocked else AttackStatus.PASSED_NO_EFFECT,
             blocked=basic_result.blocked,
-            bypassed=not basic_result.blocked,
+            is_bypassed=not basic_result.blocked,
             exploited=False,
             payload=payload,
             attack_type="sqli_blind",
@@ -515,7 +515,7 @@ def execute_attack_verified(
             status_code=0,
             status=AttackStatus.ERROR,
             blocked=False,
-            bypassed=False,
+            is_bypassed=False,
             exploited=False,
             payload=payload,
             attack_type=attack_type,
@@ -600,7 +600,7 @@ def get_truly_exploited_payloads(
 def print_attack_summary(results: list[VerifiedAttackResult]):
     """Print summary of attack results."""
     blocked = sum(1 for r in results if r.blocked)
-    bypassed = sum(1 for r in results if r.bypassed)
+    bypassed = sum(1 for r in results if r.is_bypassed)
     exploited = sum(1 for r in results if r.exploited)
     bypassed_no_effect = bypassed - exploited
 

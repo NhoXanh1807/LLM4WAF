@@ -83,7 +83,7 @@ def test_payloads(payloads: List[PayloadResult], attack_type) -> List[PayloadRes
             payload = item.payload
             attack_type = item.attack_type
             result = attack(attack_type, payload, session_id)
-            payloads[i].bypassed = not result.blocked
+            payloads[i].is_bypassed = not result.blocked
             payloads[i].status_code = result.status_code
             status = "⚠️  BYPASSED" if not result.blocked else "✅ BLOCKED"
             print(f"  [{i}] {status} - {payload}")
@@ -146,7 +146,7 @@ def load_existing_rules(file_path: str) -> List[str]:
 
 
 def generate_defense(waf_name, payload_results: List[PayloadResult], existing_rules: List[str] = None) -> List[dict]:
-    bypassed = [r for r in payload_results if r.bypassed]
+    bypassed = [r for r in payload_results if r.is_bypassed]
     if not bypassed:
         print("\n[+] No bypassed payloads! WAF is secure.")
         return []

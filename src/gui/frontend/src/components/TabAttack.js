@@ -94,12 +94,12 @@ const AttackTab = ({
                 randomPayloads = randomPayloads.map(p => {
                     const found = (data?.payloads || []).find(r => r.payload === p.payload);
                     if (found) {
-                        return { ...p, bypassed: found.bypassed, status_code: found.status_code };
+                        return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
                     }
                     return p;
                 });
                 setPayloadsRandom(randomPayloads);
-                is_attack_successful = !randomPayloads.some(p => p.bypassed == null && p.status_code == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code) thì coi như attack thành công
+                is_attack_successful = !randomPayloads.some(p => p.is_bypassed == null && p.status_code == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code) thì coi như attack thành công
             }
             finally {
                 setLoadingAttackRandom(false);
@@ -135,12 +135,12 @@ const AttackTab = ({
                     adaptivePayloads = adaptivePayloads.map(p => {
                         const found = (data?.payloads || []).find(r => r.payload === p.payload);
                         if (found) {
-                            return { ...p, bypassed: found.bypassed, status_code: found.status_code };
+                            return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
                         }
                         return p;
                     });
                     setPayloadsAdaptive(adaptivePayloads);
-                    is_attack_adaptive_successful = !adaptivePayloads.some(p => p.bypassed == null && p.status_code == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code) thì coi như attack thành công
+                    is_attack_adaptive_successful = !adaptivePayloads.some(p => p.is_bypassed == null && p.status_code == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code) thì coi như attack thành công
                 }
                 finally {
                     setLoadingAttackAdaptive(false);
@@ -263,7 +263,7 @@ const AttackTab = ({
             setPayloadsRandom(prev => prev.map(p => {
                 const found = (data?.payloads || []).find(r => r.payload === p.payload);
                 if (found) {
-                    return { ...p, bypassed: found.bypassed, status_code: found.status_code };
+                    return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
                 }
                 return p;
             }));
@@ -288,7 +288,7 @@ const AttackTab = ({
             setPayloadsAdaptive(prev => prev.map(p => {
                 const found = (data?.payloads || []).find(r => r.payload === p.payload);
                 if (found) {
-                    return { ...p, bypassed: found.bypassed, status_code: found.status_code };
+                    return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code };
                 }
                 return p;
             }));

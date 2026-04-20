@@ -2,17 +2,17 @@ import React from 'react';
 
 function PayloadResultsTable({ wafName, payloads, darkMode, onClear, maxHeight = 400 }) {
     const data = Array.isArray(payloads) ? payloads : [];
-
+    console.log(data)
     // Statistics
     const total = data.length;
-    const bypassed = data.filter(item => item.status_code != null && item.bypassed === true).length;
-    const blocked = data.filter(item => item.status_code != null && item.bypassed === false).length;
+    const bypassed = data.filter(item => item.status_code != null && item.is_bypassed === true).length;
+    const blocked = data.filter(item => item.status_code != null && item.is_bypassed === false).length;
     const notTested = data.filter(item => item.status_code == null).length;
 
     const getStatusBadge = (item) => {
-        if (item.bypassed === true) {
+        if (item.is_bypassed === true) {
             return <span className="px-4 py-1.5 bg-gradient-to-r from-red-500 to-pink-600 text-white rounded-full font-bold text-xs shadow-lg">⚠️ BYPASSED</span>;
-        } else if (item.bypassed === false && item.status_code != null) {
+        } else if (item.is_bypassed === false && item.status_code != null) {
             return <span className="px-4 py-1.5 bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-full font-bold text-xs shadow-lg">✅ BLOCKED</span>;
         }
         // If bypassed is null/undefined, treat as not tested
@@ -52,7 +52,7 @@ function PayloadResultsTable({ wafName, payloads, darkMode, onClear, maxHeight =
                     </thead>
                     <tbody>
                         {data.map((item, idx) => (
-                            <tr key={idx} className={`border-t transition-colors ${item.bypassed
+                            <tr key={idx} className={`border-t transition-colors ${item.is_bypassed
                                     ? (darkMode ? 'bg-red-900/20 border-red-800' : 'bg-red-50 border-red-200')
                                     : (darkMode ? 'bg-gray-800/50 border-gray-700' : 'bg-white border-gray-200')
                                 } hover:${darkMode ? 'bg-gray-700' : 'bg-gray-50'}`}>

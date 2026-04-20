@@ -118,7 +118,7 @@ def api_detect_waf():
 
 
 @app.route("/api/generate_payload", methods=["POST"])
-def api_attack():
+def api_generate_payload():
     try:
         data = dict(request.get_json())
         waf_name = dict.get(data, "waf_name")
@@ -156,7 +156,7 @@ def api_attack():
     except Exception as e:
         import traceback
         print("=" * 50)
-        print("ERROR in /api/attack:")
+        print("ERROR in /api/generate_payload:")
         print(traceback.format_exc())
         print("=" * 50)
         return jsonify({"error": str(e)}), 500
@@ -187,11 +187,11 @@ def api_attack_dvwa():
             print(f"[DVWA-Check] {i+1}/{len(payloads)} : {item.payload}")
             if attack_func and payload:
                 result = dvwa.attack(attack_type, payload, session_id, base_url=domain)
-                item.bypassed = not result.blocked
+                item.is_bypassed = not result.blocked
                 item.status_code = result.status_code
-                print(f"\t{('BYPASSED' if item.bypassed else 'BLOCKED')} code({item.status_code})")
+                print(f"\t{('BYPASSED' if item.is_bypassed else 'BLOCKED')} code({item.status_code})")
             else:
-                item.bypassed = None
+                item.is_bypassed = None
                 item.status_code = None
                 print(f"\tSKIPPED (missing attack_func or payload)")
             
@@ -250,7 +250,7 @@ def api_defend():
         existing_rules = _parse_existing_rules(existing_rules_raw)
         if existing_rules:
             print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
-        bypassed_payloads = [payload.payload for payload in payloads if payload.bypassed]
+        bypassed_payloads = [payload.payload for payload in payloads if payload.is_bypassed]
         pipeline_result = _get_pipeline().generate_defense_rules(
             bypassed_payloads=bypassed_payloads,
             waf_name=waf_name,
