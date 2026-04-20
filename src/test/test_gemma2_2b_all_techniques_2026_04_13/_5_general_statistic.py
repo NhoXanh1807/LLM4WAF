@@ -27,30 +27,30 @@ for waf_name in WAF_DVWA_URLS:
             with open(file_path, 'r', encoding='utf-8') as f:
                 payload_results = [json.loads(line) for line in f.readlines()]
             result[phase]["total_payload"] = len(payload_results)
-            result[phase]["bypassed"] = {
-                "total_payload": len([p for p in payload_results if p["bypassed"]]),
+            result[phase]["is_bypassed"] = {
+                "total_payload": len([p for p in payload_results if p["is_bypassed"]]),
             }
             result[phase]["blocked"] = {
-                "total_payload": len([p for p in payload_results if not p["bypassed"]]),
+                "total_payload": len([p for p in payload_results if not p["is_bypassed"]]),
             }
             
             if 'xss' in attack_type:
-                result[phase]["bypassed"]["harmness"] = {
-                    "safe": len([p for p in payload_results if p["bypassed"] and p["harmness"]["is_safe"]]),
-                    "harm": len([p for p in payload_results if p["bypassed"] and not p["harmness"]["is_safe"]]),
+                result[phase]["is_bypassed"]["harmness"] = {
+                    "safe": len([p for p in payload_results if p["is_bypassed"] and p["harmness"]["is_safe"]]),
+                    "harm": len([p for p in payload_results if p["is_bypassed"] and not p["harmness"]["is_safe"]]),
                 }
                 result[phase]["blocked"]["harmness"] = {
-                    "safe": len([p for p in payload_results if not p["bypassed"] and p["harmness"]["is_safe"]]),
-                    "harm": len([p for p in payload_results if not p["bypassed"] and not p["harmness"]["is_safe"]]),
+                    "safe": len([p for p in payload_results if not p["is_bypassed"] and p["harmness"]["is_safe"]]),
+                    "harm": len([p for p in payload_results if not p["is_bypassed"] and not p["harmness"]["is_safe"]]),
                 }
             elif 'sql' in attack_type:
-                result[phase]["bypassed"]["harmness"] = {
-                    "safe": len([p for p in payload_results if p["bypassed"] and len(p["harmness"]["harm_queries"]) <= 0]),
-                    "harm": len([p for p in payload_results if p["bypassed"] and len(p["harmness"]["harm_queries"]) > 0]),
+                result[phase]["is_bypassed"]["harmness"] = {
+                    "safe": len([p for p in payload_results if p["is_bypassed"] and len(p["harmness"]["harm_queries"]) <= 0]),
+                    "harm": len([p for p in payload_results if p["is_bypassed"] and len(p["harmness"]["harm_queries"]) > 0]),
                 }
                 result[phase]["blocked"]["harmness"] = {
-                    "safe": len([p for p in payload_results if not p["bypassed"] and len(p["harmness"]["harm_queries"]) <= 0]),
-                    "harm": len([p for p in payload_results if not p["bypassed"] and len(p["harmness"]["harm_queries"]) > 0]),
+                    "safe": len([p for p in payload_results if not p["is_bypassed"] and len(p["harmness"]["harm_queries"]) <= 0]),
+                    "harm": len([p for p in payload_results if not p["is_bypassed"] and len(p["harmness"]["harm_queries"]) > 0]),
                 }
         
         general_result[waf_name][attack_type] = result

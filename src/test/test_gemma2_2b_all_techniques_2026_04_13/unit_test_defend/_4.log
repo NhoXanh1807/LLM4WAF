@@ -1,0 +1,228 @@
+Bypassed payloads:
+	AdmIN%252527%26%2347%3b%25252A%25252A%26%2347%3b--
+	％２５ЕF％２５BС％２５９１％２５２F％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BС％２５９５％２５ЕF％２５BС％２５９２％２５ЕF％２５А３％２５４７％２５ЕF％２５А３％２５５Е％２５ЕF％２５BD％２５８Е％２５ЕF％２５BD％２５９３
+	％еF％bd％８１dm％еF％bd％８９％еF％bd％８Е％２５％еF％bс％９２％еF％bс％９５％еF％bс％９２％еF％bс％９７％２F％２５％еF％bс％９２％еF％bс％９５％еF％bс％９２％еF％bd％８１％２５％еF％bс％９２％еF％bс％９５％е
+	％２５еf％２５bd％２５８１dm％２５еf％２５bd％２５８９％２５еf％２５bd％２５８е％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９７％２５２f％２５２５％２５еf％２５bс
+	％２５ЕF％２５BС％２５９１％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BD％２５８２％２５ЕF％２５BD％２５８F％２５ЕF％２５BD％２５９２％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BD％２５８２％２５ЕF％２５BС％２５９１％２
+	АDMіn％２５２７％２５２Ｂ－－
+	％２５еf％２５bd％２５８１dm％２５еf％２５bd％２５８９％２５еf％２５bd％２５８е％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９７％２５２f％２５２５％２５еf％２５bс
+	％２５ЕF％２５BС％２５９１％２５２６％２５ЕF％２５BС％２５９１％２５２６％２５ЕF％２５BD％２５８３％２５ЕF％２５BD％２５８４％２５ЕF％２５BD％２５ judíos％２５ЕF％２５BD％２５８４％２５ЕF％２５BD％２５８３％２５ЕF％２５BD％２５９６％２５ЕF
+	аDmІn％２５２７％２５２０－－
+[1/4] Clustering payloads...
+Created 3 clusters
+	#1: 2 payloads
+		AdmIN%252527%26%2347%3b%25252A%25252A%26%2347%3b--
+		％еF％bd％８１dm％еF％bd％８９％еF％bd％８Е％２５％еF％bс％９２％еF％bс％９５％еF％bс％９２％еF％bс％９７％２F％２５％еF％bс％９２％еF％bс％９５％еF％bс％９２％еF％bd％８１％２５％еF％bс％９２％еF％bс％９５％е
+	#0: 5 payloads
+		％２５ЕF％２５BС％２５９１％２５２F％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BС％２５９５％２５ЕF％２５BС％２５９２％２５ЕF％２５А３％２５４７％２５ЕF％２５А３％２５５Е％２５ЕF％２５BD％２５８Е％２５ЕF％２５BD％２５９３
+		％２５еf％２５bd％２５８１dm％２５еf％２５bd％２５８９％２５еf％２５bd％２５８е％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９７％２５２f％２５２５％２５еf％２５bс
+		％２５ЕF％２５BС％２５９１％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BD％２５８２％２５ЕF％２５BD％２５８F％２５ЕF％２５BD％２５９２％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BD％２５８２％２５ЕF％２５BС％２５９１％２
+		％２５еf％２５bd％２５８１dm％２５еf％２５bd％２５８９％２５еf％２５bd％２５８е％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９７％２５２f％２５２５％２５еf％２５bс
+		％２５ЕF％２５BС％２５９１％２５２６％２５ЕF％２５BС％２５９１％２５２６％２５ЕF％２５BD％２５８３％２５ЕF％２５BD％２５８４％２５ЕF％２５BD％２５ judíos％２５ЕF％２５BD％２５８４％２５ЕF％２５BD％２５８３％２５ЕF％２５BD％２５９６％２５ЕF
+	#2: 2 payloads
+		АDMіn％２５２７％２５２Ｂ－－
+		аDmІn％２５２７％２５２０－－
+[2/4] Generating rules with LLM + RAG...
+[BASE DEFEND PROMPT]
+	**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+	
+	**Environment:**
+	- WAF: ModSecurity (SpiderLabs)
+	- Bypassed Payloads by clusters:
+		Cluster 1 (2 payloads):
+			AdmIN%252527%26%2347%3b%25252A%25252A%26%2347%3b--
+			％еF％bd％８１dm％еF％bd％８９％еF％bd％８Е％２５％еF％bс％９２％еF％bс％９５％еF％bс％９２％еF％bс％９７％２F％２５％еF％bс％９２％еF％bс％９５％еF％bс％９２％еF％bd％８１％２５％еF％bс％９２％еF％bс％９５％е
+		Cluster 0 (5 payloads):
+			％２５ЕF％２５BС％２５９１％２５２F％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BС％２５９５％２５ЕF％２５BС％２５９２％２５ЕF％２５А３％２５４７％２５ЕF％２５А３％２５５Е％２５ЕF％２５BD％２５８Е％２５ЕF％２５BD％２５９３
+			％２５еf％２５bd％２５８１dm％２５еf％２５bd％２５８９％２５еf％２５bd％２５８е％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９７％２５２f％２５２５％２５еf％２５bс
+			％２５ЕF％２５BС％２５９１％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BD％２５８２％２５ЕF％２５BD％２５８F％２５ЕF％２５BD％２５９２％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BD％２５８２％２５ЕF％２５BС％２５９１％２
+			％２５еf％２５bd％２５８１dm％２５еf％２５bd％２５８９％２５еf％２５bd％２５８е％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９７％２５２f％２５２５％２５еf％２５bс
+			％２５ЕF％２５BС％２５９１％２５２６％２５ЕF％２５BС％２５９１％２５２６％２５ЕF％２５BD％２５８３％２５ЕF％２５BD％２５８４％２５ЕF％２５BD％２５ judíos％２５ЕF％２５BD％２５８４％２５ЕF％２５BD％２５８３％２５ЕF％２５BD％２５９６％２５ЕF
+		Cluster 2 (2 payloads):
+			АDMіn％２５２７％２５２Ｂ－－
+			аDmІn％２５２７％２５２０－－
+	
+	
+	Generate 3 PRODUCTION-GRADE defense rules to block these bypasses:
+	
+	1. **Multi-Layer Detection**: Create rules that detect:
+	   - Raw pattern matching (regex)
+	   - Normalized/decoded variants (URL decoding, Unicode normalization)
+	   - Obfuscation techniques (comment injection, case variations)
+	   - Anomaly patterns (unusual character sequences, excessive encoding)
+	
+	2. **Rule Requirements**:
+	   - Match both obvious and obfuscated forms
+	   - Include pre-processing steps (normalize, decode, lowercase)
+	   - Minimize false positives with negative lookaheads
+	   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
+	
+	3. **Implementation Details**:
+	   - Provide rules in ModSecurity SecRule format
+	   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
+	   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
+	   - Add actionable deployment instructions
+	
+	4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+	
+	**FORMAT**: For each rule, provide:
+	- SecRule syntax
+	- Transformation pipeline
+	- Severity level
+	- Deployment phase
+	- Testing methodology
+[RAG Results]
+	Queries: 4
+	Docs (all): 26
+	Docs (filtered): 4
+	Sources: 4
+[Enhanced Prompt with RAG]
+	**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+	
+	**Environment:**
+	- WAF: ModSecurity (SpiderLabs)
+	- Bypassed Payloads by clusters:
+		Cluster 1 (2 payloads):
+			AdmIN%252527%26%2347%3b%25252A%25252A%26%2347%3b--
+			％еF％bd％８１dm％еF％bd％８９％еF％bd％８Е％２５％еF％bс％９２％еF％bс％９５％еF％bс％９２％еF％bс％９７％２F％２５％еF％bс％９２％еF％bс％９５％еF％bс％９２％еF％bd％８１％２５％еF％bс％９２％еF％bс％９５％е
+		Cluster 0 (5 payloads):
+			％２５ЕF％２５BС％２５９１％２５２F％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BС％２５９５％２５ЕF％２５BС％２５９２％２５ЕF％２５А３％２５４７％２５ЕF％２５А３％２５５Е％２５ЕF％２５BD％２５８Е％２５ЕF％２５BD％２５９３
+			％２５еf％２５bd％２５８１dm％２５еf％２５bd％２５８９％２５еf％２５bd％２５８е％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９７％２５２f％２５２５％２５еf％２５bс
+			％２５ЕF％２５BС％２５９１％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BD％２５８２％２５ЕF％２５BD％２５８F％２５ЕF％２５BD％２５９２％２５２５％２５ЕF％２５BС％２５９２％２５ЕF％２５BD％２５８２％２５ЕF％２５BС％２５９１％２
+			％２５еf％２５bd％２５８１dm％２５еf％２５bd％２５８９％２５еf％２５bd％２５８е％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９７％２５２f％２５２５％２５еf％２５bс
+			％２５ЕF％２５BС％２５９１％２５２６％２５ЕF％２５BС％２５９１％２５２６％２５ЕF％２５BD％２５８３％２５ЕF％２５BD％２５８４％２５ЕF％２５BD％２５ judíos％２５ЕF％２５BD％２５８４％２５ЕF％２５BD％２５８３％２５ЕF％２５BD％２５９６％２５ЕF
+		Cluster 2 (2 payloads):
+			АDMіn％２５２７％２５２Ｂ－－
+			аDmІn％２５２７％２５２０－－
+	
+	
+	Generate 3 PRODUCTION-GRADE defense rules to block these bypasses:
+	
+	1. **Multi-Layer Detection**: Create rules that detect:
+	   - Raw pattern matching (regex)
+	   - Normalized/decoded variants (URL decoding, Unicode normalization)
+	   - Obfuscation techniques (comment injection, case variations)
+	   - Anomaly patterns (unusual character sequences, excessive encoding)
+	
+	2. **Rule Requirements**:
+	   - Match both obvious and obfuscated forms
+	   - Include pre-processing steps (normalize, decode, lowercase)
+	   - Minimize false positives with negative lookaheads
+	   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
+	
+	3. **Implementation Details**:
+	   - Provide rules in ModSecurity SecRule format
+	   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
+	   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
+	   - Add actionable deployment instructions
+	
+	4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+	
+	**FORMAT**: For each rule, provide:
+	- SecRule syntax
+	- Transformation pipeline
+	- Severity level
+	- Deployment phase
+	- Testing methodology
+	
+	---
+	**KNOWLEDGE BASE REFERENCES**
+	
+	The following references from our security knowledge base may help inform your defense strategy:
+	
+	[Reference #1 : Making Rules.md]Clearly, if this was all there was to SecRules it wouldn't be very
+	powerful. In fact, there is a lot more. So much more that it is in fact
+	a full fledged language. The best place to find out about all the
+	possible capabilities is via the [ModSecurity Manual](https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-(v2.x)).
+	The following is just a glimpse of its capabilities:
+	
+	There are ~105 **variables** in 6 different categories, some examples
+	include:
+	
+	-   **Request Variables** - ARGS, REQUEST\_HEADERS, REQUEST\_COOKIES
+	-   **Response Variables** - RESPONSE\_HEADERS, RESPONSE\_BODY
+	-   **Server Variables** - REMOTE\_ADDR, AUTH\_TYPE
+	-   **Time Variables** - TIME, TIME\_EPOCH, TIME\_HOUR
+	-   **Collection Variables** - TX, IP, SESSION, GEO
+	-   **Miscellaneous Variables** - HIGHEST\_SEVERITY, MATCHED\_VAR
+	
+	There are \~36 **operators** in 4 different categories, some examples
+	include:
+	
+	[Reference #2 : Making Rules.md]---
+	title: Making Rules
+	weight: 31
+	disableToc: false
+	chapter: false
+	---
+	
+	{{% notice note %}}
+	**The content on this page may be outdated.** We are currently in the process of rewriting all of our documentation: please bear with us while we update our older content.
+	{{% /notice %}}
+	
+	## Making Rules
+	
+	### The Basic Syntax
+	
+	A [SecRule](https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-(v2.x)#SecRule)
+	is a directive like any other understood by ModSecurity. The difference
+	is that this directive is way more powerful in what it is capable of
+	representing. Generally, a SecRule is made up of 4 parts:
+	- Variables - Instructs ModSecurity *where* to look (sometimes called Targets) 
+	- Operators - Instructs ModSecurity *when* to trigger a match 
+	- Transformations - Instructs ModSecurity *how* it should normalize variable data 
+	- Actions - Instructs ModSecurity *what* to do if a rule matches
+	
+	The structure of the rule is as follows:
+	
+	[Reference #3 : XSS-CheatSeat-Studocu.pdf]Summary
+	1. Basics ………………………………………………………………………...…… 6
+	2. Advanced ………………………………………………………………………….. 8
+	3. Filter Bypass ……………………………………………………………..…….… 11
+	4. Exploitation ……………………………………………………………………… 16
+	5. Miscellaneous ………………………………………………………………....…  20
+	_______________________________________________________________________________________________________
+	© 2018 Brute Logic – All rights reserved.   5   
+	Downloaded by anh doan the (taolaai8122004@gmail.com)
+	lOMoARcPSD|36939099
+	
+	[Reference #4 : technical_note_waf_rule_writing_guide_2026-02-23-20-31-45.pdf]The rule consists of four parts: 
+	• VARIABLES: Tells the WAF engine where to look in the transactional data (HTTP request and response 
+	data). 
+	• OPERATOR: Tells the WAF engine how to process the variable data. 
+	• TRANSFORMATION_FUNCTIONS: Tells the WAF engine how to normalize data before an operator is 
+	applied. 
+	• ACTIONS: Tells the WAF engine what to do if a rule matches. 
+	The four parts are explained in the sections below. 
+	Contents 
+	• Variables 
+	• Operator 
+	• Transformation Functions 
+	• Actions 
+	• Rule Syntax 
+	• WUI Settings 
+	• Rule Block Function 
+	Variables 
+	This specifies which places to check in a HTTP transaction. Examples of variables include: 
+	• ARGS – all arguments including the POST payload 
+	• REQUEST_METHOD – request method used in the transaction 
+	• REQUEST_HEADERS – can be used as either a collection of all of the request headers or can be used 
+	to inspect selected headers 
+	• And so on. The full list of variables is available here: ModSecurity Reference Manual
+	
+	---
+	
+	Please consider these references when generating defense rules, but prioritize the specific bypassed payloads mentioned above.
+	
+Generated 3 rules
+	SecRule ARGS:username|ARGS:password "@rx admin" "id:900001,phase:2,deny,status:403,msg:'Admin keyword detected',t:urlDecode,t:lowercase,t:utf8toUnicode,t:normalizePath"
+	SecRule ARGS "@rx (/%25|%u|&#x?)?[ef][a-f0-9]{2}(?i)(bd|bc)%?(?i)(8[0-9a-f]|[0-9a-f]{2})/%" "id:900002,phase:2,deny,status:403,msg:'Encoded obfuscation pattern detected',t:urlDecode,t:lowercase,t:htmlEntityDecode"
+	SecRule ARGS "@rx [%\w]+?[%\w]+[%\w]+[/%\w]*" "id:900003,phase:2,deny,status:403,msg:'Excessive encoding detected',t:urlDecode,t:lowercase,t:htmlEntityDecode"
+[3/4] Validating rule syntax...
+Valid: 3, Invalid: 0
+	SecRule ARGS:username|ARGS:password "@rx admin" "id:900001,phase:2,deny,status:403,msg:'Admin keyword detected',t:urlDecode,t:lowercase,t:utf8toUnicode,t:normalizePath"
+	SecRule ARGS "@rx (/%25|%u|&#x?)?[ef][a-f0-9]{2}(?i)(bd|bc)%?(?i)(8[0-9a-f]|[0-9a-f]{2})/%" "id:900002,phase:2,deny,status:403,msg:'Encoded obfuscation pattern detected',t:urlDecode,t:lowercase,t:htmlEntityDecode"
+	SecRule ARGS "@rx [%\w]+?[%\w]+[%\w]+[/%\w]*" "id:900003,phase:2,deny,status:403,msg:'Excessive encoding detected',t:urlDecode,t:lowercase,t:htmlEntityDecode"
+[4/4] Skipping Gemini refinement (disabled or unavailable)
+
+Pipeline complete! Generated 3 valid rules.

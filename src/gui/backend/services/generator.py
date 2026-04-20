@@ -73,7 +73,7 @@ def _generate_phase1_openai(waf_name, attack_type, num_of_payloads, technique) -
             payload=item.get("payload", ""),
             technique=item.get("technique", technique),
             attack_type=attack_type,
-            bypassed=False
+            is_bypassed=False
         )
         for item in items
     ]
@@ -81,8 +81,8 @@ def _generate_phase1_openai(waf_name, attack_type, num_of_payloads, technique) -
 
 def _generate_phase3_openai(waf_name, attack_type, num_of_payloads, probe_history) -> List[PayloadResult]:
     """Fallback: generate Phase 3 adaptive payloads using GPT-4o when no GPU."""
-    blocked = [{"payload": p.payload} for p in probe_history if not p.bypassed]
-    passed = [{"payload": p.payload} for p in probe_history if p.bypassed]
+    blocked = [{"payload": p.payload} for p in probe_history if not p.is_bypassed]
+    passed = [{"payload": p.payload} for p in probe_history if p.is_bypassed]
     adaptive_prompt = build_adaptive_prompt(waf_name, attack_type, blocked, passed, "Adaptive Generation")
     messages = [
         {"role": "system", "content": RED_TEAM_SYSTEM_PROMPT},
@@ -119,7 +119,7 @@ def _generate_phase3_openai(waf_name, attack_type, num_of_payloads, probe_histor
             payload=item.get("payload", ""),
             technique=item.get("technique", "Adaptive Generation"),
             attack_type=attack_type,
-            bypassed=False
+            is_bypassed=False
         )
         for item in items
     ]
@@ -160,7 +160,6 @@ def generate_payload_phase1(waf_name, attack_type) -> PayloadResult:
         payload=payload,
         technique=technique,
         attack_type=attack_type,
-        bypassed=False
     )
 
 def generate_payload_phase3(waf_name, attack_type, probe_history: List[PayloadResult] = []) -> PayloadResult:
@@ -174,7 +173,6 @@ def generate_payload_phase3(waf_name, attack_type, probe_history: List[PayloadRe
         payload=payload,
         technique="Adaptive Generation",
         attack_type=attack_type,
-        bypassed=False
     )
 
 

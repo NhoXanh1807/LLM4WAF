@@ -55,8 +55,8 @@ for waf_name, url in WAF_DVWA_URLS.items():
             time.sleep(5)
         
         attack_results = [PayloadResult(**json.loads(line)) for line in lines]
-        bypassed_payloads = [p for p in attack_results if p.bypassed]
-        blocked_payloads = [p for p in attack_results if not p.bypassed]
+        bypassed_payloads = [p for p in attack_results if p.is_bypassed]
+        blocked_payloads = [p for p in attack_results if not p.is_bypassed]
         num_bypassed = len(bypassed_payloads)
         num_blocked = len(blocked_payloads)
         
@@ -74,7 +74,7 @@ for waf_name, url in WAF_DVWA_URLS.items():
                 SESSION_IDS[waf_name],
                 WAF_DVWA_URLS[waf_name]
             )
-            payload_result.bypassed = attack_result.blocked == False
+            payload_result.is_bypassed = attack_result.blocked == False
             payload_result.status_code = attack_result.status_code
             with open(os.path.join(payload_log_dir, f"phase3_{waf_name}_{attack_type}.txt"), "a", encoding="utf-8") as f:
                 f.write(json.dumps(payload_result.__dict__) + "\n")

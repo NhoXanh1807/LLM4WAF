@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import BypassedDataTable from './BypassedDataTable';
+import TabAttack from './components/TabAttack';
+import TabDefend from './components/TabDefend';
 import { Services } from './services';
 
 function App() {
   const [activeTab, setActiveTab] = useState('Attack');
-  const [wafName, setWafName] = useState(null);
-  const [payloads, setPayloads] = useState([]);
+  const [error, setError] = useState(null);
+  const [isAutoDefend, setIsAutoDefend] = useState(false); // Thêm state để theo dõi chế độ Auto Defend
+
+  // step 1 - detect WAF
   const [domain, setDomain] = useState('');
+  const [wafName, setWafName] = useState(null);
+
+  // step 2 - generate payloads
   const [attackType, setAttackType] = useState('xss_dom');
   const [numPayloads, setNumPayloads] = useState(5);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [payloadsRandom, setPayloadsRandom] = useState([]);
+  const [payloadsAdaptive, setPayloadsAdaptive] = useState([]);
+
+  // step 3 - attack DVWA
+  const [attackResults, setAttackResults] = useState([]);
+
+  // step 4 - defend
   const [defenseRules, setDefenseRules] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [rawResponse, setRawResponse] = useState(null);
-  const [showRaw, setShowRaw] = useState(false);
-  const [isRetesting, setIsRetesting] = useState(false);
-  const [isRegenerating, setIsRegenerating] = useState(false);
-  const [error, setError] = useState(null);
-  const [advancedDefense, setAdvancedDefense] = useState(false);
-  const [existingRulesContent, setExistingRulesContent] = useState(null);
-  const [existingRulesFileName, setExistingRulesFileName] = useState('');
+  const [existingRules, setExistingRules] = useState('');
+
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
@@ -33,83 +41,29 @@ function App() {
     }
   }, [darkMode]);
 
-  const handleExistingRulesFile = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setExistingRulesFileName(file.name);
-    const reader = new FileReader();
-    reader.onload = (ev) => setExistingRulesContent(ev.target.result);
-    reader.readAsText(file);
-  };
-
-  const handleRegenerate = async () => {
-    const bypassed = payloads.filter(p => p.bypassed === true);
-    if (!bypassed.length) return;
-    setIsRegenerating(true);
-    setError(null);
+  // Handler to call defense API
+  const handleDefend = async () => {
+    setLoading(true);
+    setError && setError(null);
     try {
-      const res = await Services.defend(
-        { waf_name: wafName },
-        bypassed.map(p => p.payload),
-        3,
-        advancedDefense && existingRulesContent ? existingRulesContent : null
-      );
+      // Prepare existingRules for backend: send as string (can be JSON, plain text, or array)
+      let existingRulesToSend = existingRules && existingRules.trim() ? existingRules : null;
+      const res = await Services.apiDefend(wafName, attackResults, 3, existingRulesToSend);
       const data = await res.json();
-      if (!res.ok) {
-        setError(data?.error || `Server error: ${res.status}`);
-        return;
-      }
-      setDefenseRules(data?.rules || []);
-    } catch (err) {
-      setError(err.message || 'Failed to connect to backend');
-    } finally {
-      setIsRegenerating(false);
-    }
-  };
-
-  // Helper download
-  const handleDownload = (filename) => {
-    let data = null;
-    if (filename === "waf")
-      data = wafName;
-    else if (filename === "payloads")
-      data = payloads;
-    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename + '.json';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const handleAttack = async (phase) => {
-    setIsSubmitting(true);
-    setError(null);
-    try {
-      const res = await Services.attack(domain, attackType, numPayloads, phase === 3 ? payloads : []);
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data?.error || `Server error: ${res.status}`);
-        return;
-      }
-      console.log(data);
-      setWafName(data?.waf_name);
-      setPayloads(data?.payloads || []);
-      setDefenseRules(data?.defense_rules || []);
       setRawResponse(data);
-
-      // Auto switch to Defend tab if any payload bypassed
-      const hasBypassed = data?.payloads?.some(p => p.bypassed === true);
-      if (hasBypassed) {
-        setActiveTab('Defend');
+      if (res.ok && data && data.final_rules) {
+        setDefenseRules(data.final_rules);
+      } else {
+        setDefenseRules([]);
+        setError && setError(data?.error || 'Failed to generate defense rules');
       }
     } catch (err) {
-      setError(err.message || 'Failed to connect to backend');
+      setDefenseRules([]);
+      setError && setError(err.message || 'Failed to connect to backend');
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900' : 'bg-gradient-to-br from-blue-50 via-white to-purple-50'}`}>
@@ -138,7 +92,7 @@ function App() {
           </button>
         </div>
 
-        {/* Tabs */}
+        {/* Tabs select */}
         <div className="flex gap-4 mb-6">
           <button
             className={`flex-1 py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 ${activeTab === 'Attack'
@@ -168,320 +122,71 @@ function App() {
           </button>
         </div>
       </div>
+
       {/* Content */}
       <div className="container mx-auto px-4 pb-8">
         <div className={`p-8 rounded-2xl shadow-2xl transition-colors duration-300 ${darkMode ? 'bg-gray-800/50 backdrop-blur-sm' : 'bg-white/80 backdrop-blur-sm'}`}>
-          {activeTab === 'Attack' && (
-            <>
-              {/* Attack Form */}
-              <form className="flex flex-wrap items-center gap-4 mb-6">
-                <select
-                  className={`px-4 py-3 rounded-lg font-medium transition-all duration-200 ${darkMode
-                    ? 'bg-gray-700 text-white border-gray-600 hover:bg-gray-600'
-                    : 'bg-white text-gray-900 border-gray-300 hover:border-red-400'
-                    } border-2 focus:outline-none focus:ring-2 focus:ring-red-500`}
-                  value={attackType}
-                  onChange={e => setAttackType(e.target.value)}
-                >
-                  <option value="xss_dom">XSS DOM-Based</option>
-                  <option value="xss_reflected">XSS Reflected</option>
-                  <option value="xss_stored">XSS Stored</option>
-                  <option value="sql_injection">SQL Injection</option>
-                  <option value="sql_injection_blind">Blind SQL Injection</option>
-                </select>
-                <input
-                  type="text"
-                  className={`flex-1 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${darkMode
-                    ? 'bg-gray-700 text-white border-gray-600 placeholder-gray-400'
-                    : 'bg-white text-gray-900 border-gray-300 placeholder-gray-500'
-                    } border-2 focus:outline-none focus:ring-2 focus:ring-red-500`}
-                  placeholder="Target Domain (e.g., modsec.llmshield.click)"
-                  value={domain}
-                  onChange={e => setDomain(e.target.value)}
-                  required
-                />
-                <input
-                  type="number"
-                  className={`w-28 px-4 py-3 rounded-lg font-medium text-center transition-all duration-200 ${darkMode
-                    ? 'bg-gray-700 text-white border-gray-600'
-                    : 'bg-white text-gray-900 border-gray-300'
-                    } border-2 focus:outline-none focus:ring-2 focus:ring-red-500`}
-                  placeholder="#"
-                  min="1"
-                  max="20"
-                  value={numPayloads}
-                  onChange={e => setNumPayloads(parseInt(e.target.value) || 5)}
-                  title="Number of payloads (1-20)"
-                />
+          {activeTab === 'Attack' && <TabAttack
+            domain={domain}
+            setDomain={setDomain}
+            attackType={attackType}
+            setAttackType={setAttackType}
+            numPayloads={numPayloads}
+            setNumPayloads={setNumPayloads}
+            error={error}
+            setError={setError}
+            wafName={wafName}
+            setWafName={setWafName}
+            darkMode={darkMode}
+            payloadsRandom={payloadsRandom}
+            setPayloadsRandom={setPayloadsRandom}
+            payloadsAdaptive={payloadsAdaptive}
+            setPayloadsAdaptive={setPayloadsAdaptive}
+            attackResults={attackResults}
+            setAttackResults={setAttackResults}
+            setActiveTab={setActiveTab}
+            setIsAutoDefend={setIsAutoDefend}
+            handleDefend={handleDefend}
+          />}
+          {activeTab === 'Defend' && <TabDefend
+            domain={domain}
+            wafName={wafName}
+            attackResults={attackResults}
+            setAttackResults={setAttackResults}
+            darkMode={darkMode}
+            setError={setError}
+            isAutoDefend={isAutoDefend}
+            setIsAutoDefend={setIsAutoDefend}
+            defenseRules={defenseRules}
+            setDefenseRules={setDefenseRules}
+            loading={loading}
+            handleDefend={handleDefend}
+            rawResponse={rawResponse}
+            existingRules={existingRules}
+            setExistingRules={setExistingRules}
+          />}
+
+          {/* Error Popup Modal */}
+          {error && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+              <div className={`relative max-w-md w-full mx-4 p-8 rounded-2xl shadow-2xl border-2 ${darkMode ? 'bg-gray-900 border-red-700 text-red-300' : 'bg-white border-red-400 text-red-700'}`}>
                 <button
-                  disabled={isSubmitting}
-                    onClick={() => handleAttack(1)}
-                  className="px-8 py-3 rounded-lg font-bold text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
-                >
-                  {isSubmitting ? '🔄 Attacking...' : '🚀 Attack Phase 1 (Random payloads)'}
-                </button>
-                {payloads.length > 0 && !isSubmitting && (
-                  <button
-                    disabled={isSubmitting}
-                    onClick={() => handleAttack(3)}
-                    className="px-8 py-3 rounded-lg font-bold text-white bg-gradient-to-r from-red-500 to-pink-600 hover:from-red-600 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? '🔄 Attacking...' : '🚀 Attack Phase 3 (Adaptive to results)'}
-                  </button>
-                )}
-              </form>
-              {error && (
-                <div className="mt-4 p-4 rounded-lg bg-red-100 border border-red-400 text-red-800 font-semibold">
-                  ⚠️ {error}
-                </div>
-              )}
-              {/* Download Buttons */}
-              <div className="flex gap-3 mb-6">
-                <button
-                  className="px-5 py-2 rounded-lg font-semibold text-white bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500 shadow hover:shadow-lg transition-all duration-200 disabled:cursor-not-allowed"
-                  disabled={!wafName}
-                  onClick={() => handleDownload('waf')}
-                >
-                  📥 WAF Info
-                </button>
-                <button
-                  className="px-5 py-2 rounded-lg font-semibold text-white bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 disabled:from-gray-400 disabled:to-gray-500 shadow hover:shadow-lg transition-all duration-200 disabled:cursor-not-allowed"
-                  disabled={!payloads || !payloads.length}
-                  onClick={() => handleDownload('payloads')}
-                >
-                  📥 Payloads
-                </button>
-              </div>
-              {/* Results Table */}
-              <BypassedDataTable
-                wafName={wafName}
-                payloads={payloads}
-                darkMode={darkMode}
-              />
-              {/* Toggle Raw Response */}
-              <div className="mt-6 flex flex-col items-start">
-                <button
-                  className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 ${darkMode
-                    ? 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                    : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
-                    }`}
-                  onClick={() => setShowRaw(!showRaw)}
+                  className="absolute top-3 right-3 text-2xl font-bold px-2 py-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30 transition-all"
+                  onClick={() => setError(null)}
+                  aria-label="Close error popup"
                   type="button"
                 >
-                  {showRaw ? '🙈 Hide Raw Response' : '👁️ Show Raw Response'}
+                  ×
                 </button>
-                {showRaw && rawResponse && (
-                  <textarea
-                    className={`w-full h-40 mt-3 border-2 rounded-lg p-4 text-xs font-mono transition-colors duration-200 ${darkMode
-                      ? 'bg-gray-900 border-gray-700 text-green-400'
-                      : 'bg-gray-50 border-gray-300 text-gray-800'
-                      }`}
-                    value={typeof rawResponse === 'string' ? rawResponse : JSON.stringify(rawResponse, null, 2)}
-                    readOnly
-                    placeholder="Raw API response will be displayed here..."
-                  />
-                )}
-              </div>
-            </>
-          )}
-          {activeTab === 'Defend' && (
-            <>
-              {/* Bypassed Payloads Section */}
-              <div className="mb-8">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className={`text-2xl font-bold ${darkMode ? 'text-red-400' : 'text-red-600'}`}>
-                    ⚠️ Bypassed Payloads
-                  </h2>
-                  {payloads.filter(p => p.bypassed === true).length > 0 && (
-                    <button
-                      onClick={async () => {
-                        setIsRetesting(true);
-                        try {
-                          const bypassedPayloads = payloads.filter(p => p.bypassed === true);
-                          const res = await Services.retest(bypassedPayloads);
-                          const data = res.ok ? await res.json() : null;
-
-                          if (data && data.results) {
-                            // Update payloads with retest results
-                            const updatedPayloads = payloads.map(p => {
-                              const retestResult = data.results.find(r => r.payload === p.payload);
-                              return retestResult ? { ...p, bypassed: retestResult.bypassed, status_code: retestResult.status_code } : p;
-                            });
-                            setPayloads(updatedPayloads);
-                          }
-                        } finally {
-                          setIsRetesting(false);
-                        }
-                      }}
-                      disabled={isRetesting}
-                      className="px-6 py-2 rounded-lg font-semibold text-white bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
-                    >
-                      {isRetesting ? '🔄 Retesting...' : '🔄 Retest Bypassed'}
-                    </button>
-                  )}
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-3xl">⚠️</span>
+                  <h3 className="font-bold text-xl">Đã xảy ra lỗi</h3>
                 </div>
-                <BypassedDataTable
-                  wafName={wafName}
-                  payloads={payloads.filter(p => p.bypassed === true)}
-                  darkMode={darkMode}
-                />
-              </div>
-
-              {/* Advanced Defense Mode */}
-              <div className={`mb-6 p-5 rounded-xl border-2 transition-colors duration-200 ${darkMode ? 'bg-gray-800/60 border-blue-700/40' : 'bg-blue-50/60 border-blue-200'}`}>
-                <label className="flex items-center gap-3 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    className="w-5 h-5 accent-blue-500 cursor-pointer"
-                    checked={advancedDefense}
-                    onChange={e => {
-                      setAdvancedDefense(e.target.checked);
-                      if (!e.target.checked) {
-                        setExistingRulesContent(null);
-                        setExistingRulesFileName('');
-                      }
-                    }}
-                  />
-                  <span className={`font-bold text-base ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
-                    Advanced Defense Mode
-                  </span>
-                  <span className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                    — Gemini compares new rules against your existing ruleset to avoid duplicates and tune syntax
-                  </span>
-                </label>
-
-                {advancedDefense && (
-                  <div className="mt-4 flex flex-col gap-3">
-                    <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                      Import your existing WAF rules file <span className="font-semibold">(JSON array or .txt, one rule per line)</span>:
-                    </p>
-                    <label className={`flex items-center gap-3 px-4 py-3 rounded-lg border-2 border-dashed cursor-pointer transition-all duration-200 ${darkMode ? 'border-blue-600 bg-gray-900/40 hover:bg-gray-700/50 text-blue-300' : 'border-blue-400 bg-white hover:bg-blue-50 text-blue-600'}`}>
-                      <span className="text-xl">📂</span>
-                      <span className="font-medium text-sm">
-                        {existingRulesFileName ? existingRulesFileName : 'Click to import rules file (.json or .txt)'}
-                      </span>
-                      <input
-                        type="file"
-                        accept=".json,.txt"
-                        className="hidden"
-                        onChange={handleExistingRulesFile}
-                      />
-                    </label>
-                    {existingRulesContent && (
-                      <p className={`text-xs font-semibold ${darkMode ? 'text-green-400' : 'text-green-600'}`}>
-                        ✅ Rules file loaded — Gemini will use these during rule generation
-                      </p>
-                    )}
-                    {advancedDefense && !existingRulesContent && (
-                      <p className={`text-xs ${darkMode ? 'text-yellow-400' : 'text-yellow-600'}`}>
-                        ⚠️ Please import a rules file to enable advanced comparison
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Re-generate button */}
-                {payloads.filter(p => p.bypassed === true).length > 0 && (
-                  <div className="mt-4">
-                    <button
-                      onClick={handleRegenerate}
-                      disabled={isRegenerating || (advancedDefense && !existingRulesContent)}
-                      className="px-6 py-2 rounded-lg font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed text-sm"
-                    >
-                      {isRegenerating ? '🔄 Generating...' : '🛡️ Re-generate Defense Rules'}
-                    </button>
-                    {advancedDefense && existingRulesContent && (
-                      <span className={`ml-3 text-xs font-semibold ${darkMode ? 'text-cyan-400' : 'text-cyan-600'}`}>
-                        with advanced rule comparison
-                      </span>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {/* Defense Rules */}
-              {defenseRules && defenseRules.length > 0 ? (
-                <div className="mt-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className={`text-2xl font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>
-                      🛡️ Defense Rules Generated
-                    </h2>
-                    <span className={`text-sm font-semibold px-3 py-1 rounded-full ${darkMode ? 'bg-blue-900/40 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>
-                      {defenseRules.length} rule{defenseRules.length !== 1 ? 's' : ''}
-                    </span>
-                  </div>
-                  <div className={`overflow-x-auto rounded-xl border-2 ${darkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-                    <table className="min-w-full">
-                      <thead>
-                        <tr className={darkMode ? 'bg-blue-900/30' : 'bg-blue-100'}>
-                          <th className={`text-left font-bold p-4 w-8 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>#</th>
-                          <th className={`text-left font-bold p-4 w-24 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>WAF Type</th>
-                          <th className={`text-left font-bold p-4 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>WAF Rule</th>
-                          <th className={`text-left font-bold p-4 ${darkMode ? 'text-blue-300' : 'text-blue-900'}`}>Implementation Guide</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {defenseRules.map((item, idx) => (
-                          <tr key={idx} className={idx % 2 === 0 ? (darkMode ? 'bg-gray-800/30' : 'bg-white') : (darkMode ? 'bg-gray-800/50' : 'bg-gray-50')}>
-                            <td className={`align-top p-4 text-center font-bold ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{idx + 1}</td>
-                            <td className="align-top p-4">
-                              <span className={`px-2 py-1 rounded text-xs font-semibold uppercase ${darkMode ? 'bg-cyan-900/30 text-cyan-400' : 'bg-cyan-100 text-cyan-700'}`}>
-                                {item.waf_type || 'modsecurity'}
-                              </span>
-                              {item.is_valid === false && (
-                                <span className="ml-1 px-2 py-1 rounded text-xs font-semibold bg-red-500 text-white">invalid</span>
-                              )}
-                            </td>
-                            <td className="align-top p-4 w-1/2">
-                              <pre className={`whitespace-pre-wrap text-xs font-mono p-3 rounded-lg ${darkMode ? 'bg-gray-900 text-green-400' : 'bg-gray-100 text-gray-800'}`}>{item.rule}</pre>
-                              {item.refinement_notes && (
-                                <p className={`mt-2 text-xs italic ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                                  ✨ {item.refinement_notes}
-                                </p>
-                              )}
-                            </td>
-                            <td className={`align-top p-4 w-1/3 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                              <p className="text-sm leading-relaxed">{item.instructions}</p>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+                <div className="mt-2 text-base break-words whitespace-pre-line">
+                  {error}
                 </div>
-              ) : (
-                <div className={`text-center py-12 rounded-xl ${darkMode ? 'bg-green-900/20 border-2 border-green-700' : 'bg-green-50 border-2 border-green-200'}`}>
-                  <p className={`text-xl font-semibold ${darkMode ? 'text-green-400' : 'text-green-700'}`}>
-                    ✅ No bypassed payloads detected. Your WAF is secure!
-                  </p>
-                </div>
-              )}
-
-              {/* Toggle Raw Response */}
-              <div className="mt-6 flex flex-col items-start">
-                <button
-                  className={`px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-200 ${darkMode
-                    ? 'bg-gray-700 hover:bg-gray-600 text-gray-300'
-                    : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
-                    }`}
-                  onClick={() => setShowRaw(!showRaw)}
-                  type="button"
-                >
-                  {showRaw ? '🙈 Hide Raw Response' : '👁️ Show Raw Response'}
-                </button>
-                {showRaw && rawResponse && (
-                  <textarea
-                    className={`w-full h-40 mt-3 border-2 rounded-lg p-4 text-xs font-mono transition-colors duration-200 ${darkMode
-                      ? 'bg-gray-900 border-gray-700 text-green-400'
-                      : 'bg-gray-50 border-gray-300 text-gray-800'
-                      }`}
-                    value={typeof rawResponse === 'string' ? rawResponse : JSON.stringify(rawResponse, null, 2)}
-                    readOnly
-                    placeholder="Raw API response will be displayed here..."
-                  />
-                )}
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>

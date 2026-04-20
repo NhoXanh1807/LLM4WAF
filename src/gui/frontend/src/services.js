@@ -15,13 +15,42 @@ const Call = async (path, method, body = null, headers = {}) => {
 };
 
 export const Services = {
-    attack: async (domain, attack_type, num_payloads = 5, payloads_history = []) => {
-        return Call("/attack", "POST", { domain, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
+    // // Old services (giữ nguyên)
+    // attack: async (domain, attack_type, num_payloads = 5, payloads_history = []) => {
+    //     return Call("/attack", "POST", { domain, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
+    // },
+    // defend: async (waf_info, bypassed_payloads, num_rules = 3) => {
+    //     return Call("/defend", "POST", { waf_info, bypassed_payloads, num_rules }, { "Content-Type": "application/json" });
+    // },
+    // retest: async (bypassed_payloads) => {
+    //     return Call("/retest", "POST", { bypassed_payloads }, { "Content-Type": "application/json" });
+    // },
+    // detectWAF: async (domain) => {
+    //     return Call("/detect-waf", "POST", { domain }, { "Content-Type": "application/json" });
+    // },
+    // defend: async (waf_info, bypassed_payloads, num_rules = 3, existing_rules = null) => {
+    //     return Call("/defend", "POST", { waf_info, bypassed_payloads, num_rules, existing_rules }, { "Content-Type": "application/json" });
+    // },
+
+    // Các service mới tương ứng backend
+    apiDetectWAF: async (domain) => {
+        // /api/detect_waf expects { domain }
+        return Call("/detect_waf", "POST", { domain }, { "Content-Type": "application/json" });
     },
-    defend: async (waf_info, bypassed_payloads, num_rules = 3, existing_rules = null) => {
-        return Call("/defend", "POST", { waf_info, bypassed_payloads, num_rules, existing_rules }, { "Content-Type": "application/json" });
+    apiGeneratePayloadRandom: async (waf_name, attack_type, num_payloads, payloads_history = []) => {
+        // /api/generate_payload expects { waf_name, attack_type, num_payloads }
+        return Call("/generate_payload", "POST", { waf_name, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
     },
-    retest: async (bypassed_payloads) => {
-        return Call("/retest", "POST", { bypassed_payloads }, { "Content-Type": "application/json" });
-    }
+    apiGeneratePayloadAdaptive: async (waf_name, attack_type, num_payloads, payloads_history) => {
+        // /api/generate_payload expects { waf_name, attack_type, num_payloads, payloads_history }
+        return Call("/generate_payload", "POST", { waf_name, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
+    },
+    apiTestAttack: async (domain, payloads = []) => {
+        // /api/test_attack expects { domain, payloads }
+        return Call("/test_attack", "POST", { domain, payloads }, { "Content-Type": "application/json" });
+    },
+    apiDefend: async (waf_name, payloads, num_rules = 3, existing_rules = null) => {
+        // /api/defend expects { waf_name, payloads, num_rules, existing_rules }
+        return Call("/defend", "POST", { waf_name, payloads, num_rules, existing_rules }, { "Content-Type": "application/json" });
+    },
 }
