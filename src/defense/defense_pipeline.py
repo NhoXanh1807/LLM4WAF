@@ -203,10 +203,18 @@ class DefensePipeline:
             return result
 
         try:
-            # Stage 1: Clustering
-            print("Bypassed payloads:")
+            print("General about the attack and environment:")
+            print("\tWAF Name:", waf_name)
+            print("\tWAF Type:", waf_type.value)
+            print("\tAttack Type:", attack_type)
+            print(f"\tExisting Rules: {len(existing_rules) if existing_rules else 0}")
+            for rule in (existing_rules or []):
+                print(f"\t\t{rule}")
+            print("\tBypassed payloads:")
             for p in bypassed_payloads:
-                print(f"\t{p}")
+                print(f"\t\t{p}")
+            
+            # Stage 1: Clustering
             print("[1/4] Clustering payloads...")
             clusters = self._cluster_payloads(bypassed_payloads)
             result.cluster_info = clusters
