@@ -371,8 +371,8 @@ class DefensePipeline:
             # Build prompt
             base_prompt = get_blue_team_user_prompt(
                 waf_name=waf_name,
-                bypassed_payloads=json.dumps(payloads[:20]),  # Limit for token efficiency
-                bypassed_instructions=json.dumps([f"Payload from cluster {c.cluster_id}" for c in clusters]),
+                bypassed_payloads=payloads[:20],  # pass list directly
+                bypassed_instructions=[f"Payload from cluster {c.cluster_id}: {c.attack_type}" for c in clusters],
                 num_rules=num_rules,
             )
             print(f"[BASE DEFEND PROMPT]\n\t{base_prompt.replace('\n', '\n\t')}")
@@ -566,15 +566,22 @@ Required:
 Use Cloudflare fields: http.request.uri, http.request.body, http.request.headers, etc.""",
 
             WAFType.AWS_WAF: """
-**OUTPUT FORMAT**: Generate rules in AWS WAF JSON format:
-{
-    "ByteMatchStatement": {
-        "SearchString": "pattern",
-        "FieldToMatch": {"UriPath": {}},
-        "TextTransformations": [{"Priority": 0, "Type": "URL_DECODE"}],
-        "PositionalConstraint": "CONTAINS"
-    }
-}""",
+**OUTPUT FORMAT**: Generate rules in AWS WAF JSON format. Use simple statement objects like:
+
+Example 1 — ByteMatchStatement:
+{"ByteMatchStatement": {"SearchString": "pattern", "FieldToMatch": {"QueryString": {}}, "TextTransformations": [{"Priority": 0, "Type": "URL_DECODE"}, {"Priority": 1, "Type": "LOWERCASE"}], "PositionalConstraint": "CONTAINS"}}
+
+Example 2 — RegexMatchStatement:
+{"RegexMatchStatement": {"RegexString": "(?i)<script[\\s>]", "FieldToMatch": {"QueryString": {}}, "TextTransformations": [{"Priority": 0, "Type": "URL_DECODE"}]}}
+
+Example 3 — XssMatchStatement:
+{"XssMatchStatement": {"FieldToMatch": {"QueryString": {}}, "TextTransformations": [{"Priority": 0, "Type": "URL_DECODE"}, {"Priority": 1, "Type": "HTML_ENTITY_DECODE"}]}}
+
+IMPORTANT:
+- Each rule must be a single valid JSON object (one of the statement types above)
+- FieldToMatch options: QueryString, UriPath, Body, SingleHeader, AllQueryArguments
+- TextTransformation Type options: URL_DECODE, LOWERCASE, HTML_ENTITY_DECODE, BASE64_DECODE, NONE
+- Do NOT wrap in "Statement", "Name", or "VisibilityConfig" — just the raw statement object""",
 
             WAFType.NAXSI: """
 **OUTPUT FORMAT**: Generate rules in Naxsi format:

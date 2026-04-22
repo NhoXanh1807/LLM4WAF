@@ -54,16 +54,32 @@ BLUE_TEAM_SYSTEM_PROMPT = """You are a defensive security architect specializing
 
 Your goal is to design robust, production-ready WAF rules that block attack vectors while maintaining application usability."""
 
-def get_blue_team_user_prompt(waf_name, bypassed_payloads:list, bypassed_instructions:list, num_rules):
-   """Generate user prompt for defense rule creation"""
+def get_blue_team_user_prompt(waf_name, bypassed_payloads, bypassed_instructions, num_rules):
+   """Generate user prompt for defense rule creation.
+
+   Args:
+       bypassed_payloads: list of payload strings (or pre-serialised JSON string)
+       bypassed_instructions: list of instruction strings (or pre-serialised JSON string)
+   """
+   # Accept both list and pre-serialised string
+   if isinstance(bypassed_payloads, list):
+       payloads_str = '\n\t'.join(f'- {p}' for p in bypassed_payloads)
+   else:
+       payloads_str = str(bypassed_payloads)
+
+   if isinstance(bypassed_instructions, list):
+       instructions_str = '\n\t'.join(f'- {i}' for i in bypassed_instructions)
+   else:
+       instructions_str = str(bypassed_instructions)
+
    return f"""**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
 
 **Environment:**
 - WAF: {waf_name}
-- Bypassed Payloads: 
-{'\n\t'.join(bypassed_payloads)}
-- Attack Techniques Used: 
-{'\n\t'.join(bypassed_instructions)}
+- Bypassed Payloads:
+\t{payloads_str}
+- Attack Techniques Used:
+\t{instructions_str}
 
 Generate {num_rules} PRODUCTION-GRADE defense rules to block these bypasses:
 
@@ -79,20 +95,9 @@ Generate {num_rules} PRODUCTION-GRADE defense rules to block these bypasses:
    - Minimize false positives with negative lookaheads
    - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
 
-3. **Implementation Details**:
-   - Provide rules in ModSecurity SecRule format
-   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
-   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
-   - Add actionable deployment instructions
+3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
 
-4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
-
-**FORMAT**: For each rule, provide:
-- SecRule syntax
-- Transformation pipeline
-- Severity level
-- Deployment phase
-- Testing methodology"""
+The WAF format instruction will follow — generate rules ONLY in that specified format."""
 
 def build_adaptive_prompt(waf_name, attack_type, blocked_examples, passed_examples, technique):
       """Build Phase 3 style prompt with BLOCKED/PASSED examples"""
