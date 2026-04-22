@@ -4,8 +4,10 @@ AWS WAF Rule Syntax Validator.
 Validates AWS WAF rule JSON syntax offline.
 
 Leniency policy (2026):
-  Hard-fail: invalid JSON, completely missing statement type.
-  Warning:   unknown statement types, missing optional fields (Priority, VisibilityConfig).
+  Hard-fail: invalid JSON only.
+  Warning:   missing/unknown statement types, missing required fields (SearchString, RegexString,
+             CountryCodes, etc.), unknown transformations, bad regex — LLM output is often
+             structurally correct but uses variant field names, so we never hard-fail on fields.
   Pass:      everything else — AWS WAF v2 / WAFV2 is flexible.
 """
 
@@ -185,23 +187,21 @@ class AWSWAFValidator(BaseValidator):
         if statement_type in {"AndStatement", "OrStatement"}:
             statements = stmt_content.get("Statements", [])
             if not statements:
-                return ValidationResult(
-                    is_valid=False,
-                    error_message=f"{statement_type} requires non-empty Statements array"
-                )
-            for i, s in enumerate(statements):
-                result = self._validate_statement(s)
-                if not result.is_valid:
-                    result.error_message = f"{statement_type}[{i}]: {result.error_message}"
-                    return result
+                warnings.append(f"{statement_type} has empty Statements array")
+            else:
+                for i, s in enumerate(statements):
+                    result = self._validate_statement(s)
+                    if result.warnings:
+                        warnings.extend([f"{statement_type}[{i}]: {w}" for w in result.warnings])
 
         elif statement_type == "NotStatement":
             inner = stmt_content.get("Statement")
             if not inner:
-                return ValidationResult(is_valid=False, error_message="NotStatement requires inner Statement")
-            result = self._validate_statement(inner)
-            if not result.is_valid:
-                return result
+                warnings.append("NotStatement missing inner Statement")
+            else:
+                result = self._validate_statement(inner)
+                if result.warnings:
+                    warnings.extend(result.warnings)
 
         elif statement_type in {"ByteMatchStatement", "RegexMatchStatement"}:
             result = self._validate_match_statement(stmt_content, statement_type)
@@ -244,8 +244,9 @@ class AWSWAFValidator(BaseValidator):
         warnings = []
 
         if stmt_type == "ByteMatchStatement":
-            if "SearchString" not in content:
-                return ValidationResult(is_valid=False, error_message="ByteMatchStatement requires SearchString")
+            # Accept SearchString or SearchStringBase64 (LLMs often use either)
+            if "SearchString" not in content and "SearchStringBase64" not in content:
+                warnings.append("ByteMatchStatement missing SearchString (or SearchStringBase64)")
             if "PositionalConstraint" in content:
                 pc = content["PositionalConstraint"]
                 if pc not in self.VALID_POSITIONAL_CONSTRAINTS:
@@ -253,11 +254,12 @@ class AWSWAFValidator(BaseValidator):
 
         elif stmt_type == "RegexMatchStatement":
             if "RegexString" not in content:
-                return ValidationResult(is_valid=False, error_message="RegexMatchStatement requires RegexString")
-            try:
-                re.compile(content["RegexString"])
-            except re.error as e:
-                return ValidationResult(is_valid=False, error_message=f"Invalid regex: {e}")
+                warnings.append("RegexMatchStatement missing RegexString")
+            elif content["RegexString"]:
+                try:
+                    re.compile(content["RegexString"])
+                except re.error as e:
+                    warnings.append(f"Possibly invalid regex (may use AWS-specific syntax): {e}")
 
         return ValidationResult(is_valid=True, warnings=warnings if warnings else None)
 
@@ -272,12 +274,12 @@ class AWSWAFValidator(BaseValidator):
         return ValidationResult(is_valid=True, warnings=warnings if warnings else None)
 
     def _validate_geo_statement(self, content: dict) -> ValidationResult:
+        warnings = []
         if "CountryCodes" not in content:
-            return ValidationResult(is_valid=False, error_message="GeoMatchStatement requires CountryCodes")
-        codes = content["CountryCodes"]
-        if not isinstance(codes, list) or not codes:
-            return ValidationResult(is_valid=False, error_message="CountryCodes must be a non-empty array")
-        return ValidationResult(is_valid=True)
+            warnings.append("GeoMatchStatement missing CountryCodes")
+        elif not isinstance(content["CountryCodes"], list) or not content["CountryCodes"]:
+            warnings.append("CountryCodes should be a non-empty array")
+        return ValidationResult(is_valid=True, warnings=warnings if warnings else None)
 
     def _validate_field_to_match(self, field: dict) -> ValidationResult:
         if not field:

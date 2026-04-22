@@ -83,20 +83,9 @@ Generate {num_rules} PRODUCTION-GRADE defense rules to block these bypasses:
    - Minimize false positives with negative lookaheads
    - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
 
-3. **Implementation Details**:
-   - Provide rules in ModSecurity SecRule format
-   - Include transformation functions (t:urlDecode, t:lowercase, etc.)
-   - Specify phase (REQUEST_HEADERS, REQUEST_BODY, etc.)
-   - Add actionable deployment instructions
+3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
 
-4. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
-
-**FORMAT**: For each rule, provide:
-- SecRule syntax
-- Transformation pipeline
-- Severity level
-- Deployment phase
-- Testing methodology"""
+The WAF format instruction will follow — generate rules ONLY in that specified format."""
 
 def build_adaptive_prompt(waf_name, attack_type, blocked_examples, passed_examples, technique):
       """Build Phase 3 style prompt with BLOCKED/PASSED examples"""
