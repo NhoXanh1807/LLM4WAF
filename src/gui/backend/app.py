@@ -54,7 +54,7 @@ from services.generator import PayloadResult, generate_payloads_phase1, generate
 from services_external import dvwa
 from services.generator import PayloadResult
 import services.payload_harmness_validator as harmfulness
-from config.settings import DEFAULT_NUM_DEFENSE_RULES, NGROK_AUTHTOKEN, NGROK_DOMAIN
+from config.settings import DEFAULT_NUM_DEFENSE_RULES
 
 # Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> Gemini
 from defense.defense_pipeline import DefensePipeline
@@ -66,9 +66,7 @@ _defense_pipeline: DefensePipeline = None
 def _get_pipeline() -> DefensePipeline:
     global _defense_pipeline
     if _defense_pipeline is None:
-        _docs_folder = os.path.join(os.path.dirname(__file__), 'RAG', 'docs') + os.sep
         _defense_pipeline = DefensePipeline(
-            docs_folder=_docs_folder,
             enable_rag=True,
             enable_gemini=True,
             enable_clustering=True,
@@ -126,7 +124,16 @@ def api_generate_payload():
         attack_type = dict.get(data, "attack_type")
         num_payloads = dict.get(data, "num_payloads", 5)
         payloads_history = dict.get(data, "payloads_history", [])
-        probe_history = [PayloadResult(**h) for h in payloads_history]
+        probe_history = [PayloadResult(
+                payload=p.get("payload"),
+                technique=p.get("technique"),
+                attack_type=p.get("attack_type"),
+                status_code=p.get("status_code"),
+                is_bypassed=p.get("is_bypassed"),
+                is_harmful=p.get("is_harmful"),
+            )
+            for p in payloads_history
+        ]
         
         if not waf_name:
             return jsonify({"error": "Missing 'waf_name' field"}), 400
@@ -169,7 +176,14 @@ def api_attack_dvwa():
         data = dict(request.get_json())
         domain = dict.get(data, "domain", None)
         payloads = dict.get(data, "payloads", [])
-        payloads = [PayloadResult(**p) for p in payloads]
+        payloads = [PayloadResult(
+            payload=p.get("payload"),
+            technique=p.get("technique"),
+            attack_type=p.get("attack_type"),
+            status_code=p.get("status_code"),
+            is_bypassed=p.get("is_bypassed"),
+            is_harmful=p.get("is_harmful"),
+        ) for p in payloads]
         
         if not domain:
             return jsonify({"error": "Missing 'domain' field"}), 400
@@ -256,9 +270,20 @@ def api_defend():
         data = dict(request.get_json())
         waf_name = dict.get(data, "waf_name")
         payloads = dict.get(data, "payloads", [])
-        payloads = [PayloadResult(**payload) for payload in payloads]
-        num_rules = dict.get(data, "num_rules", DEFAULT_NUM_DEFENSE_RULES)
         existing_rules_raw = dict.get(data, "existing_rules", None)
+        
+        if not waf_name or len(waf_name) == 0:
+            return jsonify({"error": "Missing 'waf_name' field"}), 400
+        
+        
+        payloads = [PayloadResult(
+            payload=p.get("payload"),
+            technique=p.get("technique"),
+            attack_type=p.get("attack_type"),
+            status_code=p.get("status_code"),
+            is_bypassed=p.get("is_bypassed"),
+            is_harmful=p.get("is_harmful"),
+        ) for p in payloads]
         existing_rules = _parse_existing_rules(existing_rules_raw)
         if existing_rules:
             print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
@@ -267,7 +292,6 @@ def api_defend():
             bypassed_payloads=bypassed_payloads,
             waf_name=waf_name,
             waf_type=_map_waf_type(waf_name),
-            num_rules=num_rules,
             existing_rules=existing_rules if existing_rules else None
         )
 

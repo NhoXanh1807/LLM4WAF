@@ -14,7 +14,7 @@ from typing import List
 sys.path.insert(0, str(Path(__file__).parent))
 sys.path.insert(0, str(Path(__file__).parent.parent))
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from gui.backend.services.generator import PayloadResult, generate_payloads_phase1, generate_payloads_phase3, generate_defend_rules_and_instructions
+from gui.backend.services.generator import PayloadResult, generate_payloads_phase1
 from gui.backend.services_external.dvwa import loginDVWA, attack, VALID_ATTACK_TYPES
 from wafw00f.main import WAFW00F
 from defense.defense_pipeline import DefensePipeline

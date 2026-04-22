@@ -176,14 +176,16 @@ def generate_payload_phase3(waf_name, attack_type, probe_history: List[PayloadRe
     )
 
 
-def generate_defend_rules_and_instructions(waf_name, bypassed_payloads, bypassed_instructions, 
-    enable_rag=True, docs_folder="./docs/" , filter_rules_only=True):
+def generate_defend_rules_and_instructions(waf_name, attack_type, payload_clusters, 
+    enable_rag=True, filter_rules_only=True):
     """
     Generate ModSecurity defense rules using GPT-4
     ENHANCED: Now supports RAG-based context enrichment
 
     Args:
         waf_name (str): WAF detection information
+        attack_type (str): Type of attack being tested
+        payload_clusters (list): Clusters of payloads for defense generation
         bypassed_payloads (list): List of payloads that bypassed the WAF
         bypassed_instructions (list): Instructions for each bypassed payload
         enable_rag (bool): Whether to use RAG for context enhancement (default: True)
@@ -192,25 +194,25 @@ def generate_defend_rules_and_instructions(waf_name, bypassed_payloads, bypassed
     Returns:
         dict: OpenAI response with generated defense rules (includes RAG metadata if used)
     """
-    num_of_rules = DEFAULT_NUM_DEFENSE_RULES
 
     # Generate base user prompt using existing function
     base_user_prompt = get_blue_team_user_prompt(
         waf_name,
-        json.dumps(bypassed_payloads),
-        json.dumps(bypassed_instructions),
-        num_of_rules
+        payload_clusters,
     )
+    
+    bypassed_payloads = []
+    for cluster in payload_clusters:
+        for payload in cluster['payloads']:
+            bypassed_payloads.append(payload)
     
     # Enhance with RAG if enabled
     if enable_rag:
         rag_result = rag.enhance_defense_generation(
+            attack_type=attack_type,
             waf_name=waf_name,
             bypassed_payloads=bypassed_payloads,
-            bypassed_instructions=bypassed_instructions,
             base_user_prompt=base_user_prompt,
-            docs_folder=docs_folder,
-            enable_rag=True,
             filter_rules_only=filter_rules_only
         )
         

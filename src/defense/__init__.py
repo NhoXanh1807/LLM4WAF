@@ -17,7 +17,6 @@ Usage:
     result = generate_defense_rules(
         bypassed_payloads=["<script>alert(1)</script>", "' OR 1=1 --"],
         waf_type="modsecurity",
-        num_rules=5
     )
 
     # Full control
@@ -30,7 +29,6 @@ Usage:
         bypassed_payloads=[...],
         waf_type=WAFType.MODSECURITY,
         existing_rules=[...],
-        num_rules=5
     )
 
     # Access results

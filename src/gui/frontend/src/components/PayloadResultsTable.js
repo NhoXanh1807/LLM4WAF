@@ -6,7 +6,7 @@ function PayloadResultsTable({ wafName, payloads, darkMode, onClear, maxHeight =
     // Statistics
     const total = data.length;
     const bypassed = data.filter(item => item.status_code != null && item.is_bypassed === true).length;
-    const blocked = data.filter(item => item.status_code != null && item.is_bypassed === false).length;
+    const harmful = data.filter(item => item.status_code != null && item.is_harmful === true).length;
     const notTested = data.filter(item => item.status_code == null).length;
 
     const getResultCell = (item) => {
@@ -54,8 +54,8 @@ function PayloadResultsTable({ wafName, payloads, darkMode, onClear, maxHeight =
                     </button>
                 )}
                 <span className="ml-2 text-sm font-semibold text-gray-700 dark:text-gray-200">Nums of Payloads: {total}</span>
-                <span className="text-xs font-semibold px-2 py-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">Bypassed: {bypassed}</span>
-                <span className="text-xs font-semibold px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300">Blocked: {blocked}</span>
+                <span className="text-xs font-semibold px-2 py-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">Bypassed: {bypassed}/{total}</span>
+                <span className="text-xs font-semibold px-2 py-1 rounded bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300">Harmful: {harmful}/{total}</span>
                 <span className="text-xs font-semibold px-2 py-1 rounded bg-gray-100 text-gray-700 dark:bg-gray-800/60 dark:text-gray-300">Not tested: {notTested}</span>
             </div>
             <div

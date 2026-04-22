@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, {  useState } from 'react';
 import { Services } from '../services';
 import PayloadResultsTable from './PayloadResultsTable';
 
@@ -11,10 +11,7 @@ const TabDefend = ({
     setError, 
     setAttackResults, 
     domain, 
-    isAutoDefend, 
-    setIsAutoDefend,
     defenseRules,
-    setDefenseRules,
     loading,
     handleDefend,
     rawResponse,

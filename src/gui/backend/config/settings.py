@@ -21,6 +21,3 @@ DVWA_SECURITY_LEVEL = "low"
 # Default payload generation settings
 DEFAULT_NUM_PAYLOADS = 5
 DEFAULT_NUM_DEFENSE_RULES = 3
-
-NGROK_AUTHTOKEN = "3BsAFITReQh3QiJIsB40v8gPy7p_4mDoBhSHJuTopT1KysYgT"
-NGROK_DOMAIN = "overrigged-savingly-nelle.ngrok-free.dev"

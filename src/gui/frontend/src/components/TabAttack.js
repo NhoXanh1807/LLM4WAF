@@ -21,7 +21,6 @@ const AttackTab = ({
     setPayloadsAdaptive,
     setAttackResults,
     setActiveTab,
-    setIsAutoDefend,
     handleDefend,
 }) => {
     // Per-button loading states

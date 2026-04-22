@@ -9,6 +9,8 @@ from collections import defaultdict
 import hdbscan
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
+from sklearn.metrics import silhouette_score, davies_bouldin_score, calinski_harabasz_score
+
 
 
 def _build_tfidf_vectors(payloads):
@@ -36,6 +38,48 @@ def _reduce_dimension(X, n_components=50):
     svd = TruncatedSVD(n_components=n_components, random_state=42)
     return svd.fit_transform(X)
 
+DISTANCE_METRICS = {
+    "hdbscan": {
+        # metric: [các giá trị metric hợp lệ cho param 'metric' của HDBSCAN]
+        # Tham khảo: https://hdbscan.readthedocs.io/en/latest/parameter_selection.html#distance-metrics
+        "euclidean": {},
+        "manhattan": {},
+        "l1": {},
+        "l2": {},
+        "minkowski": {},
+        "chebyshev": {},
+        "canberra": {},
+        "braycurtis": {},
+        "mahalanobis": {"requires": ["metric_params: V (covariance matrix)"]},
+        "seuclidean": {"requires": ["metric_params: V (variance vector)"]},
+        "cosine": {},
+        "hamming": {},
+        "jaccard": {},
+        "matching": {},
+        "dice": {},
+        "kulsinski": {},
+        "rogerstanimoto": {},
+        "russellrao": {},
+        "sokalmichener": {},
+        "sokalsneath": {},
+        # ...
+        # Ngoài ra có thể truyền callable custom metric
+    },
+    "hac": {
+        # metric: [các giá trị metric hợp lệ cho param 'metric' của AgglomerativeClustering]
+        # Lưu ý: linkage ảnh hưởng đến metric hợp lệ
+        # linkage="ward" chỉ cho phép metric="euclidean"
+        # linkage="average", "complete", "single" cho phép nhiều metric hơn
+        "euclidean": {"linkage": ["ward", "average", "complete", "single"]},
+        "l1": {"linkage": ["average", "complete", "single"]},
+        "l2": {"linkage": ["average", "complete", "single"]},
+        "manhattan": {"linkage": ["average", "complete", "single"]},
+        "cosine": {"linkage": ["average", "complete", "single"]},
+        "precomputed": {"linkage": ["average", "complete", "single"]},
+        # ...
+        # Nếu dùng linkage="ward" thì chỉ dùng metric="euclidean"
+    }
+}
 
 def _cluster_payloads_HDBSCAN(X, min_cluster_size=10):
     """
@@ -81,6 +125,40 @@ def clustering(payloads, reduce_dim_to=100, method="HDBSCAN", cluster_kwargs={})
         return _cluster_payloads_HAC(data_reduced, **cluster_kwargs)
     else:
         raise ValueError(f"Unsupported clustering method: {method}")
+
+def evaluate_clusters(X, labels):
+    """
+    Đánh giá kết quả clustering bằng các metric nội suy phổ biến.
+    Trả về dict chứa các giá trị metric.
+    """
+    results = {}
+    # Loại bỏ trường hợp tất cả điểm cùng 1 cluster hoặc noise
+    n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
+    if n_clusters <= 1:
+        results['silhouette_score'] = None
+        results['davies_bouldin_score'] = None
+        results['calinski_harabasz_score'] = None
+        return results
+
+    # Silhouette Score (chỉ tính nếu có >1 cluster và không phải toàn noise)
+    try:
+        results['silhouette_score'] = silhouette_score(X, labels)
+    except Exception:
+        results['silhouette_score'] = None
+
+    # Davies-Bouldin Index (càng thấp càng tốt)
+    try:
+        results['davies_bouldin_score'] = davies_bouldin_score(X, labels)
+    except Exception:
+        results['davies_bouldin_score'] = None
+
+    # Calinski-Harabasz Index (càng cao càng tốt)
+    try:
+        results['calinski_harabasz_score'] = calinski_harabasz_score(X, labels)
+    except Exception:
+        results['calinski_harabasz_score'] = None
+
+    return results
 
 def save_output(data, labels, output_path):
     if not os.path.exists(output_path):

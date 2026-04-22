@@ -6,7 +6,6 @@ import { Services } from './services';
 function App() {
   const [activeTab, setActiveTab] = useState('Attack');
   const [error, setError] = useState(null);
-  const [isAutoDefend, setIsAutoDefend] = useState(false); // Thêm state để theo dõi chế độ Auto Defend
 
   // step 1 - detect WAF
   const [domain, setDomain] = useState('');
@@ -145,7 +144,6 @@ function App() {
             attackResults={attackResults}
             setAttackResults={setAttackResults}
             setActiveTab={setActiveTab}
-            setIsAutoDefend={setIsAutoDefend}
             handleDefend={handleDefend}
           />}
           {activeTab === 'Defend' && <TabDefend
@@ -155,10 +153,7 @@ function App() {
             setAttackResults={setAttackResults}
             darkMode={darkMode}
             setError={setError}
-            isAutoDefend={isAutoDefend}
-            setIsAutoDefend={setIsAutoDefend}
             defenseRules={defenseRules}
-            setDefenseRules={setDefenseRules}
             loading={loading}
             handleDefend={handleDefend}
             rawResponse={rawResponse}

