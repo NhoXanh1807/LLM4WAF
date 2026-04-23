@@ -1,0 +1,154 @@
+{
+    "success": true,
+    "data": {
+        "advanced_defense": true,
+        "clustered_payloads": [
+            {
+                "attack_type": "XSS",
+                "cluster_id": 3,
+                "payloads": [
+                    "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
+                    "%253CIM G&dnJW=PEvM<unused52>",
+                    "%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX",
+                    "%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx",
+                    "%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E",
+                    "%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E"
+                ],
+                "representative_payload": "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
+                "size": 6
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 2,
+                "payloads": [
+                    "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е",
+                    "％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ",
+                    "％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е"
+                ],
+                "representative_payload": "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                "size": 8
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 1,
+                "payloads": [
+                    "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww",
+                    "％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е",
+                    "％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е"
+                ],
+                "representative_payload": "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                "size": 7
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 0,
+                "payloads": [
+                    "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                    "％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е",
+                    "％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
+                "size": 5
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 4,
+                "payloads": [
+                    "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ"
+                ],
+                "representative_payload": "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ",
+                "size": 1
+            }
+        ],
+        "existing_rules_count": 44,
+        "final_rules": [
+            {
+                "instructions": "This rule uses a case-insensitive regex pattern to detect commonly obfuscated XSS tags (SVG, SCRIPT, IMG, IFRAME) and their closing variants, even when they include varying combinations of whitespace (spaces, tabs, newlines, vertical tabs) or hyphens as separators within the tag name. The `t:urlDecodeUni` transformation is crucial for handling Unicode and double URL encoded payloads, ensuring the regex sees a normalized form. `a-href` was removed as it refers more to an attribute than a tag itself and is covered by broader rules.",
+                "is_valid": true,
+                "refinement_notes": "Changed rule ID from 900001 to 9900001. Added `t:urlDecodeUni` for robust Unicode and double URL decoding. Optimized regex pattern `(?:s(?:(?:v[\\s\\x0b\\-]*?g|c[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?i[\\s\\x0b\\-]*?p[\\s\\x0b\\-]*?t|\\/[\\s\\x0b\\-]*?s[\\s\\x0b\\-]*?c[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?i[\\s\\x0b\\-]*?p[\\s\\x0b\\-]*?t)|(?:i[\\s\\x0b\\-]*?m[\\s\\x0b\\-]*?g|i[\\s\\x0b\\-]*?f[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?a[\\s\\x0b\\-]*?m[\\s\\x0b\\-]*?e)))` to replace `\\-?` with `[\\s\\x0b\\-]*?` to explicitly account for multiple whitespace characters (including control characters like vertical tab `\\x0b`) and hyphens between tag characters. Removed `a-href` for better focus on element tags.",
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_HEADERS \"(?i)<(?:s(?:(?:v[\\s\\x0b\\-]*?g|c[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?i[\\s\\x0b\\-]*?p[\\s\\x0b\\-]*?t|\\/[\\s\\x0b\\-]*?s[\\s\\x0b\\-]*?c[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?i[\\s\\x0b\\-]*?p[\\s\\x0b\\-]*?t)|(?:i[\\s\\x0b\\-]*?m[\\s\\x0b\\-]*?g|i[\\s\\x0b\\-]*?f[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?a[\\s\\x0b\\-]*?m[\\s\\x0b\\-]*?e)))\" \"id:9900001,phase:2,deny,status:403,msg:'XSS Obfuscated Tag Detected - SVG/IMG/Iframe/Script Variants',severity:'CRITICAL',t:urlDecodeUni,t:lowercase,t:htmlEntityDecode\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "This rule targets obfuscated JavaScript URLs that specifically invoke the `alert()` function. It handles various forms of obfuscation, including whitespace and hyphens within the 'javascript:' protocol and the 'alert' keyword, followed by any characters until the closing parenthesis. `t:urlDecodeUni` ensures proper decoding of complex encodings.",
+                "is_valid": true,
+                "refinement_notes": "Changed rule ID from 900002 to 9900002. Added `t:urlDecodeUni` for robust Unicode and double URL decoding. Simplified the `javascript` part of the regex to `javascript` and adjusted the following pattern to `[\\s\\x0b\\-]*?:[\\s\\x0b\\-]*?a[\\s\\x0b\\-]*?l[\\s\\x0b\\-]*?e[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?t[\\s\\x0b]*?\\((?:[^)]*?)\\)` to allow for whitespace/hyphens and improve performance by changing `(?:.*)` to `(?:[^)]*?)` to prevent catastrophic backtracking and specify matching within parentheses.",
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_HEADERS \"(?i)javascript[\\s\\x0b\\-]*?:[\\s\\x0b\\-]*?a[\\s\\x0b\\-]*?l[\\s\\x0b\\-]*?e[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?t[\\s\\x0b]*?\\((?:[^)]*?)\\)\" \"id:9900002,phase:2,deny,status:403,msg:'Javascript URI Alert XSS Detected',severity:'CRITICAL',t:urlDecodeUni,t:lowercase,t:htmlEntityDecode\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "This rule detects manipulated `onerror` event handlers commonly used in tags like `<img>` to execute XSS attacks. It specifically looks for `onerror` followed by an assignment to `alert()` with various obfuscations, including whitespace and hyphens, and allows any content within the `alert()` function.",
+                "is_valid": true,
+                "refinement_notes": "Changed rule ID from 900003 to 9900003. Added `t:urlDecodeUni` for robust Unicode and double URL decoding. Refined regex from `o(?:ne?-??rro?r(?:=.*)?\\=??a\\-?l\\-?e\\-?r\\-?t\\((?:.*))` to `on[\\s\\x0b\\-]*?error[\\s\\x0b]*?=[\\s\\x0b]*?a[\\s\\x0b\\-]*?l[\\s\\x0b\\-]*?e[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?t[\\s\\x0b]*?\\((?:[^)]*?)\\)` for precision, improved performance by changing `(?:.*)` to `(?:[^)]*?)`, and better handling of optional spaces/hyphens around keywords and assignment operator.",
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_HEADERS \"(?i)on[\\s\\x0b\\-]*?error[\\s\\x0b]*?=[\\s\\x0b]*?a[\\s\\x0b\\-]*?l[\\s\\x0b\\-]*?e[\\s\\x0b\\-]*?r[\\s\\x0b\\-]*?t[\\s\\x0b]*?\\((?:[^)]*?)\\)\" \"id:9900003,phase:2,deny,status:403,msg:'OnError Attribute Alert Execution Detected',severity:'CRITICAL',t:urlDecodeUni,t:lowercase,t:htmlEntityDecode\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            }
+        ],
+        "generated_rules": [
+            {
+                "instructions": "This rule uses a case-insensitive regex pattern to detect commonly obfuscated tags including SVG, IMAGE, IFRAMES, and script tags used for XSS attacks. It targets potential obfuscations with varying combinations of separators and cases, suitable for multiple bypasses.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_HEADERS \"(?i)<(?:s(?:(?:v\\-?g|c\\-?r\\-?i\\-?p\\-?t|\\/\\-?s\\-?c\\-?r\\-?i\\-?p\\-?t)|(?:i\\-?m\\-?g|i\\-?f\\-?r\\-?a\\-?m\\-?e))|a\\-?href)\" \"id:900001,phase:2,deny,status:403,msg:'XSS Obfuscated Payload Detected - SVG/IMG/Iframe/AHref Variants',severity:'CRITICAL',t:urlDecode,t:lowercase,t:htmlEntityDecode\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "This rule targets obfuscated JavaScript URLs with embedded alert function calls. Variations of the \"javascript:\" protocol handler are detected, blocking attempts to use script execution methods.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_HEADERS \"(?i)j(?:a(?:(?:v(?:a(?:\\-?s\\-?c\\-?r\\-?i\\-?p\\-?t)))|s\\-?c\\-?r\\-?i\\-?p\\-?t)\\:a\\-?l\\-?e\\-?r\\-?t\\((?:.*)\\)\" \"id:900002,phase:2,deny,status:403,msg:'Javascript URL Based XSS Detected',severity:'CRITICAL',t:urlDecode,t:lowercase,t:htmlEntityDecode\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects manipulated onerror event handlers possibly used in image tags to launch XSS attacks. It detects the use of onerror tied directly to potentially malicious alert triggers.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_HEADERS \"(?i)o(?:ne?-??rro?r(?:=.*)?\\=??a\\-?l\\-?e\\-?r\\-?t\\((?:.*))\" \"id:900003,phase:2,deny,status:403,msg:'OnError Attribute Based Execution Detected',severity:'CRITICAL',t:urlDecode,t:lowercase,t:htmlEntityDecode\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "This rule targets payloads using extensive percent encoding, detecting common tags used for script injection even when heavily obfuscated.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_HEADERS \"(?i)\\%&#?2?5?3?[Cc](?:r[iI][pP][tT]|[iI]mg|[iI]fr\frame|[sS]vg|a)(?:.*)?\\%&#?2?5?3?[EeD]\" \"id:900004,phase:2,deny,status:403,msg:'Extensive URL Encoded XSS Payload Detected',severity:'CRITICAL',t:urlDecode,t:lowercase,t:htmlEntityDecode\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            }
+        ],
+        "rag_sources": [],
+        "stats": {
+            "duplicates_removed": 1,
+            "num_clusters": 5,
+            "rules_generated": 4,
+            "rules_invalid": 0,
+            "rules_refined": 3,
+            "rules_valid": 4,
+            "total_payloads": 27
+        },
+        "waf_name": "ModSecurity"
+    }
+}

@@ -309,6 +309,8 @@ class DefensePipeline:
             return result
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             result.error_message = str(e)
             result.stage = PipelineStage.FAILED
             print(f"\nPipeline failed: {e}")
@@ -364,6 +366,8 @@ class DefensePipeline:
             )]
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             print(f"      Clustering failed: {e}, using single cluster")
             return [ClusterInfo(
                 cluster_id=0,
@@ -426,6 +430,7 @@ class DefensePipeline:
                     print(f"[RAG Retrieved sources]")
                     for source in rag_result.get("sources", []):
                         print(f"\t[{source.get('source')}]\n\t\t"+f"{source.get('content')}".replace("\n", "\n\t\t"))
+                    # print(f"[RAG Enhanced Prompt]\n\t{enhanced_prompt.replace('\n', '\n\t')}")
                 except Exception as e:
                     print(f"RAG enhancement failed, using base prompt: {e}")
                     enhanced_prompt = base_prompt

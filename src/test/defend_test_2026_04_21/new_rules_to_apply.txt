@@ -1,0 +1,20 @@
+# MODSEC - test xss_stored
+SecRule ARGS|REQUEST_URI|REQUEST_HEADERS "(?i)<(?:s(?:(?:v[\s\x0b\-]*?g|c[\s\x0b\-]*?r[\s\x0b\-]*?i[\s\x0b\-]*?p[\s\x0b\-]*?t|\/[\s\x0b\-]*?s[\s\x0b\-]*?c[\s\x0b\-]*?r[\s\x0b\-]*?i[\s\x0b\-]*?p[\s\x0b\-]*?t)|(?:i[\s\x0b\-]*?m[\s\x0b\-]*?g|i[\s\x0b\-]*?f[\s\x0b\-]*?r[\s\x0b\-]*?a[\s\x0b\-]*?m[\s\x0b\-]*?e)))" "id:9900001,phase:2,deny,status:403,msg:'XSS Obfuscated Tag Detected - SVG/IMG/Iframe/Script Variants',severity:'CRITICAL',t:urlDecodeUni,t:lowercase,t:htmlEntityDecode"
+SecRule ARGS|REQUEST_URI|REQUEST_HEADERS "(?i)javascript[\s\x0b\-]*?:[\s\x0b\-]*?a[\s\x0b\-]*?l[\s\x0b\-]*?e[\s\x0b\-]*?r[\s\x0b\-]*?t[\s\x0b]*?\((?:[^)]*?)\)" "id:9900002,phase:2,deny,status:403,msg:'Javascript URI Alert XSS Detected',severity:'CRITICAL',t:urlDecodeUni,t:lowercase,t:htmlEntityDecode"
+SecRule ARGS|REQUEST_URI|REQUEST_HEADERS "(?i)on[\s\x0b\-]*?error[\s\x0b]*?=[\s\x0b]*?a[\s\x0b\-]*?l[\s\x0b\-]*?e[\s\x0b\-]*?r[\s\x0b\-]*?t[\s\x0b]*?\((?:[^)]*?)\)" "id:9900003,phase:2,deny,status:403,msg:'OnError Attribute Alert Execution Detected',severity:'CRITICAL',t:urlDecodeUni,t:lowercase,t:htmlEntityDecode"
+
+# Naxsi - test xss_dom
+MainRule "rx:<(?:script|iframe|svg|img)" "msg:XSS: Encoded or Obfuscated script, iframe, svg, or img tag detected" "mz:BODY|URL|ARGS" "t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls" "s:$XSS:8" id:20001;
+MainRule "rx:on[a-z]+=[^"']*alert\([^)]*\)" "msg:XSS: Encoded inline event handler with alert detected" "mz:BODY|URL|ARGS" "t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls" "s:$XSS:8" id:20002;
+MainRule "rx:javascript:[^"']*alert\([^)]*\)" "msg:XSS: JavaScript URI scheme detected with alert" "mz:BODY|URL|ARGS" "t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls" "s:$XSS:8" id:20003;
+
+# Cloudflare - test sql_injection_blind
+http.request.uri.query.url_decode_all.lower matches r'(admin\'--|union\W*select)'
+http.request.uri.query.url_decode_all.lower matches r'1\s+(or|and)\s+1\s*=\s*1'
+http.request.uri.query.url_decode_all.lower matches r'(sleep|benchmark)\s*\((\d+)\s*\)'
+
+# AWS - test sql_injection
+{"RegexMatchStatement": {"RegexString": "(?i)(?:^|[^a-z0-9])admin(?:\\s|\\W)+--", "FieldToMatch": {"AllQueryArguments": {}}, "TextTransformations": [{"Priority": 0, "Type": "URL_DECODE"}, {"Priority": 1, "Type": "FULL_WIDTH_TO_HALF_WIDTH"}, {"Priority": 2, "Type": "LOWERCASE"}]}}
+{"RegexMatchStatement": {"RegexString": "(?i)(?:^|[^a-z0-9\\u0430\\u0406])(?:\\u0430dm\\u0406n)(?:\\s|\\W)+--", "FieldToMatch": {"AllQueryArguments": {}}, "TextTransformations": [{"Priority": 0, "Type": "URL_DECODE"}, {"Priority": 1, "Type": "LOWERCASE"}]}}
+{"RegexMatchStatement": {"RegexString": "(?i)1(?:\\s|\\W)+(?:or|\\u043er)(?:\\s|\\W)+1(?:\\s|\\W)*=\\s*1", "FieldToMatch": {"AllQueryArguments": {}}, "TextTransformations": [{"Priority": 0, "Type": "URL_DECODE"}, {"Priority": 1, "Type": "FULL_WIDTH_TO_HALF_WIDTH"}, {"Priority": 2, "Type": "LOWERCASE"}]}}
+{"RegexMatchStatement": {"RegexString": "(?:\\u951b.*?){3,}", "FieldToMatch": {"AllQueryArguments": {}}, "TextTransformations": []}}

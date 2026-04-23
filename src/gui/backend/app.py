@@ -270,6 +270,7 @@ def api_defend():
         data = dict(request.get_json())
         waf_name = dict.get(data, "waf_name")
         payloads = dict.get(data, "payloads", [])
+        attack_type = dict.get(data, "attack_type", "unknown")
         existing_rules_raw = dict.get(data, "existing_rules", None)
         
         if not waf_name or len(waf_name) == 0:
@@ -287,12 +288,13 @@ def api_defend():
         existing_rules = _parse_existing_rules(existing_rules_raw)
         if existing_rules:
             print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
-        bypassed_payloads = [payload.payload for payload in payloads if payload.is_bypassed]
+        bypassed_payloads = [payload.payload for payload in payloads if payload.is_bypassed and payload.is_harmful]
         pipeline_result = _get_pipeline().generate_defense_rules(
             bypassed_payloads=bypassed_payloads,
             waf_name=waf_name,
             waf_type=_map_waf_type(waf_name),
-            existing_rules=existing_rules if existing_rules else None
+            existing_rules=existing_rules if existing_rules else None,
+            attack_type=attack_type
         )
 
         return jsonify({

@@ -1,0 +1,177 @@
+{
+    "success": true,
+    "data": {
+        "advanced_defense": false,
+        "clustered_payloads": [
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 2,
+                "payloads": [
+                    "ADMｉｎ' --",
+                    "１％２５０９ОR％２５０９１％３D１",
+                    "ａｄｍｉｎ％２５２７／％２５２ａ％２５２ａ／－－",
+                    "锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛戯紖锛掞紩锛抐锛咃紥锛曪紥锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩d锛咃紥锛曪紭锛戯紖锛掞紩锛掞紩锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩",
+                    "１％２５０９Оr％２５０９１％３d１",
+                    "аdmІN％２７％２５０ａ－－",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "AdmI N' --*/**/*//*/**/---*///&gzdM=YUVH",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "АDMІN％２５２７％２５２５０９－－",
+                    "adMI n' --",
+                    "АDmіN％２５２７％２５２０－－",
+                    "％２５еff％２５bс％２５９１％２５２７％２５２０аnd％２５２０％２５еff％２５bс％２５９１％２５３d％２５еff％２５bс％２５９１　－－ -- 65",
+                    "１％２５０９Оr％２５０９１％３d１",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "ADMｉｎ' --",
+                    "АDmіN％２５２７％２５２０－－",
+                    "１％２５０９ОＲ％２５０９１％３Ｄ１"
+                ],
+                "representative_payload": "ADMｉｎ' --",
+                "size": 18
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 1,
+                "payloads": [
+                    "admIN%２５２７%２５２０--",
+                    "adMIN%２５２７%２５２０--",
+                    "admin%+２７%２５０ａ--",
+                    "adMIN%２５２７%２５２０--",
+                    "admIN%２５２７%２５２０--"
+                ],
+                "representative_payload": "admIN%２５２７%２５２０--",
+                "size": 5
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 3,
+                "payloads": [
+                    "AdMiN' --<unused19>",
+                    "ADMIN' --",
+                    "AdmIN' --",
+                    "admin %２５２７%２５０ａ--",
+                    "ADMIN'/*nJFC*/ -- 65",
+                    "ADMIn' --",
+                    "ADMIN' --"
+                ],
+                "representative_payload": "AdMiN' --<unused19>",
+                "size": 7
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 0,
+                "payloads": [
+                    "ADMIn%2527%2520--",
+                    "adMin%25252527%25252520--",
+                    "adMIN%252527%252520--",
+                    "admin %2527%252509--",
+                    "AdmIN%2527%252509--",
+                    "ADMIn%25252527%25252520--",
+                    "adMIN%252527%252520--",
+                    "adMIN%2527%252520--",
+                    "adMIN%252527%252520--",
+                    "AdmIN%2527%25250a--"
+                ],
+                "representative_payload": "ADMIn%2527%2520--",
+                "size": 10
+            }
+        ],
+        "existing_rules_count": 0,
+        "final_rules": [
+            {
+                "instructions": "This rule targets variations of 'admin' followed by SQL comments (`--`). It improves robustness by using `(?:^|[^a-z0-9])` instead of `\\b` for better handling of leading non-alphanumeric characters after transformations. `FULL_WIDTH_TO_HALF_WIDTH` transformation normalizes full-width Unicode characters (e.g., `\\uff49` to `i`) to their ASCII counterparts, crucial for blocking obfuscation. `LOWERCASE` handles case variations. This rule efficiently blocks patterns like `ADM\\uff49\\uff4e'\\u202f--` and `admin'/*--`.",
+                "is_valid": true,
+                "refinement_notes": "Replaced `\\\\b` with `(?:^|[^a-z0-9])` for improved boundary matching robustness after `LOWERCASE` transform. Added `FULL_WIDTH_TO_HALF_WIDTH` transformation to explicitly handle full-width character obfuscation.",
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)(?:^|[^a-z0-9])admin(?:\\\\s|\\\\W)+--\", \"FieldToMatch\": {\"AllQueryArguments\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"FULL_WIDTH_TO_HALF_WIDTH\"}, {\"Priority\": 2, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "This specific rule targets Cyrillic homoglyph obfuscation of 'admin' combined with SQL comments. It addresses cases where generic `LOWERCASE` or `FULL_WIDTH_TO_HALF_WIDTH` transformations may not normalize specific Cyrillic characters (e.g., `\\u0430` for 'a', `\\u0406` for 'i') to their Latin counterparts. The leading `(?:^|[^a-z0-9\\\\u0430\\\\u0406])` ensures it matches `\\u0430dm\\u0406n` at the start or preceded by non-alphanumeric/non-Cyrillic characters, covering the `\\u0430dm\\u0406N%...--` payload.",
+                "is_valid": true,
+                "refinement_notes": "New rule added to specifically cover Cyrillic homoglyph `admin` variations not handled by standard ASCII-focused transformations. Pattern explicitly includes Cyrillic characters (`\\u0430`, `\\u0406`) and is case-insensitive after lowercase transform.",
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)(?:^|[^a-z0-9\\\\u0430\\\\u0406])(?:\\\\u0430dm\\\\u0406n)(?:\\\\s|\\\\W)+--\", \"FieldToMatch\": {\"AllQueryArguments\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "This rule identifies common SQL injection patterns involving 'OR 1=1' and its variations. It accounts for various obfuscations including full-width characters, URL encoding, unicode whitespace, and Cyrillic homoglyphs for 'or' (`\\u043er`). The pattern uses `(?:\\\\s|\\\\W)+` to robustly match flexible spacing and non-word characters between keywords, covering payloads like `\\uff11\\uff05\\uff12\\uff15\\uff10\\uff19\\u041eR%...`.",
+                "is_valid": true,
+                "refinement_notes": "New rule added to cover 'OR 1=1' type SQL injection payloads. Includes `FULL_WIDTH_TO_HALF_WIDTH` for full-width character normalization and explicitly handles Cyrillic 'or' homoglyphs. Optimized to match flexible spacing and case.",
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)1(?:\\\\s|\\\\W)+(?:or|\\\\u043er)(?:\\\\s|\\\\W)+1(?:\\\\s|\\\\W)*=\\\\s*1\", \"FieldToMatch\": {\"AllQueryArguments\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"FULL_WIDTH_TO_HALF_WIDTH\"}, {\"Priority\": 2, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "This rule detects highly repetitive sequences of the specific Unicode character `\\u951b` (a CJK Ideograph). Such sequences are often indicative of encoding issues, mojibake, or intentional obfuscation attempts outside of legitimate application usage. No text transformations are applied as the raw unicode pattern is the direct target for this anomaly detection, covering the `\\u951b...` payload.",
+                "is_valid": true,
+                "refinement_notes": "New rule added to cover the unique mojibake/repeated unicode character payload, indicating unusual or malformed input likely from an attack. Pattern is specific and targets frequency of the anomalous character (at least 3 occurrences).",
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?:\\\\u951b.*?){3,}\", \"FieldToMatch\": {\"AllQueryArguments\": {}}, \"TextTransformations\": []}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            }
+        ],
+        "generated_rules": [
+            {
+                "instructions": "This rule targets obfuscated payloads using various encoding schemes and patterns common in the listed bypasses. This includes URL-encoded quote characters and sequences likely to result in SQL injection exploits. Text transformations decode URL-encoded characters and normalize case for consistent regex matching.",
+                "is_valid": false,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)%2527|%2509|%2520--|%25252(09|7)%25252(0|7)|'\\s*--|\\\\u|\\\\x|%e%d%b2\", \"FieldToMatch\": {\"AllQueryArguments\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": "Invalid JSON: Invalid \\escape: line 1 column 91 (char 90)",
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "This rule uses regex to identify patterns typical of SQL injection attempts, including encoding anomalies, admin field enumeration, and common keywords related to SQLi. Transformations decode URL, HTML entities, and normalize case for comprehensive detection.",
+                "is_valid": false,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)(%7c)|(%25e)|\\\\u[a-f0-9]{4}|%25252527|(?:\\badmin\\b.+?['\\-%]+.*\\b(?:or|and)\\b)|(?:\\b(select|union)\\b[^#]+\\bfrom\\b)|(?:\\binformation_schema\\b)|(?:\\bwp_users\\b)\", \"FieldToMatch\": {\"AllQueryArguments\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"HTML_ENTITY_DECODE\"}, {\"Priority\": 2, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": "Invalid JSON: Invalid \\escape: line 1 column 101 (char 100)",
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "This rule captures attempts that include various obfuscations of the sequence 'admin' followed by an SQL comment. These attacks leverage whitespace and non-word characters for obfuscation, which the regex captures effectively. Transformations ensure analysis on fully decoded input.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)\\\\badmin(?:\\\\s|\\\\W)+--\", \"FieldToMatch\": {\"AllQueryArguments\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "This rule is designed to capture trick encodings and variant representations of the term 'admin', with potential encoding artifacts (‘\\u’ sequences or entities). It focuses on query strings specifically.",
+                "is_valid": false,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)\\xad(m(\\W|%[a-z0-9]{2}|\\\\u[a-f0-9]{4})*in)\\b\", \"FieldToMatch\": {\"QueryString\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": "Invalid JSON: Invalid \\escape: line 1 column 46 (char 45)",
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "This statement is designed to detect raw byte sequences that commonly represent SQL comments ('--'), especially when encoded or embedded in transformed input. The transformation normalizes lowercase characters to ensure consistent operand detection.",
+                "is_valid": false,
+                "refinement_notes": null,
+                "rule": "{\"ByteMatchStatement\": {\"SearchString\": \"-\\x2d-\", \"FieldToMatch\": {\"AllQueryArguments\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": "Invalid JSON: Invalid \\escape: line 1 column 43 (char 42)",
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            }
+        ],
+        "rag_sources": [],
+        "stats": {
+            "duplicates_removed": 0,
+            "num_clusters": 4,
+            "rules_generated": 5,
+            "rules_invalid": 4,
+            "rules_refined": 4,
+            "rules_valid": 1,
+            "total_payloads": 40
+        },
+        "waf_name": "AWS"
+    }
+}

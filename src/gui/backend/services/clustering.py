@@ -100,9 +100,9 @@ def _cluster_payloads_HAC(X, distance_threshold=1.5):
     Perform Hierarchical Agglomerative Clustering (HAC)
     """
     from sklearn.cluster import AgglomerativeClustering
-    # You can tune n_clusters or use distance_threshold for automatic cluster count
-    # Here, let's use distance_threshold=0 for full dendrogram, or set n_clusters as needed
-    # Example: n_clusters=10
+    # AgglomerativeClustering requires dense input, not sparse
+    if hasattr(X, "toarray"):
+        X = X.toarray()
     hac = AgglomerativeClustering(
         n_clusters=None, # None for distance_threshold mode
         distance_threshold=distance_threshold, # adjust as needed, or set n_clusters=10 for fixed clusters

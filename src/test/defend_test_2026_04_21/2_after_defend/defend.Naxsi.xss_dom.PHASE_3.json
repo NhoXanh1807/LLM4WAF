@@ -1,0 +1,196 @@
+{
+    "success": true,
+    "data": {
+        "advanced_defense": true,
+        "clustered_payloads": [
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 3,
+                "payloads": [
+                    "％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СѕVG／ОnⅬОаD％２５３DАⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сѕvg＆＃４７；оnⅼОАD％２５３dаⅬЕRt％２５２８１％２５２９％２５３е",
+                    "％２５３Сѕvg＆＃４７；оnⅼОАD＝аⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е",
+                "size": 4
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 4,
+                "payloads": [
+                    "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                    "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                "size": 2
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 2,
+                "payloads": [
+                    "％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfRАMе％２５２０ѕRС％２５３djАVаЅсRіPt％２５３ааⅬЕrt％２５２８１％２５２９％２５３е",
+                    "％２５３СІFRАMЕ％２５２０ЅRС％２５３DJАVАЅСRІPT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfrАmЕ％２５２０Ѕrс％２５３djаvАѕСrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfRАMе％２５２０ѕRС％２５３DjАvаЅсRіpT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３Сіfrаmе％２５２０ЅrС％２５３djАVасrіpt％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRаMе％２５２０ЅRс％２５３djАvаѕСrіpT％２５３ааⅼЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３сІFRАMЕ％２５２０ѕrС％２５３djаVаЅсrіptеrrоr％２５２８１％２５２９％２５３е",
+                    "％２５３сіfRАMе％２５２０ЅRС％２５３djАVаѕсRіpT％２５３aaⅬЕrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRАmе％２５２０ЅRс％２５３DJаVАѕСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е",
+                "size": 10
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 0,
+                "payloads": [
+                    "％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww",
+                    "％２５３Сѕvg／оnⅼОАd％２５３DJаvАЅсrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сІFRАMЕ％２５２bЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е",
+                    "％２５３сІFRаMЕ／％２５２А％２５２１５００００％２５２а／ѕrС％２５３DjАvАЅⅬаѕ／％２５２А％２５２１５００００％２５２А／ОNtеХtЕNdЕхT％２５３DｊＡＶａѕＣＲｉｐｔ％２５２８１％２５２９％２５３е",
+                    "％２５３сіfrАMе／％２５２а％２５２１５００００％２５２А／ѕrс％２５３DJаvАЅСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww",
+                "size": 5
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 6,
+                "payloads": [
+                    "％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е",
+                    "％２５３сѕСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３СЅсRіpT％２５３ЕАⅬеrt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３С／ѕСRіPt％２５３Е",
+                    "％２５３СѕсRіPt％２５３ЕАⅼеrt％２５２８１％２５２９％２５３С／ЅСⅬЕtТІNg％２５３Е",
+                    "％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІPT％２５３Е",
+                    "％２５３сѕСrіPt％２５３еаⅬЕRT％２５２８１％２５２９％２５３с／ЅСRІPt％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３С／ѕсRіpT％２５３Е"
+                ],
+                "representative_payload": "％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е",
+                "size": 9
+            },
+            {
+                "attack_type": "XSS",
+                "cluster_id": 1,
+                "payloads": [
+                    "％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е",
+                    "%２５３ＣiMG%２５２０ｓｒｃ%２５３ＤＸ%２５２０ｏｎｅＲｒｏR%２５３ｄａｌＥｒｔ%２５２８１%２５２９%２５３Ｅ",
+                    "&#60;Svg / OnLOAd&#62;&#60;bODY&#62;"
+                ],
+                "representative_payload": "％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е",
+                "size": 3
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 5,
+                "payloads": [
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ",
+                    "％２５３сЅСｒｉｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ",
+                "size": 2
+            }
+        ],
+        "existing_rules_count": 46,
+        "final_rules": [
+            {
+                "instructions": "This rule targets highly encoded versions of common XSS tags like <script>, <iframe>, <svg>, and <img>. It's configured with multiple URL decoding and Unicode normalization to counter sophisticated obfuscation, including full-width characters and homoglyphs. The transformation chain ensures payloads are normalized before regex evaluation.",
+                "is_valid": true,
+                "refinement_notes": "Optimized regex to `rx:<(?:script|iframe|svg|img)` for better performance and to accurately match decoded tags. Expanded to include `img` tag for broader coverage, specifically for payload 9. Added `t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls` transformations for robust decoding of full-width (`\\uff05\\uff12\\uff15`) and double URL encoded (`%25`) payloads, as well as Unicode homoglyph normalization.",
+                "rule": "MainRule \"rx:<(?:script|iframe|svg|img)\" \"msg:XSS: Encoded or Obfuscated script, iframe, svg, or img tag detected\" \"mz:BODY|URL|ARGS\" \"t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls\" \"s:$XSS:8\" id:20001;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "This rule detects encoded JavaScript event handlers (e.g., onload, onclick, onerror) that trigger `alert()` or similar functions, indicating potential XSS. The comprehensive decoding stack ensures detection despite multi-layered encoding and Unicode homoglyphs.",
+                "is_valid": true,
+                "refinement_notes": "Optimized `alert()` regex to `alert\\([^)]*\\)` to handle alert function calls with arguments (e.g., `alert(1)`). Expanded attribute value matching to `[^\"']` to cover both double and single quotes. Applied `t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls` transformations for effective de-obfuscation.",
+                "rule": "MainRule \"rx:on[a-z]+=[^\"']*alert\\([^)]*\\)\" \"msg:XSS: Encoded inline event handler with alert detected\" \"mz:BODY|URL|ARGS\" \"t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls\" \"s:$XSS:8\" id:20002;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "This rule targets JavaScript URI schemes (e.g., `javascript:alert(...)`), which are frequently used in XSS attacks. The added transformations ensure detection even when the scheme and payload are heavily obfuscated using full-width characters and multiple encodings.",
+                "is_valid": true,
+                "refinement_notes": "Optimized `alert()` regex to `alert\\([^)]*\\)` to cover arguments. Expanded attribute value matching to `[^\"']` to correctly match content after `javascript:` that might be enclosed in quotes. Applied `t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls` transformations for robust payload normalization.",
+                "rule": "MainRule \"rx:javascript:[^\"']*alert\\([^)]*\\)\" \"msg:XSS: JavaScript URI scheme detected with alert\" \"mz:BODY|URL|ARGS\" \"t:urlDecodeUni,t:urlDecode,t:urlDecode,t:lowercase,t:compressWhiteSpace,t:removeNulls\" \"s:$XSS:8\" id:20003;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            }
+        ],
+        "generated_rules": [
+            {
+                "instructions": "This rule targets highly encoded versions of tags like <script>, <iframe>, and <svg> which are common in XSS payloads, especially when combined with JavaScript functions.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:\\\\x25[0-9A-Fa-f]{2,3}\\\\/?script|\\\\x25[0-9A-Fa-f]{2,3}\\\\/?iframe|\\\\x25[0-9A-Fa-f]{2,3}\\\\/?svg\" \"msg:Encoded script, iframe, or svg tag detected\" \"mz:BODY|URL|ARGS\" \"s:$XSS:8\" id:20001;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "This rule detects encoded JavaScript event handlers like onload, onclick, etc., that are set to execute alert() or other functions, indicating potential XSS attempts.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:on[a-zA-Z]+=\\\\x22[^\\\\x22]*alert\\\\(\\\\)\" \"msg:Encoded inline event handler with alert detected\" \"mz:BODY|URL|ARGS\" \"s:$XSS:8\" id:20002;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "This rule targets JavaScript URI schemes which are frequently used to trigger XSS attacks, even when highly obfuscated.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:javascript\\\\:alert\\\\(\\\\)\" \"msg:JavaScript URI scheme detected with alert\" \"mz:BODY|URL|ARGS\" \"s:$XSS:8\" id:20003;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Detects overuse of HTML entity encoding which suggests an attempt to obfuscate malicious payloads. This can catch excessive use of &#x encoding.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(&#x[0-9A-Fa-f]+;)+\" \"msg:Overly encoded characters detected\" \"mz:BODY|URL|ARGS\" \"s:$XSS:8\" id:20004;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Looks for multiple consecutive Unicode encoding sequences. Highly encoded paths are typical for obfuscation tactics in web-based attacks.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:[a-zA-Z]{8,}\\\\x25[0-9A-Fa-f]{2}\\\\x25[0-9A-Fa-f]{2,3}\" \"msg:Potential Unicode obfuscation in script detected\" \"mz:BODY|URL|ARGS\" \"s:$XSS:8\" id:20005;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Detects attempts to manipulate the DOM to include alert() functions, indicating XSS exploit attempts. This rule matches both encoded and decoded payloads.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)document.*(?:body|script|iframe).*alert\\\\(\\\\)\" \"msg:Document manipulation with alert detected\" \"mz:BODY|URL|ARGS\" \"s:$XSS:8\" id:20006;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            }
+        ],
+        "rag_sources": [],
+        "stats": {
+            "duplicates_removed": 3,
+            "num_clusters": 7,
+            "rules_generated": 6,
+            "rules_invalid": 0,
+            "rules_refined": 3,
+            "rules_valid": 6,
+            "total_payloads": 35
+        },
+        "waf_name": "Naxsi"
+    }
+}

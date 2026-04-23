@@ -173,64 +173,69 @@ Respond ONLY with valid JSON, no markdown code blocks."""
                 error_message="No rules provided for refinement"
             )
 
-        try:
-            # Format inputs
-            payloads_str = json.dumps(bypassed_payloads[:10], indent=2)  # Limit for token efficiency
-            new_rules_str = json.dumps(new_rules, indent=2)
-            existing_rules_str = json.dumps(existing_rules or [], indent=2)
+        max_attempts = 10
+        for i in range(max_attempts):
+            try:
+                # Format inputs
+                payloads_str = json.dumps(bypassed_payloads[:10], indent=2)  # Limit for token efficiency
+                new_rules_str = json.dumps(new_rules, indent=2)
+                existing_rules_str = json.dumps(existing_rules or [], indent=2)
 
-            # Build prompt
-            prompt = self.REFINEMENT_PROMPT_TEMPLATE.format(
-                bypassed_payloads=payloads_str,
-                new_rules=new_rules_str,
-                existing_rules=existing_rules_str if existing_rules else "(none)"
-            )
+                # Build prompt
+                prompt = self.REFINEMENT_PROMPT_TEMPLATE.format(
+                    bypassed_payloads=payloads_str,
+                    new_rules=new_rules_str,
+                    existing_rules=existing_rules_str if existing_rules else "(none)"
+                )
 
-            # Call Gemini
-            response = self.client.models.generate_content(
-                model=self.model_name,
-                contents=self.SYSTEM_PROMPT + "\n\n" + prompt,
-            )
+                # Call Gemini
+                response = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=self.SYSTEM_PROMPT + "\n\n" + prompt,
+                )
 
-            # Parse response
-            response_text = response.text.strip()
+                # Parse response
+                response_text = response.text.strip()
 
-            # Clean up response (remove markdown code blocks if present)
-            if response_text.startswith("```"):
-                lines = response_text.split("\n")
-                response_text = "\n".join(lines[1:-1])
+                # Clean up response (remove markdown code blocks if present)
+                if response_text.startswith("```"):
+                    lines = response_text.split("\n")
+                    response_text = "\n".join(lines[1:-1])
 
-            result_json = json.loads(response_text)
+                result_json = json.loads(response_text)
 
-            # Build result
-            refined_rules = result_json.get("refined_rules", new_rules)
-            removed_rules = result_json.get("removed_rules", [])
+                # Build result
+                refined_rules = result_json.get("refined_rules", new_rules)
+                removed_rules = result_json.get("removed_rules", [])
 
-            improvements = []
-            for rule in refined_rules:
-                if rule.get("changes_made"):
-                    improvements.append(rule["changes_made"])
+                improvements = []
+                for rule in refined_rules:
+                    if rule.get("changes_made"):
+                        improvements.append(rule["changes_made"])
 
-            return RefinementResult(
-                success=True,
-                refined_rules=refined_rules,
-                removed_duplicates=len(removed_rules),
-                improvements_made=improvements,
-                comparison_notes=result_json.get("comparison_notes", "")
-            )
+                return RefinementResult(
+                    success=True,
+                    refined_rules=refined_rules,
+                    removed_duplicates=len(removed_rules),
+                    improvements_made=improvements,
+                    comparison_notes=result_json.get("comparison_notes", "")
+                )
 
-        except json.JSONDecodeError as e:
-            return RefinementResult(
-                success=False,
-                refined_rules=new_rules,  # Return original on error
-                error_message=f"Failed to parse Gemini response: {e}"
-            )
-        except Exception as e:
-            return RefinementResult(
-                success=False,
-                refined_rules=new_rules,
-                error_message=f"Gemini refinement failed: {e}"
-            )
+            except json.JSONDecodeError as e:
+                return RefinementResult(
+                    success=False,
+                    refined_rules=new_rules,  # Return original on error
+                    error_message=f"Failed to parse Gemini response: {e}"
+                )
+            except Exception as e:
+                if "503 UNAVAILABLE" in str(e):
+                    print(f"Gemini service unavailable (attempt {i+1}/{max_attempts}), retrying...")
+                    continue
+                return RefinementResult(
+                    success=False,
+                    refined_rules=new_rules,
+                    error_message=f"Gemini refinement failed: {e}"
+                )
 
     def compare_rules(
         self,

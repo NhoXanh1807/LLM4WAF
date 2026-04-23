@@ -1,0 +1,156 @@
+{
+    "success": true,
+    "data": {
+        "advanced_defense": false,
+        "clustered_payloads": [
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 3,
+                "payloads": [
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "ａｄMｉｎ%２５２７/%２５２Ａ%２５２ａ/--",
+                    "AdMｉｎ' --",
+                    "ADMіn％２７－－",
+                    "adMІN％２７－－",
+                    "adＭＩＮ%２５２７%２５２０--",
+                    "AdMІn％２５２７／％２５２А％２５２а／－－",
+                    "BiNtRAy_ApI_KEy%%EF%BC%92%EF%BC%95%EF%BC%92%EF%BC%95%EF%BC%93D",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "ａｄｍｉｎ' --"
+                ],
+                "representative_payload": "１％２５０９Оr％２５０９１％３D１",
+                "size": 13
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 2,
+                "payloads": [
+                    "AdMiN' --",
+                    "AdMiN' --",
+                    "ADMIn' --"
+                ],
+                "representative_payload": "AdMiN' --",
+                "size": 3
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 1,
+                "payloads": [
+                    "AdmIN%2527%2520--",
+                    "AdMiN%2527/%252A%252150000%252a/--&dLzw=rZVu",
+                    "ADmiN%2527%2520--",
+                    "AdmIN%2527%252509--",
+                    "AdMIN%2527%252509--",
+                    "ADmin%2527%2520--"
+                ],
+                "representative_payload": "AdmIN%2527%2520--",
+                "size": 6
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 0,
+                "payloads": [
+                    "AdMiN%25252527%25252520--",
+                    "adMIN%%2527%25250a--",
+                    "admin %2527%252509--",
+                    "AdMiN%252527%252520--",
+                    "adMIn%25252527%25252520--",
+                    "AdMIN%252527%252520--"
+                ],
+                "representative_payload": "AdMiN%25252527%25252520--",
+                "size": 6
+            }
+        ],
+        "existing_rules_count": 0,
+        "final_rules": [
+            {
+                "instructions": "Detect potential boolean SQL injection vectors disguised with unusual encoding.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)(?:1%25091|or?%25091=1)\",\"FieldToMatch\": {\"QueryString\": {}},\"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Catch encoded SQL comment injections with detectable obfuscation patterns.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)%2527(?:%2f|%5C)%252a%253f%252a-%2d\",\"FieldToMatch\": {\"QueryString\": {}},\"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Block requests containing encoded SQL comment sequences '--'.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"ByteMatchStatement\": {\"SearchString\": \"--\",\"FieldToMatch\": {\"QueryString\": {}},\"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}],\"PositionalConstraint\": \"CONTAINS\"}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            }
+        ],
+        "generated_rules": [
+            {
+                "instructions": "Detect obfuscated 'admin' sequences with encoding variations, targeting SQLi payloads.",
+                "is_valid": false,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)(?:adm[iіі]|[\\uFF21-\\uFF3A])+(?:%25275|%E2%80\")\",\"FieldToMatch\": {\"AllQueryArguments\": {}},\"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": "Invalid JSON: Expecting ',' delimiter: line 1 column 92 (char 91)",
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Detect potential boolean SQL injection vectors disguised with unusual encoding.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)(?:1%25091|or?%25091=1)\",\"FieldToMatch\": {\"QueryString\": {}},\"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Catch encoded SQL comment injections with detectable obfuscation patterns.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)%2527(?:%2f|%5C)%252a%253f%252a-%2d\",\"FieldToMatch\": {\"QueryString\": {}},\"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Detect encoded, malformed SQL comments used in complex SQL injection attempts.",
+                "is_valid": false,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\": {\"RegexString\": \"(?i)(?:%2527[ ]{0,5}%25(?:2f|2b)[^\\s]*--)\",\"FieldToMatch\": {\"QueryString\": {}},\"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}]}}",
+                "validation_error": "Invalid JSON: Invalid \\escape: line 1 column 76 (char 75)",
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Block requests containing encoded SQL comment sequences '--'.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"ByteMatchStatement\": {\"SearchString\": \"--\",\"FieldToMatch\": {\"QueryString\": {}},\"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}],\"PositionalConstraint\": \"CONTAINS\"}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            }
+        ],
+        "rag_sources": [],
+        "stats": {
+            "duplicates_removed": 0,
+            "num_clusters": 4,
+            "rules_generated": 5,
+            "rules_invalid": 2,
+            "rules_refined": 0,
+            "rules_valid": 3,
+            "total_payloads": 28
+        },
+        "waf_name": "AWS"
+    }
+}
