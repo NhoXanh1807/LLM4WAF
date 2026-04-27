@@ -31,8 +31,8 @@ export const Services = {
         // /api/test_attack expects { domain, payloads }
         return Call("/test_attack", "POST", { domain, payloads }, { "Content-Type": "application/json" });
     },
-    apiDefend: async (waf_name, payloads, existing_rules = null) => {
-        // /api/defend expects { waf_name, payloads, existing_rules }
-        return Call("/defend", "POST", { waf_name, payloads, existing_rules }, { "Content-Type": "application/json" });
+    apiDefend: async (waf_name, payloads, existing_rules = null, llm_provider = "openai") => {
+        // /api/defend expects { waf_name, payloads, existing_rules, llm_provider }
+        return Call("/defend", "POST", { waf_name, payloads, existing_rules, llm_provider }, { "Content-Type": "application/json" });
     },
 }

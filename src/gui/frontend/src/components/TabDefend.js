@@ -4,19 +4,21 @@ import { Services } from '../services';
 import PayloadResultsTable from './PayloadResultsTable';
 
 
-const TabDefend = ({ 
-    wafName, 
-    attackResults, 
-    darkMode, 
-    setError, 
-    setAttackResults, 
-    domain, 
+const TabDefend = ({
+    wafName,
+    attackResults,
+    darkMode,
+    setError,
+    setAttackResults,
+    domain,
     defenseRules,
     loading,
     handleDefend,
     rawResponse,
     existingRules,
     setExistingRules,
+    llmProvider,
+    setLlmProvider,
 }) => {
     
     const [loadingRetest, setLoadingRetest] = useState(false);
@@ -108,6 +110,43 @@ const TabDefend = ({
             </div>
 
 
+
+            {/* LLM Provider Selection */}
+            <div className="mb-4">
+                <label className={`block font-semibold mb-2 text-base ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>LLM Provider for Rule Generation</label>
+                <div className="flex gap-3">
+                    <button
+                        type="button"
+                        onClick={() => setLlmProvider('openai')}
+                        className={`px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 border-2 ${
+                            llmProvider === 'openai'
+                                ? darkMode
+                                    ? 'bg-green-700 border-green-500 text-white shadow-lg shadow-green-500/30'
+                                    : 'bg-green-500 border-green-600 text-white shadow-lg shadow-green-500/30'
+                                : darkMode
+                                    ? 'bg-gray-800 border-gray-600 text-gray-400 hover:border-green-500/50'
+                                    : 'bg-white border-gray-300 text-gray-600 hover:border-green-400'
+                        }`}
+                    >
+                        🟢 GPT-4o (OpenAI)
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setLlmProvider('claude')}
+                        className={`px-5 py-2.5 rounded-lg font-semibold text-sm transition-all duration-200 border-2 ${
+                            llmProvider === 'claude'
+                                ? darkMode
+                                    ? 'bg-orange-700 border-orange-500 text-white shadow-lg shadow-orange-500/30'
+                                    : 'bg-orange-500 border-orange-600 text-white shadow-lg shadow-orange-500/30'
+                                : darkMode
+                                    ? 'bg-gray-800 border-gray-600 text-gray-400 hover:border-orange-500/50'
+                                    : 'bg-white border-gray-300 text-gray-600 hover:border-orange-400'
+                        }`}
+                    >
+                        🟠 Claude Sonnet (Anthropic)
+                    </button>
+                </div>
+            </div>
 
             {/* Defense Button */}
             <div className="flex items-center gap-4 mb-8 flex-wrap">

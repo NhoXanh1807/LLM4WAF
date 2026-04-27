@@ -12,6 +12,10 @@ dotenv.load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = "gpt-4o"
 
+# Claude (Anthropic) Configuration
+CLAUDE_API_KEY = os.getenv("CLAUDE_API_KEY")
+CLAUDE_MODEL = "claude-sonnet-4-6"
+
 # DVWA Configuration
 DVWA_BASE_URL = os.getenv("DVWA_BASE_URL", "http://localhost:8000/dvwa")
 DVWA_USERNAME = "admin"

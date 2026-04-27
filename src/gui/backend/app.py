@@ -60,19 +60,20 @@ from config.settings import DEFAULT_NUM_DEFENSE_RULES
 from defense.defense_pipeline import DefensePipeline
 from validator_syntax_rule.base import WAFType
 
-# Lazy-initialized pipeline instance (shared across requests)
-_defense_pipeline: DefensePipeline = None
+# Lazy-initialized pipeline instances (one per LLM provider)
+_defense_pipelines: dict[str, DefensePipeline] = {}
 
-def _get_pipeline() -> DefensePipeline:
-    global _defense_pipeline
-    if _defense_pipeline is None:
-        _defense_pipeline = DefensePipeline(
+def _get_pipeline(llm_provider: str = "openai") -> DefensePipeline:
+    global _defense_pipelines
+    if llm_provider not in _defense_pipelines:
+        _defense_pipelines[llm_provider] = DefensePipeline(
             enable_rag=True,
             enable_gemini=True,
             enable_clustering=True,
+            llm_provider=llm_provider,
         )
-    return _defense_pipeline
-_get_pipeline()
+    return _defense_pipelines[llm_provider]
+_get_pipeline("openai")
 
 _WAF_NAME_MAP = {
     "modsecurity": WAFType.MODSECURITY,
@@ -272,11 +273,16 @@ def api_defend():
         payloads = dict.get(data, "payloads", [])
         attack_type = dict.get(data, "attack_type", "unknown")
         existing_rules_raw = dict.get(data, "existing_rules", None)
-        
+        llm_provider = dict.get(data, "llm_provider", "openai")  # "openai" or "claude"
+
         if not waf_name or len(waf_name) == 0:
             return jsonify({"error": "Missing 'waf_name' field"}), 400
-        
-        
+
+        if llm_provider not in ("openai", "claude"):
+            llm_provider = "openai"
+
+        print(f"[Defend] LLM Provider: {llm_provider}")
+
         payloads = [PayloadResult(
             payload=p.get("payload"),
             technique=p.get("technique"),
@@ -289,7 +295,7 @@ def api_defend():
         if existing_rules:
             print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
         bypassed_payloads = [payload.payload for payload in payloads if payload.is_bypassed and payload.is_harmful]
-        pipeline_result = _get_pipeline().generate_defense_rules(
+        pipeline_result = _get_pipeline(llm_provider).generate_defense_rules(
             bypassed_payloads=bypassed_payloads,
             waf_name=waf_name,
             waf_type=_map_waf_type(waf_name),

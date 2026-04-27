@@ -147,6 +147,7 @@ class DefensePipeline:
         enable_gemini: bool = True,
         enable_clustering: bool = True,
         max_retries: int = 3,
+        llm_provider: str = "openai",
     ):
         """
         Initialize the defense pipeline.
@@ -154,17 +155,18 @@ class DefensePipeline:
         Args:
             openai_api_key: OpenAI API key (or set OPENAI_API_KEY env var)
             gemini_api_key: Google AI API key (or set GOOGLE_API_KEY env var)
-            docs_folder: Path to RAG documents folder
             enable_rag: Enable RAG context enhancement
             enable_gemini: Enable Gemini refinement agent
             enable_clustering: Enable payload clustering
             max_retries: Max retries for LLM generation on syntax errors
+            llm_provider: LLM provider for rule generation ("openai" or "claude")
         """
         self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
         self.enable_rag = enable_rag
         self.enable_gemini = enable_gemini
         self.enable_clustering = enable_clustering
         self.max_retries = max_retries
+        self.llm_provider = llm_provider
 
         # Initialize components
         self.syntax_validator = SyntaxValidator()
@@ -391,11 +393,14 @@ class DefensePipeline:
             # (a) python app.py  from src/gui/backend/   → absolute imports work
             # (b) python -m src.xxx                      → relative imports work
             try:
-                from services_external.llm import chatgpt_completion
+                from services_external.llm import chatgpt_completion, claude_completion
                 from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
             except ImportError:
-                from services_external.llm import chatgpt_completion
+                from services_external.llm import chatgpt_completion, claude_completion
                 from gui.backend.config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
+
+            # Select LLM completion function based on provider
+            llm_completion = claude_completion if self.llm_provider == "claude" else chatgpt_completion
 
             # Build prompt
             base_prompt = get_blue_team_user_prompt(
@@ -471,7 +476,8 @@ class DefensePipeline:
                 },
             }
 
-            result = chatgpt_completion(messages=messages, response_format=response_format)
+            print(f"      Using LLM provider: {self.llm_provider}")
+            result = llm_completion(messages=messages, response_format=response_format)
 
             # Parse response — chatgpt_completion returns raw OpenAI JSON:
             # {"choices": [{"message": {"content": "{...}"}}], ...}
@@ -538,9 +544,11 @@ class DefensePipeline:
 
         try:
             try:
-                from services_external.llm import chatgpt_completion
+                from services_external.llm import chatgpt_completion, claude_completion
             except ImportError:
-                from services_external.llm import chatgpt_completion
+                from services_external.llm import chatgpt_completion, claude_completion
+
+            llm_completion = claude_completion if self.llm_provider == "claude" else chatgpt_completion
 
             for rule in invalid_rules[:self.max_retries]:  # Limit retries
                 fix_prompt = f"""The following WAF rule has a syntax error:
@@ -553,7 +561,7 @@ The rule should block payloads like: {payloads[0] if payloads else 'XSS/SQL inje
 
 Return ONLY the fixed rule, no explanations."""
 
-                result = chatgpt_completion(
+                result = llm_completion(
                     messages=[{"role": "user", "content": fix_prompt}]
                 )
 
@@ -655,6 +663,7 @@ def generate_defense_rules(
     enable_rag: bool = True,
     enable_gemini: bool = True,
     enable_clustering: bool = True,
+    llm_provider: str = "openai",
 ) -> PipelineResult:
     """
     Convenience function to generate defense rules.
@@ -665,6 +674,7 @@ def generate_defense_rules(
         existing_rules: Existing rules to avoid duplicates
         enable_rag: Enable RAG context enhancement
         enable_gemini: Enable Gemini refinement
+        llm_provider: LLM provider ("openai" or "claude")
 
     Returns:
         PipelineResult with generated rules
@@ -674,7 +684,8 @@ def generate_defense_rules(
     pipeline = DefensePipeline(
         enable_rag=enable_rag,
         enable_gemini=enable_gemini,
-        enable_clustering=enable_clustering
+        enable_clustering=enable_clustering,
+        llm_provider=llm_provider,
     )
 
     return pipeline.generate_defense_rules(

@@ -25,6 +25,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [rawResponse, setRawResponse] = useState(null);
   const [existingRules, setExistingRules] = useState('');
+  const [llmProvider, setLlmProvider] = useState('openai'); // "openai" or "claude"
 
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
@@ -47,7 +48,7 @@ function App() {
     try {
       // Prepare existingRules for backend: send as string (can be JSON, plain text, or array)
       let existingRulesToSend = existingRules && existingRules.trim() ? existingRules : null;
-      const res = await Services.apiDefend(wafName, attackResults, 3, existingRulesToSend);
+      const res = await Services.apiDefend(wafName, attackResults, existingRulesToSend, llmProvider);
       const data = await res.json();
       setRawResponse(data);
       if (res.ok && data && data.final_rules) {
@@ -159,6 +160,8 @@ function App() {
             rawResponse={rawResponse}
             existingRules={existingRules}
             setExistingRules={setExistingRules}
+            llmProvider={llmProvider}
+            setLlmProvider={setLlmProvider}
           />}
 
           {/* Error Popup Modal */}
