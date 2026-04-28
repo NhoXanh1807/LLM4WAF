@@ -54,12 +54,62 @@ BLUE_TEAM_SYSTEM_PROMPT = """You are a defensive security architect specializing
 
 Your goal is to design robust, production-ready WAF rules that block attack vectors while maintaining application usability."""
 
+def _get_blue_team_waf_constraints(waf_name: str) -> str:
+   waf_name_lower = (waf_name or "").lower().replace(" ", "")
+
+   if "aws" in waf_name_lower:
+      return """**AWS WAF-Specific Constraints**:
+- Output valid AWS WAF JSON only.
+- Use ONLY AWS WAF-supported text transformations from common supported sets such as: NONE, LOWERCASE, CMD_LINE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, URL_DECODE, URL_DECODE_UNI, JS_DECODE, CSS_DECODE, BASE64_DECODE, HEX_DECODE, UTF8_TO_UNICODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_COMMENTS.
+- DO NOT use FULL_WIDTH_TO_HALF_WIDTH because it is not supported in this environment.
+- Prefer structurally safe statements such as ByteMatchStatement, RegexMatchStatement, SqliMatchStatement, XssMatchStatement, AndStatement, OrStatement, NotStatement.
+- If using ByteMatchStatement, keep PositionalConstraint limited to valid AWS values such as CONTAINS, STARTS_WITH, ENDS_WITH, EXACTLY, CONTAINS_WORD.
+- Include VisibilityConfig when possible.
+- Before outputting, self-check that every field and transformation is valid AWS WAF syntax."""
+
+   if "cloudflare" in waf_name_lower:
+      return """**Cloudflare Free Plan Constraints**:
+- Output a Cloudflare expression only, using simple wirefilter syntax.
+- Assume Cloudflare Free plan limitations.
+- Use ONLY basic comparison operators: contains, starts_with, ends_with, eq.
+- Prefer fields like http.request.uri, http.request.uri.path, http.request.uri.query, http.request.body.raw, http.request.headers, http.user_agent.
+- DO NOT use advanced operators or features such as matches, wildcard, regex functions, paid-only bot fields, or plan-dependent enterprise features unless absolutely unavoidable.
+- Avoid complex function nesting.
+- Keep expressions deployable on the free plan and easy to review.
+- Before outputting, self-check that the rule uses only basic operators and free-plan-compatible syntax."""
+
+   if "naxsi" in waf_name_lower:
+      return """**Naxsi-Specific Constraints**:
+- Output Naxsi syntax only.
+- DO NOT output ModSecurity syntax such as SecRule, SecAction, ctl, t:, phase:, deny, id inside quoted action lists, or chained ModSecurity directives.
+- Prefer native Naxsi directives only: MainRule, BasicRule, CheckRule.
+- MainRule should use Naxsi-native components like rx:/str:/d:, msg:, mz:, s:, id:...;
+- BasicRule should use wl:... and mz:... only.
+- CheckRule should use Naxsi threshold syntax only.
+- End each Naxsi rule with ';'.
+- Before outputting, self-check that no ModSecurity keywords or ModSecurity action syntax appear anywhere in the output."""
+
+   if "modsec" in waf_name_lower:
+      return """**ModSecurity-Specific Constraints**:
+- Output ModSecurity syntax only.
+- Prefer SecRule or SecAction directives.
+- Use valid ModSecurity transformations and actions only.
+- Do not output AWS JSON, Cloudflare expressions, or Naxsi MainRule/BasicRule syntax.
+- Before outputting, self-check that every rule contains valid ModSecurity directive structure."""
+
+   return """**WAF-Specific Constraints**:
+- Output rules strictly in the target WAF syntax.
+- Do not mix syntax across different WAF engines.
+- Before outputting, self-check that the rule format matches the target WAF only."""
+
 def get_blue_team_user_prompt(waf_name, payload_clusters:list[dict]):
    payload_cluster_string = ""
    for c in payload_clusters:
       payload_cluster_string += f"\tCluster {c['cluster_id']} ({c['size']} payloads):\n"
       for p in c['payloads']:
          payload_cluster_string += f"\t\t{p}\n"
+
+   waf_constraints = _get_blue_team_waf_constraints(waf_name)
    
    """Generate user prompt for defense rule creation"""
    return f"""**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.
@@ -84,6 +134,15 @@ Generate PRODUCTION-GRADE defense rules to block these bypasses:
    - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)
 
 3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.
+
+4. **Target WAF Guardrails**:
+{waf_constraints}
+
+5. **Mandatory Self-Check Before Final Output**:
+   - Verify the syntax belongs to the target WAF only.
+   - Verify no unsupported transformation, operator, or directive is present.
+   - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.
+   - Prefer a simpler valid rule over a more advanced but potentially invalid rule.
 
 The WAF format instruction will follow — generate rules ONLY in that specified format."""
 

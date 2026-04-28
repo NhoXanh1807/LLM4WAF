@@ -401,6 +401,16 @@ class DefensePipeline:
 
             # Select LLM completion function based on provider
             llm_completion = claude_completion if self.llm_provider == "claude" else chatgpt_completion
+            if self.llm_provider == "claude":
+                llm_completion = claude_completion
+                model = "claude-sonnet-4-6"
+            elif self.llm_provider == "gpt-5.4":
+                llm_completion = chatgpt_completion
+                model = "gpt-5.4"
+            else:
+                llm_completion = chatgpt_completion
+                model = "gpt-4o"
+            print(f"Using model: {model}")
 
             # Build prompt
             base_prompt = get_blue_team_user_prompt(
@@ -477,7 +487,7 @@ class DefensePipeline:
             }
 
             print(f"      Using LLM provider: {self.llm_provider}")
-            result = llm_completion(messages=messages, response_format=response_format)
+            result = llm_completion(messages=messages, model=model, response_format=response_format)
 
             # Parse response — chatgpt_completion returns raw OpenAI JSON:
             # {"choices": [{"message": {"content": "{...}"}}], ...}

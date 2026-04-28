@@ -1,7 +1,9 @@
 
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import { Services } from '../services';
 import PayloadResultsTable from './PayloadResultsTable';
+
+const ACCEPTED_RULE_FILE_TYPES = '.txt,.conf,.cfg,.cnf,.config,.rules,.rule,.json,.jsonl,.ndjson,.yaml,.yml,.ini,.toml,.xml';
 
 
 const TabDefend = ({
@@ -17,12 +19,52 @@ const TabDefend = ({
     rawResponse,
     existingRules,
     setExistingRules,
+    existingRuleFiles,
+    setExistingRuleFiles,
     llmProvider,
     setLlmProvider,
 }) => {
-    
+
     const [loadingRetest, setLoadingRetest] = useState(false);
     const [showRaw, setShowRaw] = useState(false);
+
+    const handleUploadRuleFiles = async event => {
+        const selectedFiles = Array.from(event.target.files || []);
+        if (selectedFiles.length === 0) return;
+
+        setError && setError(null);
+
+        try {
+            const loadedFiles = await Promise.all(selectedFiles.map(file => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = loadEvent => {
+                    resolve({
+                        id: `${file.name}-${file.lastModified}-${file.size}`,
+                        name: file.name,
+                        content: typeof loadEvent.target?.result === 'string' ? loadEvent.target.result : '',
+                    });
+                };
+                reader.onerror = () => reject(new Error(`Failed to read ${file.name}`));
+                reader.readAsText(file);
+            })));
+
+            setExistingRuleFiles(prevFiles => [...prevFiles, ...loadedFiles]);
+        } catch (err) {
+            setError && setError(err.message || 'Failed to read uploaded rule files');
+        } finally {
+            event.target.value = '';
+        }
+    };
+
+    const handleChangeUploadedFileContent = (fileId, nextContent) => {
+        setExistingRuleFiles(prevFiles => prevFiles.map(file => (
+            file.id === fileId ? { ...file, content: nextContent } : file
+        )));
+    };
+
+    const handleDeleteUploadedFile = fileId => {
+        setExistingRuleFiles(prevFiles => prevFiles.filter(file => file.id !== fileId));
+    };
 
     // Handler to retest attack DVWA (update attackResults in-place)
     const handleRetestAttack = async () => {
@@ -92,21 +134,40 @@ const TabDefend = ({
                         📤 Upload
                         <input
                             type="file"
-                            accept=".txt,.json,application/json,text/plain"
+                            accept={ACCEPTED_RULE_FILE_TYPES}
+                            multiple
                             className="hidden"
-                            onChange={e => {
-                                const file = e.target.files[0];
-                                if (!file) return;
-                                const reader = new FileReader();
-                                reader.onload = evt => {
-                                    setExistingRules(evt.target.result);
-                                };
-                                reader.readAsText(file);
-                            }}
+                            onChange={handleUploadRuleFiles}
                         />
                     </label>
                 </div>
-                <div className="text-xs text-gray-500 dark:text-gray-400">Supported: plain text (one rule per line), JSON array, or list of objects with <code>rule</code> key.</div>
+                {existingRuleFiles.length > 0 && (
+                    <div className="space-y-4 mt-4">
+                        {existingRuleFiles.map((file, index) => (
+                            <div key={file.id} className={`p-4 rounded-lg border ${darkMode ? 'border-gray-700 bg-gray-800/40' : 'border-gray-200 bg-gray-50'}`}>
+                                <div className="flex items-center justify-between gap-4 mb-2">
+                                    <span className={`font-semibold text-sm ${darkMode ? 'text-blue-300' : 'text-blue-700'}`}>
+                                        File {index + 1}: {file.name}
+                                    </span>
+                                    <button
+                                        type="button"
+                                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all duration-200 ${darkMode ? 'bg-red-900/40 text-red-300 hover:bg-red-900/60' : 'bg-red-100 text-red-700 hover:bg-red-200'}`}
+                                        onClick={() => handleDeleteUploadedFile(file.id)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                                <textarea
+                                    className={`w-full min-h-[100px] max-h-72 p-3 rounded-lg border-2 font-mono text-sm transition-colors duration-200 ${darkMode ? 'bg-gray-900 border-gray-700 text-green-300' : 'bg-white border-gray-300 text-gray-800'}`}
+                                    value={file.content}
+                                    onChange={e => handleChangeUploadedFileContent(file.id, e.target.value)}
+                                    placeholder={`Content of ${file.name}`}
+                                />
+                            </div>
+                        ))}
+                    </div>
+                )}
+                <div className="text-xs text-gray-500 dark:text-gray-400">Supported: txt, conf, cfg, cnf, config, rule, rules, json, jsonl, ndjson, yaml, yml, ini, toml, xml.</div>
             </div>
 
 

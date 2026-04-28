@@ -1,0 +1,189 @@
+{
+    "success": true,
+    "data": {
+        "advanced_defense": true,
+        "clustered_payloads": [
+            {
+                "attack_type": "XSS",
+                "cluster_id": 3,
+                "payloads": [
+                    "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
+                    "%253CIM G&dnJW=PEvM<unused52>",
+                    "%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX",
+                    "%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx",
+                    "%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E",
+                    "%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E"
+                ],
+                "representative_payload": "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
+                "size": 6
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 2,
+                "payloads": [
+                    "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е",
+                    "％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ",
+                    "％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е"
+                ],
+                "representative_payload": "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                "size": 8
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 1,
+                "payloads": [
+                    "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww",
+                    "％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е",
+                    "％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е"
+                ],
+                "representative_payload": "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                "size": 7
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 0,
+                "payloads": [
+                    "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                    "％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е",
+                    "％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
+                "size": 5
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 4,
+                "payloads": [
+                    "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ"
+                ],
+                "representative_payload": "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ",
+                "size": 1
+            }
+        ],
+        "existing_rules_count": 44,
+        "final_rules": [
+            {
+                "instructions": "Detects attempts to inject JavaScript via HTML elements using various encoding techniques. Uses case-insensitive matching, decodes URL and HTML entities, and converts to lowercase for normalization. Blocks requests with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)<[\\\\/]?\\w+[^>]*?(on\\w+\\s*=|[\\\\/]script|javascript:|[\\\\\\'\\\\\\\"])([^>]*?)>\" \"id:900001,phase:2,deny,status:403,msg:'XSS Attempt via HTML Elements',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Identifies XSS vectors using JavaScript URIs and event handlers, followed by an alert function call. Decodes inputs and assumes various obfuscations. Blocks requests with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)(javascript:|on\\w+\\s*=)[^A-Za-z0-9]*?\\w*?alert\\s*\\(\" \"id:900002,phase:2,deny,status:403,msg:'XSS Attempt via JavaScript URI and Event Handlers',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Targets payloads with excessive percent-encoded sequences, indicating potential obfuscation attempts. URL decode transformation addresses both decoding and normalization. Blocks these suspicious requests with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)(\\%[0-9a-f]{2}){2,}\" \"id:900003,phase:2,deny,status:403,msg:'Excessive Encoding Detected',t:urlDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects SVG elements with onload event or embedded JavaScript. Decodes and normalizes input to catch obfuscated forms. Blocks the requests with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)<svg[^>]*?onload\\s*=|javascript:\" \"id:900004,phase:2,deny,status:403,msg:'XSS Attempt via SVG with Event Handlers or JavaScript',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Catches attempts to inject iframes with a dangerous source like JavaScript or data URIs. The rule treats various forms of encodings and case variations by normalizing inputs. Blocks these attempts with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)<iframe[^>]*?(src=[\"']?(javascript|data):)\" \"id:900005,phase:2,deny,status:403,msg:'XSS Attempt via Iframe Source',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            }
+        ],
+        "generated_rules": [
+            {
+                "instructions": "Detects attempts to inject JavaScript via HTML elements using various encoding techniques. Uses case-insensitive matching, decodes URL and HTML entities, and converts to lowercase for normalization. Blocks requests with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)<[\\\\/]?\\w+[^>]*?(on\\w+\\s*=|[\\\\/]script|javascript:|[\\\\\\'\\\\\\\"])([^>]*?)>\" \"id:900001,phase:2,deny,status:403,msg:'XSS Attempt via HTML Elements',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Identifies XSS vectors using JavaScript URIs and event handlers, followed by an alert function call. Decodes inputs and assumes various obfuscations. Blocks requests with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)(javascript:|on\\w+\\s*=)[^A-Za-z0-9]*?\\w*?alert\\s*\\(\" \"id:900002,phase:2,deny,status:403,msg:'XSS Attempt via JavaScript URI and Event Handlers',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Targets payloads with excessive percent-encoded sequences, indicating potential obfuscation attempts. URL decode transformation addresses both decoding and normalization. Blocks these suspicious requests with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)(\\%[0-9a-f]{2}){2,}\" \"id:900003,phase:2,deny,status:403,msg:'Excessive Encoding Detected',t:urlDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects SVG elements with onload event or embedded JavaScript. Decodes and normalizes input to catch obfuscated forms. Blocks the requests with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)<svg[^>]*?onload\\s*=|javascript:\" \"id:900004,phase:2,deny,status:403,msg:'XSS Attempt via SVG with Event Handlers or JavaScript',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Catches attempts to inject iframes with a dangerous source like JavaScript or data URIs. The rule treats various forms of encodings and case variations by normalizing inputs. Blocks these attempts with status 403.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS \"(?i)<iframe[^>]*?(src=[\"']?(javascript|data):)\" \"id:900005,phase:2,deny,status:403,msg:'XSS Attempt via Iframe Source',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            }
+        ],
+        "rag_sources": [],
+        "stats": {
+            "duplicates_removed": 0,
+            "num_clusters": 5,
+            "rules_generated": 5,
+            "rules_invalid": 0,
+            "rules_refined": 0,
+            "rules_valid": 5,
+            "total_payloads": 27
+        },
+        "waf_name": "ModSecurity"
+    }
+}

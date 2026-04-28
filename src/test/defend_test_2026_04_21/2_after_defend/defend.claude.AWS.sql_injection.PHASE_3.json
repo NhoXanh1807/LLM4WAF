@@ -1,0 +1,6 @@
+{
+    "success": true,
+    "data": {
+        "error": "'NoneType' object is not iterable"
+    }
+}

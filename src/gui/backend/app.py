@@ -5,6 +5,7 @@ import os
 from typing import List
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import json
 
 # --- Logging setup: redirect stdout/stderr ---
 session_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -176,6 +177,7 @@ def api_attack_dvwa():
     try:
         data = dict(request.get_json())
         domain = dict.get(data, "domain", None)
+        check_harmful = dict.get(data, "check_harmful", True)
         payloads = dict.get(data, "payloads", [])
         payloads = [PayloadResult(
             payload=p.get("payload"),
@@ -200,14 +202,15 @@ def api_attack_dvwa():
             attack_type = item.attack_type
             
             # Check harmfulness
-            if "xss" in attack_type.lower():
-                harmfulness_result = harmfulness.evaluate_xss_payload(payload)
-                if harmfulness_result:
-                    item.is_harmful = not harmfulness_result.is_safe
-            elif "sql" in attack_type.lower():
-                harmfulness_result = harmfulness.evaluate_sql_payload(payload)
-                if harmfulness_result:
-                    item.is_harmful = len(harmfulness_result.harm_queries) > 0
+            if check_harmful and payload and attack_type:
+                if "xss" in attack_type.lower():
+                    harmfulness_result = harmfulness.evaluate_xss_payload(payload)
+                    if harmfulness_result:
+                        item.is_harmful = not harmfulness_result.is_safe
+                elif "sql" in attack_type.lower():
+                    harmfulness_result = harmfulness.evaluate_sql_payload(payload)
+                    if harmfulness_result:
+                        item.is_harmful = len(harmfulness_result.harm_queries) > 0
             
             # Test on DVWA
             attack_func = dvwa.DVWA_ATTACK_FUNC.get(attack_type)
@@ -232,37 +235,35 @@ def api_attack_dvwa():
         return jsonify({"error": str(e)}), 500
 
 
-def _parse_existing_rules(raw: object) -> list:
-    """
-    Parse existing_rules from various input formats:
-    - list of strings → return as-is
-    - list of dicts with "rule" key → extract rule strings
-    - newline-separated string (TXT content) → split lines
-    - JSON string → parse then extract
-    """
-    if not raw:
-        return []
-    if isinstance(raw, list):
-        rules = []
-        for item in raw:
-            if isinstance(item, str):
-                rules.append(item.strip())
-            elif isinstance(item, dict):
-                r = item.get("rule", "")
-                if r:
-                    rules.append(r.strip())
-        return [r for r in rules if r]
-    if isinstance(raw, str):
-        raw = raw.strip()
-        if raw.startswith("[") or raw.startswith("{"):
-            try:
-                parsed = __import__("json").loads(raw)
-                return _parse_existing_rules(parsed)
-            except Exception:
-                pass
-        # Plain text: one rule per line
-        return [line.strip() for line in raw.splitlines() if line.strip() and not line.strip().startswith("#")]
-    return []
+def _parse_existing_rules(rules_raw : list[str]) -> list:
+    extracted_rules = []
+    if not rules_raw or not isinstance(rules_raw, list):
+        return extracted_rules
+    for rules in rules_raw:
+        try:
+            rules_json = json.loads(rules)
+            if not isinstance(rules_json, list):
+                continue
+            for item in rules_json:
+                if isinstance(item, dict):
+                    rule = item.get("rule", None)
+                    if rule and isinstance(rule, str) and rule.strip():
+                        extracted_rules.append(rule.strip())
+                elif isinstance(item, str) and item.strip():
+                    extracted_rules.append(item.strip())
+        except json.JSONDecodeError:
+            # Loại bỏ comment và dòng trống
+            lines = [line for line in rules.split("\n")
+                if line.strip() and not line.strip().startswith("#")
+            ]
+            
+            # Ghép multiline thành một dòng
+            content = "\n".join(lines)
+            content = content.replace("\\\n", " ").replace("\\\r\n", " ")
+            lines = [line.strip() for line in content.split("\n") if line.strip()]
+            extracted_rules.extend(lines)
+    return extracted_rules
+    
 
 
 @app.route("/api/defend", methods=["POST"])
@@ -272,7 +273,7 @@ def api_defend():
         waf_name = dict.get(data, "waf_name")
         payloads = dict.get(data, "payloads", [])
         attack_type = dict.get(data, "attack_type", "unknown")
-        existing_rules_raw = dict.get(data, "existing_rules", None)
+        existing_rules_raw = dict.get(data, "existing_rules", [])
         llm_provider = dict.get(data, "llm_provider", "openai")  # "openai" or "claude"
 
         if not waf_name or len(waf_name) == 0:
