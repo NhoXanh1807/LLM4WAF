@@ -148,7 +148,7 @@ const AttackTab = ({
             }
             setAttackResults(attackResultsForDefend);
             setActiveTab('Defend');
-            handleDefend(); // Tự động chuyển sang defend sau khi attack thành công
+            handleDefend(wafNameVal, attackResultsForDefend); // Tự động chuyển sang defend sau khi attack thành công
         } catch (err) {
             setError(err.message || 'Auto attack failed');
         } finally {

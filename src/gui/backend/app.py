@@ -274,15 +274,13 @@ def api_defend():
         payloads = dict.get(data, "payloads", [])
         attack_type = dict.get(data, "attack_type", "unknown")
         existing_rules_raw = dict.get(data, "existing_rules", [])
-        llm_provider = dict.get(data, "llm_provider", "openai")  # "openai" or "claude"
+        llm_provider = dict.get(data, "llm_provider", "openai")
+        
+        if llm_provider not in ["openai", "claude", "gpt-5.4"]:
+            llm_provider = "openai"
 
         if not waf_name or len(waf_name) == 0:
             return jsonify({"error": "Missing 'waf_name' field"}), 400
-
-        if llm_provider not in ("openai", "claude"):
-            llm_provider = "openai"
-
-        print(f"[Defend] LLM Provider: {llm_provider}")
 
         payloads = [PayloadResult(
             payload=p.get("payload"),
@@ -295,7 +293,7 @@ def api_defend():
         existing_rules = _parse_existing_rules(existing_rules_raw)
         if existing_rules:
             print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
-        bypassed_payloads = [payload.payload for payload in payloads if payload.is_bypassed and payload.is_harmful]
+        bypassed_payloads = [payload.payload for payload in payloads if payload.is_bypassed]
         pipeline_result = _get_pipeline(llm_provider).generate_defense_rules(
             bypassed_payloads=bypassed_payloads,
             waf_name=waf_name,
@@ -306,6 +304,7 @@ def api_defend():
 
         return jsonify({
             "waf_name": waf_name,
+            "llm_provider": llm_provider,
             "clustered_payloads": [cluster.to_dict() for cluster in pipeline_result.cluster_info],
             "rag_sources": pipeline_result.rag_sources,
             "generated_rules": [rule.to_dict() for rule in pipeline_result.generated_rules],

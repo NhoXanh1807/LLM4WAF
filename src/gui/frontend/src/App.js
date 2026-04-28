@@ -26,7 +26,7 @@ function App() {
   const [rawResponse, setRawResponse] = useState(null);
   const [existingRules, setExistingRules] = useState('');
   const [existingRuleFiles, setExistingRuleFiles] = useState([]);
-  const [llmProvider, setLlmProvider] = useState('openai'); // "openai" or "claude"
+  const [llmProvider, setLlmProvider] = useState('claude'); // "openai" or "claude"
 
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
@@ -43,7 +43,7 @@ function App() {
   }, [darkMode]);
 
   // Handler to call defense API
-  const handleDefend = async () => {
+  const handleDefend = async (waf_name, attack_results) => {
     setLoading(true);
     setError && setError(null);
     try {
@@ -51,7 +51,7 @@ function App() {
         existingRules,
         ...existingRuleFiles.map(file => file.content),
       ].map(rule => rule.trim()).filter(rule => rule.length > 0);
-      const res = await Services.apiDefend(wafName, attackResults, existingRulesToSend, llmProvider);
+      const res = await Services.apiDefend(waf_name, attack_results, existingRulesToSend, llmProvider);
       const data = await res.json();
       setRawResponse(data);
       if (res.ok && data && data.final_rules) {

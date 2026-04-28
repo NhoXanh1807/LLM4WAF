@@ -144,6 +144,8 @@ Generate PRODUCTION-GRADE defense rules to block these bypasses:
    - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.
    - Prefer a simpler valid rule over a more advanced but potentially invalid rule.
 
+6. **Multi-Layer URL Encoding**: When generating rules, always account for multi-layer URL encoding by applying repeated URL-decoding transformations, e.g. t:urlDecodeUni multiple times, so payloads encoded two or more times such as %25253C...%25253E are normalized before regex matching.
+
 The WAF format instruction will follow — generate rules ONLY in that specified format."""
 
 def build_adaptive_prompt(waf_name, attack_type, blocked_examples, passed_examples, technique):

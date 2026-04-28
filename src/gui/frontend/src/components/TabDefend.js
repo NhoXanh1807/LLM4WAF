@@ -213,7 +213,7 @@ const TabDefend = ({
             <div className="flex items-center gap-4 mb-8 flex-wrap">
                 <button
                     className="px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
-                    onClick={handleDefend}
+                    onClick={() => handleDefend(wafName, attackResults)}
                     disabled={loading || !attackResults || attackResults.length === 0}
                     type="button"
                 >
