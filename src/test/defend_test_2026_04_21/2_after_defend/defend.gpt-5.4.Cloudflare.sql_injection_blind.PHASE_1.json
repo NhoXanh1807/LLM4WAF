@@ -1,6 +1,265 @@
 {
     "success": true,
     "data": {
-        "error": "'NoneType' object is not iterable"
+        "advanced_defense": false,
+        "clustered_payloads": [
+            {
+                "attack_type": "SQLI",
+                "cluster_id": 6,
+                "payloads": [
+                    "%2527%250aUniON%250AselECT%250A1%252CUsEr%2528%2529%252c3--%252B",
+                    "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+                    "%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252c3--%2520",
+                    "%2527%2520aNd%2520SELecT%25201%252cUSer%2528%2529%252C3--%2520",
+                    "%2527%2520uNIOn%2520selECT%25201%252CuSER%2528%2529%252C3--%2520"
+                ],
+                "representative_payload": "%2527%250aUniON%250AselECT%250A1%252CUsEr%2528%2529%252c3--%252B",
+                "size": 5
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 7,
+                "payloads": [
+                    "admin%2527%252b--",
+                    "admIN%2527%252b--",
+                    "aDMIn%2527%2520--",
+                    "ADmiN%2527%252b--",
+                    "AdmiN%2527%2520--",
+                    "aDMIn%2527%252509--",
+                    "aDMIN%2527%252b--",
+                    "ADmiN%2527%252509--",
+                    "ADMIN%2527 %26 134809%253D1 -- true",
+                    "aDMIn%2527%252B--",
+                    "aDMin%2527%2520--",
+                    "aDMIn%2527%252B--"
+                ],
+                "representative_payload": "admin%2527%252b--",
+                "size": 12
+            },
+            {
+                "attack_type": "SQLI",
+                "cluster_id": 1,
+                "payloads": [
+                    "%2527%2509ANd%2509%2528/%252A%2521sElEcT%252a/%25091%2520FRom%2509%2528/%252AaLErT%25281%2529%2529%2529a%2529--%252B",
+                    "%2527%252509ANd%252509%2528/%252a%2521sElEcT%252A/%2525091%252509From%252509%2528/%252A%2521SELect%252A/%2528SLeep%25285%2529%2529%2529a%2529--%2",
+                    "1%252F%25252a%25252A%2FoR%252Fa%252D%2528SeLeCt%2529%2523",
+                    "AdmIN%2527/%252A%252a/--",
+                    "1%26%2347%3B%25252a%25252A%26%2347%3BoR%26%2347%3B%25252A%25252a%26%2347%3B1%25253d1",
+                    "%2527/%252a%252A/uNIon/%252A%252AnE1iPTEXt/%252A%252a/SELEcT/%252A%252AvERSION%2528%2529%2520FrOM/%252a%252A/data%25252527%25252520s onuTj%2525253AData%252525",
+                    "\" or 1=1;# /*93*/ -- OK"
+                ],
+                "representative_payload": "%2527%2509ANd%2509%2528/%252A%2521sElEcT%252a/%25091%2520FRom%2509%2528/%252AaLErT%25281%2529%2529%2529a%2529--%252B",
+                "size": 7
+            },
+            {
+                "attack_type": "SQLI",
+                "cluster_id": 4,
+                "payloads": [
+                    "%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/",
+                    "%2527/%252A%252a/UNioN/%252a%252a/SELeCT/%252A%252A/1%252cUser%2528%2529%252C3--/%252A%252a/",
+                    "%2527/%252a%252A/uNIon/%252A%252A/seLeCt/%252a%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/",
+                    "%2527/%252a%252A/uNIon/%252a%252A/seLeCt/%252a%252A/1%252cUSER%2528%2529%252C3--/%252a%252A/**//*68*/",
+                    "%2527/%252A%252a/UniON/%252a%252A/SELect/%252a%252A/1%252CUseR%2528%2529%252c3--/%252a%252a/",
+                    "%2527/%252A%2521UNiON%252a/SElect/%252A%2521FrOMtHEmAyKeY%252a/0%252cUser%2528%2529%252C3-- /*4*/",
+                    "%2527/%252a%252A/uNIoN/%252a%252A/seLeCt/%252A%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/"
+                ],
+                "representative_payload": "%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/",
+                "size": 7
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 5,
+                "payloads": [
+                    "1%2520oR%25201%253d1",
+                    "1%2520oR%25201%253d1",
+                    "1%2520Or%25201%253D1%2520--",
+                    "1%2520oR%25201%253d1",
+                    "1%2520oR%25201%253d1",
+                    "1%2520/*!or*/%25201%253d1"
+                ],
+                "representative_payload": "1%2520oR%25201%253d1",
+                "size": 6
+            },
+            {
+                "attack_type": "XSS",
+                "cluster_id": 0,
+                "payloads": [
+                    "1%26%2347%3bPArT%2520oN%26%2347%3bAtioNaveRsion%2528VerSIon%2528%26%2347%3baTImeEnd%2529%2529%252C1%26%2347%3B -- 6 /*1*/",
+                    "%25ef%25bd%2581D%25ef%25bc%2593%25ef%25bd%2584ImG%2520sRc%253DinFOrmaTiON%2520SCheMA_NAME%253d%2525%25ef%25bc%2592%25ef%25bc%2595%25ef%25bc%2592%25ef%25bc%2",
+                    "%253Bid%253Dadmin' %2509--",
+                    "%25ef%25bd%2581d%25ef%25bc%2593%25ef%25bd%2585n%252bion%252b seco%25ef%25bd%2587%25ef%25bd%2589%25ef%25bd%2594%2528%2527se%25ef%25bd%258cect%2520ver%25ef%"
+                ],
+                "representative_payload": "1%26%2347%3bPArT%2520oN%26%2347%3bAtioNaveRsion%2528VerSIon%2528%26%2347%3baTImeEnd%2529%2529%252C1%26%2347%3B -- 6 /*1*/",
+                "size": 4
+            },
+            {
+                "attack_type": "SQLI",
+                "cluster_id": 2,
+                "payloads": [
+                    "%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520",
+                    "%2527%2520AND%2520%2528SeLEct%25201%2520FROM%2520%2528sELEcT%2528SLeEP%25285%2529%2529%2529a%2529--%2520",
+                    "%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529a%2529--%2520",
+                    "%2527%2520anD%2520UpdaTeXmL%25281%252C%2520ConCat%25280x3A%252c%2520%2528SELect%2520Version%2528%2529%2529%2529%252C%25201%2529--%2520",
+                    "%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520"
+                ],
+                "representative_payload": "%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520",
+                "size": 5
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 3,
+                "payloads": [
+                    "%2527%252B%257c%257C%252b1%253d1%2523",
+                    "1%252509oR%2525091%253d1",
+                    "1%252509OR%2525091%253D1",
+                    "1%252509Or%2525091%253d1"
+                ],
+                "representative_payload": "%2527%252B%257c%257C%252b1%253d1%2523",
+                "size": 4
+            }
+        ],
+        "existing_rules_count": 0,
+        "final_rules": [
+            {
+                "instructions": "ID: 1001. Severity: HIGH. Action: BLOCK. Purpose: Detects double URL encoding, a strong indicator of an evasion attempt. This rule inspects the raw request URI before any decoding and blocks if it contains '%25'. This single rule has a high true positive rate for the provided bypass samples. Monitor for false positives in applications that legitimately transmit encoded data containing '%25'.",
+                "is_valid": true,
+                "refinement_notes": "Replaced original rule 9 with a simpler, more effective anomaly detection rule. Instead of looking for specific double-encoded characters, this broadly targets the double-encoding indicator ('%25') itself, providing coverage for all sample payloads that use this technique.",
+                "rule": "any(request.raw_uri, . contains \"%25\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "ID: 1002. Severity: CRITICAL. Action: BLOCK. Purpose: Core SQLi detection logic. This rule requires a transformation function to URL-decode and lowercase argument values before inspection. It blocks requests where a common SQL metacharacter (', --, /*, #, ;) and a SQL keyword (select, union, etc.) appear in the same argument value. The `(?i)` flag indicates case-insensitivity.",
+                "is_valid": true,
+                "refinement_notes": "Consolidated and improved original rules 1, 4, 5, and 8. The new rule uses a more robust regex pattern and applies to normalized (URL-decoded) arguments, making it more accurate and less susceptible to simple whitespace or obfuscation bypasses. This replaces multiple, overlapping rules with a single, more efficient one.",
+                "rule": "any(url_decoded_args, . matches \"(?i)(?:'|--|#|/\\*|;).*(?:select|union|from|where|and|or|sleep|user|version)\\b\") or any(url_decoded_args, . matches \"(?i)\\b(?:select|union|from|where|and|or|sleep|user|version).*(?:'|--|#|/\\*|;)\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "ID: 1003. Severity: CRITICAL. Action: BLOCK. Purpose: Detects boolean-based SQLi and tautologies like '1 OR 1=1'. Requires URL-decoded arguments. This rule looks for a common tautology expression and a logical operator in the same parameter, accounting for various whitespace encodings.",
+                "is_valid": true,
+                "refinement_notes": "Refined original rule 2. Instead of matching a static, encoded string like '%2520or%25201%253d1', this rule works on decoded input and uses a more flexible regex to detect the components of a tautology, increasing its resilience to encoding and whitespace variations.",
+                "rule": "any(url_decoded_args, . matches \"(?i)\\\\b(1=1|2>1|'x'='x')\") and any(url_decoded_args, . matches \"(?i)\\\\s+(and|or|%09|%0a|/\\\\*.*\\\\*/)\\\\s+\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "ID: 1004. Severity: CRITICAL. Action: BLOCK. Purpose: Targets high-confidence functions used in time-based, blind, and error-based SQLi. Requires URL-decoded arguments. The presence of these function calls is a very strong signal of an attack.",
+                "is_valid": true,
+                "refinement_notes": "Refined and expanded original rule 3. Focused on high-confidence function calls and formatted as a regex for better accuracy. This provides a low-false-positive layer for specific blind SQLi techniques.",
+                "rule": "any(url_decoded_args, . matches \"(?i)(sleep|benchmark|pg_sleep|updatexml|extractvalue)\\\\s*\\\\(\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "ID: 1005. Severity: HIGH. Action: BLOCK. Purpose: Detects SQLi attempts obfuscated with HTML entities. This rule requires arguments to be URL-decoded first to expose the HTML entity string ('&#...'). It then looks for the entity marker in combination with SQL-related keywords.",
+                "is_valid": true,
+                "refinement_notes": "Kept the logic of original rule 6 but clarified the required transformation (URL-decode). This is a valuable rule for catching a specific class of bypass.",
+                "rule": "any(url_decoded_args, . contains \"&#\") and any(url_decoded_args, . matches \"(?i)(partition|version|select|union)\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            }
+        ],
+        "generated_rules": [
+            {
+                "instructions": "Severity: CRITICAL. Action: BLOCK. Purpose: catches double-encoded quote-led UNION/SELECT extraction attempts seen in clusters 4 and 6. Pre-processing: use lower() only, since repeated URL decoding is not available in free-plan wirefilter. Deployment note: apply to URI and body. Review for false positives on applications that legitimately pass SQL keywords in parameters.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"%2527\" and (lower(http.request.uri) contains \"union\" or lower(http.request.uri) contains \"select\" or lower(http.request.uri) contains \"user%2528%2529\" or lower(http.request.uri) contains \"version%2528%2529\")) or (lower(http.request.body.raw) contains \"%2527\" and (lower(http.request.body.raw) contains \"union\" or lower(http.request.body.raw) contains \"select\" or lower(http.request.body.raw) contains \"user%2528%2529\" or lower(http.request.body.raw) contains \"version%2528%2529\"))",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "Severity: CRITICAL. Action: BLOCK. Purpose: blocks boolean/time-based SQLi bypasses from clusters 2, 3, and 5, including double-encoded OR 1=1, tab-separated OR 1=1, and concatenation-based boolean expressions. Pre-processing: lower() only. These are high-confidence attack strings with low expected legitimate use.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"%2520or%25201%253d1\") or (lower(http.request.uri) contains \"%2520and%2520%2528select\") or (lower(http.request.uri) contains \"%252509or%2525091%253d1\") or (lower(http.request.uri) contains \"%2527%252b%257c%257c%252b1%253d1\") or (lower(http.request.body.raw) contains \"%2520or%25201%253d1\") or (lower(http.request.body.raw) contains \"%2520and%2520%2528select\") or (lower(http.request.body.raw) contains \"%252509or%2525091%253d1\") or (lower(http.request.body.raw) contains \"%2527%252b%257c%257c%252b1%253d1\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "Severity: CRITICAL. Action: BLOCK. Purpose: detects high-signal time-based and error-based SQLi primitives from cluster 2. Pre-processing: lower() only. Very low false-positive risk for public web traffic.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"%2528sleep%25285%2529%2529\") or (lower(http.request.uri) contains \"updatexml%2528\") or (lower(http.request.uri) contains \"concat%25280x3a\") or (lower(http.request.body.raw) contains \"%2528sleep%25285%2529%2529\") or (lower(http.request.body.raw) contains \"updatexml%2528\") or (lower(http.request.body.raw) contains \"concat%25280x3a\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "Severity: HIGH. Action: BLOCK. Purpose: catches comment-injection obfuscation with encoded /* ... */ wrappers around SQL keywords, covering clusters 1 and 4. Pre-processing: lower() only. This is a generalized obfuscation rule; validate against any application that legitimately transports encoded comment tokens in request values.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"%252f%252a\" and (lower(http.request.uri) contains \"union\" or lower(http.request.uri) contains \"select\" or lower(http.request.uri) contains \"or\" or lower(http.request.uri) contains \"--\")) or (lower(http.request.body.raw) contains \"%252f%252a\" and (lower(http.request.body.raw) contains \"union\" or lower(http.request.body.raw) contains \"select\" or lower(http.request.body.raw) contains \"or\" or lower(http.request.body.raw) contains \"--\"))",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "Severity: HIGH. Action: BLOCK. Purpose: catches the authenticated-bypass/login-focused payload family from cluster 7 using double-encoded quote plus comment termination after admin. Pre-processing: lower() only. High-confidence for attack traffic; if your app legitimately sends this exact encoded username pattern, reduce to CHALLENGE instead.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"admin%2527%252b--\") or (lower(http.request.uri) contains \"admin%2527%2520--\") or (lower(http.request.uri) contains \"admin%2527%252509--\") or (lower(http.request.body.raw) contains \"admin%2527%252b--\") or (lower(http.request.body.raw) contains \"admin%2527%2520--\") or (lower(http.request.body.raw) contains \"admin%2527%252509--\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "Severity: HIGH. Action: BLOCK. Purpose: detects HTML-entity slash obfuscation and encoded SQL metadata/version probes from clusters 0 and 1. Pre-processing: lower() only. This is a strong anomaly-plus-signature rule for encoded slash entities combined with SQL semantics.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"%26%2347%3b\" and (lower(http.request.uri) contains \"or\" or lower(http.request.uri) contains \"partition\" or lower(http.request.uri) contains \"version%2528\")) or (lower(http.request.body.raw) contains \"%26%2347%3b\" and (lower(http.request.body.raw) contains \"or\" or lower(http.request.body.raw) contains \"partition\" or lower(http.request.body.raw) contains \"version%2528\"))",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "Severity: HIGH. Action: BLOCK. Purpose: targets fullwidth/unicode-style double-encoded obfuscation mixed with SQL keywords from cluster 0. Pre-processing: lower() only. This is a useful anomaly rule for unusual Unicode encoding combined with SQL terms.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"%25ef%25bd\" or lower(http.request.uri) contains \"%25ef%25bc\") and (lower(http.request.uri) contains \"select\" or lower(http.request.uri) contains \"union\" or lower(http.request.uri) contains \"schema\" or lower(http.request.uri) contains \"version\") or (lower(http.request.body.raw) contains \"%25ef%25bd\" or lower(http.request.body.raw) contains \"%25ef%25bc\") and (lower(http.request.body.raw) contains \"select\" or lower(http.request.body.raw) contains \"union\" or lower(http.request.body.raw) contains \"schema\" or lower(http.request.body.raw) contains \"version\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "Severity: MEDIUM. Action: CHALLENGE or BLOCK on sensitive endpoints such as login, search, id, and report parameters. Purpose: broad fallback for double-encoded quote plus SQL comment termination, covering multiple clusters. Pre-processing: lower() only. Because this is broader, use carefully to avoid false positives on applications that legitimately transport encoded apostrophes and dashes.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"%2527\" and lower(http.request.uri) contains \"--\") or (lower(http.request.body.raw) contains \"%2527\" and lower(http.request.body.raw) contains \"--\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            },
+            {
+                "instructions": "Severity: MEDIUM. Action: LOG or CHALLENGE. Purpose: anomaly rule for excessive/double encoding patterns commonly used in these bypasses. Pre-processing: lower() only. Since Cloudflare free-plan expressions cannot repeatedly decode input in-rule, this serves as the closest supported compensating control for multi-layer URL encoding. Pair with stricter BLOCK rules above.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "(lower(http.request.uri) contains \"%2525\" and lower(http.request.uri) contains \"%2527\") or (lower(http.request.uri) contains \"%2525\" and lower(http.request.uri) contains \"%252f%252a\") or (lower(http.request.body.raw) contains \"%2525\" and lower(http.request.body.raw) contains \"%2527\") or (lower(http.request.body.raw) contains \"%2525\" and lower(http.request.body.raw) contains \"%252f%252a\")",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "cloudflare"
+            }
+        ],
+        "llm_provider": "gpt-5.4",
+        "rag_sources": [],
+        "stats": {
+            "duplicates_removed": 5,
+            "num_clusters": 8,
+            "rules_generated": 9,
+            "rules_invalid": 0,
+            "rules_refined": 5,
+            "rules_valid": 9,
+            "total_payloads": 50
+        },
+        "waf_name": "Cloudflare"
     }
 }

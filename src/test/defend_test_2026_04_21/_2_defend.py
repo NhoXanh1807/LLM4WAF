@@ -39,10 +39,16 @@ def call_defend_api(waf_name: str, payloads: list, attack_type:str, existing_rul
 
 def main():
     
-    
+    # import os
+    # import dotenv
+    # env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../gui/backend/.env"))
+    # print(f"Loading environment variables from {env_path}")
+    # dotenv.load_dotenv(env_path)
     # try:
     #     from google import genai
-    #     client = genai.Client(api_key="AIzaSyCo_rfIRaKRkwG_vn-yOihKyiQX8MtI6lA")
+    #     apikey = os.getenv("GEMINI_API_KEY")
+    #     print(apikey)
+    #     client = genai.Client(api_key=apikey)
     #     response = client.models.generate_content(
     #         model="gemini-2.5-flash",
     #         contents="Hello",
@@ -70,6 +76,8 @@ def main():
     
     for llm_model in ["gpt-5.4", "claude"]:
         for waf in WAF_DVWA_URLS:
+            if llm_model != "claude" or waf != "Cloudflare":
+                continue
             attack_type = waf_attack_type_mapping.get(waf)
             phase = "PHASE_3" if waf != "Cloudflare" else "PHASE_1"
             file_name = f"result.{waf}.{attack_type}.{phase}.json"
@@ -103,6 +111,7 @@ def main():
                 json.dump(result, f, ensure_ascii=False, indent=4)
 
             print(f"[{waf}|{attack_type}|{phase}] Saved {output_path}")
+            
 
 
 input_dir = os.path.join(os.path.dirname(__file__), '1_after_convert')

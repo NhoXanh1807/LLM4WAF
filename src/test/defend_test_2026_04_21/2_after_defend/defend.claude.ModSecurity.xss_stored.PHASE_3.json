@@ -5,84 +5,311 @@
         "clustered_payloads": [
             {
                 "attack_type": "XSS",
-                "cluster_id": 3,
+                "cluster_id": 2,
                 "payloads": [
                     "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
-                    "%253CIM G&dnJW=PEvM<unused52>",
                     "%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX",
+                    "JaVasCript%253AaLeRT%25281%2529",
+                    "JavAsCRIpt%253aaLERT%25281%2529",
+                    "JavAsCRIpt%253aaLeRt%25281%2529",
+                    "%253CbODY%2520ONLOad%253DalERT%25281%2529%253e",
                     "%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx",
                     "%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E",
                     "%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E"
                 ],
                 "representative_payload": "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
-                "size": 6
-            },
-            {
-                "attack_type": "Unknown",
-                "cluster_id": 2,
-                "payloads": [
-                    "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
-                    "％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е",
-                    "％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
-                    "％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е",
-                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
-                    "％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
-                    "％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ",
-                    "％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е"
-                ],
-                "representative_payload": "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
-                "size": 8
+                "size": 9
             },
             {
                 "attack_type": "Unknown",
                 "cluster_id": 1,
                 "payloads": [
+                    "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е",
                     "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е",
+                    "％２５３сІFRАMЕ％２５２５０９ЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
                     "％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww",
                     "％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ",
                     "％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е",
                     "％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
                     "％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е",
                     "％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е"
                 ],
-                "representative_payload": "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
-                "size": 7
+                "representative_payload": "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                "size": 16
+            },
+            {
+                "attack_type": "XSS",
+                "cluster_id": 0,
+                "payloads": [
+                    "%253CIM G&dnJW=PEvM<unused52>",
+                    "＇；аⅼеrt（４５）／／",
+                    "IMG No Quotes/Semicolon",
+                    "JavAS/*%20*/criPt:coNFIRM(42)&lQoP=SDVG",
+                    "&#６０;ｉｍｇ ｓｒｃ=ｘ ｏｎｅｒｒｏｒ=ａｌｅｒｔ(１)&#６２;",
+                    "onclick%253D",
+                    "锛咃紥锛曪紦褋褧小R袉pt锛咃紥锛曪紦袝袗鈪夹礡t锛咃紥锛曪紥锛橈紤锛咃紥锛曪紥锛欙紖锛掞紩锛撔★紡袇小R褨PT锛咃紥锛曪紦袝",
+                    "킞乍킾嗑闐뗐鹖킕狯벝",
+                    "锛咃紥锛曪紦小袉FR袗m械锛咃紥锛曪紥锛愋匯褋锛咃紥锛曪紦dj邪v袗褧锛忥紛锛冿紦锛欙紛锛徯⌒瀗f褨Rm锛咃紥锛曪紥锛橈紤锛咃紥锛曪紥锛欙紗鈪糛袨P锛漢Z褨芯B",
+                    "%EF%BD%8F%EF%BD%92%EF%BD%8FK%EF%BD%8D%EF%BD%87%26%2338%3B%23%EF%BC%94%EF%BC%97%3B%2A%25%EF%BC%92%EF%BC%90%EF%BD%95%EF%BD%93%2A%2C%20%2A%25%EF%BC%92%EF%BC%9",
+                    "%%EF%BC%93PC%EF%BC%92%EF%BC%95%EF%BC%92%EF%BC%95%EF%BC%93%EF%BD%8FRAM%EF%BD%8FE%20%20OK",
+                    "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ",
+                    "onclick%253D"
+                ],
+                "representative_payload": "%253CIM G&dnJW=PEvM<unused52>",
+                "size": 13
             },
             {
                 "attack_type": "Unknown",
-                "cluster_id": 0,
+                "cluster_id": 3,
                 "payloads": [
                     "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
                     "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
                     "％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е",
+                    "％２５３сＩmg ѕＲＣ％２５３ＤＸ％２５２０ＯＮＥＲｒｏＲ％２５３ＤlocＡＴion％２５３Ｄ％２５２７jАＶＡＳＣriＰＴ％２５３ＡaleＲＴ％２５２８１％２５２９％２５２７％２５３ Е",
                     "％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е",
                     "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
                 ],
                 "representative_payload": "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
-                "size": 5
-            },
-            {
-                "attack_type": "Unknown",
-                "cluster_id": 4,
-                "payloads": [
-                    "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ"
-                ],
-                "representative_payload": "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ",
-                "size": 1
+                "size": 6
             }
         ],
         "existing_rules_count": 44,
-        "final_rules": [],
-        "generated_rules": [],
+        "final_rules": [
+            {
+                "instructions": "This rule detects the double URL-encoding of critical XSS characters like '<', '>', ':', '(', ')', '\"', ''', '/', '\\'. It inspects the raw request body (t:none) to catch the %25 pattern, which is a strong indicator of an evasion attempt. This provides an early-stage block before other rules that rely on decoding.",
+                "is_valid": true,
+                "refinement_notes": "Consolidated and refined rules 900001 and 900012. The regex now focuses on a non-capturing group for the most critical encoded characters to improve performance and reduce false positives.",
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)%25(?:25)*(?:3[acde]|2[2789f]|5c)\" \"id:920500,phase:2,block,status:403,t:none,msg:'XSS Bypass: Double Percent-Encoding of Special Characters Detected',logdata:'Matched Data: %{MATCHED_VAR} found in %{MATCHED_VAR_NAME}',tag:'attack-xss',tag:'bypass-double-encoding',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "This rule identifies sequences of four or more full-width Unicode characters (U+FF01-U+FF5E) by their raw UTF-8 byte patterns. This is a highly anomalous pattern in most web traffic and is a known XSS evasion technique. It operates on raw data (t:none) to detect the evasion before any normalization.",
+                "is_valid": true,
+                "refinement_notes": "Refined rule 900011. Increased the threshold to 4 consecutive characters to further minimize potential false positives while still detecting the bypass payloads.",
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?:\\xef\\xbd[\\x81-\\xba]|\\xef\\xbe[\\x80-\\x9f]){4,}\" \"id:920510,phase:2,block,status:403,t:none,msg:'XSS Bypass: Sequence of Full-width Unicode Characters Detected',logdata:'Matched Data: %{MATCHED_VAR} found in %{MATCHED_VAR_NAME}',tag:'attack-xss',tag:'bypass-unicode',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "This rule identifies sequences of five or more Cyrillic characters by their raw UTF-8 byte patterns. This is highly effective against homoglyph attacks where Cyrillic characters are substituted for Latin letters (e.g., 'а' for 'a'). Recommended for applications that do not expect Cyrillic input.",
+                "is_valid": true,
+                "refinement_notes": "Kept rule 900014's core logic as it is effective. Assigned a new ID and confirmed it complements other rules by operating on raw data.",
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?:[\\xd0-\\xd1][\\x80-\\xbf]){5,}\" \"id:920511,phase:2,block,status:403,t:none,msg:'XSS Bypass: Sequence of Cyrillic Characters Detected',logdata:'Matched Data: %{MATCHED_VAR} found in %{MATCHED_VAR_NAME}',tag:'attack-xss',tag:'bypass-homoglyph',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "This rule detects HTML event handlers (e.g., onload, onerror). Its strength lies in its transformation chain, which applies URL decoding twice and normalizes Unicode characters (utf8toUnicode). This defeats double-encoding and homoglyph bypasses. The regex looks for an event handler preceded by a tag opener or a common delimiter.",
+                "is_valid": true,
+                "refinement_notes": "Merged rules 900005, 900006, 900007, and 900015. Created a more robust and efficient regex. The transformation chain is the key to its effectiveness against the provided bypass payloads.",
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)(?:<[a-z0-9]+[\\s\\/]|[`'\\\"\\s\\/;,(])on[a-z]{2,15}\\s*=\" \"id:920520,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:utf8toUnicode,t:lowercase,t:removeNulls,t:htmlEntityDecode,msg:'XSS Bypass: Event Handler Detected after Multi-Layer Decode',logdata:'Matched Data: %{MATCHED_VAR} found in %{MATCHED_VAR_NAME}',tag:'attack-xss',tag:'event-handler',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "This rule detects the 'javascript:' URI scheme. It uses a double urlDecodeUni and utf8toUnicode transformation chain to normalize multi-encoded and homoglyph-obfuscated payloads before matching. It looks for 'javascript:' preceded by common URI attributes or a word boundary for broad coverage.",
+                "is_valid": true,
+                "refinement_notes": "Merged rules 900003, 900004, and 900008 into a single, more generic rule. The regex is optimized to find the malicious scheme in common contexts without being overly complex.",
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)(?:src|href|data|action|formaction|=|\\b)javascript\\s*:\" \"id:920530,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:utf8toUnicode,t:lowercase,t:removeNulls,t:htmlEntityDecode,t:jsDecode,msg:'XSS Bypass: javascript URI Scheme Detected after Multi-Layer Decode',logdata:'Matched Data: %{MATCHED_VAR} found in %{MATCHED_VAR_NAME}',tag:'attack-xss',tag:'javascript-uri',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "A high-confidence rule that detects common XSS proof-of-concept functions like alert(), confirm(), and prompt(). It applies the full normalization chain, including double URL decoding and Unicode mapping, to catch heavily obfuscated calls.",
+                "is_valid": true,
+                "refinement_notes": "Refined rule 900009. The regex now looks for the full function call pattern `function(...)` for higher accuracy, reducing potential FPs on words like 'alerting'.",
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx \\b(?:alert|confirm|prompt)\\s*\\(.*\\)\" \"id:920540,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:utf8toUnicode,t:lowercase,t:removeNulls,t:htmlEntityDecode,t:jsDecode,msg:'XSS Bypass: JavaScript Function Call Detected after Multi-Layer Decode',logdata:'Matched Data: %{MATCHED_VAR} found in %{MATCHED_VAR_NAME}',tag:'attack-xss',tag:'js-function',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            }
+        ],
+        "generated_rules": [
+            {
+                "instructions": "Detects double and triple percent-encoding (e.g., %2525 -> %25 -> %) which is a hallmark of multi-layer encoding bypasses seen in Cluster 2. Operates on raw input before any transformation so the encoded percent signs are visible. No transformations applied intentionally to catch the raw encoding anomaly. Recommended action: BLOCK. This rule fires early to flag payloads like %253C, %25253C before they reach downstream rules.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)%25(?:25)+(?:3c|3e|28|29|22|27|2f|5c|3a|3b|09|0a|0d)\" \"id:900001,phase:2,block,status:403,capture,t:none,msg:'XSS - Multi-Layer URL Encoding Detected',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'multi-encoding-bypass',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Targets script tag based XSS after double URL decoding (t:urlDecodeUni applied twice), UTF-8 Unicode normalization, HTML entity decoding, lowercasing, and null byte removal. The double application of t:urlDecodeUni handles the %2525 -> %25 -> < chain seen in Cluster 1 and 2. Catches Cyrillic/fullwidth/mixed-case script tag variants from Cluster 1 after Unicode normalization collapses lookalike characters. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)<script[\\s\\x00-\\x1f\\x09\\x0a\\x0d]*[^>]*>[\\s\\S]*?\" \"id:900002,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:lowercase,t:removeNulls,msg:'XSS - Script Tag Vector with Double-Decode Normalization',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'script-tag',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects javascript: URI schemes used in href, src, and iframe src attributes as seen in Clusters 0, 1, 2, and 3 (JaVasCript%253AaLeRT, javAscRIPT%253AaLert, fullwidth JS variants). Double urlDecodeUni handles multi-layer encoding. jsDecode and cssDecode normalize JS and CSS escape sequences. utf8toUnicode then lowercase collapses Cyrillic/fullwidth lookalike characters to ASCII before matching. Whitespace and null bytes between javascript and colon are absorbed by the character class. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)javascript[\\s\\x00-\\x1f]*:[\\s\\x00-\\x1f]*(?:alert|confirm|prompt|eval|expression|document|window|location|navigator)\" \"id:900003,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - JavaScript URI Scheme Detected',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'javascript-uri',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Specifically targets iframe/frame/object/embed elements with javascript: URI in src or data attributes, covering all iframe-based payloads in Clusters 1, 2, and 3 including fullwidth, Cyrillic mixed-case, and tab-separated variants (%252509 tab between IFRAME and SRC). Double urlDecodeUni unwraps %2525 chains. utf8toUnicode + lowercase reduces Unicode confusable characters. Tab character class in attribute separator handles the %252509 trick. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)<(?:iframe|frame|object|embed|applet|form|base)[\\s\\x09\\x0a\\x0d\\x00]+[^>]*(?:src|data|action|href)[\\s\\x09\\x0a\\x0d\\x00]*=[\\s\\x09\\x0a\\x0d\\x00]*['\\\"]?javascript[\\s\\x00-\\x1f]*:\" \"id:900004,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - Iframe/Frame JavaScript URI in Attribute',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'iframe-javascript-uri',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects event handler attributes (onload, onerror, onclick, etc.) on HTML tags such as body, svg, marquee, video, etc. Covers %253CbODY%2520ONLOad and %253CSvG/onLoad payloads from Cluster 2, and their fullwidth/Cyrillic equivalents from Clusters 1 and 3 after Unicode normalization. Double urlDecodeUni handles the %2525 chain. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)<(?:body|svg|html|marquee|video|audio|details|input|select|textarea)[^>]*\\s+on[a-z]+\\s*=\" \"id:900005,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - HTML Tag with Event Handler Attribute',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'event-handler',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Targets IMG tags with event handlers (onerror, onload, etc.) covering %253CIMg%2520SrC%253DX%2520ONErrOr from Cluster 2 and fullwidth/Cyrillic IMG onerror variants from Clusters 0 and 3. Separated from the generic event handler rule for granular logging. htmlEntityDecode handles &#60; encoded angle brackets from Cluster 0 (&#６０;ｉｍｇ variant). Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)<img[^>]*\\s+on[a-z]+\\s*=\" \"id:900006,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - IMG Tag with Event Handler',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'img-event-handler',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Generic inline event handler detector matching patterns like onclick%253D (seen in Cluster 0 twice) and other on* handlers after full normalization. The character class before 'on' matches delimiters that distinguish an event handler from legitimate words containing 'on'. Covers standalone onclick%253D payloads from Cluster 0 after double URL decode yields onclick=. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)[\\s;'\"`,\\/0-9\\x00-\\x1f]on[a-z]{2,20}[\\s\\x09\\x0a\\x0d\\x00]*=\" \"id:900007,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - Inline Event Handler Pattern',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'inline-event-handler',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Targets anchor tags with javascript: URI in href attributes, covering %253cA%2520Href%253DjavAscRIPT%253AaLert from Cluster 2 and the fullwidth/Cyrillic anchor href variant from Cluster 1. Double urlDecodeUni, Unicode normalization, and HTML entity decode collapse all encoding layers before regex match. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)<a[^>]+href[\\s\\x09\\x0a\\x0d]*=[\\s\\x09\\x0a\\x0d]*['\\\"]?javascript[\\s\\x00-\\x1f]*:\" \"id:900008,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - Anchor Tag JavaScript URI',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'anchor-javascript-uri',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects alert(), confirm(), prompt(), and expression() function calls which appear across all clusters. After full normalization chain including double URL decode and Unicode normalization, both standard and obfuscated variants collapse to detectable ASCII patterns. Also catches JavAS/*%20*/criPt:coNFIRM(42) from Cluster 0 after jsDecode and cssDecode remove comment injections. The \\s* between function name and parenthesis tolerates whitespace injection. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)(?:alert|confirm|prompt|expression)\\s*\\(\" \"id:900009,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - JavaScript Execution Function Call',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'js-function-call',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects C-style comment injection used to break keyword detection, as seen in JavAS/*%20*/criPt from Cluster 0. This pattern is rarely legitimate in HTTP request parameters. Rule set to WARNING severity with block action to support fine-tuning if false positives appear in applications that accept code snippets. Recommended action: BLOCK with monitoring period initially as LOG.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)\\/\\*[\\s\\S]*?\\*\\/\" \"id:900010,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls,msg:'XSS - Comment Injection Obfuscation Detected',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'comment-injection',severity:'WARNING'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects sequences of fullwidth Unicode characters (U+FF01-U+FF5E range, UTF-8 encoded as EF BD xx and EF BE xx bytes) used in Cluster 0 (%EF%BD%8F%EF%BD%92... ormKMG variant) and fullwidth character payloads. Three or more consecutive fullwidth characters in a request parameter is a strong anomaly signal. Applied on raw bytes without transformation to catch the encoding before normalization. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)(?:\\xef\\xbd[\\x81-\\xba]|\\xef\\xbe[\\x80-\\x9f]){3,}\" \"id:900011,phase:2,block,status:403,capture,t:none,msg:'XSS - Fullwidth Unicode Character Sequence Detected',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'fullwidth-unicode',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects anomalous repeated percent-encoding chains (%25253C style with 4 or more encoded tokens consecutively) that are characteristic of encoding bypass attempts across all clusters. Legitimate applications virtually never produce this pattern. No transformations so raw encoding is inspected. The quantifier {4,} on the group reduces false positives from legitimately double-encoded short strings. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?:(?:%(?:25)+(?:2[0-9a-f]|3[0-9a-f]|[46][0-9a-f]|[57][0-9a])){4,})\" \"id:900012,phase:2,block,status:403,capture,t:none,msg:'Anomaly - Excessive Multi-Layer Percent Encoding',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'encoding-anomaly',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects HTML numeric character references (&#60; &#x3C; &#６０; fullwidth variants) used to encode angle brackets and other special characters, as seen in Cluster 0 (&#６０;ｉｍｇ) and Cluster 2 (%253cA%2520Href...&#47;a%253E). Severity WARNING because HTML entities can be legitimate in some rich-text fields. Recommended to chain with other XSS signals or tune per endpoint. Recommended action: LOG with escalation to BLOCK in combination with rule 900009.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)&#\\s*(?:x[0-9a-f]+|[0-9]+)\\s*;\" \"id:900013,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:lowercase,msg:'XSS - HTML Numeric Entity Encoding in Parameter',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'html-entity-encoding',severity:'WARNING'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects sequences of Cyrillic UTF-8 encoded characters (D0/D1 lead bytes covering U+0400-U+04FF block) used as confusable character substitutes for Latin ASCII in Clusters 1 and 3 (е->e, а->a, р->p lookalike attacks). Five or more consecutive Cyrillic code points in a request parameter is highly anomalous for most web applications. Adjust threshold or add application-specific exclusions for sites with legitimate Cyrillic content. Recommended action: BLOCK for non-CJK/Slavic applications, LOG for multilingual apps.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)(?:[\\xd0-\\xd1][\\x80-\\xbf]|[\\xd0\\xd1][\\x90-\\xbf]){5,}\" \"id:900014,phase:2,block,status:403,capture,t:none,msg:'Anomaly - Cyrillic Unicode Block Sequence in Parameter',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'cyrillic-confusable',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Targets SVG and MathML tags with event handlers, covering %253CSvG/onLoad from Cluster 2 and fullwidth SVG onLoad variants from Cluster 3. The [\\/] after tag name matches both <svg onload and <svg/onload style payloads. Full normalization chain applied. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)<(?:svg|math)[\\s\\/][^>]*on[a-z]+\\s*=\" \"id:900015,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - SVG/MathML Event Handler Vector',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'svg-event-handler',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detects IMG tags with src set to 'x' (invalid image to trigger onerror) or javascript: URI. Covers %253CIMg%2520SrC%253DX from Cluster 2, fullwidth IMG src=X onerror variants from Clusters 1 and 3, and the location=javascript: variant from Cluster 3. Double urlDecodeUni + utf8toUnicode handles all encoding layers. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|REQUEST_HEADERS|ARGS|ARGS_NAMES \"@rx (?i)<img[^>]+(?:src|lowsrc|dynsrc)[\\s\\x09\\x0a\\x0d]*=[\\s\\x09\\x0a\\x0d]*['\\\"]?(?:x|javascript)[\\s\\x00-\\x1f]*:?\" \"id:900016,phase:2,block,status:403,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:utf8toUnicode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,msg:'XSS - IMG Tag with Suspicious SRC Value',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'attack-xss',tag:'img-src-xss',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Anomaly scoring aggregation rule. Works in conjunction with a SecAction at phase:1 that initializes TX:ANOMALY_SCORE to 0, and the preceding rules should be modified to use 'pass' action with 'setvar:tx.anomaly_score=+%{tx.critical_anomaly_score}' instead of 'block' for a scoring-based deployment model. In scoring mode, individual rules increment the score and this rule fires the final block when the threshold is met. For immediate blocking deployments, keep individual rules as block and treat this rule as a secondary catch-all. Requires ModSecurity anomaly scoring configuration. Threshold of 8 corresponds to two CRITICAL (5+5) signals minus tolerance. Tune threshold based on false positive rate. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule TX:ANOMALY_SCORE \"@ge 8\" \"id:900017,phase:2,block,status:403,msg:'XSS - Anomaly Score Threshold Exceeded',tag:'attack-xss',tag:'anomaly-scoring',severity:'CRITICAL'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            }
+        ],
+        "llm_provider": "claude",
         "rag_sources": [],
         "stats": {
-            "duplicates_removed": 0,
-            "num_clusters": 5,
-            "rules_generated": 0,
+            "duplicates_removed": 17,
+            "num_clusters": 4,
+            "rules_generated": 17,
             "rules_invalid": 0,
-            "rules_refined": 0,
-            "rules_valid": 0,
-            "total_payloads": 27
+            "rules_refined": 6,
+            "rules_valid": 17,
+            "total_payloads": 44
         },
         "waf_name": "ModSecurity"
     }

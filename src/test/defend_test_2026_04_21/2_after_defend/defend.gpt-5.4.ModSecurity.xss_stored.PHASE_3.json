@@ -5,130 +5,126 @@
         "clustered_payloads": [
             {
                 "attack_type": "XSS",
-                "cluster_id": 3,
+                "cluster_id": 2,
                 "payloads": [
                     "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
-                    "%253CIM G&dnJW=PEvM<unused52>",
                     "%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX",
+                    "JaVasCript%253AaLeRT%25281%2529",
+                    "JavAsCRIpt%253aaLERT%25281%2529",
+                    "JavAsCRIpt%253aaLeRt%25281%2529",
+                    "%253CbODY%2520ONLOad%253DalERT%25281%2529%253e",
                     "%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx",
                     "%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E",
                     "%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E"
                 ],
                 "representative_payload": "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
-                "size": 6
-            },
-            {
-                "attack_type": "Unknown",
-                "cluster_id": 2,
-                "payloads": [
-                    "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
-                    "％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е",
-                    "％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
-                    "％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е",
-                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
-                    "％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
-                    "％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ",
-                    "％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е"
-                ],
-                "representative_payload": "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
-                "size": 8
+                "size": 9
             },
             {
                 "attack_type": "Unknown",
                 "cluster_id": 1,
                 "payloads": [
+                    "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е",
                     "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е",
+                    "％２５３сІFRАMЕ％２５２５０９ЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
                     "％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww",
                     "％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ",
                     "％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е",
                     "％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
                     "％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е",
                     "％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е"
                 ],
-                "representative_payload": "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
-                "size": 7
+                "representative_payload": "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                "size": 16
+            },
+            {
+                "attack_type": "XSS",
+                "cluster_id": 0,
+                "payloads": [
+                    "%253CIM G&dnJW=PEvM<unused52>",
+                    "＇；аⅼеrt（４５）／／",
+                    "IMG No Quotes/Semicolon",
+                    "JavAS/*%20*/criPt:coNFIRM(42)&lQoP=SDVG",
+                    "&#６０;ｉｍｇ ｓｒｃ=ｘ ｏｎｅｒｒｏｒ=ａｌｅｒｔ(１)&#６２;",
+                    "onclick%253D",
+                    "锛咃紥锛曪紦褋褧小R袉pt锛咃紥锛曪紦袝袗鈪夹礡t锛咃紥锛曪紥锛橈紤锛咃紥锛曪紥锛欙紖锛掞紩锛撔★紡袇小R褨PT锛咃紥锛曪紦袝",
+                    "킞乍킾嗑闐뗐鹖킕狯벝",
+                    "锛咃紥锛曪紦小袉FR袗m械锛咃紥锛曪紥锛愋匯褋锛咃紥锛曪紦dj邪v袗褧锛忥紛锛冿紦锛欙紛锛徯⌒瀗f褨Rm锛咃紥锛曪紥锛橈紤锛咃紥锛曪紥锛欙紗鈪糛袨P锛漢Z褨芯B",
+                    "%EF%BD%8F%EF%BD%92%EF%BD%8FK%EF%BD%8D%EF%BD%87%26%2338%3B%23%EF%BC%94%EF%BC%97%3B%2A%25%EF%BC%92%EF%BC%90%EF%BD%95%EF%BD%93%2A%2C%20%2A%25%EF%BC%92%EF%BC%9",
+                    "%%EF%BC%93PC%EF%BC%92%EF%BC%95%EF%BC%92%EF%BC%95%EF%BC%93%EF%BD%8FRAM%EF%BD%8FE%20%20OK",
+                    "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ",
+                    "onclick%253D"
+                ],
+                "representative_payload": "%253CIM G&dnJW=PEvM<unused52>",
+                "size": 13
             },
             {
                 "attack_type": "Unknown",
-                "cluster_id": 0,
+                "cluster_id": 3,
                 "payloads": [
                     "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
                     "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
                     "％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е",
+                    "％２５３сＩmg ѕＲＣ％２５３ＤＸ％２５２０ＯＮＥＲｒｏＲ％２５３ＤlocＡＴion％２５３Ｄ％２５２７jАＶＡＳＣriＰＴ％２５３ＡaleＲＴ％２５２８１％２５２９％２５２７％２５３ Е",
                     "％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е",
                     "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
                 ],
                 "representative_payload": "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
-                "size": 5
-            },
-            {
-                "attack_type": "Unknown",
-                "cluster_id": 4,
-                "payloads": [
-                    "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ"
-                ],
-                "representative_payload": "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ",
-                "size": 1
+                "size": 6
             }
         ],
         "existing_rules_count": 44,
         "final_rules": [
             {
-                "instructions": "Detects attempts to inject JavaScript via HTML elements using various encoding techniques. Uses case-insensitive matching, decodes URL and HTML entities, and converts to lowercase for normalization. Blocks requests with status 403.",
+                "instructions": "Deploy in blocking mode. This rule is a high-confidence virtual patch for sophisticated XSS bypasses. Monitor logs for potential false positives in applications that legitimately transmit complex, multi-encoded data structures.",
                 "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)<[\\\\/]?\\w+[^>]*?(on\\w+\\s*=|[\\\\/]script|javascript:|[\\\\\\'\\\\\\\"])([^>]*?)>\" \"id:900001,phase:2,deny,status:403,msg:'XSS Attempt via HTML Elements',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
-                "validation_error": null,
-                "validation_warnings": [
-                    "No actions block found (ok for chained rules)"
-                ],
-                "waf_type": "modsecurity"
-            },
-            {
-                "instructions": "Identifies XSS vectors using JavaScript URIs and event handlers, followed by an alert function call. Decodes inputs and assumes various obfuscations. Blocks requests with status 403.",
-                "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)(javascript:|on\\w+\\s*=)[^A-Za-z0-9]*?\\w*?alert\\s*\\(\" \"id:900002,phase:2,deny,status:403,msg:'XSS Attempt via JavaScript URI and Event Handlers',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "refinement_notes": "Consolidates multiple redundant generated rules into a single, efficient rule. It uses an aggressive transformation chain, including triple urlDecodeUni and utf8toUnicode, to normalize multi-layered and Unicode-obfuscated payloads. The regex targets both dangerous HTML tags with event handlers/scriptable attributes and standalone scriptable URI schemes to ensure full coverage of the bypassed payloads.",
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<(?:script|svg|img|iframe|body|a|video|audio|form|object|embed)\\b[^>]{0,256}?(?:on[a-z]{2,20}|src|href|formaction|data)\\s*=|\\b(?:javascript|vbscript|data):)\" \"id:999001,phase:2,deny,status:403,log,msg:'XSS Bypass Detected: Multi-layered encoding or Unicode obfuscation',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:cssDecode,t:jsDecode,t:lowercase,t:removeNulls,t:compressWhitespace\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Targets payloads with excessive percent-encoded sequences, indicating potential obfuscation attempts. URL decode transformation addresses both decoding and normalization. Blocks these suspicious requests with status 403.",
+                "instructions": "Deploy in logging/scoring mode. This is an anomaly detection rule and should not block directly. Use in conjunction with a thresholding rule (e.g., 999004).",
                 "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)(\\%[0-9a-f]{2}){2,}\" \"id:900003,phase:2,deny,status:403,msg:'Excessive Encoding Detected',t:urlDecode,t:lowercase\"",
+                "refinement_notes": "Retained from the generated set as a unique behavioral rule not present in CRS. It detects repeated URL or HTML entity encoding, a common evasion tactic. The regex was optimized for conciseness. This rule contributes to an anomaly score.",
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?:(?:%25[2-7][0-9a-f]){3,}|(?:&#x?[0-9a-f]{2,6};){3,})\" \"id:999002,phase:2,pass,log,msg:'XSS Anomaly: Excessive Layered Encoding',severity:'WARNING',t:none,t:utf8toUnicode,t:urlDecodeUni,t:lowercase,t:removeNulls,setvar:'tx.inbound_xss_score=+2'\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Detects SVG elements with onload event or embedded JavaScript. Decodes and normalizes input to catch obfuscated forms. Blocks the requests with status 403.",
+                "instructions": "Deploy in logging/scoring mode. This is a low-confidence indicator. It is effective against certain obfuscation techniques but may cause false positives in international applications. Tune or disable if noisy.",
                 "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)<svg[^>]*?onload\\s*=|javascript:\" \"id:900004,phase:2,deny,status:403,msg:'XSS Attempt via SVG with Event Handlers or JavaScript',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "refinement_notes": "Retained from the generated set as a unique behavioral rule for detecting Unicode whitespace obfuscation. The case-insensitive flag and lowercase transformation, which are not relevant for this pattern, were removed for efficiency.",
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx [\\x{00a0}\\x{1680}\\x{2000}-\\x{200f}\\x{2028}\\x{202f}\\x{205f}\\x{3000}]\" \"id:999003,phase:2,pass,log,msg:'XSS Anomaly: Suspicious Unicode Whitespace Obfuscation',severity:'NOTICE',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:removeNulls,setvar:'tx.inbound_xss_score=+1'\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Catches attempts to inject iframes with a dangerous source like JavaScript or data URIs. The rule treats various forms of encodings and case variations by normalizing inputs. Blocks these attempts with status 403.",
+                "instructions": "This rule executes the block based on the anomaly score. The threshold of '3' may need to be adjusted based on application-specific traffic patterns and false positive rates.",
                 "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)<iframe[^>]*?(src=[\"']?(javascript|data):)\" \"id:900005,phase:2,deny,status:403,msg:'XSS Attempt via Iframe Source',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "refinement_notes": "Retained as the necessary companion to the scoring rules. The threshold is set to 3, requiring at least two indicators to trigger a block, which balances security with a lower risk of false positives.",
+                "rule": "SecRule TX:inbound_xss_score \"@ge 3\" \"id:999004,phase:2,deny,status:403,log,msg:'Inbound XSS Anomaly Threshold Exceeded',severity:'CRITICAL',t:none\"",
                 "validation_error": null,
-                "validation_warnings": [
-                    "No actions block found (ok for chained rules)"
-                ],
+                "validation_warnings": null,
                 "waf_type": "modsecurity"
             }
         ],
         "generated_rules": [
             {
-                "instructions": "Detects attempts to inject JavaScript via HTML elements using various encoding techniques. Uses case-insensitive matching, decodes URL and HTML entities, and converts to lowercase for normalization. Blocks requests with status 403.",
+                "instructions": "Primary blocking rule for decoded and case-normalized XSS vectors using script/svg/img/iframe/body/a tags, inline event handlers, and javascript/data URI sinks. Repeated t:urlDecodeUni addresses multi-layer encoding. Keep in blocking mode.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)<[\\\\/]?\\w+[^>]*?(on\\w+\\s*=|[\\\\/]script|javascript:|[\\\\\\'\\\\\\\"])([^>]*?)>\" \"id:900001,phase:2,deny,status:403,msg:'XSS Attempt via HTML Elements',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<(?:script|svg|img|iframe|body|a)\\b[^>]{0,256}(?:on[a-z]{2,32}\\s*=|(?:href|src)\\s*=\\s*['\\\"]?\\s*(?:javascript|data)\\s*:)|(?:on[a-z]{2,32}\\s*=\\s*[^&\\s]{0,256})|(?:<(?:script|svg|img|iframe|body|a)\\b))\" \"id:900001,phase:2,deny,status:403,log,capture,msg:'XSS normalized tag or handler pattern',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls\"",
                 "validation_error": null,
                 "validation_warnings": [
                     "No actions block found (ok for chained rules)"
@@ -136,53 +132,99 @@
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Identifies XSS vectors using JavaScript URIs and event handlers, followed by an alert function call. Decodes inputs and assumes various obfuscations. Blocks requests with status 403.",
+                "instructions": "Blocks javascript: URIs with comment injection and mixed encoding/case. Important for href/src and free-form URI payloads. Keep blocking.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)(javascript:|on\\w+\\s*=)[^A-Za-z0-9]*?\\w*?alert\\s*\\(\" \"id:900002,phase:2,deny,status:403,msg:'XSS Attempt via JavaScript URI and Event Handlers',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:javascript\\s*(?:/\\*.*?\\*/\\s*)*:)\" \"id:900002,phase:2,deny,status:403,log,capture,msg:'Obfuscated javascript URI scheme',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Targets payloads with excessive percent-encoded sequences, indicating potential obfuscation attempts. URL decode transformation addresses both decoding and normalization. Blocks these suspicious requests with status 403.",
+                "instructions": "Catches raw or entity-encoded opening of high-risk tags after repeated decoding. Useful against payloads using &#60; and double-encoded %253C forms.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)(\\%[0-9a-f]{2}){2,}\" \"id:900003,phase:2,deny,status:403,msg:'Excessive Encoding Detected',t:urlDecode,t:lowercase\"",
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<\\s*(?:script|svg|img|iframe|body|a)\\b|&\\#x?0*3c\\s*(?:script|svg|img|iframe|body|a)\\b|&\\#0*60\\s*(?:script|svg|img|iframe|body|a)\\b)\" \"id:900003,phase:2,deny,status:403,log,capture,msg:'Encoded or direct dangerous HTML tag open',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Detects SVG elements with onload event or embedded JavaScript. Decodes and normalizes input to catch obfuscated forms. Blocks the requests with status 403.",
+                "instructions": "Blocks event handler attributes such as onload, onerror, onclick after normalization. High coverage for body/img/svg payloads. If application legitimately accepts raw HTML, scope this rule to untrusted inputs only.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)<svg[^>]*?onload\\s*=|javascript:\" \"id:900004,phase:2,deny,status:403,msg:'XSS Attempt via SVG with Event Handlers or JavaScript',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:\\bon[a-z]{2,32}\\b\\s*=)\" \"id:900004,phase:2,deny,status:403,log,capture,msg:'Inline event handler assignment',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Catches attempts to inject iframes with a dangerous source like JavaScript or data URIs. The rule treats various forms of encodings and case variations by normalizing inputs. Blocks these attempts with status 403.",
+                "instructions": "Behavioral scoring rule for common proof-of-execution functions. Use as additive signal rather than direct block to reduce false positives. Pair with anomaly thresholding.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule ARGS \"(?i)<iframe[^>]*?(src=[\"']?(javascript|data):)\" \"id:900005,phase:2,deny,status:403,msg:'XSS Attempt via Iframe Source',t:urlDecode,t:htmlEntityDecode,t:lowercase\"",
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:alert|confirm|prompt)\\s*\\(\" \"id:900005,phase:2,log,pass,capture,msg:'Client-side execution function indicator',severity:'WARNING',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,setvar:'tx.inbound_xss_score=+3'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Blocks assignment to location and href/src javascript: sinks seen in obfuscated image and anchor payloads. Keep blocking.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:location\\s*=\\s*['\\\"]?\\s*javascript\\s*:|(?:href|src)\\s*=\\s*['\\\"]?\\s*javascript\\s*:)\" \"id:900006,phase:2,deny,status:403,log,capture,msg:'Scriptable navigation sink',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls\"",
                 "validation_error": null,
                 "validation_warnings": [
                     "No actions block found (ok for chained rules)"
                 ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Anomaly rule for repeated URL/entity encoding commonly used in bypass attempts. Log and score by default to avoid false positives on benign encoded content.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:%25(?:2[0-9a-f]|3[0-9a-f]|4[0-9a-f]|5[0-9a-f])){3,}|(?:&#x?[0-9a-f]{2,6};){3,}\" \"id:900007,phase:2,log,pass,capture,msg:'Excessive layered encoding pattern',severity:'WARNING',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:lowercase,t:removeNulls,setvar:'tx.inbound_xss_score=+2'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Flags Unicode whitespace obfuscation like thin spaces and ideographic spaces used to split tokens such as img src onerror. Logging/scoring only recommended unless traffic is very controlled.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:[\\x{00a0}\\x{1680}\\x{2000}-\\x{200f}\\x{2028}\\x{202f}\\x{205f}\\x{3000}])\" \"id:900008,phase:2,log,pass,capture,msg:'Suspicious non-standard whitespace in request',severity:'NOTICE',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls,setvar:'tx.inbound_xss_score=+1'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Targets direct and encoded script tag delimiters including encoded closing slash forms like &#47;. Keep blocking.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<\\s*/\\s*script\\s*>|<\\s*script\\b[^>]*>|&\\#x?0*2f\\s*script|&\\#0*47\\s*script)\" \"id:900009,phase:2,deny,status:403,log,capture,msg:'Script tag open or close sequence',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Threshold rule to convert multiple medium-confidence indicators into a block. Tune threshold upward if application legitimately carries encoded markup or code snippets.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule TX:inbound_xss_score \"@ge 4\" \"id:900010,phase:2,deny,status:403,log,msg:'Inbound XSS anomaly threshold exceeded',severity:'CRITICAL',t:none\"",
+                "validation_error": null,
+                "validation_warnings": null,
                 "waf_type": "modsecurity"
             }
         ],
+        "llm_provider": "gpt-5.4",
         "rag_sources": [],
         "stats": {
-            "duplicates_removed": 0,
-            "num_clusters": 5,
-            "rules_generated": 5,
+            "duplicates_removed": 7,
+            "num_clusters": 4,
+            "rules_generated": 10,
             "rules_invalid": 0,
-            "rules_refined": 0,
-            "rules_valid": 5,
-            "total_payloads": 27
+            "rules_refined": 4,
+            "rules_valid": 10,
+            "total_payloads": 44
         },
         "waf_name": "ModSecurity"
     }

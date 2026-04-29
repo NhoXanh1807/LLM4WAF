@@ -1,6 +1,241 @@
 {
     "success": true,
     "data": {
-        "error": "'NoneType' object is not iterable"
+        "advanced_defense": false,
+        "clustered_payloads": [
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 2,
+                "payloads": [
+                    "ADMｉｎ' --",
+                    "１％２５０９ОR％２５０９１％３D１",
+                    "ａｄｍｉｎ％２５２７／％２５２ａ％２５２ａ／－－",
+                    "锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛戯紖锛掞紩锛抐锛咃紥锛曪紥锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩d锛咃紥锛曪紭锛戯紖锛掞紩锛掞紩锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩",
+                    "１％２５０９Оr％２５０９１％３d１",
+                    "аdmІN％２７％２５０ａ－－",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "AdmI N' --*/**/*//*/**/---*///&gzdM=YUVH",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "АDMІN％２５２７％２５２５０９－－",
+                    "adMI n' --",
+                    "АDmіN％２５２７％２５２０－－",
+                    "％２５еff％２５bс％２５９１％２５２７％２５２０аnd％２５２０％２５еff％２５bс％２５９１％２５３d％２５еff％２５bс％２５９１　－－ -- 65",
+                    "１％２５０９Оr％２５０９１％３d１",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "Аdmіn％２５２７％２５２b－－",
+                    "ADMｉｎ' --",
+                    "АDmіN％２５２７％２５２０－－",
+                    "１％２５０９ОＲ％２５０９１％３Ｄ１",
+                    "1or1=1&LrrM=ifnW"
+                ],
+                "representative_payload": "ADMｉｎ' --",
+                "size": 20
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 1,
+                "payloads": [
+                    "admIN%２５２７%２５２０--",
+                    "adMIN%２５２７%２５２０--",
+                    "AdMIN%２５２７%２５２ｂ--",
+                    "admin%+２７%２５０ａ--",
+                    "adMIN%２５２７%２５２０--",
+                    "admIN%２５２７%２５２０--"
+                ],
+                "representative_payload": "admIN%２５２７%２５２０--",
+                "size": 6
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 3,
+                "payloads": [
+                    "AdMiN' --<unused19>",
+                    "ADMIN' --",
+                    "AdmIN' --",
+                    "admin %２５２７%２５０ａ--",
+                    "ADMIN'/*nJFC*/ -- 65",
+                    "ADMIn' --",
+                    "ADMIN' --"
+                ],
+                "representative_payload": "AdMiN' --<unused19>",
+                "size": 7
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 4,
+                "payloads": [
+                    "adMIn %2527+--",
+                    "adMIN+%2527+--"
+                ],
+                "representative_payload": "adMIn %2527+--",
+                "size": 2
+            },
+            {
+                "attack_type": "Unknown",
+                "cluster_id": 0,
+                "payloads": [
+                    "ADMIn%2527%2520--",
+                    "adMin%25252527%25252520--",
+                    "admIn%252527%25252B--",
+                    "adMIN%252527%252520--",
+                    "admin %2527%252509--",
+                    "AdmIN%2527%252509--",
+                    "adMIn%252527%25252B--",
+                    "ADMIn%25252527%25252520--",
+                    "adMIN%252527%252520--",
+                    "admIn%2527%252b--",
+                    "adMIn%2527%252b--",
+                    "adMIN%2527%252520--",
+                    "adMIN%252527%252520--",
+                    "AdmIN%2527%25250a--",
+                    "adMIN%2527%252b--"
+                ],
+                "representative_payload": "ADMIn%2527%2520--",
+                "size": 15
+            }
+        ],
+        "existing_rules_count": 0,
+        "final_rules": [
+            {
+                "instructions": "Severity: CRITICAL. Action: BLOCK. Primary SQLi detector for query arguments. Catches obfuscated payloads using multiple encodings, Unicode normalization, and whitespace compression.",
+                "is_valid": true,
+                "refinement_notes": "Kept as-is. The extensive transformation chain is critical and correctly ordered to normalize all identified bypass techniques (double URL encoding, full-width/homoglyph characters, non-standard spaces) before inspection by the high-sensitivity SQLi engine. This rule provides the broadest coverage.",
+                "rule": "{\"SqliMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"SensitivityLevel\":\"HIGH\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":7,\"Type\":\"REMOVE_NULLS\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: CRITICAL. Action: BLOCK. Primary SQLi detector for request bodies (form data, JSON, etc.).",
+                "is_valid": true,
+                "refinement_notes": "Kept as-is. This rule is the necessary counterpart to the query argument rule, ensuring protection regardless of where the payload is delivered.",
+                "rule": "{\"SqliMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"SensitivityLevel\":\"HIGH\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":7,\"Type\":\"REMOVE_NULLS\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: MEDIUM. Action: CHALLENGE or BLOCK. Anomaly detection rule targeting repeated URL-encoding (`%25...%25...`) of common SQL injection characters. Operates on raw input before decoding.",
+                "is_valid": true,
+                "refinement_notes": "Optimized the original regex for clarity and focus. The new pattern `(?:%25){2,}|(?:%25(?:27|2d|20|09|0a|2b|2f|2a)){2,}` more directly targets the double-encoding evasion technique by looking for repeated `%25` or `%25` followed by specific SQL-related characters. This reduces complexity and potential for false positives.",
+                "rule": "{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?:%25){2,}|(?:%25(?:27|2d|20|09|0a|2b|2f|2a)){2,}\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: MEDIUM. Action: CHALLENGE or BLOCK. Anomaly detection rule for repeated URL-encoding in the request body.",
+                "is_valid": true,
+                "refinement_notes": "Optimized regex pattern to match its query argument counterpart for consistency and improved focus.",
+                "rule": "{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?:%25){2,}|(?:%25(?:27|2d|20|09|0a|2b|2f|2a)){2,}\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: MEDIUM. Action: LOG or CHALLENGE. Detects stacked or nested SQL comment abuse after decoding.",
+                "is_valid": true,
+                "refinement_notes": "Corrected a critical logic flaw. The original rule included the `REPLACE_COMMENTS` transformation, which would remove the very patterns the regex was designed to find. This transformation has been removed. The regex was also slightly improved to detect comment-based obfuscation more reliably.",
+                "rule": "{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?:--|#|/\\\\*).*?(?:--|#|\\\\*/)|(?:/\\\\*.*?\\\\*/\\\\s*){2,}\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":3,\"Type\":\"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: INFORMATIONAL. Action: LOG. Telemetry rule to monitor for requests targeting admin-related URIs. Intended for threat intelligence and correlation, not blocking.",
+                "is_valid": true,
+                "refinement_notes": "Kept as-is. This rule is well-defined for its stated purpose of telemetry and does not overlap with security-focused rules.",
+                "rule": "{\"ByteMatchStatement\":{\"SearchString\":\"admin\",\"FieldToMatch\":{\"UriPath\":{}},\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"LOWERCASE\"}],\"PositionalConstraint\":\"CONTAINS\"}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            }
+        ],
+        "generated_rules": [
+            {
+                "instructions": "Severity: CRITICAL. Action: BLOCK. Primary SQLi detector for query args after repeated decoding and normalization to catch double-encoded admin'-- and 1 or 1=1 variants, mixed whitespace, comment injection, and case obfuscation.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"SqliMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"SensitivityLevel\":\"HIGH\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"CSS_DECODE\"},{\"Priority\":4,\"Type\":\"JS_DECODE\"},{\"Priority\":5,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":6,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":7,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":8,\"Type\":\"LOWERCASE\"},{\"Priority\":9,\"Type\":\"REMOVE_NULLS\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: CRITICAL. Action: BLOCK. Same high-sensitivity SQLi inspection for body parameters. Important when login fields or JSON/form bodies carry the bypass strings.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"SqliMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"SensitivityLevel\":\"HIGH\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"CSS_DECODE\"},{\"Priority\":4,\"Type\":\"JS_DECODE\"},{\"Priority\":5,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":6,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":7,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":8,\"Type\":\"LOWERCASE\"},{\"Priority\":9,\"Type\":\"REMOVE_NULLS\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: HIGH. Action: BLOCK. Regex backstop for the exact bypass families: admin quote-comment probes and boolean-or tautologies. Generalized enough for spacing/comment variants after decoding.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?:admin\\\\s*['`%][^&=]{0,12}--|admin\\\\s*['`]\\\\s*--|1\\\\s*(?:or|\\\\|\\\\|)\\\\s*1\\\\s*=\\\\s*1|(?:^|[^a-z])or\\\\s+1=1(?:[^a-z]|$))\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: HIGH. Action: BLOCK. Body inspection companion to the query-argument regex rule for login form abuse and encoded body payloads.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?:admin\\\\s*['`%][^&=]{0,12}--|admin\\\\s*['`]\\\\s*--|1\\\\s*(?:or|\\\\|\\\\|)\\\\s*1\\\\s*=\\\\s*1|(?:^|[^a-z])or\\\\s+1=1(?:[^a-z]|$))\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: MEDIUM-HIGH. Action: CHALLENGE or BLOCK on sensitive endpoints. Detects excessive and repeated percent-encoding patterns seen in the bypasses, especially nested %2527/%2520/%252b/%2509 forms. Use as anomaly control to catch evasive multi-layer encoding with moderate FP caution.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?:%25(?:2[07bB]|09|0a|0A)){2,}|(?:%2525){1,}%?(?:27|20|2b|09|0a)|(?:%25[0-9a-fA-F]{2}){3,}\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: MEDIUM-HIGH. Action: CHALLENGE or BLOCK on auth/body-bearing endpoints. Body anomaly rule for nested URL-encoded payload delivery.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?:%25(?:2[07bB]|09|0a|0A)){2,}|(?:%2525){1,}%?(?:27|20|2b|09|0a)|(?:%25[0-9a-fA-F]{2}){3,}\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: MEDIUM. Action: LOG or CHALLENGE unless paired with auth endpoints, then BLOCK. Detects stacked SQL comment obfuscation and repeated inline-comment abuse such as */**/*//*/**/ used in the test payloads.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?:--|/\\\\*|\\\\*/).{0,24}(?:--|#)|(?:/\\\\*.*?\\\\*/\\\\s*){1,4}\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"}]}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            },
+            {
+                "instructions": "Severity: LOW-MEDIUM. Action: LOG only. Telemetry rule to identify requests targeting admin-related paths. Do not block by itself; use for correlation with SQLi/anomaly hits and to tune rate limits or scoped protections.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "{\"ByteMatchStatement\":{\"SearchString\":\"admin\",\"FieldToMatch\":{\"UriPath\":{}},\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"LOWERCASE\"}],\"PositionalConstraint\":\"CONTAINS\"}}",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "aws_waf"
+            }
+        ],
+        "llm_provider": "gpt-5.4",
+        "rag_sources": [],
+        "stats": {
+            "duplicates_removed": 2,
+            "num_clusters": 5,
+            "rules_generated": 8,
+            "rules_invalid": 0,
+            "rules_refined": 6,
+            "rules_valid": 8,
+            "total_payloads": 50
+        },
+        "waf_name": "AWS"
     }
 }
