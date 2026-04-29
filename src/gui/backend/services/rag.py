@@ -1,5 +1,6 @@
-from typing import List, Dict, Any, Optional
-from services_external.rag import rag_retrieve
+from typing import Dict, Any
+
+from ..services_external.rag import rag_retrieve
 
 def enhance_defense_generation(
         attack_type: str,

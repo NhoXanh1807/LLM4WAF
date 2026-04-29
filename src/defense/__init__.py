@@ -7,7 +7,7 @@ Pipeline Flow:
     [1] Bypassed Payloads -> Clustering (group similar payloads)
     [2] LLM (GPT-4) + RAG -> Generate initial rules
     [3] Syntax Validator -> Validate rule syntax (ModSecurity, Cloudflare, AWS WAF, Naxsi)
-    [4] Gemini Agent -> Refine, dedupe, compare with existing rules
+    [4] Rule refinement agent -> Refine, dedupe, compare with existing rules
     [5] Output -> Final production-ready rules
 
 Usage:
@@ -22,7 +22,7 @@ Usage:
     # Full control
     pipeline = DefensePipeline(
         enable_rag=True,
-        enable_gemini=True,
+        enable_refinement=True,
         enable_clustering=True
     )
     result = pipeline.generate_defense_rules(
@@ -47,10 +47,10 @@ from .defense_pipeline import (
     generate_defense_rules,
 )
 
-from .gemini_agent import (
-    GeminiRuleAgent,
+from .refine_rule_agent import (
+    RefineRuleAgent,
     RefinementResult,
-    get_gemini_agent,
+    get_refine_rule_agent,
 )
 
 # Re-export WAFType for convenience
@@ -71,10 +71,10 @@ __all__ = [
     "PipelineStage",
     "GeneratedRule",
     "ClusterInfo",
-    # Gemini agent
-    "GeminiRuleAgent",
+    # Rule refinement agent
+    "RefineRuleAgent",
     "RefinementResult",
-    "get_gemini_agent",
+    "get_refine_rule_agent",
     # WAF type
     "WAFType",
 ]

@@ -110,7 +110,7 @@ def _get_pipeline() -> DefensePipeline:
     if _pipeline is None:
         _pipeline = DefensePipeline(
             enable_rag=True,
-            enable_gemini=True,
+            enable_refinement=True,
             enable_clustering=True,
         )
     return _pipeline

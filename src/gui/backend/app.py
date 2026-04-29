@@ -57,7 +57,7 @@ from services.generator import PayloadResult
 import services.payload_harmness_validator as harmfulness
 from config.settings import DEFAULT_NUM_DEFENSE_RULES
 
-# Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> Gemini
+# Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> rule refinement
 from defense.defense_pipeline import DefensePipeline
 from validator_syntax_rule.base import WAFType
 
@@ -69,7 +69,7 @@ def _get_pipeline(llm_provider: str = "openai") -> DefensePipeline:
     if llm_provider not in _defense_pipelines:
         _defense_pipelines[llm_provider] = DefensePipeline(
             enable_rag=True,
-            enable_gemini=True,
+            enable_refinement=True,
             enable_clustering=True,
             llm_provider=llm_provider,
         )

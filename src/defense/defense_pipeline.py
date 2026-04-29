@@ -7,7 +7,7 @@ Pipeline Flow:
     [1] Bypassed Payloads -> Clustering (group similar payloads)
     [2] LLM (GPT-4) + RAG -> Generate initial rules
     [3] Syntax Validator -> Validate rule syntax
-    [4] Gemini Agent -> Refine, dedupe, compare with existing rules
+    [4] Rule refinement agent -> Refine, dedupe, compare with existing rules
     [5] Output -> Final production-ready rules
 
 Usage:
@@ -36,7 +36,7 @@ from validator_syntax_rule import (
     ValidationResult,
 )
 
-from .gemini_agent import GeminiRuleAgent, RefinementResult
+from .refine_rule_agent import RefineRuleAgent, RefinementResult
 
 
 class PipelineStage(Enum):
@@ -44,7 +44,7 @@ class PipelineStage(Enum):
     CLUSTERING = "clustering"
     LLM_GENERATION = "llm_generation"
     SYNTAX_VALIDATION = "syntax_validation"
-    GEMINI_REFINEMENT = "gemini_refinement"
+    RULE_REFINEMENT = "rule_refinement"
     COMPLETE = "complete"
     FAILED = "failed"
 
@@ -142,9 +142,9 @@ class DefensePipeline:
     def __init__(
         self,
         openai_api_key: Optional[str] = None,
-        gemini_api_key: Optional[str] = None,
+        refinement_api_key: Optional[str] = None,
         enable_rag: bool = True,
-        enable_gemini: bool = True,
+        enable_refinement: bool = True,
         enable_clustering: bool = True,
         max_retries: int = 3,
         llm_provider: str = "openai",
@@ -154,23 +154,23 @@ class DefensePipeline:
 
         Args:
             openai_api_key: OpenAI API key (or set OPENAI_API_KEY env var)
-            gemini_api_key: Google AI API key (or set GOOGLE_API_KEY env var)
+            refinement_api_key: Google AI API key (or set GOOGLE_API_KEY env var)
             enable_rag: Enable RAG context enhancement
-            enable_gemini: Enable Gemini refinement agent
+            enable_refinement: Enable rule refinement agent
             enable_clustering: Enable payload clustering
             max_retries: Max retries for LLM generation on syntax errors
             llm_provider: LLM provider for rule generation ("openai" or "claude")
         """
         self.openai_api_key = openai_api_key or os.getenv("OPENAI_API_KEY")
         self.enable_rag = enable_rag
-        self.enable_gemini = enable_gemini
+        self.enable_refinement = enable_refinement
         self.enable_clustering = enable_clustering
         self.max_retries = max_retries
         self.llm_provider = llm_provider
 
         # Initialize components
         self.syntax_validator = SyntaxValidator()
-        self.gemini_agent = GeminiRuleAgent(api_key=gemini_api_key) if enable_gemini else None
+        self.refine_rule_agent = RefineRuleAgent() if enable_refinement else None
 
     def generate_defense_rules(
         self,
@@ -268,12 +268,12 @@ class DefensePipeline:
             for rule in valid_rules:
                 print(f"\t{rule.rule}")
 
-            # Stage 4: Gemini Refinement
-            result.stage = PipelineStage.GEMINI_REFINEMENT
-            if self.enable_gemini and self.gemini_agent and self.gemini_agent.available:
-                print("[4/4] Refining rules with Gemini agent...")
+            # Stage 4: Rule Refinement
+            result.stage = PipelineStage.RULE_REFINEMENT
+            if self.enable_refinement and self.refine_rule_agent and self.refine_rule_agent.available:
+                print("[4/4] Refining rules with rule refinement agent...")
 
-                refinement_result = self.gemini_agent.refine_rules(
+                refinement_result = self.refine_rule_agent.refine_rules(
                     new_rules=[{"rule": r.rule, "instructions": r.instructions} for r in valid_rules],
                     bypassed_payloads=bypassed_payloads,
                     existing_rules=[{"rule": r} for r in (existing_rules or [])],
@@ -300,7 +300,7 @@ class DefensePipeline:
                 else:
                     print(f"Refinement failed: {refinement_result.error_message}")
             else:
-                print("[4/4] Skipping Gemini refinement (disabled or unavailable)")
+                print("[4/4] Skipping rule refinement (disabled or unavailable)")
 
             # Final result
             result.final_rules = valid_rules
@@ -332,11 +332,7 @@ class DefensePipeline:
             )]
 
         try:
-            # Import clustering service — support both run contexts
-            try:
-                from services.clustering import clustering
-            except ImportError:
-                from gui.backend.services.clustering import clustering
+            from gui.backend.services.clustering import clustering
 
             labels = clustering(payloads, reduce_dim_to=50, method="HAC", cluster_kwargs={"distance_threshold": 1.5})
 
@@ -389,15 +385,8 @@ class DefensePipeline:
     ) -> list[GeneratedRule]:
         """Generate rules using LLM with RAG enhancement."""
         try:
-            # Import LLM service — support both run contexts:
-            # (a) python app.py  from src/gui/backend/   → absolute imports work
-            # (b) python -m src.xxx                      → relative imports work
-            try:
-                from services_external.llm import chatgpt_completion, claude_completion
-                from config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
-            except ImportError:
-                from services_external.llm import chatgpt_completion, claude_completion
-                from gui.backend.config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
+            from gui.backend.services_external.llm import chatgpt_completion, claude_completion
+            from gui.backend.config.prompts import BLUE_TEAM_SYSTEM_PROMPT, get_blue_team_user_prompt
 
             # Select LLM completion function based on provider
             llm_completion = claude_completion if self.llm_provider == "claude" else chatgpt_completion
@@ -423,10 +412,7 @@ class DefensePipeline:
             # Enhance with RAG if enabled
             if self.enable_rag:
                 try:
-                    try:
-                        from services.rag import enhance_defense_generation
-                    except ImportError:
-                        from gui.backend.services.rag import enhance_defense_generation
+                    from gui.backend.services.rag import enhance_defense_generation
 
                     rag_result = enhance_defense_generation(
                         attack_type=attack_type,
@@ -553,10 +539,7 @@ class DefensePipeline:
         fixed_rules = []
 
         try:
-            try:
-                from services_external.llm import chatgpt_completion, claude_completion
-            except ImportError:
-                from services_external.llm import chatgpt_completion, claude_completion
+            from gui.backend.services_external.llm import chatgpt_completion, claude_completion
 
             llm_completion = claude_completion if self.llm_provider == "claude" else chatgpt_completion
 
@@ -671,7 +654,7 @@ def generate_defense_rules(
     waf_type: str = "modsecurity",
     existing_rules: Optional[list[str]] = None,
     enable_rag: bool = True,
-    enable_gemini: bool = True,
+    enable_refinement: bool = True,
     enable_clustering: bool = True,
     llm_provider: str = "openai",
 ) -> PipelineResult:
@@ -683,7 +666,7 @@ def generate_defense_rules(
         waf_type: Target WAF type (modsecurity, cloudflare, aws_waf, naxsi)
         existing_rules: Existing rules to avoid duplicates
         enable_rag: Enable RAG context enhancement
-        enable_gemini: Enable Gemini refinement
+        enable_refinement: Enable rule refinement
         llm_provider: LLM provider ("openai" or "claude")
 
     Returns:
@@ -693,7 +676,7 @@ def generate_defense_rules(
 
     pipeline = DefensePipeline(
         enable_rag=enable_rag,
-        enable_gemini=enable_gemini,
+        enable_refinement=enable_refinement,
         enable_clustering=enable_clustering,
         llm_provider=llm_provider,
     )
