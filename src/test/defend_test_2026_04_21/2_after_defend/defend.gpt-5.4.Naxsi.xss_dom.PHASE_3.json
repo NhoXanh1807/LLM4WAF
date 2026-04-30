@@ -95,46 +95,190 @@
         "existing_rules_count": 46,
         "final_rules": [
             {
-                "instructions": "This rule requires the WAF engine to perform full normalization first (e.g., lowercase, urlDecodeUni, htmlEntityDecode, jsDecode, cssDecode). It is designed to catch common XSS vector tags after any encoding or obfuscation has been removed by the engine's transformation functions. It is a high-confidence indicator when matched on normalized input.",
+                "instructions": "Deploy as LOG or CHALLENGE threshold contributor. Catches triple+ chained percent-encoding and double-percent patterns (%25xx) that are the structural backbone of all supplied bypasses. Complements existing id:1315.",
                 "is_valid": true,
-                "refinement_notes": "Optimized the regex by consolidating tags into a non-capturing group `(?:...)`. Expanded the list of tags to include other HTML5 vectors like `video`, `audio`, `details`, `object`, and `embed`. This rule is a more precise replacement for the overly broad existing rules `id:1302` (`<`) and `id:1303` (`>`).",
-                "rule": "MainRule \"rx:(?i)<\\s*/?\\s*(?:script|svg|img|iframe|body|video|audio|form|object|embed|details)\\b\" \"msg:XSS: Potentially malicious HTML tag\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:6\" id:920420;",
+                "refinement_notes": "Narrowed from fullwidth-only pattern to cover ASCII %25-chained sequences as well. Dropped fullwidth-specific portion into id:110013. Regex optimized to avoid catastrophic backtracking.",
+                "rule": "MainRule \"rx:(?:%[0-9a-f]{2}){3,}|(?:%25){2,}|%25[0-9a-f]{2}\" \"msg:multi-layer percent encoding\" \"mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie\" \"s:$EVADE:4\" id:110012;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "This rule also requires full normalization by the WAF engine before matching. It detects not only standard 'on*' event handlers but also other attributes that can be abused to execute scripts or create XSS conditions, such as `formaction` or `srcdoc`. The word boundary `\\b` ensures accuracy, preventing matches on substrings like 'version=...'.",
+                "instructions": "Deploy alongside id:110012. Detects fullwidth percent sign followed by two fullwidth hex digits, the primary obfuscation layer in all ten supplied bypasses.",
                 "is_valid": true,
-                "refinement_notes": "Refined the original pattern `(?:^|[^a-z0-9_:-])on...` to use a more performant and accurate word boundary `\\b`. Broadened coverage by adding other attributes known to be abusable for XSS (`style`, `background`, `srcdoc`, `formaction`).",
-                "rule": "MainRule \"rx:(?i)\\b(on[a-z]{3,24}|formaction|style|background|srcdoc)\\s*=\" \"msg:XSS: HTML event handler or dangerous attribute\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:7\" id:920421;",
+                "refinement_notes": "Extracted from original id:110013; simplified character class to exact fullwidth digit and hex-letter ranges for precision and performance.",
+                "rule": "MainRule \"rx:[％﹪][０-９Ａ-Ｆａ-ｆ]{2}\" \"msg:fullwidth percent-encoded byte\" \"mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie\" \"s:$EVADE:4\" id:110013;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "A behavioral rule that detects common JavaScript functions and properties used in XSS proof-of-concept payloads and attacks. Requires full WAF normalization to be effective against obfuscated payloads. This rule acts as a strong secondary indicator of malicious intent.",
+                "instructions": "BLOCK when combined with CheckRule $XSS>=8 or $EVADE>=8. Detects the repetitive fullwidth/%25-encoded triplets present in all ten bypasses as their core structural pattern.",
                 "is_valid": true,
-                "refinement_notes": "Expanded the list of sensitive JavaScript functions and DOM sinks to include more dangerous methods like `eval`, `String.fromCharCode`, `document.write`, and various `location` manipulations, providing broader coverage against script execution techniques.",
-                "rule": "MainRule \"rx:(?i)(?:alert|prompt|confirm|eval|atob|String\\.fromCharCode)\\s*(?:\\(|`)|(?:document\\.(?:cookie|domain|write)|location\\.(?:href|assign|replace)|window\\.open)\" \"msg:XSS: JavaScript execution sink or sensitive DOM access\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:5\" id:920422;",
+                "refinement_notes": "Replaces original id:110001 multi-layer tag-prelude rule. Focuses on the most reliable structural fingerprint (three consecutive encoded bytes) rather than trying to match decoded tag names which NAXSI cannot decode at match time.",
+                "rule": "MainRule \"rx:(?i)(?:[％﹪][０-９Ａ-Ｆａ-ｆ]{2}|%25[0-9a-f]{2}).{0,8}(?:[％﹪][０-９Ａ-Ｆａ-ｆ]{2}|%25[0-9a-f]{2}).{0,8}(?:[％﹪][０-９Ａ-Ｆａ-ｆ]{2}|%25[0-9a-f]{2})\" \"msg:triple fullwidth or double-percent encoded sequence\" \"mz:URL|ARGS|BODY\" \"s:$EVADE:4,$XSS:4\" id:110001;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "CRITICAL: This rule must be configured to run on the RAW, un-normalized input values. It is an anomaly detection rule specifically designed to catch the Unicode and full-width character evasions seen in the bypassed payloads. Due to its nature, it may cause false positives on applications that legitimately use CJK or other non-ASCII languages in free-text fields. If false positives occur, scope this rule to URL and specific ARGS known to not contain such data.",
+                "instructions": "BLOCK immediately via $XSS>=8. Detects fullwidth-encoded versions of script, svg, img, iframe, alert, onload, onerror that appear verbatim in the supplied bypasses after NAXSI receives the raw request.",
                 "is_valid": true,
-                "refinement_notes": "Simplified and hardened the original regex (`id:140010`). The pattern `[！-～]{6,}` covers the entire range of full-width ASCII-mappable characters, making it more generic and future-proof than the original hardcoded list. This rule directly addresses the primary evasion vector.",
-                "rule": "MainRule \"rx:[^\\x00-\\x7f]{6,}|[！-～]{6,}\" \"msg:XSS: Anomaly - High-density of non-ASCII or full-width characters\" \"mz:ARGS|BODY|URL\" \"s:$XSS:5\" id:920423;",
+                "refinement_notes": "Replaces overly broad original id:110002. NAXSI matches raw bytes not decoded values, so matching fullwidth Unicode characters directly is the correct approach. Patterns derived from actual payload characters.",
+                "rule": "MainRule \"rx:(?i)(?:[ｓｃ][ｒｂ][ｉ][ｐｔ]|[ｓｃ][ｖ][ｇ]|[ｉ][ｍ][ｇ]|[ｉ][ｆ][ｒ][ａ][ｍ][ｅ]|[ａ][ｌ][ｅ][ｒ][ｔ]|[ｏ][ｎ][ｌ][ｏ][ａ][ｄ]|[ｏ][ｎ][ｅ][ｒ][ｒ][ｏ][ｒ])\" \"msg:fullwidth XSS keyword\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110002;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "This is an anomaly detection rule that must run on RAW, un-normalized input. It detects various signs of intentional evasion, including deprecated IIS encoding (`%u...`), double URL-encoding (`%25..`), and long, contiguous sequences of mixed encoding types. It acts as an early warning for attempts to bypass WAF normalization.",
+                "instructions": "BLOCK via $XSS>=8. Matches Cyrillic lookalike characters used to spell 'script' appearing directly in payloads 4,5,8,9,10.",
                 "is_valid": true,
-                "refinement_notes": "Consolidated and improved upon rules `id:140007` and existing `id:1315`. The new regex is more precise, looking for specific high-confidence patterns like `%u` and `%25` or a sequence of 5 or more encoded entities to significantly reduce the false positives that the original `(?:%[0-9a-f]{2}){3,}` pattern would have generated.",
-                "rule": "MainRule \"rx:(?:%u[0-9a-f]{4}|%25[0-9a-f]{2})|(?:(?:&#x?[0-9a-f]{2,4};|%[0-9a-f]{2}|\\\\x[0-9a-f]{2}){5,})\" \"msg:XSS: Anomaly - Excessive or layered encoding detected\" \"mz:ARGS|BODY|URL\" \"s:$XSS:4\" id:920424;",
+                "refinement_notes": "New focused rule replacing broad original id:110003. Targets Cyrillic homoglyph pattern for script/Script seen in iframe/script bypass cluster.",
+                "rule": "MainRule \"rx:(?i)[Сс][Іі][сС][сСRr][Іі][РрPp][тT]\" \"msg:Cyrillic-homoglyph script keyword\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110003;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK via $XSS>=8. Targets the Cyrillic/ASCII mixed 'iframe' spelling (Сifraмe variants) present in payloads 4 and 5.",
+                "is_valid": true,
+                "refinement_notes": "Extracted from original id:110004 which was too broad. Focused on actual Cyrillic+ASCII iframe homoglyph pattern from bypasses.",
+                "rule": "MainRule \"rx:(?i)[Сс][Іі][Ff][Рр][Aa][Мм][Ee]\" \"msg:Cyrillic-homoglyph iframe keyword\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110004;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Contributes $XSS:6 toward block threshold. Matches Cyrillic+ASCII 'cimg'/'сImg' pattern from payload 10.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110005 event-handler rule which is already partially covered by existing id:1008 (semicolons) and id:1302/1303 (brackets). Focused on unique homoglyph pattern.",
+                "rule": "MainRule \"rx:(?i)[Сс][Іі][Мм][Gg]\" \"msg:Cyrillic-homoglyph cimg keyword\" \"mz:URL|ARGS|BODY\" \"s:$XSS:6\" id:110005;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK via $XSS>=8. Directly catches the iframe+src pattern used in payloads 4 and 5 with Cyrillic homoglyphs.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110006 which duplicated existing dangerous-event-handler coverage. New rule targets unique Cyrillic iframe-src combination not covered elsewhere.",
+                "rule": "MainRule \"rx:(?i)[Сс][Іі][Ff][Rr][Aa][Mm][Ee].{0,16}[Ѕѕ][Rr][Cc]\" \"msg:Cyrillic-homoglyph iframe src combination\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110006;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK via $XSS>=8. Catches 'javascript' with Cyrillic homoglyphs substituted for ASCII letters, seen in payloads 4 and 5.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110007 which was a src/href+javascript scheme rule. That pattern overlaps with existing id:1100 scheme rules. This new rule targets homoglyph obfuscation of 'javascript' directly.",
+                "rule": "MainRule \"rx:(?i)[Jj][Aa][Vv][Aa][Ѕѕ][Cc][Rr][Ii][Pp][Tt]\" \"msg:Cyrillic-homoglyph javascript keyword\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110007;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK via $XSS>=8. Catches 'alert' with Cyrillic а/А and е/Е homoglyphs present in almost all supplied bypasses.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110008 alert+parenthesis rule. Parenthesis detection is already handled by existing id:1010/1011. Fullwidth parentheses are covered by id:110002. This focuses on the unique Cyrillic homoglyph alert spelling.",
+                "rule": "MainRule \"rx:(?i)[Аа][Ll][еЕ][Rr][Tt]\" \"msg:Cyrillic-homoglyph alert keyword\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110008;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Contributes $XSS:4 as correlation signal. Unicode Roman numerals U+216C (L) and U+217C (l) used as lowercase-L substitutes in 'alert' across all bypasses.",
+                "is_valid": true,
+                "refinement_notes": "New rule; original id:110009 (script tag with execution sink) attempted decoded-content matching unsuitable for NAXSI. These specific Unicode codepoints appear in every single bypass payload as the 'l' in alert/aLert.",
+                "rule": "MainRule \"rx:[Ⅼⅼ]\" \"msg:Roman numeral homoglyph used as XSS obfuscation\" \"mz:URL|ARGS|BODY\" \"s:$XSS:4\" id:110009;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK via $XSS>=8. Matches Cyrillic homoglyph pattern for closing script context seen in payloads 1,6,7,8,9,10.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110010 which attempted decoded HTML context matching. NAXSI cannot decode; this instead matches the raw Cyrillic homoglyph 'ѕСript'/'ѕcRipt' patterns directly present in payloads.",
+                "rule": "MainRule \"rx:[Ѕѕ][Сс][Rr]і[Pp][Tt]\" \"msg:Cyrillic-homoglyph script end tag\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110010;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK via $XSS>=8. Catches SVG+onload combinations with Cyrillic homoglyphs present in payloads 1,6,7 (cSVG/onLoAD pattern).",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110011 which was a decoded-content rule. Directly matches raw Cyrillic onLoAD character sequences from actual payloads.",
+                "rule": "MainRule \"rx:[Сс][Іі]?[Vv][Gg].{0,32}[Oo][Nn][Ll][Oo]А[Dd]|[Оо][Nn][Ⅼⅼ][Оо]А[Dd]\" \"msg:SVG onload Cyrillic homoglyph pattern\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110011;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Contributes $XSS:4,$EVADE:4. The CJK character U+951B (锛) appears as a structural separator in every three-character group in payload 3, making it a high-fidelity indicator for that specific obfuscation family.",
+                "is_valid": true,
+                "refinement_notes": "New rule replacing original id:110014 stacked entity rule (already covered by existing id:1400 str:&#). Targets payload 3's unique CJK separator character.",
+                "rule": "MainRule \"rx:锛\" \"msg:CJK obfuscation marker U+951B\" \"mz:URL|ARGS|BODY\" \"s:$EVADE:4,$XSS:4\" id:110014;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Contributes $EVADE:4 as correlation signal for payload 3 CJK obfuscation family. These specific CJK characters appear exclusively in the encoded segments of payload 3.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110015 generic XSS keyword rule which duplicated existing coverage. Targets unique CJK codepoints from payload 3 that indicate this specific obfuscation technique.",
+                "rule": "MainRule \"rx:[紖綆紥紦紩紣絽綇絾綊紭紮]\" \"msg:CJK obfuscation payload-3 character class\" \"mz:URL|ARGS|BODY\" \"s:$EVADE:4\" id:110015;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Contributes $EVADE:4 as encoding evasion indicator. Four or more consecutive fullwidth Latin letters indicate fullwidth keyword obfuscation of HTML/JS terms.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110016 encoded-tag-opener rule (decoded-content matching unsuitable for NAXSI). Fullwidth letter sequences of 4+ chars reliably flag the keyword-obfuscation technique in payloads 1-2,6-10.",
+                "rule": "MainRule \"rx:[ａ-ｚＡ-Ｚ]{4,}\" \"msg:fullwidth latin letter sequence\" \"mz:URL|ARGS|BODY\" \"s:$EVADE:4\" id:110016;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Contributes $XSS:6. Catches the fullwidth-slash + fullwidth-percent-encoded pattern used in payloads 5 and 6 for /onLoad type obfuscation.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110017 encoded closing tag rule (decoded-content). Focuses on raw fullwidth slash+encoding pattern directly observable in requests.",
+                "rule": "MainRule \"rx:[／/][％﹪][０-９Ａ-Ｆａ-ｆ]{2}[０-９Ａ-Ｆａ-ｆ][０-９Ａ-Ｆａ-ｆ]\" \"msg:fullwidth slash followed by fullwidth percent-encoded sequence\" \"mz:URL|ARGS|BODY\" \"s:$XSS:6\" id:110017;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Contributes $XSS:6,$EVADE:4. The fullwidth sequence ＆＃４７； (&#47; encoded in fullwidth) appears in payloads 2 and 7 as an obfuscated slash in tag construction.",
+                "is_valid": true,
+                "refinement_notes": "Replaces original id:110018 complex attribute correlation rule (decoded-content). This targets a concrete fullwidth HTML entity sequence directly visible in two payloads.",
+                "rule": "MainRule \"rx:[＆][＃][４][７][；]\" \"msg:fullwidth ampersand-hash-47-semicolon entity pattern\" \"mz:URL|ARGS|BODY\" \"s:$XSS:6,$EVADE:4\" id:110018;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Primary enforcement: any single high-confidence XSS rule triggers block.",
+                "is_valid": true,
+                "refinement_notes": "Kept as-is from generated rules. Standard NAXSI threshold.",
+                "rule": "CheckRule \"$XSS >= 8\" BLOCK;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Blocks combination of XSS indicator with encoding evasion indicator. Covers payload 3 (CJK) and fullwidth-only obfuscation cases that may not hit $XSS:8 alone.",
+                "is_valid": true,
+                "refinement_notes": "Simplified from original compound threshold rules. Two-variable threshold sufficient given score assignments; removes dependency on undefined $ENCODED and $HTML variables.",
+                "rule": "CheckRule \"$XSS >= 4 && $EVADE >= 4\" BLOCK;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Blocks heavy standalone evasion scoring (e.g., multiple fullwidth encoding layers without explicit XSS keyword match).",
+                "is_valid": true,
+                "refinement_notes": "New threshold replacing $HTML/$ATTR/$URI/$JS compound checks which referenced undefined score variables. $EVADE is defined in existing ruleset (id:1400,1401).",
+                "rule": "CheckRule \"$EVADE >= 8\" BLOCK;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
@@ -142,97 +286,169 @@
         ],
         "generated_rules": [
             {
-                "instructions": "Primary high-confidence XSS rule. Naxsi already decodes url-encoded and hexadecimal sequences before matching, so this covers many single and multi-layer encoded payloads after upstream decoding. Apply globally. Recommended action: BLOCK via CheckRule at low threshold.",
-                "is_valid": false,
-                "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:<(?:script|svg|img|iframe|body)\\b|(?:^|[^a-z0-9_:-])on(?:load|error|click|mouseover|focus|start|readystatechange|animationstart|begin)\\s*=|(?:src|href|data|action|formaction)\\s*=\\s*['\\\"`]?\\s*(?:javascript|vbscript)\\s*:|alert\\s*\\(|prompt\\s*\\(|confirm\\s*\\()\" \"msg:XSS core tag event and script scheme detection on decoded input\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:8\" id:140001;",
-                "validation_error": "Invalid regex pattern: bad escape (end of pattern) at position 190",
-                "validation_warnings": null,
-                "waf_type": "naxsi"
-            },
-            {
-                "instructions": "Catches direct tag injection attempts, including mixed spacing. Use alongside the core rule to score partial payloads. Recommended action: BLOCK when combined with other indicators; LOG if isolated in content-heavy applications until tuned.",
+                "instructions": "BLOCK. Detects heavily encoded tag-introduction patterns used in the supplied bypasses. Use as high-confidence encoded-XSS indicator across URL, ARGS, and BODY.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)<\\s*/?\\s*script\\b|<\\s*/?\\s*svg\\b|<\\s*img\\b|<\\s*iframe\\b|<\\s*body\\b\" \"msg:HTML tag injection markers commonly used in XSS payloads\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:6\" id:140002;",
+                "rule": "MainRule \"rx:(?i)(?:%25|%2[0-9a-f]|&#(?:x0*25|0*37|0*47|0*60|0*62);|[％﹪]).{0,24}(?:%25|%2[0-9a-f]|&#(?:x0*3c|0*60);|[＜<]).{0,24}(?:script|svg|img|iframe|body)\" \"msg:multi-layer encoded tag prelude\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$ENCODED:4\" id:110001;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Generalized event-handler detection for obfuscated forms such as onload, onerror, onclick. Intended to catch variants not explicitly enumerated. Tune with whitelists for applications that legitimately submit raw HTML. Recommended action: BLOCK.",
+                "instructions": "BLOCK. Generalized encoded HTML tag detector for obfuscated script/svg/img/iframe/body payloads, including event and src/href contexts.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:^|[^a-z0-9_:-])on[a-z]{3,24}\\s*=\\s*[^=]\" \"msg:Inline event handler attribute pattern\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:7\" id:140003;",
+                "rule": "MainRule \"rx:(?i)(?:%25|%2[0-9a-f]|&#(?:x0*3c|0*60|0*47|0*62);|[＜＞／/=]).{0,32}(?:script|svg|img|iframe|body)(?:.{0,32}(?:on[a-z]{3,20}|src|href))?\" \"msg:encoded html tag with executable context\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$HTML:4\" id:110002;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Targets javascript: and vbscript: URI execution vectors, including iframe/src and similar assignments. High confidence for reflected and stored XSS payloads. Recommended action: BLOCK.",
-                "is_valid": false,
-                "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:src|href|data|action|formaction)\\s*=\\s*['\\\"`]?\\s*(?:javascript|vbscript)\\s*:\" \"msg:Active script URI assignment\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:8\" id:140004;",
-                "validation_error": "Invalid regex pattern: bad escape (end of pattern) at position 48",
-                "validation_warnings": null,
-                "waf_type": "naxsi"
-            },
-            {
-                "instructions": "Behavioral indicator for execution intent. Useful against payload mutations where tag syntax varies but execution primitive remains. Recommended action: CHALLENGE or BLOCK when score threshold is met with another rule.",
+                "instructions": "BLOCK. Catches raw and common encoded openings for active-content tags visible after one or more decoding layers upstream.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:alert|prompt|confirm|settimeout|setinterval)\\s*(?:\\(|`)|(?:document\\.(?:cookie|domain|location))\" \"msg:JavaScript execution primitive or sensitive DOM sink\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:5\" id:140005;",
+                "rule": "MainRule \"rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:script|svg|img|iframe|body)\" \"msg:tag start for active content\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$HTML:4\" id:110003;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Detects HTML entity based tag construction such as &#60;svg. This helps cover entity-obfuscated payloads. Recommended action: LOG alone, BLOCK when combined with tag/event/script indicators.",
+                "instructions": "BLOCK. Complements tag-open rule and helps catch fragmented payloads with delayed closing bracket encoding.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:&#(?:x0{0,4}3c|0*60);|&#(?:x0{0,4}3e|0*62);|&(?:lt|gt|quot|#x27|#39);)\" \"msg:Encoded HTML metacharacters used for tag construction\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:4\" id:140006;",
+                "rule": "MainRule \"rx:(?i)(?:script|svg|img|iframe|body).{0,40}(?:>|[＞]|%3e|%253e|&#0*62;|&#x0*3e;)\" \"msg:tag end for active content\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$HTML:4\" id:110004;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Anomaly rule for multi-layer encoding and heavy obfuscation. Naxsi decodes encoded sequences, but this still flags suspicious over-encoding patterns present in raw request components. Recommended action: LOG or CHALLENGE by itself; BLOCK when combined with XSS semantics.",
+                "instructions": "BLOCK. High-value rule for event-handler injections such as onload, onerror, onclick. Matches raw and encoded assignment operators.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:%25){1,}|(?:%[0-9a-f]{2}){3,}|(?:&#[0-9]{2,5};){2,}|(?:&#x[0-9a-f]{2,4};){2,}\" \"msg:Excessive layered encoding or entity obfuscation\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:4\" id:140007;",
+                "rule": "MainRule \"rx:(?i)(?:on[a-z]{3,20})\\s*(?:=|[＝]|%3d|%253d|&#0*61;|&#x0*3d;)\" \"msg:event handler assignment\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$ATTR:4\" id:110005;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Catches common obfuscation methods used to split script tokens or hide payload components. Useful as a scoring amplifier rather than a standalone blocker. Recommended action: LOG, contribute to BLOCK through cumulative score.",
+                "instructions": "LOG or CHALLENGE by default; BLOCK when combined by CheckRule with other XSS indicators. Covers supplied onload/onerror/onclick variants and close relatives.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:/\\*.*?\\*/|<!--[\\s\\S]*?-->|\\\\x[0-9a-f]{2}|\\\\u[0-9a-f]{4})\" \"msg:Comment or escape-sequence obfuscation pattern\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:3\" id:140008;",
+                "rule": "MainRule \"rx:(?i)(?:onload|onerror|onclick|onmouseover|onfocus|onanimationstart|onbegin|onreadystatechange|ontextend|onstart)\\b\" \"msg:dangerous event handler keyword\" \"mz:URL|ARGS|BODY\" \"s:$XSS:4,$ATTR:4\" id:110006;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Purpose-built high-confidence signatures for the exact attack families seen: svg/onload, img/onerror, iframe/src=javascript:, and script tags. Recommended action: BLOCK immediately at threshold.",
-                "is_valid": false,
-                "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:<\\s*svg\\b[^>]{0,256}\\bon[a-z]{3,24}\\s*=|<\\s*img\\b[^>]{0,256}\\bonerror\\s*=|<\\s*iframe\\b[^>]{0,256}\\bsrc\\s*=\\s*['\\\"`]?\\s*(?:javascript|vbscript)\\s*:|<\\s*script\\b[^>]{0,256}>)\" \"msg:High-confidence executable XSS tag constructions\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$XSS:9\" id:140009;",
-                "validation_error": "Invalid regex pattern: bad escape (end of pattern) at position 118",
-                "validation_warnings": null,
-                "waf_type": "naxsi"
-            },
-            {
-                "instructions": "Anomaly detector for payloads dominated by fullwidth or non-ASCII confusable characters, as seen in the bypass samples. Keep score modest to reduce false positives on multilingual traffic. If your application legitimately handles CJK-heavy free text, restrict this rule to URL and selected ARGS instead of BODY. Recommended action: LOG or CHALLENGE unless combined with XSS indicators.",
+                "instructions": "BLOCK. Specifically targets iframe/img/script/svg attribute abuse with javascript: or data: schemes.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "MainRule \"rx:(?i)(?:[^\\x00-\\x7f]{6,}|[％＃＆／＝Ａ-Ｚａ-ｚ０-９]{8,})\" \"msg:Unicode confusable or fullwidth-heavy input anomaly near attack surface\" \"mz:ARGS|BODY|URL|HEADERS\" \"s:$RFI:0,$XSS:3\" id:140010;",
+                "rule": "MainRule \"rx:(?i)(?:src|href)\\s*(?:=|[＝]|%3d|%253d|&#0*61;|&#x0*3d;)\\s*(?:javascript|data)\\s*(?::|[：]|%3a|%253a|&#0*58;|&#x0*3a;)\" \"msg:active uri scheme in attribute\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$URI:4\" id:110007;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Primary enforcement threshold. High-confidence single-rule hits or multiple medium-confidence hits are blocked.",
+                "instructions": "BLOCK. Standalone high-confidence rule for javascript: appearance in request components. Important for iframe/src bypass cluster.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)javascript\\s*(?::|[：]|%3a|%253a|&#0*58;|&#x0*3a;)\" \"msg:javascript scheme token\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$URI:4\" id:110008;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK. Detects the execution primitive seen across all clusters. Kept narrow to reduce false positives.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)alert\\s*(?:\\(|[（]|%28|%2528|&#0*40;|&#x0*28;).{0,8}(?:\\)|[）]|%29|%2529|&#0*41;|&#x0*29;)\" \"msg:javascript execution primitive alert\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$JS:4\" id:110009;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK. Generalized script-tag payload detector with execution sink. Covers script>alert(1)</script> style bypasses.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:script).{0,64}(?:alert|confirm|prompt|eval|Function)\" \"msg:script tag with execution sink\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$JS:4\" id:110010;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK. Detects active-content use of non-script tags with executable attributes, matching svg/onload, img/onerror, iframe/src vectors.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:svg|img|iframe|body).{0,96}(?:on[a-z]{3,20}|src|href|xlink:href)\" \"msg:active non-script html tag abuse\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$HTML:4\" id:110011;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "LOG or CHALLENGE. Behavioral layer for repeated nested URL encoding such as %25253C... Seen throughout the test payloads.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:%25[0-9a-f]{2}){3,}\" \"msg:excessive percent-encoding sequence\" \"mz:URL|ARGS|BODY\" \"s:$ENCODED:4\" id:110012;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "LOG or CHALLENGE. Flags fullwidth percent-encoded sequences used to evade ASCII-focused rules.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:[％﹪][0-9０-９A-Fa-fＡ-Ｆａ-ｆ]{2}){3,}\" \"msg:fullwidth percent-encoding sequence\" \"mz:URL|ARGS|BODY\" \"s:$ENCODED:4\" id:110013;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "LOG or CHALLENGE. Detects repeated HTML entity encoding often paired with other tag/event obfuscation.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:&#(?:x[0-9a-f]{2,5}|[0-9]{2,5});){2,}\" \"msg:stacked html entity encoding\" \"mz:URL|ARGS|BODY\" \"s:$ENCODED:4\" id:110014;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "LOG only as low-score correlation rule. Intended to contribute to thresholding, not to block alone in production.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:script|svg|img|iframe|javascript|onload|onerror|onclick|alert)\" \"msg:xss keyword baseline\" \"mz:URL|ARGS|BODY\" \"s:$XSS:2\" id:110015;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK. Broad opener for the exact bypass style mixing encoded <, slash, and active tags.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:%3c|%253c|&#0*60;|&#x0*3c;|[＜<]).{0,12}(?:%2f|%252f|&#0*47;|&#x0*2f;|[／/])?.{0,12}(?:script|svg|img|iframe|body)\" \"msg:encoded tag opener with optional slash\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$HTML:4\" id:110016;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK. Focuses on encoded closing/script end fragments, including cases where attackers split opener and closer.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:%2f|%252f|&#0*47;|&#x0*2f;|[／/]).{0,8}(?:script|svg|img|iframe|body).{0,24}(?:%3e|%253e|&#0*62;|&#x0*3e;|[＞>])\" \"msg:encoded closing or self-closing active tag fragment\" \"mz:URL|ARGS|BODY\" \"s:$XSS:6,$HTML:4\" id:110017;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "BLOCK. Correlates attribute names with encoded separators and executable content. Strong catch-all for supplied families.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "MainRule \"rx:(?i)(?:on[a-z]{3,20}|src|href).{0,8}(?:%25(?:3d|3a)|%3d|%3a|=|:|[＝：]).{0,40}(?:javascript|alert|data|[<＜]|%3c|%253c|&#0*60;|&#x0*3c;)\" \"msg:encoded attribute leading to executable content\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8,$ATTR:4,$URI:4\" id:110018;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Primary enforcement threshold. Any single high-confidence XSS rule blocks.",
                 "is_valid": true,
                 "refinement_notes": null,
                 "rule": "CheckRule \"$XSS >= 8\" BLOCK;",
@@ -241,20 +457,38 @@
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Logging threshold for tuning and incident visibility. Review matched IDs and add BasicRule whitelists for known-safe parameters if needed.",
+                "instructions": "Blocks medium-confidence XSS indicators when combined with heavy encoding, suitable for multi-layer bypasses.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "CheckRule \"$XSS >= 4\" LOG;",
+                "rule": "CheckRule \"$XSS >= 6 && $ENCODED >= 4\" BLOCK;",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             },
             {
-                "instructions": "Optional template whitelist only if a specific application endpoint legitimately accepts raw inline event-handler-like strings. Do not enable globally; scope to exact location/parameter in your NGINX location context.",
+                "instructions": "Blocks when active HTML tag context and executable attribute context appear together.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "BasicRule wl:140003 \"mz:BODY|ARGS|URL\";",
+                "rule": "CheckRule \"$HTML >= 4 && $ATTR >= 4\" BLOCK;",
                 "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "Blocks javascript-scheme plus execution primitive combinations.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "CheckRule \"$URI >= 4 && $JS >= 4\" BLOCK;",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "naxsi"
+            },
+            {
+                "instructions": "If your deployment supports challenge workflow upstream, use this for suspicious high-encoding traffic; otherwise replace operationally with BLOCK or remove. Keep syntax as threshold-only in Naxsi policy management.",
+                "is_valid": false,
+                "refinement_notes": null,
+                "rule": "CheckRule \"$ENCODED >= 8\" CHALLENGE;",
+                "validation_error": "Invalid action: CHALLENGE. Valid actions: ALLOW, BLOCK, DROP, LEARNING, LOG",
                 "validation_warnings": null,
                 "waf_type": "naxsi"
             }
@@ -262,12 +496,12 @@
         "llm_provider": "gpt-5.4",
         "rag_sources": [],
         "stats": {
-            "duplicates_removed": 3,
+            "duplicates_removed": 21,
             "num_clusters": 6,
-            "rules_generated": 13,
-            "rules_invalid": 3,
-            "rules_refined": 5,
-            "rules_valid": 10,
+            "rules_generated": 23,
+            "rules_invalid": 1,
+            "rules_refined": 21,
+            "rules_valid": 22,
             "total_payloads": 40
         },
         "waf_name": "Naxsi"

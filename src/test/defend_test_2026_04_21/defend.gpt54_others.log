@@ -1,0 +1,844 @@
+importing libs...
+Setting-up Flask app...
+Starting Flask app...
+ * Debugger is active!
+ * Debugger PIN: 122-951-074
+[Defend] Advanced Defense Mode: 46 existing rules loaded for comparison
+General about the attack and environment:
+	WAF Name: Naxsi
+	WAF Type: naxsi
+	Attack Type: XSS
+	Raw Attack Type: xss_dom
+	Existing Rules: 46
+		MainRule "rx:select|union|update|delete|insert|table|from|ascii|hex|unhex|drop|load_file|substr|group_concat|dumpfile" "msg:sql keywords" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:4" id:1000;
+		MainRule "str:\"" "msg:double quote" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:8,$XSS:8" id:1001;
+		MainRule "str:0x" "msg:0x, possible hex encoding" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:2" id:1002;
+		MainRule "str:/*" "msg:mysql comment (/*)" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:8" id:1003;
+		MainRule "str:*/" "msg:mysql comment (*/)" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:8" id:1004;
+		MainRule "str:|" "msg:mysql keyword (|)"  "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:8" id:1005;
+		MainRule "str:&&" "msg:mysql keyword (&&)" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:8" id:1006;
+		MainRule "str:--" "msg:mysql comment (--)" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:4" id:1007;
+		MainRule "str:;" "msg:semicolon" "mz:BODY|URL|ARGS" "s:$SQL:4,$XSS:8" id:1008;
+		MainRule "str:=" "msg:equal sign in var, probable sql/xss" "mz:ARGS|BODY" "s:$SQL:2" id:1009;
+		MainRule "str:(" "msg:open parenthesis, probable sql/xss" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$SQL:4,$XSS:8" id:1010;
+		MainRule "str:)" "msg:close parenthesis, probable sql/xss" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$SQL:4,$XSS:8" id:1011;
+		MainRule "str:'" "msg:simple quote" "mz:ARGS|BODY|URL|$HEADERS_VAR:Cookie" "s:$SQL:4,$XSS:8" id:1013;
+		MainRule "str:," "msg:comma" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:4" id:1015;
+		MainRule "str:#" "msg:mysql comment (#)" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:4" id:1016;
+		MainRule "str:@@" "msg:double arobase (@@)" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$SQL:4" id:1017;
+		MainRule "str:http://" "msg:http:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1100;
+		MainRule "str:https://" "msg:https:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1101;
+		MainRule "str:ftp://" "msg:ftp:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1102;
+		MainRule "str:php://" "msg:php:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1103;
+		MainRule "str:sftp://" "msg:sftp:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1104;
+		MainRule "str:zlib://" "msg:zlib:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1105;
+		MainRule "str:data://" "msg:data:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1106;
+		MainRule "str:glob://" "msg:glob:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1107;
+		MainRule "str:phar://" "msg:phar:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1108;
+		MainRule "str:file://" "msg:file:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1109;
+		MainRule "str:gopher://" "msg:gopher:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1110;
+		MainRule "str:zip://" "msg:zip:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1111;
+		MainRule "str:expect://" "msg:expect:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1112;
+		MainRule "str:input://" "msg:input:// scheme" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$RFI:8" id:1113;
+		MainRule "str:.." "msg:double dot" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$TRAVERSAL:4" id:1200;
+		MainRule "str:/etc/passwd" "msg:obvious probe" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$TRAVERSAL:4" id:1202;
+		MainRule "str:c:\\" "msg:obvious windows path" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$TRAVERSAL:4" id:1203;
+		MainRule "str:cmd.exe" "msg:obvious probe" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$TRAVERSAL:4" id:1204;
+		MainRule "str:\\" "msg:backslash" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$TRAVERSAL:4" id:1205;
+		MainRule "str:/..;/" "msg:dir traversal bypass" "mz:ARGS|BODY|$HEADERS_VAR:Cookie" "s:$TRAVERSAL:2" id:1207;
+		MainRule "str:<" "msg:html open tag" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$XSS:8" id:1302;
+		MainRule "str:>" "msg:html close tag" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$XSS:8" id:1303;
+		MainRule "str:[" "msg:open square backet ([), possible js" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$XSS:4" id:1310;
+		MainRule "str:]" "msg:close square bracket (]), possible js" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$XSS:4" id:1311;
+		MainRule "str:~" "msg:tilde (~) character" "mz:BODY|URL|ARGS|$HEADERS_VAR:Cookie" "s:$XSS:4" id:1312;
+		MainRule "str:`"  "msg:grave accent (`)" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$XSS:8" id:1314;
+		MainRule "rx:%[23]."  "msg:double encoding" "mz:ARGS|URL|BODY|$HEADERS_VAR:Cookie" "s:$XSS:8" id:1315;
+		MainRule "str:&#" "msg:utf7/8 encoding" "mz:ARGS|BODY|URL|$HEADERS_VAR:Cookie" "s:$EVADE:4" id:1400;
+		MainRule "str:%U" "msg:M$ encoding" "mz:ARGS|BODY|URL|$HEADERS_VAR:Cookie" "s:$EVADE:4" id:1401;
+		MainRule "rx:\.ph|\.asp|\.ht|\.jsp" "msg:asp/php/jsp file upload" "mz:FILE_EXT" "s:$UPLOAD:8" id:1500;
+	Bypassed payloads:
+		％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е
+		％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+		锛咃紥锛曪紦小锝嶏絽锝旓絽锝掞紖锛掞紩锛掞紣锝忥綆锝咃綆锝勶紖锛掞紩锛揇锝冿綇锝庯絾锝夛綊锝嶏紖锛掞紩锛掞紭锛戯紖锛掞紩锛掞紮锛咃紥锛曪紦袝
+		％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е
+		％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww
+		％２５３СѕVG／ОnⅬОаD％２５３DАⅼЕRt％２５２８１％２５２９％２５３Е
+		％２５３сѕvg＆＃４７；оnⅼОАD％２５３dаⅬЕRt％２５２８１％２５２９％２５３е
+		％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е
+		％２５３сіfRАMе％２５２０ѕRС％２５３djАVаЅсRіPt％２５３ааⅬЕrt％２５２８１％２５２９％２５３е
+		％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е
+		％２５３СІFRАMЕ％２５２０ЅRС％２５３DJАVАЅСRІPT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е
+		％２５３сѕСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е
+		%２５３ＣiMG%２５２０ｓｒｃ%２５３ＤＸ%２５２０ｏｎｅＲｒｏR%２５３ｄａｌＥｒｔ%２５２８１%２５２９%２５３Ｅ
+		onclick%25３d
+		％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е
+		％２５３сіfrАmЕ％２５２０Ѕrс％２５３djаvАѕСrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е
+		％２５３Сѕvg／оnⅼОАd％２５３DJаvАЅсrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е
+		％２５３СЅсRіpT％２５３ЕАⅬеrt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е
+		％２５３сІFRАMЕ％２５２bЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е
+		％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ
+		％２５３сЅСｒｉｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+		％２５３сЅСRіPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３С／ѕСRіPt％２５３Е
+		％２５３сІMG％２５еf％２５bd％２５８１PRЕЅЅ％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２Х％２５２５％２５еf％２５bс％２５９２％２５еf％２５bd％２５８іFNМⅬА％２５еf％２５bd％２５
+		％２５３сіfRАMе％２５２０ѕRС％２５３DjАvаЅсRіpT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е
+		％２５３Сѕvg＆＃４７；оnⅼОАD＝аⅬЕrt％２５２８１％２５２９％２５３Е
+		％２５３сІFRаMЕ／％２５２А％２５２１５００００％２５２а／ѕrС％２５３DjАvАЅⅬаѕ／％２５２А％２５２１５００００％２５２А／ОNtеХtЕNdЕхT％２５３DｊＡＶａѕＣＲｉｐｔ％２５２８１％２５２９％２５３е
+		％２５３Сіfrаmе％２５２０ЅrС％２５３djАVасrіpt％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е
+		&#60;Svg / OnLOAd&#62;&#60;bODY&#62;
+		％２５３СІFRаMе％２５２０ЅRс％２５３djАvаѕСrіpT％２５３ааⅼЕRT％２５２８１％２５２９％２５３Е
+		％２５３сіfrАMе／％２５２а％２５２１５００００％２５２А／ѕrс％２５３DJаvАЅСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е
+		％２５３сІFRАMЕ％２５２０ѕrС％２５３djаVаЅсrіptеrrоr％２５２８１％２５２９％２５３е
+		％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+		％２５３СІFRАMЕ％２５２５０９ЅRС％２５３DJАVАСАTⅬАRЕT％２５２５０９ОNЕRRОR％２５３DАⅬЕRT％２５２８１％２５２９％２５３Е
+		％２５３СѕсRіPt％２５３ЕАⅼеrt％２５２８１％２５２９％２５３С／ЅСⅬЕtТІNg％２５３Е
+		％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІPT％２５３Е
+		％２５３сіfRАMе％２５２０ЅRС％２５３djАVаѕсRіpT％２５３aaⅬЕrt％２５２８１％２５２９％２５３Е
+		％２５３СІFRАmе％２５２０ЅRс％２５３DJаVАѕСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е
+		％２５３сѕСrіPt％２５３еаⅬЕRT％２５２８１％２５２９％２５３с／ЅСRІPt％２５３е
+		onclick%3d
+		％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３С／ѕсRіpT％２５３Е
+[1/4] Clustering payloads...
+Created 6 clusters
+	#4: 4 payloads
+		％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е
+		％２５３СѕVG／ОnⅬОаD％２５３DАⅼЕRt％２５２８１％２５２９％２５３Е
+		％２５３сѕvg＆＃４７；оnⅼОАD％２５３dаⅬЕRt％２５２８１％２５２９％２５３е
+		％２５３Сѕvg＆＃４７；оnⅼОАD＝аⅬЕrt％２５２８１％２５２９％２５３Е
+	#3: 4 payloads
+		％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+		％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ
+		％２５３сЅСｒｉｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+		％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+	#1: 7 payloads
+		锛咃紥锛曪紦小锝嶏絽锝旓絽锝掞紖锛掞紩锛掞紣锝忥綆锝咃綆锝勶紖锛掞紩锛揇锝冿綇锝庯絾锝夛綊锝嶏紖锛掞紩锛掞紭锛戯紖锛掞紩锛掞紮锛咃紥锛曪紦袝
+		％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е
+		%２５３ＣiMG%２５２０ｓｒｃ%２５３ＤＸ%２５２０ｏｎｅＲｒｏR%２５３ｄａｌＥｒｔ%２５２８１%２５２９%２５３Ｅ
+		onclick%25３d
+		％２５３сІMG％２５еf％２５bd％２５８１PRЕЅЅ％２５２５％２５еf％２５bс％２５９２％２５еf％２５bс％２５９５％２５еf％２５bс％２５９２Х％２５２５％２５еf％２５bс％２５９２％２５еf％２５bd％２５８іFNМⅬА％２５еf％２５bd％２５
+		&#60;Svg / OnLOAd&#62;&#60;bODY&#62;
+		onclick%3d
+	#2: 10 payloads
+		％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е
+		％２５３сіfRАMе％２５２０ѕRС％２５３djАVаЅсRіPt％２５３ааⅬЕrt％２５２８１％２５２９％２５３е
+		％２５３СІFRАMЕ％２５２０ЅRС％２５３DJАVАЅСRІPT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е
+		％２５３сіfrАmЕ％２５２０Ѕrс％２５３djаvАѕСrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е
+		％２５３сіfRАMе％２５２０ѕRС％２５３DjАvаЅсRіpT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е
+		％２５３Сіfrаmе％２５２０ЅrС％２５３djАVасrіpt％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е
+		％２５３СІFRаMе％２５２０ЅRс％２５３djАvаѕСrіpT％２５３ааⅼЕRT％２５２８１％２５２９％２５３Е
+		％２５３сІFRАMЕ％２５２０ѕrС％２５３djаVаЅсrіptеrrоr％２５２８１％２５２９％２５３е
+		％２５３сіfRАMе％２５２０ЅRС％２５３djАVаѕсRіpT％２５３aaⅬЕrt％２５２８１％２５２９％２５３Е
+		％２５３СІFRАmе％２５２０ЅRс％２５３DJаVАѕСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е
+	#0: 6 payloads
+		％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww
+		％２５３Сѕvg／оnⅼОАd％２５３DJаvАЅсrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е
+		％２５３сІFRАMЕ％２５２bЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е
+		％２５３сІFRаMЕ／％２５２А％２５２１５００００％２５２а／ѕrС％２５３DjАvАЅⅬаѕ／％２５２А％２５２１５００００％２５２А／ОNtеХtЕNdЕхT％２５３DｊＡＶａѕＣＲｉｐｔ％２５２８１％２５２９％２５３е
+		％２５３сіfrАMе／％２５２а％２５２１５００００％２５２А／ѕrс％２５３DJаvАЅСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е
+		％２５３СІFRАMЕ％２５２５０９ЅRС％２５３DJАVАСАTⅬАRЕT％２５２５０９ОNЕRRОR％２５３DАⅬЕRT％２５２８１％２５２９％２５３Е
+	#5: 9 payloads
+		％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е
+		％２５３сѕСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е
+		％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е
+		％２５３СЅсRіpT％２５３ЕАⅬеrt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е
+		％２５３сЅСRіPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３С／ѕСRіPt％２５３Е
+		％２５３СѕсRіPt％２５３ЕАⅼеrt％２５２８１％２５２９％２５３С／ЅСⅬЕtТІNg％２５３Е
+		％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІPT％２５３Е
+		％２５３сѕСrіPt％２５３еаⅬЕRT％２５２８１％２５２９％２５３с／ЅСRІPt％２５３е
+		％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３С／ѕсRіpT％２５３Е
+[2/4] Generating rules with LLM + RAG...
+[DEFENSE] attack_type_sent_to_rag='XSS'
+Using model: gpt-5.4
+[LLM4WAF RAG] attack_type_input='XSS'
+[LLM4WAF RAG] resolved_attack_type_sent='XSS'
+[LLM4WAF -> LLMShield RAG] url=https://overrigged-savingly-nelle.ngrok-free.dev?action=rag_retrieve
+[LLM4WAF -> LLMShield RAG] attack_type='XSS', waf_name='Naxsi'
+[RAG Results]
+	Queries: 4
+		XSS defense strategies and prevention for Naxsi
+		Naxsi XSS WAF rules syntax and configuration
+		XSS bypass techniques against Naxsi
+		Naxsi security rules best practices XSS
+	Docs (all): 50
+	Docs (filtered): 5
+	Sources: 5
+[RAG Retrieved sources]
+	[XSSSurvey_GR.pdf]
+		Fig. 14. Trends in the proposal of methods or tools to mitigate XSS attacks
+		and/or devices and thus generate a framework that allows
+		to evaluate the behavior and needs of the users and offer a
+		self-training system to prevent attacks of type XSS and other
+		complementary.
+		REFERENCES
+		[1] D. A. Suju and G. M. Gandhi, “An automaton based approach for
+		forestalling cross site scripting attacks in web application,” in 2015
+		Seventh International Conference on Advanced Computing (ICoAC) ,
+		Dec. 2015, pp. 1–6.
+		[2] D. Das, U. Sharma, and D. K. Bhattacharyya, “Detection of cross-site
+		scripting attack under multiple scenarios,” The Computer Journal ,
+		vol. 58, no. 4, pp. 808–822, Apr. 2015.
+		[3] IT-Digital. (Apr. 2018). El 100% de las aplicaciones web contienen
+		vulnerabilidades, [Online]. Available: http://discoverthenew.ituser.es/
+		security- and- risk- management/2018/04/el- 100- de- las- aplicaciones-
+		web-contienen-vulnerabilidades.
+		[4] H. Takahashi, K. Yasunaga, M. Mambo, K. Kim, and H. Y . Youm,
+	[XSSSurvey_GR.pdf]
+		• On the server side
+		• Hybrid (client-server combination)
+		Most of the proposals aimed at the DOM Cross Site
+		Scripting detection method (DOM-XSS) have been divided
+		into three types: black box fuzzing, static analysis and dynamic
+		analysis [64].
+		Other defense methods found in [9] are based on the
+		analysis of code extraction:
+		• Through input validation
+		• Through escape characters
+		• Through ﬁlters
+		• Through the set of characters that is speciﬁed
+		To complement this classiﬁcation, the analysis of tables
+		II, III, IV and V has been presented. The information has
+		been structured according to the interest of our research, which
+		in this case would be to analyze all the tools and methods
+		proposed or used to mitigate attacks XSS. In Fig. 12 we
+		propose a mental map that is summarized below:
+		TABLE II. S UMMARY OF TOOLS AND METHODS FOUND TO MITIGATE
+		XSS ATTACKS
+		Tool/Method Description Reference
+		Laboratories Activity Emulation,
+		Simulation, Honeypots
+		[50][53][54]
+		IDS Snort, Containers [43][60][65]
+	[Naxsi Rules.docx]
+		naxsi
+		
+		Naxsi Rules
+		
+		A Naxsi rule is a search pattern which is applied to a request to detect malicious behaviour.
+		
+		A rule is defined by MainRule or BasicRule directive, an id, a score, a search parameter (i.e. case-insensitive string or regex), a matchzone and an optional description.
+		
+		Example of rule:
+		
+																		MainRule id:12345 "s:$FOO:8,$BAR:4" "str:malicious" "mz:URL" "msg:string rule description";
+		
+																		BasicRule id:67890 "s:$TOO:4" "rx:[a-z]{5}" "mz:ARGS" "msg:regex rule description";
+		
+		MainRule and BasicRule directives
+		
+		As explained in the directives chapter we can have 2 kinds of rules:
+		
+		A global rule defined by the MainRule directive
+		
+		A location-specific rule defined by the BasicRule directive
+		
+		These two directives are mandatory to define rule.
+		
+		Rule Id
+		
+		The rule identifier, which identifies triggered rules for blocked requests, must always be a positive integer greater than 999. These identifiers follows the format id:<number>, for example id:12345.
+		
+		ℹ️ Info
+	[Naxsi Rules.docx]
+		ℹ️ Info
+		
+		It is possible to use the same rule id multiple times, but it is NOT suggested, because these ids are used for logging and whitelisting.
+		
+		Naxsi has some internal rules that are hardcoded within the WAF; these rules are defined by the reserved ids from 1 to 1000.
+		
+		You can read more about them in the Internal Rules chapter.
+		
+		Rule Score
+		
+		Each rule must define a score which is used to increase the CheckRule counter for each request.
+		
+		💡 Tip
+		
+		It is possible to assign multiple scores for each rule; just add a comma between score values.
+		
+		Scores follows the format "s:$<name>:<value>[,$<name>:<value>,...]", for example "s:$FOO:8,$BAR:4,$BAZ:4".
+		
+		ℹ️ Info
+		
+		If there are no CheckRule defined for a given variable the rule will never trigger an action (this applies only to user-defined rules).
+		
+		Search Parameter
+	[Internal Rules.docx]
+		See also Directive LibInjectionXss for more details.
+		
+		Internal Rule 19 - No Rules Loaded
+		
+		ℹ️ Info
+		
+		Number: 19 Name: No Rules Action: DROP
+		
+		The internal rule 19 is triggered only when the WAF is enabled but no global and no location-specific rules has been loaded at the current location.
+		
+		Internal Rule 20 - Malformed UTF-8
+		
+		ℹ️ Info
+		
+		Number: 20 Name: Malformed UTF-8 Action: DROP
+		
+		The internal rule 20 refers to any request that contains malformed UTF-8.
+		
+		Internal Rule 21 - Illegal Host in Header
+		
+		ℹ️ Info
+		
+		Number: 21 Name: Illegal Host in Header Action: DROP
+		
+		The internal rule 21 refers to any request that contains a host header with an illegal ip:
+		
+		0.0.0.0/8
+		
+		255.255.255.255/32
+		
+		0000:0000:0000:0000:0000:0000:0000:0000/128
+		
+		ff00:0000:0000:0000:0000:0000:0000:0000/8
+		
+		Go Back
+		
+		Rules.
+		
+		This site is open source. Improve this page.
+      Using LLM provider: gpt-5.4
+Generated 23 rules
+	MainRule "rx:(?i)(?:%25|%2[0-9a-f]|&#(?:x0*25|0*37|0*47|0*60|0*62);|[％﹪]).{0,24}(?:%25|%2[0-9a-f]|&#(?:x0*3c|0*60);|[＜<]).{0,24}(?:script|svg|img|iframe|body)" "msg:multi-layer encoded tag prelude" "mz:URL|ARGS|BODY" "s:$XSS:8,$ENCODED:4" id:110001;
+	MainRule "rx:(?i)(?:%25|%2[0-9a-f]|&#(?:x0*3c|0*60|0*47|0*62);|[＜＞／/=]).{0,32}(?:script|svg|img|iframe|body)(?:.{0,32}(?:on[a-z]{3,20}|src|href))?" "msg:encoded html tag with executable context" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110002;
+	MainRule "rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:script|svg|img|iframe|body)" "msg:tag start for active content" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110003;
+	MainRule "rx:(?i)(?:script|svg|img|iframe|body).{0,40}(?:>|[＞]|%3e|%253e|&#0*62;|&#x0*3e;)" "msg:tag end for active content" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110004;
+	MainRule "rx:(?i)(?:on[a-z]{3,20})\s*(?:=|[＝]|%3d|%253d|&#0*61;|&#x0*3d;)" "msg:event handler assignment" "mz:URL|ARGS|BODY" "s:$XSS:8,$ATTR:4" id:110005;
+	MainRule "rx:(?i)(?:onload|onerror|onclick|onmouseover|onfocus|onanimationstart|onbegin|onreadystatechange|ontextend|onstart)\b" "msg:dangerous event handler keyword" "mz:URL|ARGS|BODY" "s:$XSS:4,$ATTR:4" id:110006;
+	MainRule "rx:(?i)(?:src|href)\s*(?:=|[＝]|%3d|%253d|&#0*61;|&#x0*3d;)\s*(?:javascript|data)\s*(?::|[：]|%3a|%253a|&#0*58;|&#x0*3a;)" "msg:active uri scheme in attribute" "mz:URL|ARGS|BODY" "s:$XSS:8,$URI:4" id:110007;
+	MainRule "rx:(?i)javascript\s*(?::|[：]|%3a|%253a|&#0*58;|&#x0*3a;)" "msg:javascript scheme token" "mz:URL|ARGS|BODY" "s:$XSS:8,$URI:4" id:110008;
+	MainRule "rx:(?i)alert\s*(?:\(|[（]|%28|%2528|&#0*40;|&#x0*28;).{0,8}(?:\)|[）]|%29|%2529|&#0*41;|&#x0*29;)" "msg:javascript execution primitive alert" "mz:URL|ARGS|BODY" "s:$XSS:8,$JS:4" id:110009;
+	MainRule "rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:script).{0,64}(?:alert|confirm|prompt|eval|Function)" "msg:script tag with execution sink" "mz:URL|ARGS|BODY" "s:$XSS:8,$JS:4" id:110010;
+	MainRule "rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:svg|img|iframe|body).{0,96}(?:on[a-z]{3,20}|src|href|xlink:href)" "msg:active non-script html tag abuse" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110011;
+	MainRule "rx:(?i)(?:%25[0-9a-f]{2}){3,}" "msg:excessive percent-encoding sequence" "mz:URL|ARGS|BODY" "s:$ENCODED:4" id:110012;
+	MainRule "rx:(?i)(?:[％﹪][0-9０-９A-Fa-fＡ-Ｆａ-ｆ]{2}){3,}" "msg:fullwidth percent-encoding sequence" "mz:URL|ARGS|BODY" "s:$ENCODED:4" id:110013;
+	MainRule "rx:(?i)(?:&#(?:x[0-9a-f]{2,5}|[0-9]{2,5});){2,}" "msg:stacked html entity encoding" "mz:URL|ARGS|BODY" "s:$ENCODED:4" id:110014;
+	MainRule "rx:(?i)(?:script|svg|img|iframe|javascript|onload|onerror|onclick|alert)" "msg:xss keyword baseline" "mz:URL|ARGS|BODY" "s:$XSS:2" id:110015;
+	MainRule "rx:(?i)(?:%3c|%253c|&#0*60;|&#x0*3c;|[＜<]).{0,12}(?:%2f|%252f|&#0*47;|&#x0*2f;|[／/])?.{0,12}(?:script|svg|img|iframe|body)" "msg:encoded tag opener with optional slash" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110016;
+	MainRule "rx:(?i)(?:%2f|%252f|&#0*47;|&#x0*2f;|[／/]).{0,8}(?:script|svg|img|iframe|body).{0,24}(?:%3e|%253e|&#0*62;|&#x0*3e;|[＞>])" "msg:encoded closing or self-closing active tag fragment" "mz:URL|ARGS|BODY" "s:$XSS:6,$HTML:4" id:110017;
+	MainRule "rx:(?i)(?:on[a-z]{3,20}|src|href).{0,8}(?:%25(?:3d|3a)|%3d|%3a|=|:|[＝：]).{0,40}(?:javascript|alert|data|[<＜]|%3c|%253c|&#0*60;|&#x0*3c;)" "msg:encoded attribute leading to executable content" "mz:URL|ARGS|BODY" "s:$XSS:8,$ATTR:4,$URI:4" id:110018;
+	CheckRule "$XSS >= 8" BLOCK;
+	CheckRule "$XSS >= 6 && $ENCODED >= 4" BLOCK;
+	CheckRule "$HTML >= 4 && $ATTR >= 4" BLOCK;
+	CheckRule "$URI >= 4 && $JS >= 4" BLOCK;
+	CheckRule "$ENCODED >= 8" CHALLENGE;
+[3/4] Validating rule syntax...
+Valid: 22, Invalid: 1
+Retrying 1 invalid rules...
+	MainRule "rx:(?i)(?:%25|%2[0-9a-f]|&#(?:x0*25|0*37|0*47|0*60|0*62);|[％﹪]).{0,24}(?:%25|%2[0-9a-f]|&#(?:x0*3c|0*60);|[＜<]).{0,24}(?:script|svg|img|iframe|body)" "msg:multi-layer encoded tag prelude" "mz:URL|ARGS|BODY" "s:$XSS:8,$ENCODED:4" id:110001;
+	MainRule "rx:(?i)(?:%25|%2[0-9a-f]|&#(?:x0*3c|0*60|0*47|0*62);|[＜＞／/=]).{0,32}(?:script|svg|img|iframe|body)(?:.{0,32}(?:on[a-z]{3,20}|src|href))?" "msg:encoded html tag with executable context" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110002;
+	MainRule "rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:script|svg|img|iframe|body)" "msg:tag start for active content" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110003;
+	MainRule "rx:(?i)(?:script|svg|img|iframe|body).{0,40}(?:>|[＞]|%3e|%253e|&#0*62;|&#x0*3e;)" "msg:tag end for active content" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110004;
+	MainRule "rx:(?i)(?:on[a-z]{3,20})\s*(?:=|[＝]|%3d|%253d|&#0*61;|&#x0*3d;)" "msg:event handler assignment" "mz:URL|ARGS|BODY" "s:$XSS:8,$ATTR:4" id:110005;
+	MainRule "rx:(?i)(?:onload|onerror|onclick|onmouseover|onfocus|onanimationstart|onbegin|onreadystatechange|ontextend|onstart)\b" "msg:dangerous event handler keyword" "mz:URL|ARGS|BODY" "s:$XSS:4,$ATTR:4" id:110006;
+	MainRule "rx:(?i)(?:src|href)\s*(?:=|[＝]|%3d|%253d|&#0*61;|&#x0*3d;)\s*(?:javascript|data)\s*(?::|[：]|%3a|%253a|&#0*58;|&#x0*3a;)" "msg:active uri scheme in attribute" "mz:URL|ARGS|BODY" "s:$XSS:8,$URI:4" id:110007;
+	MainRule "rx:(?i)javascript\s*(?::|[：]|%3a|%253a|&#0*58;|&#x0*3a;)" "msg:javascript scheme token" "mz:URL|ARGS|BODY" "s:$XSS:8,$URI:4" id:110008;
+	MainRule "rx:(?i)alert\s*(?:\(|[（]|%28|%2528|&#0*40;|&#x0*28;).{0,8}(?:\)|[）]|%29|%2529|&#0*41;|&#x0*29;)" "msg:javascript execution primitive alert" "mz:URL|ARGS|BODY" "s:$XSS:8,$JS:4" id:110009;
+	MainRule "rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:script).{0,64}(?:alert|confirm|prompt|eval|Function)" "msg:script tag with execution sink" "mz:URL|ARGS|BODY" "s:$XSS:8,$JS:4" id:110010;
+	MainRule "rx:(?i)(?:<|[＜]|%3c|%253c|&#0*60;|&#x0*3c;).{0,32}(?:svg|img|iframe|body).{0,96}(?:on[a-z]{3,20}|src|href|xlink:href)" "msg:active non-script html tag abuse" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110011;
+	MainRule "rx:(?i)(?:%25[0-9a-f]{2}){3,}" "msg:excessive percent-encoding sequence" "mz:URL|ARGS|BODY" "s:$ENCODED:4" id:110012;
+	MainRule "rx:(?i)(?:[％﹪][0-9０-９A-Fa-fＡ-Ｆａ-ｆ]{2}){3,}" "msg:fullwidth percent-encoding sequence" "mz:URL|ARGS|BODY" "s:$ENCODED:4" id:110013;
+	MainRule "rx:(?i)(?:&#(?:x[0-9a-f]{2,5}|[0-9]{2,5});){2,}" "msg:stacked html entity encoding" "mz:URL|ARGS|BODY" "s:$ENCODED:4" id:110014;
+	MainRule "rx:(?i)(?:script|svg|img|iframe|javascript|onload|onerror|onclick|alert)" "msg:xss keyword baseline" "mz:URL|ARGS|BODY" "s:$XSS:2" id:110015;
+	MainRule "rx:(?i)(?:%3c|%253c|&#0*60;|&#x0*3c;|[＜<]).{0,12}(?:%2f|%252f|&#0*47;|&#x0*2f;|[／/])?.{0,12}(?:script|svg|img|iframe|body)" "msg:encoded tag opener with optional slash" "mz:URL|ARGS|BODY" "s:$XSS:8,$HTML:4" id:110016;
+	MainRule "rx:(?i)(?:%2f|%252f|&#0*47;|&#x0*2f;|[／/]).{0,8}(?:script|svg|img|iframe|body).{0,24}(?:%3e|%253e|&#0*62;|&#x0*3e;|[＞>])" "msg:encoded closing or self-closing active tag fragment" "mz:URL|ARGS|BODY" "s:$XSS:6,$HTML:4" id:110017;
+	MainRule "rx:(?i)(?:on[a-z]{3,20}|src|href).{0,8}(?:%25(?:3d|3a)|%3d|%3a|=|:|[＝：]).{0,40}(?:javascript|alert|data|[<＜]|%3c|%253c|&#0*60;|&#x0*3c;)" "msg:encoded attribute leading to executable content" "mz:URL|ARGS|BODY" "s:$XSS:8,$ATTR:4,$URI:4" id:110018;
+	CheckRule "$XSS >= 8" BLOCK;
+	CheckRule "$XSS >= 6 && $ENCODED >= 4" BLOCK;
+	CheckRule "$HTML >= 4 && $ATTR >= 4" BLOCK;
+	CheckRule "$URI >= 4 && $JS >= 4" BLOCK;
+[4/4] Refining rules with rule refinement agent...
+Refined 21 rules, removed 21 duplicates
+	MainRule "rx:(?:%[0-9a-f]{2}){3,}|(?:%25){2,}|%25[0-9a-f]{2}" "msg:multi-layer percent encoding" "mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie" "s:$EVADE:4" id:110012;
+	MainRule "rx:[％﹪][０-９Ａ-Ｆａ-ｆ]{2}" "msg:fullwidth percent-encoded byte" "mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie" "s:$EVADE:4" id:110013;
+	MainRule "rx:(?i)(?:[％﹪][０-９Ａ-Ｆａ-ｆ]{2}|%25[0-9a-f]{2}).{0,8}(?:[％﹪][０-９Ａ-Ｆａ-ｆ]{2}|%25[0-9a-f]{2}).{0,8}(?:[％﹪][０-９Ａ-Ｆａ-ｆ]{2}|%25[0-9a-f]{2})" "msg:triple fullwidth or double-percent encoded sequence" "mz:URL|ARGS|BODY" "s:$EVADE:4,$XSS:4" id:110001;
+	MainRule "rx:(?i)(?:[ｓｃ][ｒｂ][ｉ][ｐｔ]|[ｓｃ][ｖ][ｇ]|[ｉ][ｍ][ｇ]|[ｉ][ｆ][ｒ][ａ][ｍ][ｅ]|[ａ][ｌ][ｅ][ｒ][ｔ]|[ｏ][ｎ][ｌ][ｏ][ａ][ｄ]|[ｏ][ｎ][ｅ][ｒ][ｒ][ｏ][ｒ])" "msg:fullwidth XSS keyword" "mz:URL|ARGS|BODY" "s:$XSS:8" id:110002;
+	MainRule "rx:(?i)[Сс][Іі][сС][сСRr][Іі][РрPp][тT]" "msg:Cyrillic-homoglyph script keyword" "mz:URL|ARGS|BODY" "s:$XSS:8" id:110003;
+	MainRule "rx:(?i)[Сс][Іі][Ff][Рр][Aa][Мм][Ee]" "msg:Cyrillic-homoglyph iframe keyword" "mz:URL|ARGS|BODY" "s:$XSS:8" id:110004;
+	MainRule "rx:(?i)[Сс][Іі][Мм][Gg]" "msg:Cyrillic-homoglyph cimg keyword" "mz:URL|ARGS|BODY" "s:$XSS:6" id:110005;
+	MainRule "rx:(?i)[Сс][Іі][Ff][Rr][Aa][Mm][Ee].{0,16}[Ѕѕ][Rr][Cc]" "msg:Cyrillic-homoglyph iframe src combination" "mz:URL|ARGS|BODY" "s:$XSS:8" id:110006;
+	MainRule "rx:(?i)[Jj][Aa][Vv][Aa][Ѕѕ][Cc][Rr][Ii][Pp][Tt]" "msg:Cyrillic-homoglyph javascript keyword" "mz:URL|ARGS|BODY" "s:$XSS:8" id:110007;
+	MainRule "rx:(?i)[Аа][Ll][еЕ][Rr][Tt]" "msg:Cyrillic-homoglyph alert keyword" "mz:URL|ARGS|BODY" "s:$XSS:8" id:110008;
+	MainRule "rx:[Ⅼⅼ]" "msg:Roman numeral homoglyph used as XSS obfuscation" "mz:URL|ARGS|BODY" "s:$XSS:4" id:110009;
+	MainRule "rx:[Ѕѕ][Сс][Rr]і[Pp][Tt]" "msg:Cyrillic-homoglyph script end tag" "mz:URL|ARGS|BODY" "s:$XSS:8" id:110010;
+	MainRule "rx:[Сс][Іі]?[Vv][Gg].{0,32}[Oo][Nn][Ll][Oo]А[Dd]|[Оо][Nn][Ⅼⅼ][Оо]А[Dd]" "msg:SVG onload Cyrillic homoglyph pattern" "mz:URL|ARGS|BODY" "s:$XSS:8" id:110011;
+	MainRule "rx:锛" "msg:CJK obfuscation marker U+951B" "mz:URL|ARGS|BODY" "s:$EVADE:4,$XSS:4" id:110014;
+	MainRule "rx:[紖綆紥紦紩紣絽綇絾綊紭紮]" "msg:CJK obfuscation payload-3 character class" "mz:URL|ARGS|BODY" "s:$EVADE:4" id:110015;
+	MainRule "rx:[ａ-ｚＡ-Ｚ]{4,}" "msg:fullwidth latin letter sequence" "mz:URL|ARGS|BODY" "s:$EVADE:4" id:110016;
+	MainRule "rx:[／/][％﹪][０-９Ａ-Ｆａ-ｆ]{2}[０-９Ａ-Ｆａ-ｆ][０-９Ａ-Ｆａ-ｆ]" "msg:fullwidth slash followed by fullwidth percent-encoded sequence" "mz:URL|ARGS|BODY" "s:$XSS:6" id:110017;
+	MainRule "rx:[＆][＃][４][７][；]" "msg:fullwidth ampersand-hash-47-semicolon entity pattern" "mz:URL|ARGS|BODY" "s:$XSS:6,$EVADE:4" id:110018;
+	CheckRule "$XSS >= 8" BLOCK;
+	CheckRule "$XSS >= 4 && $EVADE >= 4" BLOCK;
+	CheckRule "$EVADE >= 8" BLOCK;
+
+Pipeline complete! Generated 21 valid rules.
+127.0.0.1 - - [30/Apr/2026 15:26:13] "POST /api/defend HTTP/1.1" 200 -
+
+
+General about the attack and environment:
+	WAF Name: Cloudflare
+	WAF Type: cloudflare
+	Attack Type: SQLI
+	Raw Attack Type: sql_injection_blind
+	Existing Rules: 0
+	Bypassed payloads:
+		%2527%250aUniON%250AselECT%250A1%252CUsEr%2528%2529%252c3--%252B
+		admin%2527%252b--
+		%2527%2509ANd%2509%2528/%252A%2521sElEcT%252a/%25091%2520FRom%2509%2528/%252AaLErT%25281%2529%2529%2529a%2529--%252B
+		admIN%2527%252b--
+		aDMIn%2527%2520--
+		%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/
+		1%2520oR%25201%253d1
+		1%2520oR%25201%253d1
+		1%26%2347%3bPArT%2520oN%26%2347%3bAtioNaveRsion%2528VerSIon%2528%26%2347%3baTImeEnd%2529%2529%252C1%26%2347%3B -- 6 /*1*/
+		%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520
+		%2527%2520AND%2520%2528SeLEct%25201%2520FROM%2520%2528sELEcT%2528SLeEP%25285%2529%2529%2529a%2529--%2520
+		%2527%252509ANd%252509%2528/%252a%2521sElEcT%252A/%2525091%252509From%252509%2528/%252A%2521SELect%252A/%2528SLeep%25285%2529%2529%2529a%2529--%2
+		1%252F%25252a%25252A%2FoR%252Fa%252D%2528SeLeCt%2529%2523
+		AdmIN%2527/%252A%252a/--
+		1%2520Or%25201%253D1%2520--
+		%2527%252B%257c%257C%252b1%253d1%2523
+		%2527/%252A%252a/UNioN/%252a%252a/SELeCT/%252A%252A/1%252cUser%2528%2529%252C3--/%252A%252a/
+		%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529a%2529--%2520
+		%25ef%25bd%2581D%25ef%25bc%2593%25ef%25bd%2584ImG%2520sRc%253DinFOrmaTiON%2520SCheMA_NAME%253d%2525%25ef%25bc%2592%25ef%25bc%2595%25ef%25bc%2592%25ef%25bc%2
+		ADmiN%2527%252b--
+		%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520
+		%2527/%252a%252A/uNIon/%252A%252A/seLeCt/%252a%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/
+		1%252509oR%2525091%253d1
+		AdmiN%2527%2520--
+		%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252c3--%2520
+		1%26%2347%3B%25252a%25252A%26%2347%3BoR%26%2347%3B%25252A%25252a%26%2347%3B1%25253d1
+		aDMIn%2527%252509--
+		1%2520oR%25201%253d1
+		%2527/%252a%252A/uNIon/%252A%252AnE1iPTEXt/%252A%252a/SELEcT/%252A%252AvERSION%2528%2529%2520FrOM/%252a%252A/data%25252527%25252520s onuTj%2525253AData%252525
+		1%2520oR%25201%253d1
+		aDMIN%2527%252b--
+		%2527%2520aNd%2520SELecT%25201%252cUSer%2528%2529%252C3--%2520
+		%2527%2520uNIOn%2520selECT%25201%252CuSER%2528%2529%252C3--%2520
+		ADmiN%2527%252509--
+		%2527%2520anD%2520UpdaTeXmL%25281%252C%2520ConCat%25280x3A%252c%2520%2528SELect%2520Version%2528%2529%2529%2529%252C%25201%2529--%2520
+		ADMIN%2527 %26 134809%253D1 -- true
+		%2527/%252a%252A/uNIon/%252a%252A/seLeCt/%252a%252A/1%252cUSER%2528%2529%252C3--/%252a%252A/**//*68*/
+		%2527/%252A%252a/UniON/%252a%252A/SELect/%252a%252A/1%252CUseR%2528%2529%252c3--/%252a%252a/
+		%253Bid%253Dadmin' %2509--
+		1%252509OR%2525091%253D1
+		aDMIn%2527%252B--
+		%2527/%252A%2521UNiON%252a/SElect/%252A%2521FrOMtHEmAyKeY%252a/0%252cUser%2528%2529%252C3-- /*4*/
+		" or 1=1;# /*93*/ -- OK
+		%2527/%252a%252A/uNIoN/%252a%252A/seLeCt/%252A%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/
+		%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520
+		1%2520/*!or*/%25201%253d1
+		%25ef%25bd%2581d%25ef%25bc%2593%25ef%25bd%2585n%252bion%252b seco%25ef%25bd%2587%25ef%25bd%2589%25ef%25bd%2594%2528%2527se%25ef%25bd%258cect%2520ver%25ef%
+		1%252509Or%2525091%253d1
+		aDMin%2527%2520--
+		aDMIn%2527%252B--
+[1/4] Clustering payloads...
+Created 8 clusters
+	#6: 5 payloads
+		%2527%250aUniON%250AselECT%250A1%252CUsEr%2528%2529%252c3--%252B
+		%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520
+		%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252c3--%2520
+		%2527%2520aNd%2520SELecT%25201%252cUSer%2528%2529%252C3--%2520
+		%2527%2520uNIOn%2520selECT%25201%252CuSER%2528%2529%252C3--%2520
+	#7: 12 payloads
+		admin%2527%252b--
+		admIN%2527%252b--
+		aDMIn%2527%2520--
+		ADmiN%2527%252b--
+		AdmiN%2527%2520--
+		aDMIn%2527%252509--
+		aDMIN%2527%252b--
+		ADmiN%2527%252509--
+		ADMIN%2527 %26 134809%253D1 -- true
+		aDMIn%2527%252B--
+		aDMin%2527%2520--
+		aDMIn%2527%252B--
+	#1: 7 payloads
+		%2527%2509ANd%2509%2528/%252A%2521sElEcT%252a/%25091%2520FRom%2509%2528/%252AaLErT%25281%2529%2529%2529a%2529--%252B
+		%2527%252509ANd%252509%2528/%252a%2521sElEcT%252A/%2525091%252509From%252509%2528/%252A%2521SELect%252A/%2528SLeep%25285%2529%2529%2529a%2529--%2
+		1%252F%25252a%25252A%2FoR%252Fa%252D%2528SeLeCt%2529%2523
+		AdmIN%2527/%252A%252a/--
+		1%26%2347%3B%25252a%25252A%26%2347%3BoR%26%2347%3B%25252A%25252a%26%2347%3B1%25253d1
+		%2527/%252a%252A/uNIon/%252A%252AnE1iPTEXt/%252A%252a/SELEcT/%252A%252AvERSION%2528%2529%2520FrOM/%252a%252A/data%25252527%25252520s onuTj%2525253AData%252525
+		" or 1=1;# /*93*/ -- OK
+	#4: 7 payloads
+		%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/
+		%2527/%252A%252a/UNioN/%252a%252a/SELeCT/%252A%252A/1%252cUser%2528%2529%252C3--/%252A%252a/
+		%2527/%252a%252A/uNIon/%252A%252A/seLeCt/%252a%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/
+		%2527/%252a%252A/uNIon/%252a%252A/seLeCt/%252a%252A/1%252cUSER%2528%2529%252C3--/%252a%252A/**//*68*/
+		%2527/%252A%252a/UniON/%252a%252A/SELect/%252a%252A/1%252CUseR%2528%2529%252c3--/%252a%252a/
+		%2527/%252A%2521UNiON%252a/SElect/%252A%2521FrOMtHEmAyKeY%252a/0%252cUser%2528%2529%252C3-- /*4*/
+		%2527/%252a%252A/uNIoN/%252a%252A/seLeCt/%252A%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/
+	#5: 6 payloads
+		1%2520oR%25201%253d1
+		1%2520oR%25201%253d1
+		1%2520Or%25201%253D1%2520--
+		1%2520oR%25201%253d1
+		1%2520oR%25201%253d1
+		1%2520/*!or*/%25201%253d1
+	#0: 4 payloads
+		1%26%2347%3bPArT%2520oN%26%2347%3bAtioNaveRsion%2528VerSIon%2528%26%2347%3baTImeEnd%2529%2529%252C1%26%2347%3B -- 6 /*1*/
+		%25ef%25bd%2581D%25ef%25bc%2593%25ef%25bd%2584ImG%2520sRc%253DinFOrmaTiON%2520SCheMA_NAME%253d%2525%25ef%25bc%2592%25ef%25bc%2595%25ef%25bc%2592%25ef%25bc%2
+		%253Bid%253Dadmin' %2509--
+		%25ef%25bd%2581d%25ef%25bc%2593%25ef%25bd%2585n%252bion%252b seco%25ef%25bd%2587%25ef%25bd%2589%25ef%25bd%2594%2528%2527se%25ef%25bd%258cect%2520ver%25ef%
+	#2: 5 payloads
+		%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520
+		%2527%2520AND%2520%2528SeLEct%25201%2520FROM%2520%2528sELEcT%2528SLeEP%25285%2529%2529%2529a%2529--%2520
+		%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529a%2529--%2520
+		%2527%2520anD%2520UpdaTeXmL%25281%252C%2520ConCat%25280x3A%252c%2520%2528SELect%2520Version%2528%2529%2529%2529%252C%25201%2529--%2520
+		%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520
+	#3: 4 payloads
+		%2527%252B%257c%257C%252b1%253d1%2523
+		1%252509oR%2525091%253d1
+		1%252509OR%2525091%253D1
+		1%252509Or%2525091%253d1
+[2/4] Generating rules with LLM + RAG...
+[DEFENSE] attack_type_sent_to_rag='SQLI'
+Using model: gpt-5.4
+[LLM4WAF RAG] attack_type_input='SQLI'
+[LLM4WAF RAG] resolved_attack_type_sent='SQLI'
+[LLM4WAF -> LLMShield RAG] url=https://overrigged-savingly-nelle.ngrok-free.dev?action=rag_retrieve
+[LLM4WAF -> LLMShield RAG] attack_type='SQLI', waf_name='Cloudflare'
+[RAG Results]
+	Queries: 4
+		SQLI defense strategies and prevention for Cloudflare
+		Cloudflare SQLI WAF rules syntax and configuration
+		SQLI bypass techniques against Cloudflare
+		Cloudflare security rules best practices SQLI
+	Docs (all): 47
+	Docs (filtered): 5
+	Sources: 5
+[RAG Retrieved sources]
+	[SQL Injection Bypassing WAF.docx]
+		•
+		
+		Prevention: This involves continuous monitoring techniques to prevent SQLi attacks by complementing detection functionality with preventive response measures to present an in-the-wild evaluation of the proposed scheme using real-time web and network traffic filtering.
+	[Field References.md]
+		[The names of the arguments in the HTTP URI query string.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.args.names/)
+		
+		[http.request.uri.args.values](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.args.values/)
+		
+		[The values of arguments in the HTTP URI query string.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.args.values/)
+		
+		[http.request.uri.path](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.path/)
+		
+		[The URI path of the request.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.path/)
+		
+		[http.request.uri.path.extension](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/http.request.uri.path.extension/)
+	[SQL Injection Bypassing WAF.docx]
+		Web applications are frequently targeted by threat actors due to their rapid production and wide attack surface. A recent security audit from Astra Security [1] states that a web application faces a cyber-attack every 39 s. The surge in web applications and smartphone usage, coupled with the increasing technical proficiency of end users, has led to a spike in web traffic. Businesses migrating their systems from offline to online systems has provided threat actors with an increased attack surface to exploit. The Open Worldwide Application Security Project (OWASP) lists SQL Injection (SQLi) among the top three web application security risks in both the 2017 and 2021 versions [2]. An SQLi attack is a web attack that is used to target data stored in database management systems (DBMS) by injecting malicious input, which is directly concatenated with original SQL queries issued by the client application to subvert application functionality and perform unauthorized operations
+	[Field References.md]
+		[A global score from 1–99 that combines the score of each WAF attack vector into a single score.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score/)
+		
+		[* Enterprise](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score/)
+		
+		[cf.waf.score.class](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.class/)
+		
+		[The attack score class of the current request, based on the WAF attack score.](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.class/)
+		
+		[* Business or above](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.class/)
+		
+		[cf.waf.score.rce](https://developers.cloudflare.com/ruleset-engine/rules-language/fields/reference/cf.waf.score.rce/)
+	[Values of Rules.md]
+		## Lists
+		
+		Lists allow you to create a group of items and refer to them collectively, by name, in your expressions. Each list type supports items of a specific data type. All items in a list must have the same data type. For details on the available list types, refer to [Lists](https://developers.cloudflare.com/waf/tools/lists/#supported-lists).
+		
+		To refer to a list in a rule expression, use `$<list_name>` and specify the `in` [operator](https://developers.cloudflare.com/ruleset-engine/rules-language/operators/). Only one value in the list has to match the left-hand side of the expression (before the `in` operator) for the simple expression to evaluate to `true`. If there is no match, the expression will evaluate to `false`.
+		
+		The following example expression filters requests from IP addresses that are in an [IP list](https://developers.cloudflare.com/waf/tools/lists/custom-lists/#ip-lists) named `office_network`:
+		
+		```sql
+		(ip.src in $office_network)
+		```
+      Using LLM provider: gpt-5.4
+Generated 14 rules
+	(http.request.uri contains "%2527" and http.request.uri contains "union" and http.request.uri contains "select") or (http.request.body.raw contains "%2527" and http.request.body.raw contains "union" and http.request.body.raw contains "select") or (http.request.uri contains "%27" and http.request.uri contains "union" and http.request.uri contains "select") or (http.request.body.raw contains "%27" and http.request.body.raw contains "union" and http.request.body.raw contains "select")
+	(http.request.uri contains "%2527" and http.request.uri contains "UNION" and http.request.uri contains "SELECT") or (http.request.body.raw contains "%2527" and http.request.body.raw contains "UNION" and http.request.body.raw contains "SELECT") or (http.request.uri contains "%27" and http.request.uri contains "UNION" and http.request.uri contains "SELECT") or (http.request.body.raw contains "%27" and http.request.body.raw contains "UNION" and http.request.body.raw contains "SELECT")
+	(http.request.uri contains "User%2528%2529" and http.request.uri contains "select") or (http.request.body.raw contains "User%2528%2529" and http.request.body.raw contains "select") or (http.request.uri contains "user()" and http.request.uri contains "select") or (http.request.body.raw contains "user()" and http.request.body.raw contains "select") or (http.request.uri contains "version%2528%2529" and http.request.uri contains "select") or (http.request.body.raw contains "version%2528%2529" and http.request.body.raw contains "select")
+	(http.request.uri contains "%2520or%25201%253d1") or (http.request.body.raw contains "%2520or%25201%253d1") or (http.request.uri contains "%20or%201%3d1") or (http.request.body.raw contains "%20or%201%3d1") or (http.request.uri contains " or 1=1") or (http.request.body.raw contains " or 1=1") or (http.request.uri contains "%2509or%25091%253d1") or (http.request.body.raw contains "%2509or%25091%253d1")
+	(http.request.uri contains "%2527%252b--") or (http.request.body.raw contains "%2527%252b--") or (http.request.uri contains "%2527%2520--") or (http.request.body.raw contains "%2527%2520--") or (http.request.uri contains "%2527%252509--") or (http.request.body.raw contains "%2527%252509--") or (http.request.uri contains "'+--") or (http.request.body.raw contains "'+--") or (http.request.uri contains "' --") or (http.request.body.raw contains "' --")
+	(http.request.uri contains "admin%2527") or (http.request.body.raw contains "admin%2527") or (http.request.uri contains "admin'") or (http.request.body.raw contains "admin'")
+	(http.request.uri contains "sleep%2528") or (http.request.body.raw contains "sleep%2528") or (http.request.uri contains "SLEEP%2528") or (http.request.body.raw contains "SLEEP%2528") or (http.request.uri contains "sleep(") or (http.request.body.raw contains "sleep(")
+	(http.request.uri contains "updatexml%2528") or (http.request.body.raw contains "updatexml%2528") or (http.request.uri contains "UPDATEXML%2528") or (http.request.body.raw contains "UPDATEXML%2528") or (http.request.uri contains "updatexml(") or (http.request.body.raw contains "updatexml(") or (http.request.uri contains "concat%2528") and (http.request.uri contains "version%2528")) or ((http.request.body.raw contains "concat%2528") and (http.request.body.raw contains "version%2528"))
+	(http.request.uri contains "%252f%252a") or (http.request.body.raw contains "%252f%252a") or (http.request.uri contains "%2f%2a") or (http.request.body.raw contains "%2f%2a") or (http.request.uri contains "/*!" ) or (http.request.body.raw contains "/*!" ) or (http.request.uri contains "/**/") or (http.request.body.raw contains "/**/")
+	(http.request.uri contains "%2525") or (http.request.body.raw contains "%2525") or (http.request.uri contains "%25ef%25") or (http.request.body.raw contains "%25ef%25")
+	(http.request.uri contains "%26%2347%3b") or (http.request.body.raw contains "%26%2347%3b") or (http.request.uri contains "&#47;") or (http.request.body.raw contains "&#47;")
+	(http.request.uri contains "%253d1") or (http.request.body.raw contains "%253d1") or (http.request.uri contains "%3d1 --") or (http.request.body.raw contains "%3d1 --") or (http.request.uri contains "=1 --") or (http.request.body.raw contains "=1 --")
+	(http.request.uri contains "%253bid%253dadmin") or (http.request.body.raw contains "%253bid%253dadmin") or (http.request.uri contains "id=admin' %2509--") or (http.request.body.raw contains "id=admin' %2509--")
+	(http.request.uri contains "partition" and http.request.uri contains "version") or (http.request.body.raw contains "partition" and http.request.body.raw contains "version") or (http.request.uri contains "information_schema") or (http.request.body.raw contains "information_schema")
+[3/4] Validating rule syntax...
+Valid: 12, Invalid: 2
+Retrying 2 invalid rules...
+	(http.request.uri contains "%2527" and http.request.uri contains "union" and http.request.uri contains "select") or (http.request.body.raw contains "%2527" and http.request.body.raw contains "union" and http.request.body.raw contains "select") or (http.request.uri contains "%27" and http.request.uri contains "union" and http.request.uri contains "select") or (http.request.body.raw contains "%27" and http.request.body.raw contains "union" and http.request.body.raw contains "select")
+	(http.request.uri contains "%2527" and http.request.uri contains "UNION" and http.request.uri contains "SELECT") or (http.request.body.raw contains "%2527" and http.request.body.raw contains "UNION" and http.request.body.raw contains "SELECT") or (http.request.uri contains "%27" and http.request.uri contains "UNION" and http.request.uri contains "SELECT") or (http.request.body.raw contains "%27" and http.request.body.raw contains "UNION" and http.request.body.raw contains "SELECT")
+	(http.request.uri contains "%2520or%25201%253d1") or (http.request.body.raw contains "%2520or%25201%253d1") or (http.request.uri contains "%20or%201%3d1") or (http.request.body.raw contains "%20or%201%3d1") or (http.request.uri contains " or 1=1") or (http.request.body.raw contains " or 1=1") or (http.request.uri contains "%2509or%25091%253d1") or (http.request.body.raw contains "%2509or%25091%253d1")
+	(http.request.uri contains "%2527%252b--") or (http.request.body.raw contains "%2527%252b--") or (http.request.uri contains "%2527%2520--") or (http.request.body.raw contains "%2527%2520--") or (http.request.uri contains "%2527%252509--") or (http.request.body.raw contains "%2527%252509--") or (http.request.uri contains "'+--") or (http.request.body.raw contains "'+--") or (http.request.uri contains "' --") or (http.request.body.raw contains "' --")
+	(http.request.uri contains "admin%2527") or (http.request.body.raw contains "admin%2527") or (http.request.uri contains "admin'") or (http.request.body.raw contains "admin'")
+	(http.request.uri contains "sleep%2528") or (http.request.body.raw contains "sleep%2528") or (http.request.uri contains "SLEEP%2528") or (http.request.body.raw contains "SLEEP%2528") or (http.request.uri contains "sleep(") or (http.request.body.raw contains "sleep(")
+	(http.request.uri contains "%252f%252a") or (http.request.body.raw contains "%252f%252a") or (http.request.uri contains "%2f%2a") or (http.request.body.raw contains "%2f%2a") or (http.request.uri contains "/*!" ) or (http.request.body.raw contains "/*!" ) or (http.request.uri contains "/**/") or (http.request.body.raw contains "/**/")
+	(http.request.uri contains "%2525") or (http.request.body.raw contains "%2525") or (http.request.uri contains "%25ef%25") or (http.request.body.raw contains "%25ef%25")
+	(http.request.uri contains "%26%2347%3b") or (http.request.body.raw contains "%26%2347%3b") or (http.request.uri contains "&#47;") or (http.request.body.raw contains "&#47;")
+	(http.request.uri contains "%253d1") or (http.request.body.raw contains "%253d1") or (http.request.uri contains "%3d1 --") or (http.request.body.raw contains "%3d1 --") or (http.request.uri contains "=1 --") or (http.request.body.raw contains "=1 --")
+	(http.request.uri contains "%253bid%253dadmin") or (http.request.body.raw contains "%253bid%253dadmin") or (http.request.uri contains "id=admin' %2509--") or (http.request.body.raw contains "id=admin' %2509--")
+	(http.request.uri contains "partition" and http.request.uri contains "version") or (http.request.body.raw contains "partition" and http.request.body.raw contains "version") or (http.request.uri contains "information_schema") or (http.request.body.raw contains "information_schema")
+	```plaintext
+(http.request.uri contains "User%2528%2529" and http.request.uri contains "select") or (http.request.body.raw contains "User%2528%2529" and http.request.body.raw contains "select") or (http.request.uri contains "user%2528%2529" and http.request.uri contains "select") or (http.request.body.raw contains "user%2528%2529" and http.request.body.raw contains "select") or (http.request.uri contains "version%2528%2529" and http.request.uri contains "select") or (http.request.body.raw contains "version%2528%2529" and http.request.body.raw contains "select")
+```
+	```  
+(http.request.uri contains "updatexml%2528") or (http.request.body.raw contains "updatexml%2528") or (http.request.uri contains "UPDATEXML%2528") or (http.request.body.raw contains "UPDATEXML%2528") or (http.request.uri contains "updatexml(") or (http.request.body.raw contains "updatexml(") or ((http.request.uri contains "concat%2528") and (http.request.uri contains "version%2528")) or ((http.request.body.raw contains "concat%2528") and (http.request.body.raw contains "version%2528"))  
+```
+[4/4] Refining rules with rule refinement agent...
+Refined 10 rules, removed 4 duplicates
+	(http.request.uri contains "%2527" and (http.request.uri contains "union" or http.request.uri contains "UNION" or http.request.uri contains "Union") and (http.request.uri contains "select" or http.request.uri contains "SELECT" or http.request.uri contains "Select")) or (http.request.body.raw contains "%2527" and (http.request.body.raw contains "union" or http.request.body.raw contains "UNION") and (http.request.body.raw contains "select" or http.request.body.raw contains "SELECT")) or (http.request.uri contains "%27" and (http.request.uri contains "union" or http.request.uri contains "UNION") and (http.request.uri contains "select" or http.request.uri contains "SELECT")) or (http.request.body.raw contains "%27" and (http.request.body.raw contains "union" or http.request.body.raw contains "UNION") and (http.request.body.raw contains "select" or http.request.body.raw contains "SELECT"))
+	(http.request.uri contains "%2520or%25201%253d1") or (http.request.body.raw contains "%2520or%25201%253d1") or (http.request.uri contains "%20or%201%3d1") or (http.request.body.raw contains "%20or%201%3d1") or (http.request.uri contains " or 1=1") or (http.request.body.raw contains " or 1=1") or (http.request.uri contains "%2509or%25091%253d1") or (http.request.body.raw contains "%2509or%25091%253d1") or (http.request.uri contains "%2520oR%25201%253d1") or (http.request.body.raw contains "%2520oR%25201%253d1")
+	(http.request.uri contains "%2527%252b--") or (http.request.body.raw contains "%2527%252b--") or (http.request.uri contains "%2527%2520--") or (http.request.body.raw contains "%2527%2520--") or (http.request.uri contains "%2527%252509--") or (http.request.body.raw contains "%2527%252509--") or (http.request.uri contains "'+--") or (http.request.body.raw contains "'+--") or (http.request.uri contains "' --") or (http.request.body.raw contains "' --")
+	(http.request.uri contains "sleep%2528") or (http.request.body.raw contains "sleep%2528") or (http.request.uri contains "SLEEP%2528") or (http.request.body.raw contains "SLEEP%2528") or (http.request.uri contains "sleep(") or (http.request.body.raw contains "sleep(") or (http.request.uri contains "SLeEp%2528") or (http.request.body.raw contains "SLeEp%2528")
+	(http.request.uri contains "%26%2347%3b") or (http.request.body.raw contains "%26%2347%3b") or (http.request.uri contains "&#47;") or (http.request.body.raw contains "&#47;")
+	(http.request.uri contains "partition" and (http.request.uri contains "version" or http.request.uri contains "Version" or http.request.uri contains "VERSION")) or (http.request.body.raw contains "partition" and (http.request.body.raw contains "version" or http.request.body.raw contains "VERSION")) or (http.request.uri contains "information_schema") or (http.request.body.raw contains "information_schema")
+	(http.request.uri contains "User%2528%2529" and (http.request.uri contains "select" or http.request.uri contains "SELECT" or http.request.uri contains "selECT")) or (http.request.body.raw contains "User%2528%2529" and (http.request.body.raw contains "select" or http.request.body.raw contains "SELECT")) or (http.request.uri contains "user%2528%2529" and (http.request.uri contains "select" or http.request.uri contains "SELECT")) or (http.request.body.raw contains "user%2528%2529" and (http.request.body.raw contains "select" or http.request.body.raw contains "SELECT")) or (http.request.uri contains "version%2528%2529" and (http.request.uri contains "select" or http.request.uri contains "SELECT")) or (http.request.body.raw contains "version%2528%2529" and (http.request.body.raw contains "select" or http.request.body.raw contains "SELECT"))
+	(http.request.uri contains "updatexml%2528") or (http.request.body.raw contains "updatexml%2528") or (http.request.uri contains "UPDATEXML%2528") or (http.request.body.raw contains "UPDATEXML%2528") or (http.request.uri contains "updatexml(") or (http.request.body.raw contains "updatexml(") or (http.request.uri contains "concat%2528" and http.request.uri contains "version%2528") or (http.request.body.raw contains "concat%2528" and http.request.body.raw contains "version%2528")
+	(http.request.uri contains "%2525") or (http.request.body.raw contains "%2525")
+	(http.request.uri contains "%252f%252a") or (http.request.body.raw contains "%252f%252a") or (http.request.uri contains "%2f%2a") or (http.request.body.raw contains "%2f%2a") or (http.request.uri contains "/*!" ) or (http.request.body.raw contains "/*!" ) or (http.request.uri contains "/**/") or (http.request.body.raw contains "/**/")
+
+Pipeline complete! Generated 10 valid rules.
+127.0.0.1 - - [30/Apr/2026 15:27:57] "POST /api/defend HTTP/1.1" 200 -
+
+
+General about the attack and environment:
+	WAF Name: AWS
+	WAF Type: aws_waf
+	Attack Type: SQLI
+	Raw Attack Type: sql_injection
+	Existing Rules: 0
+	Bypassed payloads:
+		ADMｉｎ' --
+		admIN%２５２７%２５２０--
+		AdMiN' --<unused19>
+		１％２５０９ОR％２５０９１％３D１
+		ADMIN' --
+		ａｄｍｉｎ％２５２７／％２５２ａ％２５２ａ／－－
+		adMIn %2527+--
+		锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛戯紖锛掞紩锛抐锛咃紥锛曪紥锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩d锛咃紥锛曪紭锛戯紖锛掞紩锛掞紩锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩
+		１％２５０９Оr％２５０９１％３d１
+		аdmІN％２７％２５０ａ－－
+		AdmIN' --
+		ADMIn%2527%2520--
+		admin %２５２７%２５０ａ--
+		adMin%25252527%25252520--
+		admIn%252527%25252B--
+		１％２５０９Оr％２５０９１％３D１
+		AdmI N' --*/**/*//*/**/---*///&gzdM=YUVH
+		１％２５０９Оr％２５０９１％３D１
+		adMIN%252527%252520--
+		adMIN%２５２７%２５２０--
+		adMIN+%2527+--
+		АDMІN％２５２７％２５２５０９－－
+		admin %2527%252509--
+		adMI n' --
+		AdmIN%2527%252509--
+		АDmіN％２５２７％２５２０－－
+		AdMIN%２５２７%２５２ｂ--
+		admin%+２７%２５０ａ--
+		adMIn%252527%25252B--
+		％２５еff％２５bс％２５９１％２５２７％２５２０аnd％２５２０％２５еff％２５bс％２５９１％２５３d％２５еff％２５bс％２５９１　－－ -- 65
+		ADMIn%25252527%25252520--
+		ADMIN'/*nJFC*/ -- 65
+		ADMIn' --
+		adMIN%252527%252520--
+		admIn%2527%252b--
+		１％２５０９Оr％２５０９１％３d１
+		adMIN%２５２７%２５２０--
+		adMIn%2527%252b--
+		ADMIN' --
+		１％２５０９Оr％２５０９１％３D１
+		adMIN%2527%252520--
+		adMIN%252527%252520--
+		Аdmіn％２５２７％２５２b－－
+		admIN%２５２７%２５２０--
+		AdmIN%2527%25250a--
+		ADMｉｎ' --
+		АDmіN％２５２７％２５２０－－
+		adMIN%2527%252b--
+		１％２５０９ОＲ％２５０９１％３Ｄ１
+		1or1=1&LrrM=ifnW
+[1/4] Clustering payloads...
+Created 5 clusters
+	#2: 20 payloads
+		ADMｉｎ' --
+		１％２５０９ОR％２５０９１％３D１
+		ａｄｍｉｎ％２５２７／％２５２ａ％２５２ａ／－－
+		锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛戯紖锛掞紩锛抐锛咃紥锛曪紥锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩d锛咃紥锛曪紭锛戯紖锛掞紩锛掞紩锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩
+		１％２５０９Оr％２５０９１％３d１
+		аdmІN％２７％２５０ａ－－
+		１％２５０９Оr％２５０９１％３D１
+		AdmI N' --*/**/*//*/**/---*///&gzdM=YUVH
+		１％２５０９Оr％２５０９１％３D１
+		АDMІN％２５２７％２５２５０９－－
+		adMI n' --
+		АDmіN％２５２７％２５２０－－
+		％２５еff％２５bс％２５９１％２５２７％２５２０аnd％２５２０％２５еff％２５bс％２５９１％２５３d％２５еff％２５bс％２５９１　－－ -- 65
+		１％２５０９Оr％２５０９１％３d１
+		１％２５０９Оr％２５０９１％３D１
+		Аdmіn％２５２７％２５２b－－
+		ADMｉｎ' --
+		АDmіN％２５２７％２５２０－－
+		１％２５０９ОＲ％２５０９１％３Ｄ１
+		1or1=1&LrrM=ifnW
+	#1: 6 payloads
+		admIN%２５２７%２５２０--
+		adMIN%２５２７%２５２０--
+		AdMIN%２５２７%２５２ｂ--
+		admin%+２７%２５０ａ--
+		adMIN%２５２７%２５２０--
+		admIN%２５２７%２５２０--
+	#3: 7 payloads
+		AdMiN' --<unused19>
+		ADMIN' --
+		AdmIN' --
+		admin %２５２７%２５０ａ--
+		ADMIN'/*nJFC*/ -- 65
+		ADMIn' --
+		ADMIN' --
+	#4: 2 payloads
+		adMIn %2527+--
+		adMIN+%2527+--
+	#0: 15 payloads
+		ADMIn%2527%2520--
+		adMin%25252527%25252520--
+		admIn%252527%25252B--
+		adMIN%252527%252520--
+		admin %2527%252509--
+		AdmIN%2527%252509--
+		adMIn%252527%25252B--
+		ADMIn%25252527%25252520--
+		adMIN%252527%252520--
+		admIn%2527%252b--
+		adMIn%2527%252b--
+		adMIN%2527%252520--
+		adMIN%252527%252520--
+		AdmIN%2527%25250a--
+		adMIN%2527%252b--
+[2/4] Generating rules with LLM + RAG...
+[DEFENSE] attack_type_sent_to_rag='SQLI'
+Using model: gpt-5.4
+[LLM4WAF RAG] attack_type_input='SQLI'
+[LLM4WAF RAG] resolved_attack_type_sent='SQLI'
+[LLM4WAF -> LLMShield RAG] url=https://overrigged-savingly-nelle.ngrok-free.dev?action=rag_retrieve
+[LLM4WAF -> LLMShield RAG] attack_type='SQLI', waf_name='AWS'
+[RAG Results]
+	Queries: 4
+		SQLI defense strategies and prevention for AWS
+		AWS SQLI WAF rules syntax and configuration
+		SQLI bypass techniques against AWS
+		AWS security rules best practices SQLI
+	Docs (all): 53
+	Docs (filtered): 5
+	Sources: 5
+[RAG Retrieved sources]
+	[SQL Injection Bypassing WAF.docx]
+		•
+		
+		Prevention: This involves continuous monitoring techniques to prevent SQLi attacks by complementing detection functionality with preventive response measures to present an in-the-wild evaluation of the proposed scheme using real-time web and network traffic filtering.
+	[General about AWS WAF.pdf]
+		The SQL database rule group contains rules to block request patterns associated with exploitation 
+		of SQL databases, like SQL injection attacks. This can help prevent remote injection of 
+		unauthorized queries. Evaluate this rule group for use if your application interfaces with an SQL 
+		database.
+		This managed rule group adds labels to the web requests that it evaluates, which are available to 
+		rules that run after this rule group in your protection pack (web ACL). AWS WAF also records the 
+		labels to Amazon CloudWatch metrics. For general information about labels and label metrics, see
+		Web request labeling and Label metrics and dimensions.
+		Rule name Description and label
+		SQLi_QUERYARGUMENTS
+		Uses the built-in AWS WAF SQL injection 
+		attack rule  statement, with  sensitivity level 
+		set to Low, to  inspect the values of all query 
+		parameters for  patterns that match malicious 
+		SQL code.
+		Rule action: Block
+		Label:    awswaf:managed:aws:sql-data 
+		base:SQLi_QueryArguments
+	[General about AWS WAF.pdf]
+		AWS WAF, AWS Firewall Manager, AWS Shield Advanced, and AWS Shield 
+		network security director
+		Developer Guide
+		        "args": "", 
+		        "httpVersion": "HTTP/1.1", 
+		        "httpMethod": "GET", 
+		        "requestId": "rid" 
+		    }, 
+		    "labels": [ 
+		        { 
+		            "name": "value" 
+		        } 
+		    ]
+		}
+		Example Log output for a rule that triggered on SQLi detection (non-terminating)
+		{ 
+		    "timestamp":1592357192516 
+		    ,"formatVersion":1 
+		    ,"webaclId":"arn:aws:wafv2:us-east-1:123456789012:global/webacl/hello-
+		world/5933d6d9-9dde-js82-v8aw-9ck28nv9" 
+		    ,"terminatingRuleId":"Default_Action" 
+		    ,"terminatingRuleType":"REGULAR" 
+		    ,"action":"ALLOW" 
+		    ,"terminatingRuleMatchDetails":[] 
+		    ,"httpSourceName":"-" 
+		    ,"httpSourceId":"-" 
+		    ,"ruleGroupList":[] 
+		    ,"rateBasedRuleList":[] 
+		    ,"nonTerminatingMatchingRules": 
+		    [{ 
+		        "ruleId":"TestRule" 
+		        ,"action":"COUNT" 
+		        ,"ruleMatchDetails": 
+		        [{ 
+		            "conditionType":"SQL_INJECTION"
+	[SQL Injection Bypassing WAF.docx]
+		. Finally, we provide a comparative analysis with state-of-the-art SQLi attack detection and risk ratings solutions.
+	[General about AWS WAF.pdf]
+		To create a SQL injection match condition
+		1. Sign in to the AWS Management Console and open the AWS WAF console at https:// 
+		console.aws.amazon.com/wafv2/.
+		If you see Switch to AWS WAF Classic in the navigation pane, select it.
+		2. In the navigation pane, choose SQL injection.
+		3. Choose Create condition.
+		4. Specify the applicable ﬁlter settings. For more information, see Values that you specify when 
+		you create or edit SQL injection match conditions.
+		5. Choose Add another ﬁlter.
+		Working with conditions 806
+      Using LLM provider: gpt-5.4
+Generated 8 rules
+	{"SqliMatchStatement":{"FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"HTML_ENTITY_DECODE"},{"Priority":4,"Type":"CSS_DECODE"},{"Priority":5,"Type":"JS_DECODE"},{"Priority":6,"Type":"REPLACE_COMMENTS"},{"Priority":7,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":8,"Type":"LOWERCASE"},{"Priority":9,"Type":"REMOVE_NULLS"}]}}
+	{"SqliMatchStatement":{"FieldToMatch":{"AllQueryArguments":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"HTML_ENTITY_DECODE"},{"Priority":4,"Type":"CSS_DECODE"},{"Priority":5,"Type":"JS_DECODE"},{"Priority":6,"Type":"REPLACE_COMMENTS"},{"Priority":7,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":8,"Type":"LOWERCASE"},{"Priority":9,"Type":"REMOVE_NULLS"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:^|[^a-z0-9_])adm[[:space:]]*i[[:space:]]*n[[:space:]]*(?:%27|'|%2527|%252527|%25252527)(?:[[:space:]]|%20|%09|%0a|\+|%2b|%2520|%2509|%250a|%252b)*(?:--|#|/\\*.*\\*/)","FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"REPLACE_COMMENTS"},{"Priority":4,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":5,"Type":"LOWERCASE"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:^|[^a-z0-9])1(?:[[:space:]]|%20|%09|\+|/\\*.*\\*/)*(?:or|%6f%72)(?:[[:space:]]|%20|%09|\+|/\\*.*\\*/)*1(?:[[:space:]]|%20|%09|\+)*=(?:[[:space:]]|%20|%09|\+)*1(?:[^a-z0-9]|$)","FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"REPLACE_COMMENTS"},{"Priority":4,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":5,"Type":"LOWERCASE"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:%25(?:25)?(?:27|20|09|0a|2b)){2,}|(?:%2525){1,}(?:27|20|09|0a|2b)|(?:%25[0-9a-fA-F]{2}){4,}","FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"LOWERCASE"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:--|/\\*.*\\*/)[[:space:]]*$","FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"REPLACE_COMMENTS"},{"Priority":4,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":5,"Type":"LOWERCASE"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:^|[^a-z0-9_])admin(?:[[:space:]]|\+|%20|%09|%0a)*(?:%27|'|%2527)(?:[[:space:]]|\+|%20|%09|%0a|%2b)*(?:--|#)","FieldToMatch":{"Body":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"REPLACE_COMMENTS"},{"Priority":4,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":5,"Type":"LOWERCASE"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:^|[^a-z0-9])1(?:[[:space:]]|\+|%20|%09|%0a)*(?:or)(?:[[:space:]]|\+|%20|%09|%0a)*1(?:[[:space:]]|\+|%20|%09|%0a)*=(?:[[:space:]]|\+|%20|%09|%0a)*1(?:[^a-z0-9]|$)","FieldToMatch":{"Body":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"REPLACE_COMMENTS"},{"Priority":4,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":5,"Type":"LOWERCASE"}]}}
+[3/4] Validating rule syntax...
+K:\Workspace\bku\LLM4WAF\src\validator_syntax_rule\aws_waf.py:260: FutureWarning: Possible nested set at position 16
+  re.compile(content["RegexString"])
+Valid: 4, Invalid: 4
+Retrying 4 invalid rules...
+	{"SqliMatchStatement":{"FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"HTML_ENTITY_DECODE"},{"Priority":4,"Type":"CSS_DECODE"},{"Priority":5,"Type":"JS_DECODE"},{"Priority":6,"Type":"REPLACE_COMMENTS"},{"Priority":7,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":8,"Type":"LOWERCASE"},{"Priority":9,"Type":"REMOVE_NULLS"}]}}
+	{"SqliMatchStatement":{"FieldToMatch":{"AllQueryArguments":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"HTML_ENTITY_DECODE"},{"Priority":4,"Type":"CSS_DECODE"},{"Priority":5,"Type":"JS_DECODE"},{"Priority":6,"Type":"REPLACE_COMMENTS"},{"Priority":7,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":8,"Type":"LOWERCASE"},{"Priority":9,"Type":"REMOVE_NULLS"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:%25(?:25)?(?:27|20|09|0a|2b)){2,}|(?:%2525){1,}(?:27|20|09|0a|2b)|(?:%25[0-9a-fA-F]{2}){4,}","FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"LOWERCASE"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:--|/\\*.*\\*/)[[:space:]]*$","FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"REPLACE_COMMENTS"},{"Priority":4,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":5,"Type":"LOWERCASE"}]}}
+[4/4] Refining rules with rule refinement agent...
+Refined 4 rules, removed 0 duplicates
+	{"SqliMatchStatement":{"FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"HTML_ENTITY_DECODE"},{"Priority":4,"Type":"CSS_DECODE"},{"Priority":5,"Type":"JS_DECODE"},{"Priority":6,"Type":"REPLACE_COMMENTS"},{"Priority":7,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":8,"Type":"LOWERCASE"},{"Priority":9,"Type":"REMOVE_NULLS"}]}}
+	{"SqliMatchStatement":{"FieldToMatch":{"AllQueryArguments":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"HTML_ENTITY_DECODE"},{"Priority":4,"Type":"CSS_DECODE"},{"Priority":5,"Type":"JS_DECODE"},{"Priority":6,"Type":"REPLACE_COMMENTS"},{"Priority":7,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":8,"Type":"LOWERCASE"},{"Priority":9,"Type":"REMOVE_NULLS"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:%25){1,2}(?:27|2[0bB]|09|0[aAdD])|(?:%[0-9a-fA-F]{2}){4,}|(?:\\bor\\b|\\band\\b)[\\s\\u00a0\\u1680\\u2000-\\u200a\\u202f\\u205f\\u3000]+(?:%[0-9a-fA-F]{2}|[0-9])","FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE"},{"Priority":1,"Type":"LOWERCASE"}]}}
+	{"RegexMatchStatement":{"RegexString":"(?:--|#|/\\*)[\\s\\u00a0\\u202f\\u205f]*$","FieldToMatch":{"QueryString":{}},"TextTransformations":[{"Priority":0,"Type":"URL_DECODE_UNI"},{"Priority":1,"Type":"URL_DECODE_UNI"},{"Priority":2,"Type":"URL_DECODE"},{"Priority":3,"Type":"REPLACE_COMMENTS"},{"Priority":4,"Type":"COMPRESS_WHITE_SPACE"},{"Priority":5,"Type":"LOWERCASE"}]}}
+
+Pipeline complete! Generated 4 valid rules.
+127.0.0.1 - - [30/Apr/2026 15:29:27] "POST /api/defend HTTP/1.1" 200 -
+[Defend] Advanced Defense Mode: 44 existing rules loaded for comparison
+

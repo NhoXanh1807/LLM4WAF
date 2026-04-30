@@ -76,7 +76,7 @@ def main():
     
     for llm_model in ["gpt-5.4", "claude"]:
         for waf in WAF_DVWA_URLS:
-            if llm_model != "claude" or waf != "Cloudflare":
+            if llm_model == "gpt-5.4" and waf == "ModSecurity":
                 continue
             attack_type = waf_attack_type_mapping.get(waf)
             phase = "PHASE_3" if waf != "Cloudflare" else "PHASE_1"

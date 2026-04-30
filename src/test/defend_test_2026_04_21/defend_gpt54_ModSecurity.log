@@ -1,0 +1,330 @@
+importing libs...
+Setting-up Flask app...
+Starting Flask app...
+ * Debugger is active!
+ * Debugger PIN: 122-951-074
+[Defend] Advanced Defense Mode: 44 existing rules loaded for comparison
+General about the attack and environment:
+	WAF Name: ModSecurity
+	WAF Type: modsecurity
+	Attack Type: XSS
+	Raw Attack Type: xss_stored
+	Existing Rules: 44
+		SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 1" "id:941011,phase:1,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+		SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 1" "id:941012,phase:2,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+		SecRule REQUEST_FILENAME "!@validateByteRange 20,45-47,48-57,65-90,95,97-122"  "id:941010, phase:1, pass, t:none, nolog, tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', ctl:ruleRemoveTargetByTag=xss-perf-disable;REQUEST_FILENAME, ver:'OWASP_CRS/4.26.0-dev'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|ARGS_NAMES|ARGS|XML:/* "@detectXSS"  "id:941100, phase:2, block, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Attack Detected via libinjection', logdata:'Matched Data: XSS data found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_FILENAME|REQUEST_HEADERS|!REQUEST_HEADERS:Cookie|ARGS_NAMES|ARGS|XML:/* "@rx (?i)<script[^>]*>[\s\S]*?"  "id:941110, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Filter - Category 1: Script Tag Vector', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS|!REQUEST_HEADERS:Cookie|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)[\t-\r \"'\(,/-9;=`]on[a-z]{3,50}[\t-\r \(,;]*?=[^=]"  "id:941120, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Filter - Category 2: Event Handler Vector', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i).(?:\b(?:(?:x(?:link:href|html|mlns)|data:text/html|formaction)\b|pattern[\s\x0b]*=)|(?:!ENTITY[\s\x0b]+(?:%[\s\x0b]+)?[^\s\x0b]+[\s\x0b]+(?:SYSTEM|PUBLIC)|@import|;base64)\b)"  "id:941130, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Filter - Category 3: Attribute Vector', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|REQUEST_HEADERS:Referer|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)[a-z]+=(?:[^:=]+:.+;)*?[^:=]+:url\(javascript"  "id:941140, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:removeWhitespace, msg:'XSS Filter - Category 4: Javascript URI Vector', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|REQUEST_HEADERS:Referer|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<[^0-9<>A-Z_a-z]*(?:[^\s\x0b\"'<>]*:)?[^0-9<>A-Z_a-z]*[^0-9A-Z_a-z]*?(?:s[^0-9A-Z_a-z]*?(?:c[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?p[^0-9A-Z_a-z]*?t|t[^0-9A-Z_a-z]*?y[^0-9A-Z_a-z]*?l[^0-9A-Z_a-z]*?e|v[^0-9A-Z_a-z]*?g|e[^0-9A-Z_a-z]*?t[^0-9>A-Z_a-z])|f[^0-9A-Z_a-z]*?o[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?m|d[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?l[^0-9A-Z_a-z]*?o[^0-9A-Z_a-z]*?g|m[^0-9A-Z_a-z]*?(?:a[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?q[^0-9A-Z_a-z]*?u[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?e|e[^0-9A-Z_a-z]*?t[^0-9A-Z_a-z]*?a[^0-9>A-Z_a-z])|(?:l[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?n[^0-9A-Z_a-z]*?k|o[^0-9A-Z_a-z]*?b[^0-9A-Z_a-z]*?j[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?c[^0-9A-Z_a-z]*?t|e[^0-9A-Z_a-z]*?m[^0-9A-Z_a-z]*?b[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?d|a[^0-9A-Z_a-z]*?(?:p[^0-9A-Z_a-z]*?p[^0-9A-Z_a-z]*?l[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?t|u[^0-9A-Z_a-z]*?d[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?o|n[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?m[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?t[^0-9A-Z_a-z]*?e)|p[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?m|i?[^0-9A-Z_a-z]*?f[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?m[^0-9A-Z_a-z]*?e|b[^0-9A-Z_a-z]*?(?:a[^0-9A-Z_a-z]*?s[^0-9A-Z_a-z]*?e|o[^0-9A-Z_a-z]*?d[^0-9A-Z_a-z]*?y|i[^0-9A-Z_a-z]*?n[^0-9A-Z_a-z]*?d[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?n[^0-9A-Z_a-z]*?g[^0-9A-Z_a-z]*?s)|i[^0-9A-Z_a-z]*?m[^0-9A-Z_a-z]*?a?[^0-9A-Z_a-z]*?g[^0-9A-Z_a-z]*?e?|v[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?d[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?o)[^0-9>A-Z_a-z])|(?:<[0-9A-Z_a-z][^\s\x0b/]*[\s\x0b/]|[\"'](?:[^\s\x0b/]*[\s\x0b/])?)(?:background|formaction|lowsrc|on(?:a(?:bort|ctivate|d(?:apteradded|dtrack)|fter(?:print|(?:scriptexecu|upda)te)|lerting|n(?:imation(?:cancel|end|iteration|start)|tennastatechange)|ppcommand|u(?:dio(?:end|process|start)|xclick))|b(?:e(?:fore(?:(?:(?:(?:de)?activa|scriptexecu)t|toggl)e|c(?:opy|ut)|editfocus|input|p(?:aste|rint)|u(?:nload|pdate))|gin(?:Event)?)|l(?:ocked|ur)|oun(?:ce|dary)|roadcast|usy)|c(?:a(?:(?:ch|llschang)ed|nplay(?:through)?|rdstatechange)|(?:ell|fstate)change|h(?:a(?:rging(?:time)?cha)?nge|ecking)|l(?:ick|ose)|o(?:m(?:mand(?:update)?|p(?:lete|osition(?:end|start|update)))|n(?:nect(?:ed|ing)|t(?:extmenu|rolselect))|py)|u(?:echange|t))|d(?:ata(?:(?:availabl|chang)e|error|setc(?:hanged|omplete))|blclick|e(?:activate|livery(?:error|success)|vice(?:found|light|(?:mo|orienta)tion|proximity))|i(?:aling|s(?:abled|c(?:hargingtimechange|onnect(?:ed|ing))))|o(?:m(?:a(?:ctivate|ttrmodified)|(?:characterdata|subtree)modified|focus(?:in|out)|mousescroll|node(?:inserted(?:intodocument)?|removed(?:fromdocument)?))|wnloading)|r(?:ag(?:drop|e(?:n(?:d|ter)|xit)|(?:gestur|leav)e|over|start)|op)|urationchange)|e(?:mptied|n(?:abled|d(?:ed|Event)?|ter)|rror(?:update)?|xit)|f(?:ailed|i(?:lterchange|nish)|o(?:cus(?:in|out)?|rm(?:change|input))|ullscreenchange)|g(?:amepad(?:axismove|button(?:down|up)|(?:dis)?connected)|et)|h(?:ashchange|e(?:adphoneschange|l[dp])|olding)|i(?:cc(?:cardlockerror|infochange)|n(?:coming|put|valid))|key(?:down|press|up)|l(?:evelchange|o(?:ad(?:e(?:d(?:meta)?data|nd)|start)?|secapture)|y)|m(?:ark|essage|o(?:use(?:down|enter|(?:lea|mo)ve|o(?:ut|ver)|up|wheel)|ve(?:end|start)?|z(?:a(?:fterpaint|udioavailable)|(?:beforeresiz|orientationchang|t(?:apgestur|imechang))e|(?:edgeui(?:c(?:ancel|omplet)|start)e|network(?:down|up)loa)d|fullscreen(?:change|error)|m(?:agnifygesture(?:start|update)?|ouse(?:hittest|pixelscroll))|p(?:ointerlock(?:change|error)|resstapgesture)|rotategesture(?:start|update)?|s(?:crolledareachanged|wipegesture(?:end|start|update)?))))|no(?:match|update)|o(?:(?:bsolet|(?:ff|n)lin)e|pen|verflow(?:changed)?)|p(?:a(?:ge(?:hide|show)|int|(?:st|us)e)|lay(?:ing)?|o(?:inter(?:down|enter|(?:(?:lea|mo)v|rawupdat)e|o(?:ut|ver)|up)|p(?:state|up(?:hid(?:den|ing)|show(?:ing|n))))|ro(?:gress|pertychange))|r(?:atechange|e(?:adystatechange|ceived|movetrack|peat(?:Event)?|quest|s(?:et|ize|u(?:lt|m(?:e|ing)))|trieving)|ow(?:e(?:nter|xit)|s(?:delete|inserted)))|s(?:croll(?:end)?|e(?:arch|ek(?:complete|ed|ing)|lect(?:ionchange|start)?|n(?:ding|t)|t)|how|(?:ound|peech)(?:end|start)|t(?:a(?:lled|rt|t(?:echange|uschanged))|k(?:comma|sessione)nd|op)|u(?:bmit|ccess|spend)|vg(?:abort|error|(?:un)?load|resize|scroll|zoom))|t(?:ext|ime(?:out|update)|o(?:ggle|uch(?:cancel|en(?:d|ter)|(?:lea|mo)ve|start))|ransition(?:cancel|end|run|start))|u(?:n(?:derflow|handledrejection|load)|p(?:dateready|gradeneeded)|s(?:erproximity|sdreceived))|v(?:ersion|o(?:ic|lum)e)change|w(?:a(?:it|rn)ing|ebkit(?:animation(?:end|iteration|start)|(?:playbacktargetavailabilitychange|transitionen)d)|heel)|zoom)|ping|s(?:rc|tyle))[\x08-\n\f\r ]*?="  "id:941160, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'NoScript XSS InjectionChecker: HTML Injection', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|REQUEST_HEADERS:Referer|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)(?:\W|^)(?:javascript:(?:[\s\S]+[=\x5c\(\[\.<]|[\s\S]*?(?:\bname\b|\x5c[ux]\d))|data:(?:(?:[a-z]\w+/\w[\w+-]+\w)?[;,]|[\s\S]*?;[\s\S]*?\b(?:base64|charset=)|[\s\S]*?,[\s\S]*?<[\s\S]*?\w[\s\S]*?>))|@\W*?i\W*?m\W*?p\W*?o\W*?r\W*?t\W*?(?:/\*[\s\S]*?)?(?:[\"']|\W*?u\W*?r\W*?l[\s\S]*?\()|[^-]*?-\W*?m\W*?o\W*?z\W*?-\W*?b\W*?i\W*?n\W*?d\W*?i\W*?n\W*?g[^:]*?:\W*?u\W*?r\W*?l[\s\S]*?\("  "id:941170, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'NoScript XSS InjectionChecker: Attribute Injection', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@pm document.cookie document.domain document.querySelector document.body.appendChild document.write .parentnode .innerhtml window.location -moz-binding <!-- <![cdata["  "id:941180, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'Node-Validator Deny List Keywords', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-nodejs', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<style.*?>.*?(?:@[\x5ci]|(?:[:=]|&#x?0*(?:58|3[AD]|61);?).*?(?:[\(\x5c]|&#x?0*(?:40|28|92|5C);?))"  "id:941190, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i:<.*[:]?vmlframe.*?[\s/+]*?src[\s/+]*=)"  "id:941200, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)(?:j|&#(?:0*(?:74|106)|x0*[46]A);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:a|&#(?:0*(?:65|97)|x0*[46]1);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:v|&#(?:0*(?:86|118)|x0*[57]6);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:a|&#(?:0*(?:65|97)|x0*[46]1);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:s|&#(?:0*(?:115|83)|x0*[57]3);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:c|&#(?:x0*[46]3|0*(?:99|67));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:r|&#(?:x0*[57]2|0*(?:114|82));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:i|&#(?:x0*[46]9|0*(?:105|73));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:p|&#(?:x0*[57]0|0*(?:112|80));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:t|&#(?:x0*[57]4|0*(?:116|84));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?::|&(?:#(?:0*58|x0*3A);?|colon;))."  "id:941210, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'Javascript Word Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)(?:v|&#(?:0*(?:118|86)|x0*[57]6);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:b|&#(?:0*(?:98|66)|x0*[46]2);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:s|&#(?:0*(?:115|83)|x0*[57]3);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:c|&#(?:x0*[46]3|0*(?:99|67));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:r|&#(?:x0*[57]2|0*(?:114|82));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:i|&#(?:x0*[46]9|0*(?:105|73));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:p|&#(?:x0*[57]0|0*(?:112|80));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:t|&#(?:x0*[57]4|0*(?:116|84));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?::|&(?:#(?:0*58|x0*3A);?|colon;))."  "id:941220, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<EMBED[\s/+].*?(?:src|type).*?="  "id:941230, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx <[?]?import[\s/+\S]*?implementation[\s/+]*?="  "id:941240, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<META[\s\x0b\+/].*?http-equiv[\s\x0b\+/]*=[\s\x0b\+/]*[\"'`]?(?:[crs]|&#x?0*(?:6[37]|43|99|[578][23]|11[45]);?)"  "id:941250, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i:<META[\s/+].*?charset[\s/+]*=)"  "id:941260, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<LINK[\s/+].*?href[\s/+]*="  "id:941270, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<BASE[\s/+].*?href[\s/+]*="  "id:941280, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<APPLET[\s/+>]"  "id:941290, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<OBJECT[\s\x0b\+/].*?(?:type|c(?:ode(?:type)?|lassid)|data)[\s\x0b\+/]*="  "id:941300, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx \x{bc}[^>\x{be}]*[>\x{be}]|<[^\x{be}]*\x{be}"  "id:941310, phase:2, block, capture, t:none,t:lowercase,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode, msg:'US-ASCII Malformed Encoding XSS Filter - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-tomcat', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', chain"
+		SecRule MATCHED_VARS "@rx \x{bc}[\s\x0b]*/[\s\x0b]*[^>\x{be}]*[>\x{be}]|<[\s\x0b]*/[\s\x0b]*[^\x{be}]*\x{be}"  "setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx \+ADw-.*(?:\+AD4-|>)|<.*\+AD4-"  "id:941350, phase:2, block, capture, t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode, msg:'UTF-7 Encoding IE XSS - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx ![!+ ]\[\]"  "id:941360, phase:2, block, t:none, msg:'JSFuck / Hieroglyphy obfuscation detected', logdata:'Matched Data: Suspicious payload found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242/63', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?:self|document|t(?:his|op)|window)[\s\x0b]*(?:/\*|[\)\[]).+?(?:\]|\*/)"  "id:941370, phase:2, block, t:none,t:urlDecodeUni,t:compressWhitespace, msg:'JavaScript global variable found', logdata:'Matched Data: Suspicious JS global variable found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242/63', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)\b(?:eval|set(?:timeout|interval)|new[\s\x0b]+Function|a(?:lert|tob)|btoa|(?:promp|impor)t|con(?:firm|sole\.(?:log|dir))|fetch)[\s\x0b]*[\(\{]"  "id:941390, phase:2, block, capture, t:none,t:htmlEntityDecode,t:jsDecode, msg:'Javascript method detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-nodejs', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx ((?:\[[^\]]*\]|Reflect)[^\.]*\.).*(?:map|sort|apply)[^\.]*\..*call[^`]*`.*`"  "id:941400, phase:2, block, capture, t:none,t:urlDecodeUni,t:compressWhitespace, msg:'XSS JavaScript function without parentheses', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+		SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 2" "id:941013,phase:1,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+		SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 2" "id:941014,phase:2,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+		SecRule REQUEST_FILENAME|REQUEST_HEADERS:Referer "@detectXSS"  "id:941101, phase:1, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Attack Detected via libinjection', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)\b(?:s(?:tyle|rc)|href)\b[\s\S]*?="  "id:941150, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Filter - Category 5: Disallowed HTML Attributes', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@contains -->"  "id:941181, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls, msg:'Node-Validator Deny List Keywords', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx <(?:a(?:bbr|cronym|ddress|pplet|rea|udioscope)?|b(?:ase(?:front)?|do|gsound|ig|l(?:(?:ackfac|ockquot)e|ink)|ody|[qr]|utton)?|c(?:aption|enter|ite|o(?:de|l(?:group)?|mment))|d(?:[dt]|e?l|fn|i[rv])|em(?:bed)?|f(?:ieldset|n|o(?:nt|rm)|rame(?:set)?)|h(?:[1r]|ead|tml)|i(?:frame|layer|mg|n(?:put|s)|sindex)?|k(?:db|eygen)|l(?:a(?:bel|yer)|egend|i(?:mittext|nk|sting)?)|m(?:a(?:p|rquee)|e(?:nu|ta)|ulticol)|no(?:br|embed|frames|s(?:cript|martquotes))|o(?:bject|l|pt(?:group|ion))|p(?:aram|laintext|re)?|q|r(?:t|uby)|s(?:amp|cript|e(?:lect|rver)|hadow|idebar|mall|pa(?:cer|n)|t(?:r(?:ike|ong)|yle)|u[bp])?|t(?:(?:ab|it)le|body|[dr]|extarea|(?:foo)?t|h(?:ead)?)|ul?|(?:va|wb)r|xm[lp])[^0-9A-Z_a-z]"  "id:941320, phase:2, block, capture, t:none,t:jsDecode,t:lowercase, msg:'Possible XSS Attack Detected - HTML Tag Handler', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242/63', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)[\"'] *(?:[^ '0-:_a-z~]|in).*?(?:(?:l|\x5cu006C)(?:o|\x5cu006F)(?:c|\x5cu0063)(?:a|\x5cu0061)(?:t|\x5cu0074)(?:i|\x5cu0069)(?:o|\x5cu006F)(?:n|\x5cu006E)|(?:n|\x5cu006E)(?:a|\x5cu0061)(?:m|\x5cu006D)(?:e|\x5cu0065)|(?:o|\x5cu006F)(?:n|\x5cu006E)(?:e|\x5cu0065)(?:r|\x5cu0072)(?:r|\x5cu0072)(?:o|\x5cu006F)(?:r|\x5cu0072)|(?:v|\x5cu0076)(?:a|\x5cu0061)(?:l|\x5cu006C)(?:u|\x5cu0075)(?:e|\x5cu0065)(?:O|\x5cu004F)(?:f|\x5cu0066)).*?="  "id:941330, phase:2, block, capture, t:none,t:htmlEntityDecode,t:compressWhitespace, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)[\"\'][ ]*(?:[^a-z0-9~_:\' ]|in).+?[.].+?="  "id:941340, phase:2, block, capture, t:none,t:htmlEntityDecode,t:compressWhitespace, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+		SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx \{\{.*?}}"  "id:941380, phase:2, block, t:none, msg:'AngularJS client side template injection detected', logdata:'Matched Data: Suspicious payload found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242/63', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+		SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 3" "id:941015,phase:1,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+		SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 3" "id:941016,phase:2,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+		SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 4" "id:941017,phase:1,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+		SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 4" "id:941018,phase:2,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+		SecMarker "END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	Bypassed payloads:
+		%253CSvG/onLoad%253Dal Ert%25281%2529%253E
+		％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е
+		％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е
+		％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е
+		％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е
+		%253CIM G&dnJW=PEvM<unused52>
+		％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е
+		%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX
+		JaVasCript%253AaLeRT%25281%2529
+		JavAsCRIpt%253aaLERT%25281%2529
+		％２５３сІFRАMЕ％２５２５０９ЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е
+		＇；аⅼеrt（４５）／／
+		％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е
+		％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ
+		IMG No Quotes/Semicolon
+		JavAS/*%20*/criPt:coNFIRM(42)&lQoP=SDVG
+		&#６０;ｉｍｇ ｓｒｃ=ｘ ｏｎｅｒｒｏｒ=ａｌｅｒｔ(１)&#６２;
+		％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е
+		onclick%253D
+		％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww
+		％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+		JavAsCRIpt%253aaLeRt%25281%2529
+		%253CbODY%2520ONLOad%253DalERT%25281%2529%253e
+		锛咃紥锛曪紦褋褧小R袉pt锛咃紥锛曪紦袝袗鈪夹礡t锛咃紥锛曪紥锛橈紤锛咃紥锛曪紥锛欙紖锛掞紩锛撔★紡袇小R褨PT锛咃紥锛曪紦袝
+		％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е
+		킞乍킾嗑闐뗐鹖킕狯벝
+		锛咃紥锛曪紦小袉FR袗m械锛咃紥锛曪紥锛愋匯褋锛咃紥锛曪紦dj邪v袗褧锛忥紛锛冿紦锛欙紛锛徯⌒瀗f褨Rm锛咃紥锛曪紥锛橈紤锛咃紥锛曪紥锛欙紗鈪糛袨P锛漢Z褨芯B
+		%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx
+		%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E
+		％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е
+		％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ
+		％２５３сＩmg ѕＲＣ％２５３ＤＸ％２５２０ＯＮＥＲｒｏＲ％２５３ＤlocＡＴion％２５３Ｄ％２５２７jАＶＡＳＣriＰＴ％２５３ＡaleＲＴ％２５２８１％２５２９％２５２７％２５３ Е
+		%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E
+		％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е
+		％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е
+		％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е
+		%EF%BD%8F%EF%BD%92%EF%BD%8FK%EF%BD%8D%EF%BD%87%26%2338%3B%23%EF%BC%94%EF%BC%97%3B%2A%25%EF%BC%92%EF%BC%90%EF%BD%95%EF%BD%93%2A%2C%20%2A%25%EF%BC%92%EF%BC%9
+		%%EF%BC%93PC%EF%BC%92%EF%BC%95%EF%BC%92%EF%BC%95%EF%BC%93%EF%BD%8FRAM%EF%BD%8FE%20%20OK
+		%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ
+		％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е
+		％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+		onclick%253D
+		％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е
+		％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е
+[1/4] Clustering payloads...
+Created 4 clusters
+	#2: 9 payloads
+		%253CSvG/onLoad%253Dal Ert%25281%2529%253E
+		%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX
+		JaVasCript%253AaLeRT%25281%2529
+		JavAsCRIpt%253aaLERT%25281%2529
+		JavAsCRIpt%253aaLeRt%25281%2529
+		%253CbODY%2520ONLOad%253DalERT%25281%2529%253e
+		%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx
+		%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E
+		%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E
+	#1: 16 payloads
+		％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е
+		％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е
+		％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е
+		％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е
+		％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е
+		％２５３сІFRАMЕ％２５２５０９ЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е
+		％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е
+		％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е
+		％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww
+		％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е
+		％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ
+		％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е
+		％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е
+		％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е
+		％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е
+		％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е
+	#0: 13 payloads
+		%253CIM G&dnJW=PEvM<unused52>
+		＇；аⅼеrt（４５）／／
+		IMG No Quotes/Semicolon
+		JavAS/*%20*/criPt:coNFIRM(42)&lQoP=SDVG
+		&#６０;ｉｍｇ ｓｒｃ=ｘ ｏｎｅｒｒｏｒ=ａｌｅｒｔ(１)&#６２;
+		onclick%253D
+		锛咃紥锛曪紦褋褧小R袉pt锛咃紥锛曪紦袝袗鈪夹礡t锛咃紥锛曪紥锛橈紤锛咃紥锛曪紥锛欙紖锛掞紩锛撔★紡袇小R褨PT锛咃紥锛曪紦袝
+		킞乍킾嗑闐뗐鹖킕狯벝
+		锛咃紥锛曪紦小袉FR袗m械锛咃紥锛曪紥锛愋匯褋锛咃紥锛曪紦dj邪v袗褧锛忥紛锛冿紦锛欙紛锛徯⌒瀗f褨Rm锛咃紥锛曪紥锛橈紤锛咃紥锛曪紥锛欙紗鈪糛袨P锛漢Z褨芯B
+		%EF%BD%8F%EF%BD%92%EF%BD%8FK%EF%BD%8D%EF%BD%87%26%2338%3B%23%EF%BC%94%EF%BC%97%3B%2A%25%EF%BC%92%EF%BC%90%EF%BD%95%EF%BD%93%2A%2C%20%2A%25%EF%BC%92%EF%BC%9
+		%%EF%BC%93PC%EF%BC%92%EF%BC%95%EF%BC%92%EF%BC%95%EF%BC%93%EF%BD%8FRAM%EF%BD%8FE%20%20OK
+		%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ
+		onclick%253D
+	#3: 6 payloads
+		％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ
+		％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+		％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е
+		％２５３сＩmg ѕＲＣ％２５３ＤＸ％２５２０ＯＮＥＲｒｏＲ％２５３ＤlocＡＴion％２５３Ｄ％２５２７jАＶＡＳＣriＰＴ％２５３ＡaleＲＴ％２５２８１％２５２９％２５２７％２５３ Е
+		％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е
+		％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ
+[2/4] Generating rules with LLM + RAG...
+[DEFENSE] attack_type_sent_to_rag='XSS'
+Using model: gpt-5.4
+[LLM4WAF RAG] attack_type_input='XSS'
+[LLM4WAF RAG] resolved_attack_type_sent='XSS'
+[LLM4WAF -> LLMShield RAG] url=https://overrigged-savingly-nelle.ngrok-free.dev?action=rag_retrieve
+[LLM4WAF -> LLMShield RAG] attack_type='XSS', waf_name='ModSecurity'
+[RAG Results]
+	Queries: 4
+		XSS defense strategies and prevention for ModSecurity
+		ModSecurity XSS WAF rules syntax and configuration
+		XSS bypass techniques against ModSecurity
+		ModSecurity security rules best practices XSS
+	Docs (all): 48
+	Docs (filtered): 5
+	Sources: 5
+[RAG Retrieved sources]
+	[XSSSurvey_GR.pdf]
+		• On the server side
+		• Hybrid (client-server combination)
+		Most of the proposals aimed at the DOM Cross Site
+		Scripting detection method (DOM-XSS) have been divided
+		into three types: black box fuzzing, static analysis and dynamic
+		analysis [64].
+		Other defense methods found in [9] are based on the
+		analysis of code extraction:
+		• Through input validation
+		• Through escape characters
+		• Through ﬁlters
+		• Through the set of characters that is speciﬁed
+		To complement this classiﬁcation, the analysis of tables
+		II, III, IV and V has been presented. The information has
+		been structured according to the interest of our research, which
+		in this case would be to analyze all the tools and methods
+		proposed or used to mitigate attacks XSS. In Fig. 12 we
+		propose a mental map that is summarized below:
+		TABLE II. S UMMARY OF TOOLS AND METHODS FOUND TO MITIGATE
+		XSS ATTACKS
+		Tool/Method Description Reference
+		Laboratories Activity Emulation,
+		Simulation, Honeypots
+		[50][53][54]
+		IDS Snort, Containers [43][60][65]
+	[XSSSurvey_GR.pdf]
+		Cross-Site Scripting (XSS) Attacks And Mitigation:
+		A Survey
+		Germ´an Rodr´ıguez
+		Faculty of Systems Engineering
+		Escuela Polit ´ecnica Nacional
+		Quito, Ecuador
+		german.rodriguez@epn.edu.ec
+		Jenny Torres
+		Faculty of Systems Engineering
+		Escuela Polit ´ecnica Nacional
+		Quito, Ecuador
+		jenny.torres@epn.edu.ec
+		Pamela Flores
+		Faculty of Systems Engineering
+		Escuela Polit ´ecnica Nacional
+		Quito, Ecuador
+		pamela.ﬂores@epn.edu.ec
+		Abstract—The results of the Cisco 2018 Annual Security
+		Report show that all web applications analyzed have at least one
+		vulnerability. It also show that web attacks are becoming more
+		frequent, speciﬁc and sophisticated. According to this report, 40%
+		of all attack attempts lead to a method known as Cross-Site
+		Scripting (XSS), which was the most used technique. This special
+		type of attack occurs when an attacker uses a web application
+		to send or execute malicious code on a user’s computer. In this
+		context, we have analyzed a total of 53 documents to collect
+	[technical_note_waf_rule_writing_guide_2026-02-23-20-31-45.pdf]
+		"id:101,\ 
+		    deny,\ 
+		    status:404,\ 
+		    msg:'XSS Attack'" 
+		Variables 
+		Details about the variables in this rule example are in the table below: 
+		Variable Definition 
+		ARGS Request parameters 
+		REQUEST_HEADERS All of the request headers 
+		Operator 
+		“@rx <script>” – Performs a regular expression match of the pattern (in this case <script>) provided as a 
+		parameter. 
+		Actions 
+		Details of the actions contained in this rule example are provided in the table below: 
+		Action(s) Description 
+		id, msg, severity, deny, status These are all of the actions to be performed if the pattern 
+		is matched. 
+		id:101 The unique ID that is assigned to the rule (or chain) in 
+		which it appears. 
+		msg: “XSS Attack” The custom message (i.e. XSS Attack) assigned to the 
+		ModSecurity Rule Writing
+		10
+	[Making Rules.md]
+		---
+		title: Making Rules
+		weight: 31
+		disableToc: false
+		chapter: false
+		---
+		
+		{{% notice note %}}
+		**The content on this page may be outdated.** We are currently in the process of rewriting all of our documentation: please bear with us while we update our older content.
+		{{% /notice %}}
+		
+		## Making Rules
+		
+		### The Basic Syntax
+		
+		A [SecRule](https://github.com/owasp-modsecurity/ModSecurity/wiki/Reference-Manual-(v2.x)#SecRule)
+		is a directive like any other understood by ModSecurity. The difference
+		is that this directive is way more powerful in what it is capable of
+		representing. Generally, a SecRule is made up of 4 parts:
+		- Variables - Instructs ModSecurity *where* to look (sometimes called Targets) 
+		- Operators - Instructs ModSecurity *when* to trigger a match 
+		- Transformations - Instructs ModSecurity *how* it should normalize variable data 
+		- Actions - Instructs ModSecurity *what* to do if a rule matches
+		
+		The structure of the rule is as follows:
+	[technical_note_waf_rule_writing_guide_2026-02-23-20-31-45.pdf]
+		The rule consists of four parts: 
+		• VARIABLES: Tells the WAF engine where to look in the transactional data (HTTP request and response 
+		data). 
+		• OPERATOR: Tells the WAF engine how to process the variable data. 
+		• TRANSFORMATION_FUNCTIONS: Tells the WAF engine how to normalize data before an operator is 
+		applied. 
+		• ACTIONS: Tells the WAF engine what to do if a rule matches. 
+		The four parts are explained in the sections below. 
+		Contents 
+		• Variables 
+		• Operator 
+		• Transformation Functions 
+		• Actions 
+		• Rule Syntax 
+		• WUI Settings 
+		• Rule Block Function 
+		Variables 
+		This specifies which places to check in a HTTP transaction. Examples of variables include: 
+		• ARGS – all arguments including the POST payload 
+		• REQUEST_METHOD – request method used in the transaction 
+		• REQUEST_HEADERS – can be used as either a collection of all of the request headers or can be used 
+		to inspect selected headers 
+		• And so on. The full list of variables is available here: ModSecurity Reference Manual
+      Using LLM provider: gpt-5.4
+Generated 10 rules
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:<(?:script|svg|img|iframe|body|a)\b[^>]{0,256}\b(?:on[a-z]{3,32}\s*=|src\s*=\s*['\"]?\s*javascript\s*:|href\s*=\s*['\"]?\s*javascript\s*:)|(?:^|[\s'\"`=:(;,])javascript\s*:)" "id:900001,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: dangerous tag/event/javascript URI after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:removeNulls,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)<\s*script\b[^>]*>|<\s*/\s*script\s*>|<\s*svg\b[^>]*\bon[a-z]{3,32}\s*=|<\s*img\b[^>]*\bonerror\s*=|<\s*body\b[^>]*\bonload\s*=|<\s*iframe\b[^>]*\bsrc\s*=\s*['\"]?\s*javascript\s*:|<\s*a\b[^>]*\bhref\s*=\s*['\"]?\s*javascript\s*:" "id:900002,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: raw high-confidence tag pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:java\s*/\*.*?\*/\s*script|java\s*script)\s*:|(?:on[a-z]{3,32})\s*=\s*['\"]?\s*(?:alert|confirm|prompt|eval|settimeout|setinterval|location\s*=)" "id:900003,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: obfuscated javascript scheme or event handler execution sink',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:removeComments,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:%25(?:2[0-9a-f]|3[cCeE]|4[67]|5[bBdD]|[0-9a-f]{2})){4,}|(?:&#(?:x0*3[cCeE]|0*47|0*60|0*62|0*34|0*39|\d{2,5});){2,}" "id:900004,phase:2,deny,status:403,severity:ERROR,msg:'Anomaly: excessive multi-layer encoding consistent with XSS obfuscation',t:none,t:urlDecodeUni,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:alert|confirm|prompt)\s*\(\s*\d{0,4}\s*\)|location\s*=\s*['\"]?\s*javascript\s*:" "id:900005,phase:2,deny,status:403,severity:ERROR,msg:'XSS: execution primitive observed after decoding',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:removeComments,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:<\s*[^>]{0,32}\b(?:script|svg|img|iframe|body|a)\b|(?:onload|onerror|onclick|onmouseover|onfocus|onbegin)\s*=|(?:src|href)\s*=\s*['\"]?\s*javascript\s*:).*(?:alert|confirm|prompt|location\s*=)" "id:900006,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: correlated markup plus execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:removeNulls,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:onclick|onload|onerror|onmouseover|onfocus|onbegin)%3d|(?:onclick|onload|onerror|onmouseover|onfocus|onbegin)\s*=|(?:<|&lt;|&#60;)\s*(?:img|svg|iframe|script|body|a)\b" "id:900007,phase:2,deny,status:403,severity:ERROR,msg:'XSS: encoded attribute or tag opener',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)[\x{0080}-\x{FFFF}]{4,}.*(?:%25|&#)|(?:%25|&#).*[\x{0080}-\x{FFFF}]{4,}" "id:900008,phase:2,log,pass,severity:NOTICE,msg:'Anomaly: mixed Unicode and encoded data requiring review',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:<\s*a\b[^>]{0,256}\bhref\s*=\s*['\"]?\s*javascript\s*:)(?!void\s*\(\s*0\s*\))|(?:<\s*iframe\b[^>]{0,256}\bsrc\s*=\s*['\"]?\s*javascript\s*:)" "id:900009,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: active javascript URI in anchor or iframe',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)<\s*img\b[^>]{0,256}\bsrc\s*=\s*[^>]{0,128}\bonerror\s*=|<\s*svg\b[^>]{0,256}\bonload\s*=|<\s*body\b[^>]{0,256}\bonload\s*=" "id:900010,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: auto-executing event handler in common gadget tag',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:compressWhitespace,t:lowercase"
+[3/4] Validating rule syntax...
+Valid: 10, Invalid: 0
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:<(?:script|svg|img|iframe|body|a)\b[^>]{0,256}\b(?:on[a-z]{3,32}\s*=|src\s*=\s*['\"]?\s*javascript\s*:|href\s*=\s*['\"]?\s*javascript\s*:)|(?:^|[\s'\"`=:(;,])javascript\s*:)" "id:900001,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: dangerous tag/event/javascript URI after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:removeNulls,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)<\s*script\b[^>]*>|<\s*/\s*script\s*>|<\s*svg\b[^>]*\bon[a-z]{3,32}\s*=|<\s*img\b[^>]*\bonerror\s*=|<\s*body\b[^>]*\bonload\s*=|<\s*iframe\b[^>]*\bsrc\s*=\s*['\"]?\s*javascript\s*:|<\s*a\b[^>]*\bhref\s*=\s*['\"]?\s*javascript\s*:" "id:900002,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: raw high-confidence tag pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:java\s*/\*.*?\*/\s*script|java\s*script)\s*:|(?:on[a-z]{3,32})\s*=\s*['\"]?\s*(?:alert|confirm|prompt|eval|settimeout|setinterval|location\s*=)" "id:900003,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: obfuscated javascript scheme or event handler execution sink',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:removeComments,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:%25(?:2[0-9a-f]|3[cCeE]|4[67]|5[bBdD]|[0-9a-f]{2})){4,}|(?:&#(?:x0*3[cCeE]|0*47|0*60|0*62|0*34|0*39|\d{2,5});){2,}" "id:900004,phase:2,deny,status:403,severity:ERROR,msg:'Anomaly: excessive multi-layer encoding consistent with XSS obfuscation',t:none,t:urlDecodeUni,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:alert|confirm|prompt)\s*\(\s*\d{0,4}\s*\)|location\s*=\s*['\"]?\s*javascript\s*:" "id:900005,phase:2,deny,status:403,severity:ERROR,msg:'XSS: execution primitive observed after decoding',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:removeComments,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:<\s*[^>]{0,32}\b(?:script|svg|img|iframe|body|a)\b|(?:onload|onerror|onclick|onmouseover|onfocus|onbegin)\s*=|(?:src|href)\s*=\s*['\"]?\s*javascript\s*:).*(?:alert|confirm|prompt|location\s*=)" "id:900006,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: correlated markup plus execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:removeNulls,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:onclick|onload|onerror|onmouseover|onfocus|onbegin)%3d|(?:onclick|onload|onerror|onmouseover|onfocus|onbegin)\s*=|(?:<|&lt;|&#60;)\s*(?:img|svg|iframe|script|body|a)\b" "id:900007,phase:2,deny,status:403,severity:ERROR,msg:'XSS: encoded attribute or tag opener',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)[\x{0080}-\x{FFFF}]{4,}.*(?:%25|&#)|(?:%25|&#).*[\x{0080}-\x{FFFF}]{4,}" "id:900008,phase:2,log,pass,severity:NOTICE,msg:'Anomaly: mixed Unicode and encoded data requiring review',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:<\s*a\b[^>]{0,256}\bhref\s*=\s*['\"]?\s*javascript\s*:)(?!void\s*\(\s*0\s*\))|(?:<\s*iframe\b[^>]{0,256}\bsrc\s*=\s*['\"]?\s*javascript\s*:)" "id:900009,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: active javascript URI in anchor or iframe',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:compressWhitespace,t:lowercase"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)<\s*img\b[^>]{0,256}\bsrc\s*=\s*[^>]{0,128}\bonerror\s*=|<\s*svg\b[^>]{0,256}\bonload\s*=|<\s*body\b[^>]{0,256}\bonload\s*=" "id:900010,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: auto-executing event handler in common gadget tag',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:compressWhitespace,t:lowercase"
+[4/4] Refining rules with rule refinement agent...
+Refined 6 rules, removed 6 duplicates
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:%(?:25)+(?:3[cC]|2[fF]|3[eE])|%(?:25)+[0-9a-fA-F]{2}){3,}" "id:900001,phase:2,block,status:403,t:none,msg:'XSS: Triple or higher percent-encoding (double %25 encoding chain) indicating multi-layer obfuscation',severity:'CRITICAL',tag:'attack-xss',tag:'custom'"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:<(?:s(?:cript|vg)|img|iframe|body|a)\b[^>]{0,300}(?:on[a-z]{3,32}[\t\n\r ]*=[^=]|src[\t\n\r ]*=[\t\n\r ]*['"]?[\t\n\r ]*javascript[\t\n\r ]*:|href[\t\n\r ]*=[\t\n\r ]*['"]?[\t\n\r ]*javascript[\t\n\r ]*:))" "id:900002,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:compressWhitespace,t:lowercase,msg:'XSS: dangerous HTML tag with event handler or javascript URI after triple URL decode',severity:'CRITICAL',tag:'attack-xss',tag:'custom'"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:^|[\s'"`=:(;,])javascript[\t\n\r ]*:" "id:900003,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:compressWhitespace,t:lowercase,msg:'XSS: bare javascript: URI scheme after decode',severity:'CRITICAL',tag:'attack-xss',tag:'custom'"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:alert|confirm|prompt)\s*\(\s*[0-9'"]{0,20}\s*\)" "id:900004,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:compressWhitespace,t:lowercase,msg:'XSS: JS execution primitive (alert/confirm/prompt) with argument after decode',severity:'CRITICAL',tag:'attack-xss',tag:'custom'"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)<\s*(?:s(?:cript|vg)|img|iframe|body|a)\b[^>]{0,300}(?:on[a-z]{3,32}[\t\n\r ]*=|src[\t\n\r ]*=[\t\n\r ]*['"]?[\t\n\r ]*javascript[\t\n\r ]*:|href[\t\n\r ]*=[\t\n\r ]*['"]?[\t\n\r ]*javascript[\t\n\r ]*:)[^>]{0,500}(?:alert|confirm|prompt|eval|location)[\s\S]{0,200}" "id:900005,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:compressWhitespace,t:lowercase,msg:'XSS: correlated tag+handler+sink pattern after full decode',severity:'CRITICAL',tag:'attack-xss',tag:'custom'"
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY "@rx (?i)(?:[\uff01-\uff5e\u0400-\u045f\u2160-\u217f]){6,}" "id:900006,phase:2,log,pass,t:none,msg:'ANOMALY: fullwidth Unicode or Cyrillic/Roman numeral homoglyphs detected - possible encoding evasion',severity:'NOTICE',tag:'attack-xss',tag:'custom',setvar:'tx.anomaly_score=+1'"
+
+Pipeline complete! Generated 6 valid rules.
+127.0.0.1 - - [30/Apr/2026 15:21:06] "POST /api/defend HTTP/1.1" 200 -
+ * Detected change in 'K:\\Workspace\\bku\\LLM4WAF\\src\\test\\defend_test_2026_04_21\\_2_defend.py', reloading

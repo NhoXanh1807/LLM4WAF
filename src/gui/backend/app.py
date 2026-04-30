@@ -200,6 +200,7 @@ def api_attack_dvwa():
         for i, item in enumerate(payloads):
             payload = item.payload
             attack_type = item.attack_type
+            print(f"[DVWA-Check] {i+1}/{len(payloads)} : {item.payload}")
             
             # Check harmfulness
             if check_harmful and payload and attack_type:
@@ -214,7 +215,6 @@ def api_attack_dvwa():
             
             # Test on DVWA
             attack_func = dvwa.DVWA_ATTACK_FUNC.get(attack_type)
-            print(f"[DVWA-Check] {i+1}/{len(payloads)} : {item.payload}")
             if attack_func and payload:
                 result = dvwa.attack(attack_type, payload, session_id, base_url=domain)
                 item.is_bypassed = not result.blocked

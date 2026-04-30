@@ -1419,13 +1419,10 @@ class DefensePipeline:
 
             for rule in invalid_rules[:self.max_retries]:  # Limit retries
                 fix_prompt = f"""The following WAF rule has a syntax error:
-
+Rule Instructions: {rule.instructions}
 Rule: {rule.rule}
-Error: {rule.validation_error}
-
+Validation Error: {rule.validation_error}
 Please fix the syntax error and return a valid {waf_type.value} rule.
-The rule should block payloads like: {payloads[0] if payloads else 'XSS/SQL injection attacks'}
-
 Return ONLY the fixed rule, no explanations."""
 
                 result = llm_completion(

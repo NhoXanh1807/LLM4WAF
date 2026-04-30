@@ -83,37 +83,55 @@
         "existing_rules_count": 44,
         "final_rules": [
             {
-                "instructions": "Deploy in blocking mode. This rule is a high-confidence virtual patch for sophisticated XSS bypasses. Monitor logs for potential false positives in applications that legitimately transmit complex, multi-encoded data structures.",
+                "instructions": "Deploy at paranoia level 1. Targets the specific double-URL-encode bypass pattern %25xx (which decodes to %xx). Catches payloads like %253C (->%3C-><). Three or more consecutive encoded chars required to suppress false positives on legitimate double-encoded content.",
                 "is_valid": true,
-                "refinement_notes": "Consolidates multiple redundant generated rules into a single, efficient rule. It uses an aggressive transformation chain, including triple urlDecodeUni and utf8toUnicode, to normalize multi-layered and Unicode-obfuscated payloads. The regex targets both dangerous HTML tags with event handlers/scriptable attributes and standalone scriptable URI schemes to ensure full coverage of the bypassed payloads.",
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<(?:script|svg|img|iframe|body|a|video|audio|form|object|embed)\\b[^>]{0,256}?(?:on[a-z]{2,20}|src|href|formaction|data)\\s*=|\\b(?:javascript|vbscript|data):)\" \"id:999001,phase:2,deny,status:403,log,msg:'XSS Bypass Detected: Multi-layered encoding or Unicode obfuscation',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:cssDecode,t:jsDecode,t:lowercase,t:removeNulls,t:compressWhitespace\"",
+                "refinement_notes": "New focused rule replacing the overly broad rule 900004. Targets the concrete bypass mechanism: %25 followed by hex digits appearing in chains of 3+, covering %253CSvG, %253CiFRAme, JaVasCript%253A patterns. Avoids the problematic Unicode range syntax that ModSecurity may not support reliably.",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:%(?:25)+(?:3[cC]|2[fF]|3[eE])|%(?:25)+[0-9a-fA-F]{2}){3,}\" \"id:900001,phase:2,block,status:403,t:none,msg:'XSS: Triple or higher percent-encoding (double %25 encoding chain) indicating multi-layer obfuscation',severity:'CRITICAL',tag:'attack-xss',tag:'custom'\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Deploy in logging/scoring mode. This is an anomaly detection rule and should not block directly. Use in conjunction with a thresholding rule (e.g., 999004).",
+                "instructions": "Core blocking rule applied after triple URL decode and double HTML entity decode. Covers <svg/onLoad=>, <script>, <iframe src=javascript:>, <img onerror=>, etc. Apply to all user-supplied input. Recommended action: BLOCK.",
                 "is_valid": true,
-                "refinement_notes": "Retained from the generated set as a unique behavioral rule not present in CRS. It detects repeated URL or HTML entity encoding, a common evasion tactic. The regex was optimized for conciseness. This rule contributes to an anomaly score.",
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?:(?:%25[2-7][0-9a-f]){3,}|(?:&#x?[0-9a-f]{2,6};){3,})\" \"id:999002,phase:2,pass,log,msg:'XSS Anomaly: Excessive Layered Encoding',severity:'WARNING',t:none,t:utf8toUnicode,t:urlDecodeUni,t:lowercase,t:removeNulls,setvar:'tx.inbound_xss_score=+2'\"",
+                "refinement_notes": "Refined from generated rules 900001 and 900002. Reduced redundant transforms (3x urlDecodeUni is the maximum useful depth for observed payloads). Tightened quantifiers with {0,300} bound on tag internals to prevent catastrophic backtracking. Removed duplicate t:urlDecodeUni listed three times in original which was syntactically redundant - kept as three separate transforms which is how ModSecurity chains them. Merged overlapping patterns from 900001/900002 into one precise rule.",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<(?:s(?:cript|vg)|img|iframe|body|a)\\b[^>]{0,300}(?:on[a-z]{3,32}[\\t\\n\\r ]*=[^=]|src[\\t\\n\\r ]*=[\\t\\n\\r ]*['\"]?[\\t\\n\\r ]*javascript[\\t\\n\\r ]*:|href[\\t\\n\\r ]*=[\\t\\n\\r ]*['\"]?[\\t\\n\\r ]*javascript[\\t\\n\\r ]*:))\" \"id:900002,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:compressWhitespace,t:lowercase,msg:'XSS: dangerous HTML tag with event handler or javascript URI after triple URL decode',severity:'CRITICAL',tag:'attack-xss',tag:'custom'\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Deploy in logging/scoring mode. This is a low-confidence indicator. It is effective against certain obfuscation techniques but may cause false positives in international applications. Tune or disable if noisy.",
+                "instructions": "Catches standalone javascript: URI patterns not inside HTML tags, covering JaVasCript%253AaLeRT payloads after triple decode. The leading boundary assertion prevents matching mid-word tokens. Recommended action: BLOCK.",
                 "is_valid": true,
-                "refinement_notes": "Retained from the generated set as a unique behavioral rule for detecting Unicode whitespace obfuscation. The case-insensitive flag and lowercase transformation, which are not relevant for this pattern, were removed for efficiency.",
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx [\\x{00a0}\\x{1680}\\x{2000}-\\x{200f}\\x{2028}\\x{202f}\\x{205f}\\x{3000}]\" \"id:999003,phase:2,pass,log,msg:'XSS Anomaly: Suspicious Unicode Whitespace Obfuscation',severity:'NOTICE',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:removeNulls,setvar:'tx.inbound_xss_score=+1'\"",
+                "refinement_notes": "Extracted from 900001/900003. Isolated the javascript: URI pattern as a separate rule to keep regex complexity manageable and allow independent tuning. Boundary assertion [\\s'\"`=:(;,] or ^ prevents false positives on substrings. Triple urlDecodeUni + double htmlEntityDecode covers all observed encoding depths.",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:^|[\\s'\"`=:(;,])javascript[\\t\\n\\r ]*:\" \"id:900003,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:compressWhitespace,t:lowercase,msg:'XSS: bare javascript: URI scheme after decode',severity:'CRITICAL',tag:'attack-xss',tag:'custom'\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "This rule executes the block based on the anomaly score. The threshold of '3' may need to be adjusted based on application-specific traffic patterns and false positive rates.",
+                "instructions": "Catch-all for alert(1), confirm(), prompt() after full normalization. Complements tag-based rules by targeting the execution sink directly. Recommended action: BLOCK.",
                 "is_valid": true,
-                "refinement_notes": "Retained as the necessary companion to the scoring rules. The threshold is set to 3, requiring at least two indicators to trigger a block, which balances security with a lower risk of false positives.",
-                "rule": "SecRule TX:inbound_xss_score \"@ge 3\" \"id:999004,phase:2,deny,status:403,log,msg:'Inbound XSS Anomaly Threshold Exceeded',severity:'CRITICAL',t:none\"",
+                "refinement_notes": "Refined from generated rule 900005. Removed location=javascript: (covered by rule 900003). Tightened argument pattern to [0-9'\"]{0,20} to reduce false positives while still matching alert(1), alert('xss') etc. Removed removeComments transform (not needed here). Kept triple decode chain.",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:alert|confirm|prompt)\\s*\\(\\s*[0-9'\"]{0,20}\\s*\\)\" \"id:900004,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:compressWhitespace,t:lowercase,msg:'XSS: JS execution primitive (alert/confirm/prompt) with argument after decode',severity:'CRITICAL',tag:'attack-xss',tag:'custom'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "High-confidence correlation rule requiring tag + event/uri handler + execution sink in same value. Very low false positive rate. Covers <svg/onLoad=alErt(1)>, <iframe src=javascript:alert(1)>. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": "Refined from generated rule 900006. Bounded all wildcard quantifiers to prevent ReDoS. Removed the .* between segments and replaced with bounded [^>]{0,500} and [\\s\\S]{0,200}. This is the most targeted of the rules and should produce near-zero false positives.",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)<\\s*(?:s(?:cript|vg)|img|iframe|body|a)\\b[^>]{0,300}(?:on[a-z]{3,32}[\\t\\n\\r ]*=|src[\\t\\n\\r ]*=[\\t\\n\\r ]*['\"]?[\\t\\n\\r ]*javascript[\\t\\n\\r ]*:|href[\\t\\n\\r ]*=[\\t\\n\\r ]*['\"]?[\\t\\n\\r ]*javascript[\\t\\n\\r ]*:)[^>]{0,500}(?:alert|confirm|prompt|eval|location)[\\s\\S]{0,200}\" \"id:900005,phase:2,block,status:403,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:compressWhitespace,t:lowercase,msg:'XSS: correlated tag+handler+sink pattern after full decode',severity:'CRITICAL',tag:'attack-xss',tag:'custom'\"",
+                "validation_error": null,
+                "validation_warnings": null,
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Detection-only telemetry rule for the fullwidth Unicode payloads (FF01-FF5E range covers fullwidth ASCII, 0400-045F covers Cyrillic homoglyphs, 2160-217F covers Roman numerals used as lookalikes). ModSecurity cannot normalize Unicode confusables, so this rule LOGs and scores rather than blocks. Tune and promote to block after establishing a baseline. Recommended action: LOG+SCORE initially.",
+                "is_valid": true,
+                "refinement_notes": "Replaces generated rule 900008. Uses explicit Unicode ranges matching the actual bypass payloads (fullwidth ％１２３, Cyrillic С/с/А/а/Е/е, Roman numeral ⅼ/ⅼ). Simplified from the complex mixed-pattern regex. Action changed to log+pass+score to avoid false positives since legitimate Unicode content is common.",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:[\\uff01-\\uff5e\\u0400-\\u045f\\u2160-\\u217f]){6,}\" \"id:900006,phase:2,log,pass,t:none,msg:'ANOMALY: fullwidth Unicode or Cyrillic/Roman numeral homoglyphs detected - possible encoding evasion',severity:'NOTICE',tag:'attack-xss',tag:'custom',setvar:'tx.anomaly_score=+1'\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
@@ -121,10 +139,10 @@
         ],
         "generated_rules": [
             {
-                "instructions": "Primary blocking rule for decoded and case-normalized XSS vectors using script/svg/img/iframe/body/a tags, inline event handlers, and javascript/data URI sinks. Repeated t:urlDecodeUni addresses multi-layer encoding. Keep in blocking mode.",
+                "instructions": "Primary blocking rule for normalized XSS payloads. Covers double/triple URL-encoding, entity encoding, mixed case, and common dangerous tags with event handlers or javascript: URIs. Recommended action: BLOCK.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<(?:script|svg|img|iframe|body|a)\\b[^>]{0,256}(?:on[a-z]{2,32}\\s*=|(?:href|src)\\s*=\\s*['\\\"]?\\s*(?:javascript|data)\\s*:)|(?:on[a-z]{2,32}\\s*=\\s*[^&\\s]{0,256})|(?:<(?:script|svg|img|iframe|body|a)\\b))\" \"id:900001,phase:2,deny,status:403,log,capture,msg:'XSS normalized tag or handler pattern',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls\"",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<(?:script|svg|img|iframe|body|a)\\b[^>]{0,256}\\b(?:on[a-z]{3,32}\\s*=|src\\s*=\\s*['\\\"]?\\s*javascript\\s*:|href\\s*=\\s*['\\\"]?\\s*javascript\\s*:)|(?:^|[\\s'\\\"`=:(;,])javascript\\s*:)\" \"id:900001,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: dangerous tag/event/javascript URI after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:removeNulls,t:compressWhitespace,t:lowercase\"",
                 "validation_error": null,
                 "validation_warnings": [
                     "No actions block found (ok for chained rules)"
@@ -132,46 +150,10 @@
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Blocks javascript: URIs with comment injection and mixed encoding/case. Important for href/src and free-form URI payloads. Keep blocking.",
+                "instructions": "High-confidence raw signature rule for classic reflected/stored XSS patterns seen in the bypass set. Recommended action: BLOCK.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:javascript\\s*(?:/\\*.*?\\*/\\s*)*:)\" \"id:900002,phase:2,deny,status:403,log,capture,msg:'Obfuscated javascript URI scheme',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls\"",
-                "validation_error": null,
-                "validation_warnings": null,
-                "waf_type": "modsecurity"
-            },
-            {
-                "instructions": "Catches raw or entity-encoded opening of high-risk tags after repeated decoding. Useful against payloads using &#60; and double-encoded %253C forms.",
-                "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<\\s*(?:script|svg|img|iframe|body|a)\\b|&\\#x?0*3c\\s*(?:script|svg|img|iframe|body|a)\\b|&\\#0*60\\s*(?:script|svg|img|iframe|body|a)\\b)\" \"id:900003,phase:2,deny,status:403,log,capture,msg:'Encoded or direct dangerous HTML tag open',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls\"",
-                "validation_error": null,
-                "validation_warnings": null,
-                "waf_type": "modsecurity"
-            },
-            {
-                "instructions": "Blocks event handler attributes such as onload, onerror, onclick after normalization. High coverage for body/img/svg payloads. If application legitimately accepts raw HTML, scope this rule to untrusted inputs only.",
-                "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:\\bon[a-z]{2,32}\\b\\s*=)\" \"id:900004,phase:2,deny,status:403,log,capture,msg:'Inline event handler assignment',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls\"",
-                "validation_error": null,
-                "validation_warnings": null,
-                "waf_type": "modsecurity"
-            },
-            {
-                "instructions": "Behavioral scoring rule for common proof-of-execution functions. Use as additive signal rather than direct block to reduce false positives. Pair with anomaly thresholding.",
-                "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:alert|confirm|prompt)\\s*\\(\" \"id:900005,phase:2,log,pass,capture,msg:'Client-side execution function indicator',severity:'WARNING',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls,setvar:'tx.inbound_xss_score=+3'\"",
-                "validation_error": null,
-                "validation_warnings": null,
-                "waf_type": "modsecurity"
-            },
-            {
-                "instructions": "Blocks assignment to location and href/src javascript: sinks seen in obfuscated image and anchor payloads. Keep blocking.",
-                "is_valid": true,
-                "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:location\\s*=\\s*['\\\"]?\\s*javascript\\s*:|(?:href|src)\\s*=\\s*['\\\"]?\\s*javascript\\s*:)\" \"id:900006,phase:2,deny,status:403,log,capture,msg:'Scriptable navigation sink',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls\"",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)<\\s*script\\b[^>]*>|<\\s*/\\s*script\\s*>|<\\s*svg\\b[^>]*\\bon[a-z]{3,32}\\s*=|<\\s*img\\b[^>]*\\bonerror\\s*=|<\\s*body\\b[^>]*\\bonload\\s*=|<\\s*iframe\\b[^>]*\\bsrc\\s*=\\s*['\\\"]?\\s*javascript\\s*:|<\\s*a\\b[^>]*\\bhref\\s*=\\s*['\\\"]?\\s*javascript\\s*:\" \"id:900002,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: raw high-confidence tag pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
                 "validation_error": null,
                 "validation_warnings": [
                     "No actions block found (ok for chained rules)"
@@ -179,37 +161,81 @@
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Anomaly rule for repeated URL/entity encoding commonly used in bypass attempts. Log and score by default to avoid false positives on benign encoded content.",
+                "instructions": "Detects comment-injected javascript: and inline event handlers invoking common script sinks. This addresses payloads like JavAS/*%20*/criPt:. Recommended action: BLOCK.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:%25(?:2[0-9a-f]|3[0-9a-f]|4[0-9a-f]|5[0-9a-f])){3,}|(?:&#x?[0-9a-f]{2,6};){3,}\" \"id:900007,phase:2,log,pass,capture,msg:'Excessive layered encoding pattern',severity:'WARNING',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:lowercase,t:removeNulls,setvar:'tx.inbound_xss_score=+2'\"",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:java\\s*/\\*.*?\\*/\\s*script|java\\s*script)\\s*:|(?:on[a-z]{3,32})\\s*=\\s*['\\\"]?\\s*(?:alert|confirm|prompt|eval|settimeout|setinterval|location\\s*=)\" \"id:900003,phase:2,block,status:403,severity:CRITICAL,msg:'XSS: obfuscated javascript scheme or event handler execution sink',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:removeComments,t:compressWhitespace,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Anomaly rule for repeated percent-encoding and stacked HTML entities commonly used to hide XSS payloads. Generalized for multi-layer encoding abuse. Recommended action: BLOCK in high-security mode; LOG if the application legitimately transports heavily encoded content.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:%25(?:2[0-9a-f]|3[cCeE]|4[67]|5[bBdD]|[0-9a-f]{2})){4,}|(?:&#(?:x0*3[cCeE]|0*47|0*60|0*62|0*34|0*39|\\d{2,5});){2,}\" \"id:900004,phase:2,deny,status:403,severity:ERROR,msg:'Anomaly: excessive multi-layer encoding consistent with XSS obfuscation',t:none,t:urlDecodeUni,t:lowercase\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Flags Unicode whitespace obfuscation like thin spaces and ideographic spaces used to split tokens such as img src onerror. Logging/scoring only recommended unless traffic is very controlled.",
+                "instructions": "Catches direct execution primitives after normalization, including alert/confirm/prompt and location=javascript:. Recommended action: BLOCK.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:[\\x{00a0}\\x{1680}\\x{2000}-\\x{200f}\\x{2028}\\x{202f}\\x{205f}\\x{3000}])\" \"id:900008,phase:2,log,pass,capture,msg:'Suspicious non-standard whitespace in request',severity:'NOTICE',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls,setvar:'tx.inbound_xss_score=+1'\"",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:alert|confirm|prompt)\\s*\\(\\s*\\d{0,4}\\s*\\)|location\\s*=\\s*['\\\"]?\\s*javascript\\s*:\" \"id:900005,phase:2,deny,status:403,severity:ERROR,msg:'XSS: execution primitive observed after decoding',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:removeComments,t:compressWhitespace,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Correlation rule requiring both a dangerous markup/context indicator and an execution primitive, reducing false positives while preserving broad variant coverage. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<\\s*[^>]{0,32}\\b(?:script|svg|img|iframe|body|a)\\b|(?:onload|onerror|onclick|onmouseover|onfocus|onbegin)\\s*=|(?:src|href)\\s*=\\s*['\\\"]?\\s*javascript\\s*:).*(?:alert|confirm|prompt|location\\s*=)\" \"id:900006,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: correlated markup plus execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:htmlEntityDecode,t:removeNulls,t:compressWhitespace,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "Targets encoded attribute assignments and encoded tag openings, including samples like onclick%253D and entity-encoded angle brackets. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:onclick|onload|onerror|onmouseover|onfocus|onbegin)%3d|(?:onclick|onload|onerror|onmouseover|onfocus|onbegin)\\s*=|(?:<|&lt;|&#60;)\\s*(?:img|svg|iframe|script|body|a)\\b\" \"id:900007,phase:2,deny,status:403,severity:ERROR,msg:'XSS: encoded attribute or tag opener',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Targets direct and encoded script tag delimiters including encoded closing slash forms like &#47;. Keep blocking.",
+                "instructions": "Detection-only telemetry rule for payloads mixing non-ASCII characters with encoding layers, useful against homoglyph/fullwidth evasion. ModSecurity lacks full Unicode confusable normalization, so this rule should be used to LOG and tune before promotion to blocking.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<\\s*/\\s*script\\s*>|<\\s*script\\b[^>]*>|&\\#x?0*2f\\s*script|&\\#0*47\\s*script)\" \"id:900009,phase:2,deny,status:403,log,capture,msg:'Script tag open or close sequence',severity:'CRITICAL',t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeNulls\"",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)[\\x{0080}-\\x{FFFF}]{4,}.*(?:%25|&#)|(?:%25|&#).*[\\x{0080}-\\x{FFFF}]{4,}\" \"id:900008,phase:2,log,pass,severity:NOTICE,msg:'Anomaly: mixed Unicode and encoded data requiring review',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
             },
             {
-                "instructions": "Threshold rule to convert multiple medium-confidence indicators into a block. Tune threshold upward if application legitimately carries encoded markup or code snippets.",
+                "instructions": "Focused javascript: URI rule for anchor and iframe contexts. Includes a narrow negative lookahead to avoid trivial javascript:void(0) patterns if those are legitimately used by the application. Recommended action: BLOCK unless such URIs are required, in which case restrict scope carefully.",
                 "is_valid": true,
                 "refinement_notes": null,
-                "rule": "SecRule TX:inbound_xss_score \"@ge 4\" \"id:900010,phase:2,deny,status:403,log,msg:'Inbound XSS anomaly threshold exceeded',severity:'CRITICAL',t:none\"",
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)(?:<\\s*a\\b[^>]{0,256}\\bhref\\s*=\\s*['\\\"]?\\s*javascript\\s*:)(?!void\\s*\\(\\s*0\\s*\\))|(?:<\\s*iframe\\b[^>]{0,256}\\bsrc\\s*=\\s*['\\\"]?\\s*javascript\\s*:)\" \"id:900009,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: active javascript URI in anchor or iframe',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:compressWhitespace,t:lowercase\"",
+                "validation_error": null,
+                "validation_warnings": [
+                    "No actions block found (ok for chained rules)"
+                ],
+                "waf_type": "modsecurity"
+            },
+            {
+                "instructions": "High-confidence gadget rule for auto-triggered handlers in img/svg/body tags, directly covering the observed onerror/onload bypasses. Recommended action: BLOCK.",
+                "is_valid": true,
+                "refinement_notes": null,
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|XML:/*|REQUEST_BODY \"@rx (?i)<\\s*img\\b[^>]{0,256}\\bsrc\\s*=\\s*[^>]{0,128}\\bonerror\\s*=|<\\s*svg\\b[^>]{0,256}\\bonload\\s*=|<\\s*body\\b[^>]{0,256}\\bonload\\s*=\" \"id:900010,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS: auto-executing event handler in common gadget tag',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:compressWhitespace,t:lowercase\"",
                 "validation_error": null,
                 "validation_warnings": null,
                 "waf_type": "modsecurity"
@@ -218,11 +244,11 @@
         "llm_provider": "gpt-5.4",
         "rag_sources": [],
         "stats": {
-            "duplicates_removed": 7,
+            "duplicates_removed": 6,
             "num_clusters": 4,
             "rules_generated": 10,
             "rules_invalid": 0,
-            "rules_refined": 4,
+            "rules_refined": 6,
             "rules_valid": 10,
             "total_payloads": 44
         },

