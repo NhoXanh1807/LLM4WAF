@@ -10,3 +10,4 @@ src/gui/backend/.env
 .log
 src/gui/frontend/.env
 /src/gui/backend/session_logs
+/src/web/frontend/node_modules
