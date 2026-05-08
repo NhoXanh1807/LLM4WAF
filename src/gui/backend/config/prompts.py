@@ -92,6 +92,7 @@ def _get_blue_team_waf_constraints(waf_name: str) -> str:
    if "modsec" in waf_name_lower:
       return """**ModSecurity-Specific Constraints**:
 - Output ModSecurity syntax only.
+- Latest ModSecurity version using deny instead of block.
 - Prefer SecRule or SecAction directives.
 - Use valid ModSecurity transformations and actions only.
 - Do not output AWS JSON, Cloudflare expressions, or Naxsi MainRule/BasicRule syntax.
