@@ -55,7 +55,7 @@ from core.generator import PayloadResult, generate_payloads_phase1, generate_pay
 from services_external import dvwa
 from core.generator import PayloadResult
 import core.services.payload_harmness_validator as harmfulness
-from config.settings import DEFAULT_NUM_DEFENSE_RULES
+from core.settings import DEFAULT_NUM_DEFENSE_RULES
 
 # Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> rule refinement
 from defense.defense_pipeline import DefensePipeline

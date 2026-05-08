@@ -5,7 +5,8 @@ LLM API client service for OpenAI and Claude (Anthropic) interactions
 import json
 import requests
 from dataclasses import asdict
-from classes import PayloadResult
+
+from core.dtos import PayloadResult
 try:
     from ..config.settings import OPENAI_API_KEY, OPENAI_MODEL, CLAUDE_API_KEY, CLAUDE_MODEL
 except ImportError:

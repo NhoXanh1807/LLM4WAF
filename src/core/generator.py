@@ -6,7 +6,8 @@ import random
 from typing import List
 from services_external import llm
 from dataclasses import asdict
-from classes import PayloadResult
+
+from .dtos import PayloadResult
 
 ATTACK_OBFUSCATE_TECHNIQUES = {
         "xss": [
