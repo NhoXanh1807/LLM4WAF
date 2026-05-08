@@ -38,7 +38,7 @@ from validator_syntax_rule import (
     ValidationResult,
 )
 
-from .refine_rule_agent import RefineRuleAgent, RefinementResult
+from . import refine_rule_agent
 
 
 class PipelineStage(Enum):
@@ -172,7 +172,6 @@ class DefensePipeline:
 
         # Initialize components
         self.syntax_validator = SyntaxValidator()
-        self.refine_rule_agent = RefineRuleAgent() if enable_refinement else None
 
     def generate_defense_rules(
         self,
@@ -288,10 +287,10 @@ class DefensePipeline:
 
             # Stage 4: Rule Refinement
             result.stage = PipelineStage.RULE_REFINEMENT
-            if self.enable_refinement and self.refine_rule_agent and self.refine_rule_agent.available:
+            if self.enable_refinement and refine_rule_agent.is_available():
                 print("[4/4] Refining rules with rule refinement agent...")
 
-                refinement_result = self.refine_rule_agent.refine_rules(
+                refinement_result = refine_rule_agent.refine_rules(
                     new_rules=[{"rule": r.rule, "instructions": r.instructions} for r in valid_rules],
                     bypassed_payloads=bypassed_payloads,
                     existing_rules=[{"rule": r} for r in (existing_rules or [])],

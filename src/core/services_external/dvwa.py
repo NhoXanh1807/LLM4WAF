@@ -59,7 +59,7 @@ ExploitVerifier = None
 ExploitStatus = None
 ExploitResult = None
 
-from services.exploit_verifier import ExploitVerifier, ExploitStatus, ExploitResult
+from core.exploit_verifier import ExploitVerifier, ExploitStatus, ExploitResult
 VERIFIER_AVAILABLE = True
 
 class AttackStatus(Enum):
