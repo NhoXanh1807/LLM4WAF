@@ -1128,8 +1128,8 @@
         "attack_type": "sql_injection_blind",
         "waf": "AWS",
         "phase": "PHASE_3",
-        "status_code": 403,
-        "is_bypassed": false,
+        "status_code": 404,
+        "is_bypassed": true,
         "is_harmful": true,
         "harmness": {
             "payload": "BiNtRAy_ApI_KEy=",
@@ -1314,8 +1314,8 @@
         "attack_type": "sql_injection_blind",
         "waf": "AWS",
         "phase": "PHASE_3",
-        "status_code": 403,
-        "is_bypassed": false,
+        "status_code": 404,
+        "is_bypassed": true,
         "is_harmful": false,
         "harmness": {
             "payload": "aDMin'",

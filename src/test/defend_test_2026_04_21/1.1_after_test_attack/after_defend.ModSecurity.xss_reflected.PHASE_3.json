@@ -72,8 +72,8 @@
         "attack_type": "xss_reflected",
         "waf": "ModSecurity",
         "phase": "PHASE_1",
-        "status_code": 200,
-        "is_bypassed": true,
+        "status_code": 403,
+        "is_bypassed": false,
         "is_harmful": true,
         "harmness": {
             "payload": "<IFRaMe SRc=JavAScriPT:AleRT(1)>",
@@ -96,8 +96,8 @@
         "attack_type": "xss_reflected",
         "waf": "ModSecurity",
         "phase": "PHASE_1",
-        "status_code": 200,
-        "is_bypassed": true,
+        "status_code": 403,
+        "is_bypassed": false,
         "is_harmful": false,
         "harmness": {
             "payload": "prompt(12345690)",
@@ -505,8 +505,8 @@
         "attack_type": "xss_reflected",
         "waf": "ModSecurity",
         "phase": "PHASE_1",
-        "status_code": 200,
-        "is_bypassed": true,
+        "status_code": 403,
+        "is_bypassed": false,
         "is_harmful": true,
         "harmness": {
             "payload": "<SCript>ALeRt(1)</scRiPt>",
@@ -890,8 +890,8 @@
         "attack_type": "xss_reflected",
         "waf": "ModSecurity",
         "phase": "PHASE_1",
-        "status_code": 200,
-        "is_bypassed": true,
+        "status_code": 403,
+        "is_bypassed": false,
         "is_harmful": true,
         "harmness": {
             "payload": "<IMG sRC=x ONERROR=LOcaTion='javaScriPt:AleRT(1)'>",

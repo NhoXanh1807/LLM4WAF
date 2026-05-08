@@ -22,7 +22,8 @@ os.makedirs(output_dir, exist_ok=True)
 
 def main():
     for waf in WAF_DVWA_URLS:
-        if waf != "ModSecurity":
+        if list(WAF_DVWA_URLS.keys()).index(waf) <= 1:
+            print(f"skip {waf}")
             continue
         for attack_type in VALID_ATTACK_TYPES:
             for phase in PHASES:
