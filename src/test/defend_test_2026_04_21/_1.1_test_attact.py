@@ -25,13 +25,13 @@ def main():
         if list(WAF_DVWA_URLS.keys()).index(waf) <= 1:
             print(f"skip {waf}")
             continue
+        # if waf != "AWS":
+        #     print(f"skip {waf}")
+        #     continue
         for attack_type in VALID_ATTACK_TYPES:
             for phase in PHASES:
                 input_file_name = f"result.{waf}.{attack_type}.{phase}.json"
-                output_file_name = f"gpt54.result.claude.{waf}.{attack_type}.{phase}.json"
-                if not os.path.exists(os.path.join(input_dir, input_file_name)):
-                    print(f"Not found {input_file_name}, skipping...")
-                    continue
+                output_file_name = f"after_defend.{waf}.{attack_type}.{phase}.json"
                 with open(os.path.join(input_dir, input_file_name), 'r', encoding='utf-8') as f:
                     payload_results = json.load(f)
                 print(f"Testing {len(payload_results)} payloads against {waf} for attack type {attack_type}...")

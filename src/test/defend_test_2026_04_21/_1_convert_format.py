@@ -1,9 +1,11 @@
-from utils import VALID_ATTACK_TYPES, WAF_DVWA_URLS, PHASES
+
 
 import os
 import sys
 import json
 sys.stdout.reconfigure(encoding='utf-8')
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from utils import VALID_ATTACK_TYPES, WAF_DVWA_URLS, PHASES
 
 input_dir = os.path.join(os.path.dirname(__file__), '0_payload_results')
 output_dir = os.path.join(os.path.dirname(__file__), '1_after_convert')
