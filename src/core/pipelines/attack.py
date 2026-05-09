@@ -25,9 +25,11 @@ def _1_detect_waf(domain: str) -> dict[str, str]:
         raise ValueError("Missing 'domain' field")
     if not domain.startswith("http://") and not domain.startswith("https://"):
         domain = "http://" + domain
+    print(f"[DETECT-WAF] Detecting domain: {domain}")
     waf = WAFW00F(domain)
     waf_info = waf.identwaf()
     waf_name = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
+    print(f"[DETECT-WAF] Detected: {waf_name}")
     return {
         "domain": domain,
         "waf_name": waf_name,
@@ -70,12 +72,13 @@ def _3_test_attack(
     normalized_domain = _normalize_domain(domain)
     payload_results = list(payloads or [])
 
+    print(f"[DVWA] Logging in to {normalized_domain}...")
     session_id = dvwa.loginDVWA(base_url=normalized_domain)
 
-    for item in payload_results:
+    import tqdm
+    for item in tqdm.tqdm(payload_results, desc="[DVWA] Testing payloads"):
         payload = item.payload
         attack_type = item.attack_type
-
         if check_harmful and payload and attack_type:
             if "xss" in attack_type.lower():
                 harmfulness_result = evaluate_xss_payload(payload)
@@ -94,6 +97,5 @@ def _3_test_attack(
         else:
             item.is_bypassed = None
             item.status_code = None
-
     return payload_results
 

@@ -63,10 +63,14 @@ def _1_clustering(
     for payload, label in zip(bypassed_payloads, labels):
         grouped[int(label)].append(payload)
 
+    print(f"[CLUSTERING] Formed {len(grouped)} clusters from {len(bypassed_payloads)} payloads")
     clusters = []
     for label, cluster_payloads in grouped.items():
         if label == -1:
             continue
+        print(f"\tCluster {label} -> {len(cluster_payloads)} payloads")
+        for p in cluster_payloads:
+            print(f"\t\t{p}")
         clusters.append({
             "cluster_id": int(label),
             "payloads": cluster_payloads,
@@ -91,6 +95,14 @@ def _2_rag_retrieve(
         final_k=4,
         filter_rules_only=True,
     )
+    print(f"[RAG] Queries :")
+    for query in rag_result.get("queries", []):
+        print(f"\t{query}")
+
+    print(f"[RAG] Sources :")
+    for source in rag_result.get("sources", []):
+        print(f"\t[{source['source']}]")
+        print(f"\t\t[{source['content'].replace('\n', '\n\t\t')}]")
 
     rag_sources = rag_result["sources"]
     rag_context = rag_result["context"]
@@ -163,6 +175,11 @@ Prioritize the specific bypassed payloads mentioned above.
         for item in parsed.get("items", [])
         if item.get("rule")
     ]
+    print(f"[GENERATE-RULES] Generated {len(generated_rules)} rules")
+    for i, rule in enumerate(generated_rules):
+        print(f"\tRule #{i + 1}: {rule['rule']}")
+        if rule.get("instructions"):
+            print(f"\t\tInstructions: {rule['instructions']}")
     return generated_rules, prompt
 
 
@@ -184,6 +201,12 @@ def _4_validate_rules_syntax(
         else:
             invalid_rules.append(enriched_rule)
 
+    print(f"[VALIDATION] {len(valid_rules)} valid rules, {len(invalid_rules)} invalid rules")
+    for i, rule in enumerate(invalid_rules):
+        print(f"\tInvalid Rule #{i + 1}: {rule['rule']}")
+        print(f"\t\tError: {rule['validation_error']}")
+        if rule.get("validation_warnings"):
+            print(f"\t\tWarnings: {rule['validation_warnings']}")
     return valid_rules, invalid_rules
 
 
@@ -229,6 +252,15 @@ def _5_retry_invalid_rules(
             normalized_rule["validation_error"] = None
             normalized_rule["validation_warnings"] = validation.warnings or []
             retried_rules.append(normalized_rule)
+
+    print(f"[RETRY] Retried {len(retried_rules)} rules")
+    for i, rule in enumerate(retried_rules):
+        print(f"\tRetried Rule #{i + 1}: {rule['rule']}")
+        if rule.get("instructions"):
+            print(f"\t\tInstructions: {rule['instructions']}")
+        if rule.get("validation_warnings"):
+            print(f"\t\tWarnings: {rule['validation_warnings']}")
+
 
     return retried_rules
 
