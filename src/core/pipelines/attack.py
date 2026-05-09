@@ -21,12 +21,17 @@ def _normalize_domain(domain: str) -> str:
 
 
 def _1_detect_waf(domain: str) -> dict[str, str]:
+    if not domain:
+        raise ValueError("Missing 'domain' field")
+    if not domain.startswith("http://") and not domain.startswith("https://"):
+        domain = "http://" + domain
     waf = WAFW00F(domain)
     waf_info = waf.identwaf()
     waf_name = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
     return {
         "domain": domain,
         "waf_name": waf_name,
+        "waf_info": waf_info,
     }
 
 
@@ -92,36 +97,3 @@ def _3_test_attack(
 
     return payload_results
 
-
-def run_attack_pipeline(
-    domain: str,
-    attack_type: str,
-    num_payloads: int = 5,
-    payloads_history: Optional[list[PayloadResult]] = None,
-    check_harmful: bool = True,
-) -> dict[str, Any]:
-    detect_result = _1_detect_waf(domain)
-    generated_payloads = _2_generate_payload(
-        waf_name=detect_result["waf_name"],
-        attack_type=attack_type,
-        num_payloads=num_payloads,
-        payloads_history=payloads_history,
-    )
-    tested_payloads = _3_test_attack(
-        domain=detect_result["domain"],
-        payloads=generated_payloads,
-        check_harmful=check_harmful,
-    )
-
-    return {
-        "domain": detect_result["domain"],
-        "waf_name": detect_result["waf_name"],
-        "attack_type": attack_type,
-        "payloads": tested_payloads,
-        "stats": {
-            "num_payloads": len(tested_payloads),
-            "num_bypassed": len([payload for payload in tested_payloads if payload.is_bypassed]),
-            "num_blocked": len([payload for payload in tested_payloads if payload.is_bypassed is False]),
-            "num_harmful": len([payload for payload in tested_payloads if payload.is_harmful]),
-        },
-    }

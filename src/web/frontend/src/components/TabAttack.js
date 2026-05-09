@@ -65,7 +65,7 @@ const AttackTab = ({
             var randomPayloads = [];
             setLoadingGenRandom(true);
             try {
-                let res = await Services.apiGeneratePayloadRandom(wafNameVal, attackType, numPayloads, []);
+                let res = await Services.apiGeneratePayload(wafNameVal, attackType, numPayloads, null);
                 let data = await res.json();
                 if (!res.ok) throw new Error(data?.error || `Generate random payloads error: ${res.status}`);
                 randomPayloads = data?.payloads || [];
@@ -110,7 +110,7 @@ const AttackTab = ({
                 setLoadingGenAdaptive(true);
                 let adaptivePayloads = [];
                 try {
-                    let res = await Services.apiGeneratePayloadAdaptive(wafNameVal, attackType, autoNumAdaptive, randomPayloads);
+                    let res = await Services.apiGeneratePayload(wafNameVal, attackType, autoNumAdaptive, randomPayloads);
                     let data = await res.json();
                     if (!res.ok) throw new Error(data?.error || `Generate adaptive payloads error: ${res.status}`);
                     adaptivePayloads = data?.payloads || [];
@@ -183,7 +183,7 @@ const AttackTab = ({
         setLoadingGenRandom(true);
         setError(null);
         try {
-            const res = await Services.apiGeneratePayloadRandom(wafName, attackType, numPayloads, []);
+            const res = await Services.apiGeneratePayload(wafName, attackType, numPayloads, null);
             const data = await res.json();
             if (!res.ok) {
                 setError(data?.error || `Server error: ${res.status}`);
@@ -204,7 +204,7 @@ const AttackTab = ({
         setLoadingGenAdaptive(true);
         setError(null);
         try {
-            const res = await Services.apiGeneratePayloadAdaptive(wafName, attackType, numPayloads, payloadsRandom);
+            const res = await Services.apiGeneratePayload(wafName, attackType, numPayloads, payloadsRandom);
             const data = await res.json();
             if (!res.ok) {
                 setError(data?.error || `Server error: ${res.status}`);

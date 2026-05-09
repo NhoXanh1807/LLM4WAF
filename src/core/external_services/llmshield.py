@@ -42,6 +42,7 @@ def llmshield_generate_payloads(waf_name: str, attack_type: str, techniques: str
             response = requests.post(url, json=data)
             return response.text
         except Exception as e:
+            print(f"[Ext-LLMShield] {str(e)}. Retrying...")
             continue
 
 
@@ -126,7 +127,6 @@ def rag_retrieve(
         #         "sources": [],
         #         "queries": [],
         #     }
-
         result.setdefault("attack_type_sent", resolved_attack_type)
         return result
 

@@ -2,7 +2,6 @@ import React from 'react';
 
 function PayloadResultsTable({ wafName, payloads, darkMode, onClear, maxHeight = 400 }) {
     const data = Array.isArray(payloads) ? payloads : [];
-    console.log(data)
     // Statistics
     const total = data.length;
     const bypassed = data.filter(item => item.status_code != null && item.is_bypassed === true).length;

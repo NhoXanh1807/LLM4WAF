@@ -3,6 +3,40 @@ import TabAttack from './components/TabAttack';
 import TabDefend from './components/TabDefend';
 import { Services } from './services';
 
+const normalizeRagSource = (source, index) => {
+  const fallbackTitle = `Source ${index + 1}`;
+  const content = typeof source === 'string'
+    ? source
+    : String(
+      source?.content
+      ?? source?.text
+      ?? source?.page_content
+      ?? source?.chunk
+      ?? source?.rule
+      ?? ''
+    );
+
+  return {
+    id: source?.id ?? `${source?.path || source?.file_name || fallbackTitle}-${index}`,
+    title: source?.title || source?.file_name || source?.filename || source?.path || fallbackTitle,
+    waf_name: source?.waf_name || source?.waf || '',
+    attack_type: source?.attack_type || source?.attack || '',
+    path: source?.path || source?.file_path || '',
+    section: source?.section || source?.category || '',
+    content,
+    raw: source,
+  };
+};
+
+const buildRagContextFromSources = (sources = [], fallback = '') => {
+  const normalized = Array.isArray(sources) ? sources : [];
+  const parts = normalized
+    .map(source => String(source?.content || '').trim())
+    .filter(Boolean);
+
+  return parts.length > 0 ? parts.join('\n\n---\n\n') : fallback;
+};
+
 function App() {
   const [activeTab, setActiveTab] = useState('Attack');
   const [error, setError] = useState(null);
@@ -20,13 +54,38 @@ function App() {
   // step 3 - attack DVWA
   const [attackResults, setAttackResults] = useState([]);
 
-  // step 4 - defend
+  // step 4 - defend (multi-step)
   const [defenseRules, setDefenseRules] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [rawResponse, setRawResponse] = useState(null);
   const [existingRules, setExistingRules] = useState('');
   const [existingRuleFiles, setExistingRuleFiles] = useState([]);
-  const [llmProvider, setLlmProvider] = useState('claude'); // "openai" or "claude"
+  const [llmProvider, setLlmProvider] = useState('claude');
+
+  // Defend step-by-step state
+  const [defendLoading, setDefendLoading] = useState({
+    clustering: false,
+    rag: false,
+    generate: false,
+    validate: false,
+    retry: false,
+    refine: false,
+    auto: false,
+  });
+  const [defendError, setDefendError] = useState({});
+  const [clusters, setClusters] = useState([]);
+  const [bypassedPayloads, setBypassedPayloads] = useState([]);
+  const [ragResult, setRagResult] = useState(null);
+  const [ragSources, setRagSources] = useState([]);
+  const [ragContext, setRagContext] = useState('');
+  const [generatedRules, setGeneratedRules] = useState([]);
+  const [generationPrompt, setGenerationPrompt] = useState('');
+  const [validRules, setValidRules] = useState([]);
+  const [invalidRules, setInvalidRules] = useState([]);
+  const [retriedRules, setRetriedRules] = useState([]);
+  const [finalRules, setFinalRules] = useState([]);
+  const [defendStats, setDefendStats] = useState({});
+
+  const [loading, setLoading] = useState(false); // for backward compatibility
 
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
@@ -42,29 +101,209 @@ function App() {
     }
   }, [darkMode]);
 
-  // Handler to call defense API
-  const handleDefend = async (waf_name, attack_results) => {
-    setLoading(true);
-    setError && setError(null);
+  // DEFEND HANDLERS (step-by-step)
+  const getExistingRulesArray = () => [
+    existingRules,
+    ...existingRuleFiles.map(file => file.content),
+  ].map(rule => rule.trim()).filter(rule => rule.length > 0);
+
+  const getCurrentAttackType = (payloads = attackResults) => {
+    const derivedAttackType = (payloads || []).find(item => item?.attack_type)?.attack_type;
+    return derivedAttackType || attackType || '';
+  };
+
+  const handleDefendClustering = async (payloadsOverride = attackResults) => {
+    setDefendLoading(l => ({ ...l, clustering: true }));
+    setDefendError(e => ({ ...e, clustering: null }));
     try {
-      const existingRulesToSend = [
-        existingRules,
-        ...existingRuleFiles.map(file => file.content),
-      ].map(rule => rule.trim()).filter(rule => rule.length > 0);
-      const res = await Services.apiDefend(waf_name, attack_results, existingRulesToSend, llmProvider);
+      const attack_type = getCurrentAttackType(payloadsOverride);
+      const res = await Services.apiDefendClustering(attack_type, payloadsOverride);
       const data = await res.json();
-      setRawResponse(data);
-      if (res.ok && data && data.final_rules) {
-        setDefenseRules(data.final_rules);
-      } else {
-        setDefenseRules([]);
-        setError && setError(data?.error || 'Failed to generate defense rules');
-      }
-    } catch (err) {
+      if (!res.ok) throw new Error(data?.error || 'Clustering failed');
+      setClusters(data.clusters || []);
+      setBypassedPayloads(data.bypassed_payloads || []);
+      setRagResult(null);
+      setRagSources([]);
+      setRagContext('');
+      setGeneratedRules([]);
+      setValidRules([]);
+      setInvalidRules([]);
+      setRetriedRules([]);
+      setFinalRules([]);
       setDefenseRules([]);
-      setError && setError(err.message || 'Failed to connect to backend');
+      setDefendStats(s => ({ ...s, clustering: data.stats }));
+      return data;
+    } catch (err) {
+      setDefendError(e => ({ ...e, clustering: err.message }));
+      setClusters([]);
+      setBypassedPayloads([]);
+      throw err;
     } finally {
-      setLoading(false);
+      setDefendLoading(l => ({ ...l, clustering: false }));
+    }
+  };
+
+  const handleDefendRag = async (payloadsOverride = attackResults) => {
+    setDefendLoading(l => ({ ...l, rag: true }));
+    setDefendError(e => ({ ...e, rag: null }));
+    try {
+      const res = await Services.apiDefendRagRetrieve(wafName, null, payloadsOverride);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || 'RAG retrieve failed');
+      const normalizedSources = (data.rag_sources || []).map((source, index) => normalizeRagSource(source, index));
+      const nextRagContext = buildRagContextFromSources(normalizedSources, data.rag_context || '');
+      setRagResult(data.rag_result || null);
+      setRagSources(normalizedSources);
+      setRagContext(nextRagContext);
+      setGeneratedRules([]);
+      setValidRules([]);
+      setInvalidRules([]);
+      setRetriedRules([]);
+      setFinalRules([]);
+      setDefenseRules([]);
+      setDefendStats(s => ({ ...s, rag: data.stats }));
+      return {
+        ...data,
+        rag_sources: normalizedSources,
+        rag_context: nextRagContext,
+      };
+    } catch (err) {
+      setDefendError(e => ({ ...e, rag: err.message }));
+      setRagResult(null);
+      setRagSources([]);
+      setRagContext('');
+      throw err;
+    } finally {
+      setDefendLoading(l => ({ ...l, rag: false }));
+    }
+  };
+
+  const handleDefendGenerateRules = async (
+    clustersOverride = clusters,
+    ragSourcesOverride = ragSources,
+    ragContextOverride = ragContext,
+  ) => {
+    setDefendLoading(l => ({ ...l, generate: true }));
+    setDefendError(e => ({ ...e, generate: null }));
+    try {
+      const nextRagContext = buildRagContextFromSources(ragSourcesOverride, ragContextOverride);
+      const res = await Services.apiDefendGenerateRules(wafName, clustersOverride, nextRagContext);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || 'Generate rules failed');
+      setGeneratedRules(data.generated_rules || []);
+      setGenerationPrompt(data.generation_prompt || '');
+      setValidRules([]);
+      setInvalidRules([]);
+      setRetriedRules([]);
+      setFinalRules([]);
+      setDefenseRules([]);
+      setDefendStats(s => ({ ...s, generate: data.stats }));
+      return data;
+    } catch (err) {
+      setDefendError(e => ({ ...e, generate: err.message }));
+      setGeneratedRules([]);
+      setGenerationPrompt('');
+      throw err;
+    } finally {
+      setDefendLoading(l => ({ ...l, generate: false }));
+    }
+  };
+
+  const handleDefendValidateRules = async (rulesOverride = generatedRules) => {
+    setDefendLoading(l => ({ ...l, validate: true }));
+    setDefendError(e => ({ ...e, validate: null }));
+    try {
+      const res = await Services.apiDefendValidateRules(rulesOverride);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || 'Validate rules failed');
+      setValidRules(data.valid_rules || []);
+      setInvalidRules(data.invalid_rules || []);
+      setRetriedRules([]);
+      setFinalRules([]);
+      setDefenseRules([]);
+      setDefendStats(s => ({ ...s, validate: data.stats }));
+      return data;
+    } catch (err) {
+      setDefendError(e => ({ ...e, validate: err.message }));
+      setValidRules([]);
+      setInvalidRules([]);
+      throw err;
+    } finally {
+      setDefendLoading(l => ({ ...l, validate: false }));
+    }
+  };
+
+  const handleDefendRetryInvalidRules = async (invalidRulesOverride = invalidRules) => {
+    setDefendLoading(l => ({ ...l, retry: true }));
+    setDefendError(e => ({ ...e, retry: null }));
+    try {
+      const res = await Services.apiDefendRetryInvalidRules(wafName, invalidRulesOverride);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || 'Retry invalid rules failed');
+      setRetriedRules(data.retried_rules || []);
+      setFinalRules([]);
+      setDefenseRules([]);
+      setDefendStats(s => ({ ...s, retry: data.stats }));
+      return data;
+    } catch (err) {
+      setDefendError(e => ({ ...e, retry: err.message }));
+      setRetriedRules([]);
+      throw err;
+    } finally {
+      setDefendLoading(l => ({ ...l, retry: false }));
+    }
+  };
+
+  const handleDefendRefineRules = async (
+    validRulesOverride = validRules,
+    retriedRulesOverride = retriedRules,
+  ) => {
+    setDefendLoading(l => ({ ...l, refine: true }));
+    setDefendError(e => ({ ...e, refine: null }));
+    try {
+      const res = await Services.apiDefendRefineRules(
+        wafName,
+        [...validRulesOverride, ...retriedRulesOverride],
+        getExistingRulesArray(),
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || 'Refine rules failed');
+      setFinalRules(data.final_rules || []);
+      setDefendStats(s => ({ ...s, refine: data.stats }));
+      setDefenseRules(data.final_rules || []);
+      return data;
+    } catch (err) {
+      setDefendError(e => ({ ...e, refine: err.message }));
+      setFinalRules([]);
+      setDefenseRules([]);
+      throw err;
+    } finally {
+      setDefendLoading(l => ({ ...l, refine: false }));
+    }
+  };
+
+  // AUTO DEFEND ALL STEPS
+  const handleAutoDefend = async () => {
+    setDefendLoading(l => ({ ...l, auto: true }));
+    setDefendError(e => ({ ...e, auto: null }));
+    try {
+      const clusteringData = await handleDefendClustering(attackResults);
+      const ragData = await handleDefendRag(attackResults);
+      const generateData = await handleDefendGenerateRules(
+        clusteringData?.clusters || [],
+        ragData?.rag_sources || [],
+        ragData?.rag_context || '',
+      );
+      const validateData = await handleDefendValidateRules(generateData?.generated_rules || []);
+      let retriedData = { retried_rules: [] };
+      if ((validateData?.invalid_rules || []).length > 0) {
+        retriedData = await handleDefendRetryInvalidRules(validateData.invalid_rules);
+      }
+      await handleDefendRefineRules(validateData?.valid_rules || [], retriedData?.retried_rules || []);
+    } catch (err) {
+      setDefendError(e => ({ ...e, auto: err.message }));
+    } finally {
+      setDefendLoading(l => ({ ...l, auto: false }));
     }
   };
 
@@ -148,7 +387,7 @@ function App() {
             attackResults={attackResults}
             setAttackResults={setAttackResults}
             setActiveTab={setActiveTab}
-            handleDefend={handleDefend}
+            handleDefend={handleAutoDefend}
           />}
           {activeTab === 'Defend' && <TabDefend
             domain={domain}
@@ -156,11 +395,37 @@ function App() {
             attackResults={attackResults}
             setAttackResults={setAttackResults}
             darkMode={darkMode}
-            setError={setError}
             defenseRules={defenseRules}
             loading={loading}
-            handleDefend={handleDefend}
-            rawResponse={rawResponse}
+            // defend step-by-step state/handlers
+            defendLoading={defendLoading}
+            defendError={defendError}
+            clusters={clusters}
+            bypassedPayloads={bypassedPayloads}
+            ragResult={ragResult}
+            ragSources={ragSources}
+            ragContext={ragContext}
+            generatedRules={generatedRules}
+            generationPrompt={generationPrompt}
+            validRules={validRules}
+            invalidRules={invalidRules}
+            retriedRules={retriedRules}
+            finalRules={finalRules}
+            defendStats={defendStats}
+            setClusters={setClusters}
+            setRagSources={setRagSources}
+            setRagContext={setRagContext}
+            setGeneratedRules={setGeneratedRules}
+            setValidRules={setValidRules}
+            setInvalidRules={setInvalidRules}
+            setRetriedRules={setRetriedRules}
+            handleDefendClustering={handleDefendClustering}
+            handleDefendRag={handleDefendRag}
+            handleDefendGenerateRules={handleDefendGenerateRules}
+            handleDefendValidateRules={handleDefendValidateRules}
+            handleDefendRetryInvalidRules={handleDefendRetryInvalidRules}
+            handleDefendRefineRules={handleDefendRefineRules}
+            handleAutoDefend={handleAutoDefend}
             existingRules={existingRules}
             setExistingRules={setExistingRules}
             existingRuleFiles={existingRuleFiles}

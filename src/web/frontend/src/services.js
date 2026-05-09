@@ -14,25 +14,45 @@ const Call = async (path, method, body = null, headers = {}) => {
     return result;
 };
 
+const JSON_HEADERS = { "Content-Type": "application/json" };
+
 export const Services = {
     apiDetectWAF: async (domain) => {
-        // /api/detect_waf expects { domain }
-        return Call("/detect_waf", "POST", { domain }, { "Content-Type": "application/json" });
+        return Call("/attack/1-detect-waf", "POST", { domain }, JSON_HEADERS);
     },
-    apiGeneratePayloadRandom: async (waf_name, attack_type, num_payloads, payloads_history = []) => {
-        // /api/generate_payload expects { waf_name, attack_type, num_payloads }
-        return Call("/generate_payload", "POST", { waf_name, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
+    apiGeneratePayload: async (waf_name, attack_type, num_payloads, payloads_history = []) => {
+        return Call(
+            "/attack/2-generate-payload",
+            "POST",
+            { waf_name, attack_type, num_payloads, payloads_history },
+            JSON_HEADERS,
+        );
     },
-    apiGeneratePayloadAdaptive: async (waf_name, attack_type, num_payloads, payloads_history) => {
-        // /api/generate_payload expects { waf_name, attack_type, num_payloads, payloads_history }
-        return Call("/generate_payload", "POST", { waf_name, attack_type, num_payloads, payloads_history }, { "Content-Type": "application/json" });
+    apiTestAttack: async (domain, payloads = [], check_harmful = true) => {
+        return Call("/attack/3-test", "POST", { domain, payloads, check_harmful }, JSON_HEADERS);
     },
-    apiTestAttack: async (domain, payloads = []) => {
-        // /api/test_attack expects { domain, payloads }
-        return Call("/test_attack", "POST", { domain, payloads }, { "Content-Type": "application/json" });
+
+    apiDefendClustering: async (attack_type, payloads = []) => {
+        return Call("/defend/1-clustering", "POST", { attack_type, payloads }, JSON_HEADERS);
     },
-    apiDefend: async (waf_name, payloads, existing_rules = null, llm_provider = "openai") => {
-        // /api/defend expects { waf_name, payloads, existing_rules, llm_provider }
-        return Call("/defend", "POST", { waf_name, payloads, existing_rules, llm_provider }, { "Content-Type": "application/json" });
+
+    apiDefendRagRetrieve: async (waf_name, attack_type, payloads = []) => {
+        return Call("/defend/2-rag-retrieve", "POST", { waf_name, attack_type, payloads }, JSON_HEADERS);
+    },
+
+    apiDefendGenerateRules: async (waf_name, clusters = [], rag_context = "") => {
+        return Call("/defend/3-generate-rules", "POST", { waf_name, clusters, rag_context }, JSON_HEADERS);
+    },
+
+    apiDefendValidateRules: async (generated_rules = []) => {
+        return Call("/defend/4-validate-rules", "POST", { generated_rules }, JSON_HEADERS);
+    },
+
+    apiDefendRetryInvalidRules: async (waf_name, invalid_rules = []) => {
+        return Call("/defend/5-retry-invalid-rules", "POST", { waf_name, invalid_rules }, JSON_HEADERS);
+    },
+
+    apiDefendRefineRules: async (waf_name, valid_rules = [], existing_rules = []) => {
+        return Call("/defend/6-refine-rules", "POST", { waf_name, valid_rules, existing_rules }, JSON_HEADERS);
     },
 }

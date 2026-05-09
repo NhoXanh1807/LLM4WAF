@@ -1,7 +1,10 @@
-
-import datetime
 import os
 import sys
+
+# Import core
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "../../core")))
+
+import datetime
 import traceback
 from functools import wraps
 
@@ -26,8 +29,8 @@ if _SRC_DIR not in sys.path:
     sys.path.insert(0, _SRC_DIR)
 
 from core.dtos import PayloadResult
-from core.pipelines import attack as attack_pipeline
-from core.pipelines import defend as defend_pipeline
+from core.pipelines import attack
+from core.pipelines import defend
 
 print("Setting-up Flask app...")
 app = Flask(__name__)
@@ -58,7 +61,7 @@ def api_attack_1_detect_waf():
     domain = dict.get(data, "domain")
     if not domain:
         return jsonify({"error": "Missing 'domain' field"}), 400
-    result = attack_pipeline._1_detect_waf(domain=domain)
+    result = attack._1_detect_waf(domain=domain)
 
     return jsonify(result), 200
 
@@ -87,7 +90,7 @@ def api_attack_2_generate_payload():
     if not waf_name:
         return jsonify({"error": "Missing 'waf_name' field"}), 400
 
-    payloads = attack_pipeline._2_generate_payload(
+    payloads = attack._2_generate_payload(
         waf_name=waf_name,
         attack_type=attack_type,
         num_payloads=num_payloads,
@@ -129,7 +132,7 @@ def api_attack_3_test():
     if not domain:
         return jsonify({"error": "Missing 'domain' field"}), 400
 
-    tested_payloads = attack_pipeline._3_test_attack(
+    tested_payloads = attack._3_test_attack(
         domain=domain,
         payloads=payloads,
         check_harmful=check_harmful,
@@ -170,7 +173,7 @@ def api_defend_1_clustering():
             for item in payloads
             if item.is_bypassed and str(item.payload).strip()
         ]
-    clusters = defend_pipeline._1_clustering(
+    clusters = defend._1_clustering(
         bypassed_payloads=bypassed_payloads,
         attack_type=attack_type,
     )
@@ -221,7 +224,7 @@ def api_defend_2_rag_retrieve():
             for item in payloads
             if item.is_bypassed and str(item.payload).strip()
         ]
-    rag_result, rag_sources, rag_context = defend_pipeline._2_rag_retrieve(
+    rag_result, rag_sources, rag_context = defend._2_rag_retrieve(
         waf_name=waf_name,
         attack_type=attack_type,
         bypassed_payloads=bypassed_payloads,
@@ -250,7 +253,7 @@ def api_defend_3_generate_rules():
     if not isinstance(clusters, list):
         return jsonify({"error": "'clusters' must be a list"}), 400
 
-    generated_rules, generation_prompt = defend_pipeline._3_generate_rules(
+    generated_rules, generation_prompt = defend._3_generate_rules(
         waf_name=waf_name,
         clusters=clusters,
         rag_context=rag_context,
@@ -277,7 +280,7 @@ def api_defend_4_validate_rules():
     if not isinstance(generated_rules, list):
         return jsonify({"error": "'generated_rules' must be a list"}), 400
 
-    valid_rules, invalid_rules = defend_pipeline._4_validate_rules_syntax(
+    valid_rules, invalid_rules = defend._4_validate_rules_syntax(
         generated_rules=generated_rules,
     )
 
@@ -305,7 +308,7 @@ def api_defend_5_retry_invalid_rules():
     if not isinstance(invalid_rules, list):
         return jsonify({"error": "'invalid_rules' must be a list"}), 400
 
-    retried_rules = defend_pipeline._5_retry_invalid_rules(
+    retried_rules = defend._5_retry_invalid_rules(
         waf_name=waf_name,
         invalid_rules=invalid_rules,
     )
@@ -334,8 +337,8 @@ def api_defend_6_refine_rules():
     if not isinstance(valid_rules, list):
         return jsonify({"error": "'valid_rules' must be a list"}), 400
 
-    existing_rules = defend_pipeline._parse_existing_rules(existing_rules_raw)
-    final_rules = defend_pipeline._6_refine_rules(
+    existing_rules = defend._parse_existing_rules(existing_rules_raw)
+    final_rules = defend._6_refine_rules(
         waf_name=waf_name,
         valid_rules=valid_rules,
         existing_rules=existing_rules,
