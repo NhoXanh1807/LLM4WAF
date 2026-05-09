@@ -6,16 +6,14 @@ from multiple WAF types with automatic detection.
 """
 
 import json
-from typing import Optional
-
-from .aws_waf import AWSWAFValidator
-from .base import BaseValidator, ValidationResult, WAFType
-from .cloudflare import CloudflareValidator
-from .modsecurity import ModSecurityValidator
-from .naxsi import NaxsiValidator
+from services.rule_syntax_validator.aws_waf import AWSWAFValidator
+from services.rule_syntax_validator.base import ValidationResult, WAFType, BaseValidator
+from services.rule_syntax_validator.cloudflare import CloudflareValidator
+from services.rule_syntax_validator.modsecurity import ModSecurityValidator
+from services.rule_syntax_validator.naxsi import NaxsiValidator
 
 
-VALIDATORS: dict[WAFType, BaseValidator] = {
+VALIDATORS : dict[WAFType, BaseValidator] = {
     WAFType.MODSECURITY: ModSecurityValidator(),
     WAFType.CLOUDFLARE: CloudflareValidator(),
     WAFType.AWS_WAF: AWSWAFValidator(),
@@ -23,7 +21,7 @@ VALIDATORS: dict[WAFType, BaseValidator] = {
 }
 
 
-def detect_waf_type(rule: str) -> Optional[WAFType]:
+def detect_waf_type(rule: str) -> WAFType:
     """
     Detect WAF type from rule syntax.
 
@@ -64,13 +62,13 @@ def detect_waf_type(rule: str) -> Optional[WAFType]:
     if any(indicator in rule.lower() for indicator in cf_indicators):
         return WAFType.CLOUDFLARE
 
-    return None
+    return WAFType.UNKNOWN
 
 
-def validate(rule: str, waf_type: Optional[WAFType] = None) -> ValidationResult:
-    if not waf_type:
+def validate(rule: str, waf_type: WAFType|None = None) -> ValidationResult:
+    if not waf_type or waf_type == WAFType.UNKNOWN:
         waf_type = detect_waf_type(rule)
-        if not waf_type:
+        if waf_type == WAFType.UNKNOWN:
             return ValidationResult(
                 is_valid=False,
                 error_message="Cannot auto-detect WAF type. Please specify waf_type parameter."

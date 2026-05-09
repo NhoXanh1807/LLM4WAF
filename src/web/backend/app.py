@@ -1,328 +1,359 @@
 
 import datetime
-import sys
 import os
-from typing import List
-from flask import Flask, request, jsonify
+import sys
+import traceback
+from functools import wraps
+
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-import json
+from teestream import TeeStream
 
 # --- Logging setup: redirect stdout/stderr ---
 session_id = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 log_dir = os.path.join(os.path.dirname(__file__), "session_logs")
 os.makedirs(log_dir, exist_ok=True)
-log_filename = f"log_{session_id}.log"
-log_path = os.path.join(log_dir, log_filename)
-    
-
-class TeeStream:
-    def __init__(self, *streams):
-        self.streams = streams
-    def write(self, data):
-        for s in self.streams:
-            try:
-                s.write(data)
-                s.flush()
-            except Exception:
-                pass
-    def flush(self):
-        for s in self.streams:
-            try:
-                s.flush()
-            except Exception:
-                pass
-
-# Open log file in append mode
+log_path = os.path.join(log_dir, f"log_{session_id}.log")
 _log_file = open(log_path, 'a', encoding='utf-8')
 sys.stdout = TeeStream(sys.__stdout__, _log_file)
 sys.stderr = TeeStream(sys.__stderr__, _log_file)
 
 print("importing libs...")
-import sys
-import os
-from typing import List
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 
-# Add src/ to sys.path so defense/ and validator_syntax_rule/ are importable
+# Add src/ to sys.path so project modules are importable
 _SRC_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 if _SRC_DIR not in sys.path:
     sys.path.insert(0, _SRC_DIR)
 
-# from waf_detector import detect_waf
-from wafw00f.main import WAFW00F
-from core.generator import PayloadResult, generate_payloads_phase1, generate_payloads_phase3
-from services_external import dvwa
-from core.generator import PayloadResult
-import core.services.payload_harmness_validator as harmfulness
-from core.settings import DEFAULT_NUM_DEFENSE_RULES
-
-# Full defense pipeline: clustering -> RAG -> LLM -> syntax validator -> rule refinement
-from defense.defense_pipeline import DefensePipeline
-from validator_syntax_rule.base import WAFType
-
-# Lazy-initialized pipeline instances (one per LLM provider)
-_defense_pipelines: dict[str, DefensePipeline] = {}
-
-def _get_pipeline(llm_provider: str = "openai") -> DefensePipeline:
-    global _defense_pipelines
-    if llm_provider not in _defense_pipelines:
-        _defense_pipelines[llm_provider] = DefensePipeline(
-            enable_rag=True,
-            enable_refinement=True,
-            enable_clustering=True,
-            llm_provider=llm_provider,
-        )
-    return _defense_pipelines[llm_provider]
-_get_pipeline("openai")
-
-_WAF_NAME_MAP = {
-    "modsecurity": WAFType.MODSECURITY,
-    "cloudflare": WAFType.CLOUDFLARE,
-    "aws": WAFType.AWS_WAF,
-    "naxsi": WAFType.NAXSI,
-}
-
-def _map_waf_type(waf_name: str) -> WAFType:
-    """Map WAFW00F string to WAFType enum. Defaults to MODSECURITY."""
-    name_lower = (waf_name or "").lower()
-    for key, waf_type in _WAF_NAME_MAP.items():
-        if key in name_lower:
-            return waf_type
-    return WAFType.MODSECURITY
+from core.dtos import PayloadResult
+from core.pipelines import attack as attack_pipeline
+from core.pipelines import defend as defend_pipeline
 
 print("Setting-up Flask app...")
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["http://localhost:3000", "http://localhost:3001"])
 
-@app.route("/api/detect_waf", methods=["POST"])
-def api_detect_waf():
-    try:
-        data = dict(request.get_json())
-        domain = dict.get(data, "domain")
-        if not domain:
-            return jsonify({"error": "Missing 'domain' field"}), 400
-        if not domain.startswith("http://") and not domain.startswith("https://"):
-            domain = "http://" + domain
-        w = WAFW00F(domain)
-        waf_info = w.identwaf()
-        waf_name = waf_info[0][0] if len(waf_info[0]) > 0 else "NO_WAF_INFORMATION"
 
-        return jsonify({"domain": domain, "waf_name": waf_name}), 200
-    except Exception as e:
-        import traceback
-        print("=" * 50)
-        print("ERROR in /api/detect_waf:")
-        print(traceback.format_exc())
-        print("=" * 50)
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route("/api/generate_payload", methods=["POST"])
-def api_generate_payload():
-    try:
-        data = dict(request.get_json())
-        waf_name = dict.get(data, "waf_name")
-        attack_type = dict.get(data, "attack_type")
-        num_payloads = dict.get(data, "num_payloads", 5)
-        payloads_history = dict.get(data, "payloads_history", [])
-        probe_history = [PayloadResult(
-                payload=p.get("payload"),
-                technique=p.get("technique"),
-                attack_type=p.get("attack_type"),
-                status_code=p.get("status_code"),
-                is_bypassed=p.get("is_bypassed"),
-                is_harmful=p.get("is_harmful"),
-            )
-            for p in payloads_history
-        ]
-        
-        if not waf_name:
-            return jsonify({"error": "Missing 'waf_name' field"}), 400
-        
-        if attack_type not in dvwa.VALID_ATTACK_TYPES:
-            return jsonify({"error": "'attack_type' must be in " + str(dvwa.VALID_ATTACK_TYPES)}), 400
-
-        if len(probe_history) <= 0:
-            payloads = generate_payloads_phase1(
-                waf_name, attack_type, num_of_payloads=num_payloads
-            )  # type: List[PayloadResult]
-        else:
-            payloads = generate_payloads_phase3(
-                waf_name, attack_type, num_of_payloads=num_payloads, probe_history=probe_history
-            )  # type: List[PayloadResult]
-        
-        return (
-            jsonify(
-                {
-                    "waf_name": waf_name,
-                    "attack_type": attack_type,
-                    "payloads": payloads,
-                }
-            ),
-            200,
-        )
-        
-    except Exception as e:
-        import traceback
-        print("=" * 50)
-        print("ERROR in /api/generate_payload:")
-        print(traceback.format_exc())
-        print("=" * 50)
-        return jsonify({"error": str(e)}), 500
-
-
-@app.route("/api/test_attack", methods=["POST"])
-def api_attack_dvwa():
-    try:
-        data = dict(request.get_json())
-        domain = dict.get(data, "domain", None)
-        check_harmful = dict.get(data, "check_harmful", True)
-        payloads = dict.get(data, "payloads", [])
-        payloads = [PayloadResult(
-            payload=p.get("payload"),
-            technique=p.get("technique"),
-            attack_type=p.get("attack_type"),
-            status_code=p.get("status_code"),
-            is_bypassed=p.get("is_bypassed"),
-            is_harmful=p.get("is_harmful"),
-        ) for p in payloads]
-        
-        if not domain:
-            return jsonify({"error": "Missing 'domain' field"}), 400
-
-        # Login to DVWA at target domain for retesting
-        if not domain.startswith("http://") and not domain.startswith("https://"):
-            domain = "http://" + domain
-        print(f"[DVWA-Signin] {domain}...")
-        session_id = dvwa.loginDVWA(base_url=domain)
-        
-        for i, item in enumerate(payloads):
-            payload = item.payload
-            attack_type = item.attack_type
-            print(f"[DVWA-Check] {i+1}/{len(payloads)} : {item.payload}")
-            
-            # Check harmfulness
-            if check_harmful and payload and attack_type:
-                if "xss" in attack_type.lower():
-                    harmfulness_result = harmfulness.evaluate_xss_payload(payload)
-                    if harmfulness_result:
-                        item.is_harmful = not harmfulness_result.is_safe
-                elif "sql" in attack_type.lower():
-                    harmfulness_result = harmfulness.evaluate_sql_payload(payload)
-                    if harmfulness_result:
-                        item.is_harmful = len(harmfulness_result.harm_queries) > 0
-            
-            # Test on DVWA
-            attack_func = dvwa.DVWA_ATTACK_FUNC.get(attack_type)
-            if attack_func and payload:
-                result = dvwa.attack(attack_type, payload, session_id, base_url=domain)
-                item.is_bypassed = not result.blocked
-                item.status_code = result.status_code
-                print(f"\t{('BYPASSED' if item.is_bypassed else 'BLOCKED')} code({item.status_code})")
-            else:
-                item.is_bypassed = None
-                item.status_code = None
-                print(f"\tSKIPPED (missing attack_func or payload)")
-            
-        return jsonify({"payloads": payloads}), 200
-    except Exception as e:
-        import traceback
-        print("=" * 50)
-        print("ERROR in /api/test_attack:")
-        print(traceback.format_exc())
-        print("=" * 50)
-        return jsonify({"error": str(e)}), 500
-
-
-def _parse_existing_rules(rules_raw : list[str]) -> list:
-    extracted_rules = []
-    if not rules_raw or not isinstance(rules_raw, list):
-        return extracted_rules
-    for rules in rules_raw:
+def api_error_handler(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
         try:
-            rules_json = json.loads(rules)
-            if not isinstance(rules_json, list):
-                continue
-            for item in rules_json:
-                if isinstance(item, dict):
-                    rule = item.get("rule", None)
-                    if rule and isinstance(rule, str) and rule.strip():
-                        extracted_rules.append(rule.strip())
-                elif isinstance(item, str) and item.strip():
-                    extracted_rules.append(item.strip())
-        except json.JSONDecodeError:
-            # Loại bỏ comment và dòng trống
-            lines = [line for line in rules.split("\n")
-                if line.strip() and not line.strip().startswith("#")
-            ]
-            
-            # Ghép multiline thành một dòng
-            content = "\n".join(lines)
-            content = content.replace("\\\n", " ").replace("\\\r\n", " ")
-            lines = [line.strip() for line in content.split("\n") if line.strip()]
-            extracted_rules.extend(lines)
-    return extracted_rules
-    
+            return func(*args, **kwargs)
+        except ValueError as ve:
+            return jsonify({"error": str(ve)}), 400
+        except Exception as e:
+            print("=" * 50)
+            print(f"ERROR in {request.path}:")
+            print(traceback.format_exc())
+            print("=" * 50)
+            return jsonify({"error": str(e)}), 500
+
+    return wrapper
+
+@app.route("/api/attack/1-detect-waf", methods=["POST"])
+@api_error_handler
+def api_attack_1_detect_waf():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    domain = dict.get(data, "domain")
+    if not domain:
+        return jsonify({"error": "Missing 'domain' field"}), 400
+    result = attack_pipeline._1_detect_waf(domain=domain)
+
+    return jsonify(result), 200
 
 
-@app.route("/api/defend", methods=["POST"])
-def api_defend():
-    try:
-        data = dict(request.get_json())
-        waf_name = dict.get(data, "waf_name")
-        payloads = dict.get(data, "payloads", [])
-        attack_type = dict.get(data, "attack_type", "unknown")
-        existing_rules_raw = dict.get(data, "existing_rules", [])
-        llm_provider = dict.get(data, "llm_provider", "openai")
-        
-        if llm_provider not in ["openai", "claude", "gpt-5.4"]:
-            llm_provider = "openai"
-
-        if not waf_name or len(waf_name) == 0:
-            return jsonify({"error": "Missing 'waf_name' field"}), 400
-
-        payloads = [PayloadResult(
-            payload=p.get("payload"),
-            technique=p.get("technique"),
-            attack_type=p.get("attack_type"),
-            status_code=p.get("status_code"),
-            is_bypassed=p.get("is_bypassed"),
-            is_harmful=p.get("is_harmful"),
-        ) for p in payloads]
-        existing_rules = _parse_existing_rules(existing_rules_raw)
-        if existing_rules:
-            print(f"[Defend] Advanced Defense Mode: {len(existing_rules)} existing rules loaded for comparison")
-        bypassed_payloads = [payload.payload for payload in payloads if payload.is_bypassed]
-        pipeline_result = _get_pipeline(llm_provider).generate_defense_rules(
-            bypassed_payloads=bypassed_payloads,
-            waf_name=waf_name,
-            waf_type=_map_waf_type(waf_name),
-            existing_rules=existing_rules if existing_rules else None,
-            attack_type=attack_type
+@app.route("/api/attack/2-generate-payload", methods=["POST"])
+@api_error_handler
+def api_attack_2_generate_payload():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    waf_name = dict.get(data, "waf_name")
+    attack_type = dict.get(data, "attack_type")
+    num_payloads = dict.get(data, "num_payloads", 5)
+    payloads_history = dict.get(data, "payloads_history", [])
+    probe_history = [
+        PayloadResult(
+            payload=item.get("payload", ""),
+            technique=item.get("technique", ""),
+            attack_type=item.get("attack_type", ""),
+            status_code=item.get("status_code"),
+            is_bypassed=item.get("is_bypassed"),
+            is_harmful=item.get("is_harmful"),
         )
+        for item in (payloads_history or [])
+        if isinstance(item, dict)
+    ]
+    if not waf_name:
+        return jsonify({"error": "Missing 'waf_name' field"}), 400
 
-        return jsonify({
-            "waf_name": waf_name,
-            "llm_provider": llm_provider,
-            "clustered_payloads": [cluster.to_dict() for cluster in pipeline_result.cluster_info],
-            "rag_sources": pipeline_result.rag_sources,
-            "generated_rules": [rule.to_dict() for rule in pipeline_result.generated_rules],
-            "advanced_defense": bool(existing_rules),
-            "existing_rules_count": len(existing_rules),
-            "final_rules": [rule.to_dict() for rule in pipeline_result.final_rules],
-            "stats": pipeline_result.to_dict()["stats"],
-            "advanced_defense": bool(existing_rules),
-            "existing_rules_count": len(existing_rules),
-        }), 200
+    payloads = attack_pipeline._2_generate_payload(
+        waf_name=waf_name,
+        attack_type=attack_type,
+        num_payloads=num_payloads,
+        payloads_history=probe_history,
+    )
 
-    except Exception as e:
-        import traceback
-        print("=" * 50)
-        print("ERROR in /api/defend:")
-        print(traceback.format_exc())
-        print("=" * 50)
-        return jsonify({"error": str(e)}), 500
+    return (
+        jsonify(
+            {
+                "waf_name": waf_name,
+                "attack_type": attack_type,
+                "payloads": payloads,
+            }
+        ),
+        200,
+    )
+
+
+@app.route("/api/attack/3-test", methods=["POST"])
+@api_error_handler
+def api_attack_3_test():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    domain = dict.get(data, "domain", None)
+    check_harmful = dict.get(data, "check_harmful", True)
+    payloads = [
+        PayloadResult(
+            payload=item.get("payload", ""),
+            technique=item.get("technique", ""),
+            attack_type=item.get("attack_type", ""),
+            status_code=item.get("status_code"),
+            is_bypassed=item.get("is_bypassed"),
+            is_harmful=item.get("is_harmful"),
+        )
+        for item in dict.get(data, "payloads", [])
+        if isinstance(item, dict)
+    ]
+
+    if not domain:
+        return jsonify({"error": "Missing 'domain' field"}), 400
+
+    tested_payloads = attack_pipeline._3_test_attack(
+        domain=domain,
+        payloads=payloads,
+        check_harmful=check_harmful,
+    )
+
+    return jsonify({"payloads": tested_payloads}), 200
+
+
+@app.route("/api/defend/1-clustering", methods=["POST"])
+@api_error_handler
+def api_defend_1_clustering():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    attack_type = str(data.get("attack_type", "")).strip()
+    if not attack_type:
+        return jsonify({"error": "Missing 'attack_type' field"}), 400
+
+    raw_bypassed_payloads = data.get("bypassed_payloads")
+    if isinstance(raw_bypassed_payloads, list):
+        bypassed_payloads = [
+            str(item).strip() for item in raw_bypassed_payloads if str(item).strip()
+        ]
+    else:
+        payloads = [
+            PayloadResult(
+                payload=item.get("payload", ""),
+                technique=item.get("technique", ""),
+                attack_type=item.get("attack_type", ""),
+                status_code=item.get("status_code"),
+                is_bypassed=item.get("is_bypassed"),
+                is_harmful=item.get("is_harmful"),
+            )
+            for item in data.get("payloads", [])
+            if isinstance(item, dict)
+        ]
+        bypassed_payloads = [
+            str(item.payload).strip()
+            for item in payloads
+            if item.is_bypassed and str(item.payload).strip()
+        ]
+    clusters = defend_pipeline._1_clustering(
+        bypassed_payloads=bypassed_payloads,
+        attack_type=attack_type,
+    )
+
+    return jsonify({
+        "attack_type": attack_type,
+        "bypassed_payloads": bypassed_payloads,
+        "clusters": clusters,
+        "stats": {
+            "num_bypassed_payloads": len(bypassed_payloads),
+            "num_clusters": len(clusters),
+        },
+    }), 200
+
+
+@app.route("/api/defend/2-rag-retrieve", methods=["POST"])
+@api_error_handler
+def api_defend_2_rag_retrieve():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    waf_name = str(data.get("waf_name", "")).strip()
+    attack_type = str(data.get("attack_type", "")).strip()
+    if not waf_name:
+        return jsonify({"error": "Missing 'waf_name' field"}), 400
+    if not attack_type:
+        return jsonify({"error": "Missing 'attack_type' field"}), 400
+
+    raw_bypassed_payloads = data.get("bypassed_payloads")
+    if isinstance(raw_bypassed_payloads, list):
+        bypassed_payloads = [
+            str(item).strip() for item in raw_bypassed_payloads if str(item).strip()
+        ]
+    else:
+        payloads = [
+            PayloadResult(
+                payload=item.get("payload", ""),
+                technique=item.get("technique", ""),
+                attack_type=item.get("attack_type", ""),
+                status_code=item.get("status_code"),
+                is_bypassed=item.get("is_bypassed"),
+                is_harmful=item.get("is_harmful"),
+            )
+            for item in data.get("payloads", [])
+            if isinstance(item, dict)
+        ]
+        bypassed_payloads = [
+            str(item.payload).strip()
+            for item in payloads
+            if item.is_bypassed and str(item.payload).strip()
+        ]
+    rag_result, rag_sources, rag_context = defend_pipeline._2_rag_retrieve(
+        waf_name=waf_name,
+        attack_type=attack_type,
+        bypassed_payloads=bypassed_payloads,
+    )
+
+    return jsonify({
+        "waf_name": waf_name,
+        "attack_type": attack_type,
+        "bypassed_payloads": bypassed_payloads,
+        "rag_result": rag_result,
+        "rag_sources": rag_sources,
+        "rag_context": rag_context,
+    }), 200
+
+
+@app.route("/api/defend/3-generate-rules", methods=["POST"])
+@api_error_handler
+def api_defend_3_generate_rules():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    waf_name = str(data.get("waf_name", "")).strip()
+    clusters = data.get("clusters", [])
+    rag_context = str(data.get("rag_context", ""))
+    if not waf_name:
+        return jsonify({"error": "Missing 'waf_name' field"}), 400
+    if not isinstance(clusters, list):
+        return jsonify({"error": "'clusters' must be a list"}), 400
+
+    generated_rules, generation_prompt = defend_pipeline._3_generate_rules(
+        waf_name=waf_name,
+        clusters=clusters,
+        rag_context=rag_context,
+    )
+
+    return jsonify({
+        "waf_name": waf_name,
+        "clusters": clusters,
+        "rag_context": rag_context,
+        "generation_prompt": generation_prompt,
+        "generated_rules": generated_rules,
+        "stats": {
+            "rules_generated": len(generated_rules),
+        },
+    }), 200
+
+
+@app.route("/api/defend/4-validate-rules", methods=["POST"])
+@api_error_handler
+def api_defend_4_validate_rules():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    generated_rules = data.get("generated_rules", [])
+    if not isinstance(generated_rules, list):
+        return jsonify({"error": "'generated_rules' must be a list"}), 400
+
+    valid_rules, invalid_rules = defend_pipeline._4_validate_rules_syntax(
+        generated_rules=generated_rules,
+    )
+
+    return jsonify({
+        "generated_rules": generated_rules,
+        "valid_rules": valid_rules,
+        "invalid_rules": invalid_rules,
+        "stats": {
+            "rules_generated": len(generated_rules),
+            "rules_valid": len(valid_rules),
+            "rules_invalid": len(invalid_rules),
+        },
+    }), 200
+
+
+@app.route("/api/defend/5-retry-invalid-rules", methods=["POST"])
+@api_error_handler
+def api_defend_5_retry_invalid_rules():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    waf_name = str(data.get("waf_name", "")).strip()
+    invalid_rules = data.get("invalid_rules", [])
+    if not waf_name:
+        return jsonify({"error": "Missing 'waf_name' field"}), 400
+    if not isinstance(invalid_rules, list):
+        return jsonify({"error": "'invalid_rules' must be a list"}), 400
+
+    retried_rules = defend_pipeline._5_retry_invalid_rules(
+        waf_name=waf_name,
+        invalid_rules=invalid_rules,
+    )
+
+    return jsonify({
+        "waf_name": waf_name,
+        "invalid_rules": invalid_rules,
+        "retried_rules": retried_rules,
+        "stats": {
+            "rules_invalid": len(invalid_rules),
+            "rules_retried": len(retried_rules),
+        },
+    }), 200
+
+
+@app.route("/api/defend/6-refine-rules", methods=["POST"])
+@api_error_handler
+def api_defend_6_refine_rules():
+    payload = request.get_json(silent=True)
+    data = payload if isinstance(payload, dict) else {}
+    waf_name = str(data.get("waf_name", "")).strip()
+    valid_rules = data.get("valid_rules", [])
+    existing_rules_raw = data.get("existing_rules", [])
+    if not waf_name:
+        return jsonify({"error": "Missing 'waf_name' field"}), 400
+    if not isinstance(valid_rules, list):
+        return jsonify({"error": "'valid_rules' must be a list"}), 400
+
+    existing_rules = defend_pipeline._parse_existing_rules(existing_rules_raw)
+    final_rules = defend_pipeline._6_refine_rules(
+        waf_name=waf_name,
+        valid_rules=valid_rules,
+        existing_rules=existing_rules,
+    )
+
+    return jsonify({
+        "waf_name": waf_name,
+        "advanced_defense": bool(existing_rules),
+        "existing_rules_count": len(existing_rules),
+        "existing_rules": existing_rules,
+        "valid_rules": valid_rules,
+        "final_rules": final_rules,
+        "stats": {
+            "rules_valid": len(valid_rules),
+            "rules_refined": len(final_rules),
+            "existing_rules_count": len(existing_rules),
+        },
+    }), 200
 
 
 if __name__ == "__main__":

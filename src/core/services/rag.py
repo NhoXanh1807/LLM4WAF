@@ -13,7 +13,7 @@ import json
 import re
 from typing import Any, Dict, Optional
 
-from services_external.rag import rag_retrieve
+from external_services.llmshield import rag_retrieve
 
 
 UNKNOWN_ATTACK_TYPES = {"", "unknown", "none", "null", "undefined", "n/a", "na"}

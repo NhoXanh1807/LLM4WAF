@@ -15,7 +15,8 @@ import json
 import re
 from typing import Optional
 
-from .base import BaseValidator, ValidationResult, WAFType
+from services.rule_syntax_validator.base import BaseValidator
+from dtos import ValidationResult, WAFType
 
 
 class AWSWAFValidator(BaseValidator):

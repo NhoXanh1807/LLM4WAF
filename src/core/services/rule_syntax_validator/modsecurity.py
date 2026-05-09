@@ -13,7 +13,8 @@ Leniency policy (2026):
 import re
 from typing import Optional
 
-from .base import BaseValidator, ValidationResult, WAFType
+from services.rule_syntax_validator.base import BaseValidator
+from dtos import ValidationResult, WAFType
 
 
 class ModSecurityValidator(BaseValidator):
@@ -104,7 +105,7 @@ class ModSecurityValidator(BaseValidator):
 
         if use_libmodsecurity:
             try:
-                from ModSecurity import ModSecurity, Rules
+                from ModSecurity import ModSecurity, Rules # type: ignore
                 self._modsec = ModSecurity()
                 self._Rules = Rules
                 self.libmodsec_available = True

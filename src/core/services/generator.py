@@ -4,10 +4,10 @@ All generation-related helper functions for payloads and defense rules
 
 import random
 from typing import List
-from services_external import llm
+from external_services import llmshield
 from dataclasses import asdict
 
-from .dtos import PayloadResult
+from dtos import PayloadResult
 
 ATTACK_OBFUSCATE_TECHNIQUES = {
         "xss": [
@@ -57,7 +57,7 @@ def generate_payload_phase1(waf_name, attack_type) -> PayloadResult:
     elif "sql" in attack_type.lower():
         selected_techniques = random.sample(ATTACK_OBFUSCATE_TECHNIQUES["sqli"], random.randint(1, int(len(ATTACK_OBFUSCATE_TECHNIQUES["sqli"])/2)))
     technique = "+".join(selected_techniques)
-    payload = llm.llmshield_generate_payloads(
+    payload = llmshield.llmshield_generate_payloads(
         waf_name=waf_name,
         attack_type=attack_type,
         techniques=technique,
@@ -70,7 +70,7 @@ def generate_payload_phase1(waf_name, attack_type) -> PayloadResult:
     )
 
 def generate_payload_phase3(waf_name, attack_type, probe_history: List[PayloadResult] = []) -> PayloadResult:
-    payload = llm.llmshield_generate_payloads(
+    payload = llmshield.llmshield_generate_payloads(
         waf_name=waf_name,
         attack_type=attack_type,
         probe_history=[asdict(p) for p in probe_history],

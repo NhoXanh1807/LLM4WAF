@@ -3,7 +3,7 @@ import json
 from collections import defaultdict
 from typing import Any, Optional
 
-from core.prompts import (
+from prompts import (
     BLUE_TEAM_SYSTEM_PROMPT,
     build_refine_enhance_rules_prompt,
     build_refine_sync_rules_prompt,
@@ -11,11 +11,11 @@ from core.prompts import (
     get_blue_team_user_prompt,
     build_fix_rule_prompt,
 )
-from core.services.clustering import clustering
-from core.services_external.llm import chatgpt_completion, claude_completion
-from core.services_external.rag import rag_retrieve
-from core.validator_syntax_rule import validator
-from core.dtos import PayloadResult
+from services.clustering import clustering
+from external_services.llm_api import chatgpt_completion, claude_completion
+from external_services.llmshield import rag_retrieve
+from services.rule_syntax_validator import validator
+from dtos import PayloadResult
 
 def _parse_existing_rules(rules_raw: Optional[list[str]]) -> list[str]:
     extracted_rules: list[str] = []
@@ -377,7 +377,4 @@ def run_defend_pipeline(
             "existing_rules_count": len(context.get("existing_rules", [])),
         },
     }
-
-
-generate_defense_pipeline = run_defend_pipeline
 

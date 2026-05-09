@@ -7,7 +7,7 @@ This module provides the foundation for all WAF-specific validators.
 """
 
 from abc import ABC, abstractmethod
-from ..dtos import ValidationResult, WAFType
+from dtos import ValidationResult, WAFType
 
 
 class BaseValidator(ABC):

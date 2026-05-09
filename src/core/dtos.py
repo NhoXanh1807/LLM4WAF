@@ -1,7 +1,15 @@
+"""
+DTOs - Data Transfer Objects
+"""
+
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Optional, Union
 
+@dataclass
+class AttackResult:
+    status_code: int|None
+    blocked: bool|None
 
 class WAFType(Enum):
     MODSECURITY = "modsec"
