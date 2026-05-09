@@ -11,3 +11,4 @@ src/gui/backend/.env
 src/gui/frontend/.env
 /src/gui/backend/session_logs
 /src/web/frontend/node_modules
+/src/web/backend/session_logs
