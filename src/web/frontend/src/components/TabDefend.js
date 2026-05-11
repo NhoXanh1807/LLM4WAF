@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Services } from '../services';
 import PayloadResultsTable from './PayloadResultsTable';
 
@@ -54,7 +54,53 @@ const infoValueShell = (darkMode, tone = 'blue') => {
     return `flex min-h-[44px] items-center rounded-2xl border px-4 text-sm font-bold shadow-sm ${styles[tone]}`;
 };
 
-const StepSection = ({ title, subtitle, actionLabel, loading, disabled, interactionLocked = false, onSubmit, darkMode, tone = 'sky', afterButton = null, children }) => {
+const loadingButtonClass = 'bg-gradient-to-r from-yellow-400 to-yellow-600';
+
+const getActionButtonClass = (loading, enabledClassName) => (
+    loading
+        ? loadingButtonClass
+        : `${enabledClassName} disabled:from-gray-400 disabled:via-gray-400 disabled:to-gray-500`
+);
+
+const AfterStepNotice = ({ darkMode, tone, message, linkText, onClick }) => {
+    const styles = {
+        cyan: darkMode ? 'border-cyan-900 text-cyan-200/80' : 'border-cyan-300 text-cyan-800',
+        violet: darkMode ? 'border-violet-900 text-violet-200/80' : 'border-violet-300 text-violet-800',
+        emerald: darkMode ? 'border-emerald-900 text-emerald-200/80' : 'border-emerald-300 text-emerald-800',
+        amber: darkMode ? 'border-amber-900 text-amber-200/80' : 'border-amber-300 text-amber-800',
+    };
+
+    return (
+        <div className={`rounded-xl border border-dashed p-5 text-sm ${styles[tone]}`}>
+            <span>
+                {message}{' '}
+                {linkText && onClick && (
+                    <button
+                        type="button"
+                        onClick={onClick}
+                        className={`font-semibold underline underline-offset-2 transition-all duration-200 ${darkMode ? 'text-white hover:text-gray-200' : 'text-slate-900 hover:text-slate-700'}`}
+                    >
+                        {linkText}
+                    </button>
+                )}
+            </span>
+        </div>
+    );
+};
+
+const ExistingRulesDetectedNotice = ({ darkMode, count, onClick }) => (
+    <div className="rounded-xl border border-dashed p-5 text-sm border-cyan-300 text-cyan-800 dark:border-cyan-900 dark:text-cyan-200/80">
+        <button
+            type="button"
+            onClick={onClick}
+            className={`font-semibold underline underline-offset-2 transition-all duration-200 ${darkMode ? 'text-white hover:text-gray-200' : 'text-slate-900 hover:text-slate-700'}`}
+        >
+            Existing rules detected ({count})
+        </button>
+    </div>
+);
+
+const StepSection = ({ title, subtitle, actionLabel, loading, disabled, interactionLocked = false, onSubmit, darkMode, tone = 'sky', afterButton = null, children, sectionRef = null }) => {
     const theme = {
         sky: {
             panel: darkMode ? 'border-cyan-900/70 bg-cyan-950/20' : 'border-cyan-200 bg-cyan-50/60',
@@ -79,7 +125,7 @@ const StepSection = ({ title, subtitle, actionLabel, loading, disabled, interact
     }[tone];
 
     return (
-        <form className={`${cardShell(darkMode)} ${theme.panel} flex flex-col gap-6 p-6`} onSubmit={onSubmit}>
+        <form ref={sectionRef} className={`${cardShell(darkMode)} ${theme.panel} flex flex-col gap-6 p-6`} onSubmit={onSubmit}>
             <div>
                 <h3 className={`text-xl font-bold ${theme.title}`}>{title}</h3>
                 {subtitle && (
@@ -92,7 +138,7 @@ const StepSection = ({ title, subtitle, actionLabel, loading, disabled, interact
             <button
                 type="submit"
                 disabled={disabled || interactionLocked}
-                className={`w-full rounded-xl bg-gradient-to-r ${theme.button} px-5 py-3 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:translate-y-[-1px] disabled:cursor-not-allowed disabled:from-gray-400 disabled:via-gray-400 disabled:to-gray-500`}
+                className={`w-full rounded-xl ${getActionButtonClass(loading, `bg-gradient-to-r ${theme.button}`)} px-5 py-3 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:translate-y-[-1px] disabled:cursor-not-allowed`}
             >
                 {loading ? `${actionLabel}...` : actionLabel}
             </button>
@@ -209,6 +255,7 @@ const RuleCard = ({ title, item, index, darkMode, accent = 'blue', editable = fa
 
 const TabDefend = ({
     wafName,
+    attackType,
     attackResults,
     setAttackResults,
     domain,
@@ -223,6 +270,7 @@ const TabDefend = ({
     invalidRules = [],
     retriedRules = [],
     finalRules = [],
+    detectedExistingRules = [],
     setClusters,
     setRagSources,
     setRagContext,
@@ -244,7 +292,61 @@ const TabDefend = ({
     setExistingRuleFiles,
 }) => {
     const [loadingRetest, setLoadingRetest] = useState(false);
+    const [showExistingRulesModal, setShowExistingRulesModal] = useState(false);
     const isAutoDefending = Boolean(defendLoading.auto);
+    const clusteringReviewRef = useRef(null);
+    const ragReviewRef = useRef(null);
+    const generatedRulesReviewRef = useRef(null);
+    const invalidRulesReviewRef = useRef(null);
+    const validRulesReviewRef = useRef(null);
+    const fixedRulesReviewRef = useRef(null);
+    const clusteringStepRef = useRef(null);
+    const ragStepRef = useRef(null);
+    const generateStepRef = useRef(null);
+    const validateStepRef = useRef(null);
+    const retryStepRef = useRef(null);
+    const refineStepRef = useRef(null);
+    const lastAutoScrolledStepRef = useRef(null);
+
+    const scrollToSection = ref => {
+        ref?.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    useEffect(() => {
+        if (!isAutoDefending) {
+            lastAutoScrolledStepRef.current = null;
+            return;
+        }
+
+        const activeAutoStep = [
+            ['clustering', defendLoading.clustering, clusteringStepRef],
+            ['rag', defendLoading.rag, ragStepRef],
+            ['generate', defendLoading.generate, generateStepRef],
+            ['validate', defendLoading.validate, validateStepRef],
+            ['retry', defendLoading.retry, retryStepRef],
+            ['refine', defendLoading.refine, refineStepRef],
+        ].find(([, isLoading]) => Boolean(isLoading));
+
+        if (!activeAutoStep) {
+            return;
+        }
+
+        const [stepName, , stepRef] = activeAutoStep;
+        if (lastAutoScrolledStepRef.current === stepName) {
+            return;
+        }
+
+        lastAutoScrolledStepRef.current = stepName;
+        scrollToSection(stepRef);
+    }, [
+        isAutoDefending,
+        defendLoading.clustering,
+        defendLoading.rag,
+        defendLoading.generate,
+        defendLoading.validate,
+        defendLoading.retry,
+        defendLoading.refine,
+    ]);
 
     const handleUploadRuleFiles = async event => {
         const selectedFiles = Array.from(event.target.files || []);
@@ -362,7 +464,7 @@ const TabDefend = ({
                 </div>
                 <PayloadResultsTable
                     wafName={wafName}
-                    payloads={attackResults.filter(item => item.is_bypassed === true)}
+                    payloads={attackResults.filter(item => item.is_bypassed === true && item.is_harmful === true)}
                     darkMode={darkMode}
                 />
                 <div className="mt-5 flex flex-wrap gap-3">
@@ -370,7 +472,7 @@ const TabDefend = ({
                         type="button"
                         onClick={handleRetestAttack}
                         disabled={isAutoDefending || loadingRetest || !attackResults || attackResults.length === 0}
-                        className="rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:translate-y-[-1px] disabled:cursor-not-allowed disabled:from-gray-400 disabled:to-gray-500"
+                        className={`rounded-xl ${getActionButtonClass(loadingRetest, 'bg-gradient-to-r from-emerald-600 to-teal-600')} px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:translate-y-[-1px] disabled:cursor-not-allowed`}
                     >
                         {loadingRetest ? 'Retesting...' : 'Retest Attack Results'}
                     </button>
@@ -378,7 +480,7 @@ const TabDefend = ({
                         type="button"
                         onClick={handleAutoDefend}
                         disabled={defendLoading.auto || !attackResults || attackResults.length === 0}
-                        className="rounded-xl bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600 px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:translate-y-[-1px] disabled:cursor-not-allowed disabled:from-gray-400 disabled:via-gray-400 disabled:to-gray-500"
+                        className={`rounded-xl ${getActionButtonClass(defendLoading.auto, 'bg-gradient-to-r from-violet-600 via-fuchsia-600 to-pink-600')} px-5 py-2.5 text-sm font-bold text-white shadow-lg transition-all duration-200 hover:translate-y-[-1px] disabled:cursor-not-allowed`}
                     >
                         {defendLoading.auto ? 'Auto Defend...' : 'Auto Defend All Steps'}
                     </button>
@@ -387,8 +489,9 @@ const TabDefend = ({
             </section>
 
             <StepSection
+                sectionRef={clusteringStepRef}
                 title="1. Clustering"
-                subtitle="Input của bước này là bảng bypassed payloads ở trên. Sau khi chạy, danh sách cluster sẽ được đưa xuống bên trong bước Generate Rules để bạn chỉnh sửa trực tiếp tại đúng nơi sử dụng."
+                subtitle="Cluster the above bypassed payloads. Using TF-IDF vectorization and HAC clustering."
                 actionLabel="Run Clustering"
                 loading={defendLoading.clustering}
                 disabled={defendLoading.clustering || !attackResults || attackResults.length === 0}
@@ -400,22 +503,27 @@ const TabDefend = ({
                 darkMode={darkMode}
                 tone="sky"
                 afterButton={clusters.length > 0 ? (
-                    <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-cyan-900 text-cyan-200/80' : 'border-cyan-300 text-cyan-800'}`}>
-                        {`Đã tạo ${clusters.length} cluster. Hãy kéo xuống bước 3 để chỉnh sửa nội dung từng cluster trước khi generate rules.`}
-                    </div>
+                    <AfterStepNotice
+                        darkMode={darkMode}
+                        tone="cyan"
+                        message={`Completed. ${clusters.length} clusters ready.`}
+                        linkText="See Step 3."
+                        onClick={() => scrollToSection(clusteringReviewRef)}
+                    />
                 ) : null}
             >
                 {sectionError('clustering')}
                 {clusters.length === 0 && (
                     <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-cyan-900 text-cyan-200/80' : 'border-cyan-300 text-cyan-800'}`}>
-                        Chưa có cluster nào. Hãy chạy bước này để nạp dữ liệu cho block Cluster Inputs ở bước 3.
+                        No clusters yet. Run this step to populate the Cluster Inputs block in step 3.
                     </div>
                 )}
             </StepSection>
 
             <StepSection
+                sectionRef={ragStepRef}
                 title="2. RAG Retrieve"
-                subtitle="Input của bước này là waf_name hiện tại và bypassed payloads đã có sẵn trong state. Sau khi chạy, danh sách relevant sources sẽ được đưa xuống bên trong bước Generate Rules để bạn chỉnh sửa trực tiếp tại đúng nơi sử dụng."
+                subtitle="Retrieve relevant sources using the current WAF name and the bypassed payloads."
                 actionLabel="Run RAG Retrieve"
                 loading={defendLoading.rag}
                 disabled={defendLoading.rag || !attackResults || attackResults.length === 0}
@@ -427,9 +535,13 @@ const TabDefend = ({
                 darkMode={darkMode}
                 tone="violet"
                 afterButton={ragSources.length > 0 ? (
-                    <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-violet-900 text-violet-200/80' : 'border-violet-300 text-violet-800'}`}>
-                        {`Đã lấy ${ragSources.length} source. Hãy kéo xuống bước 3 để chỉnh sửa nội dung từng source trước khi generate rules.`}
-                    </div>
+                    <AfterStepNotice
+                        darkMode={darkMode}
+                        tone="violet"
+                        message={`Completed. ${ragSources.length} sources ready.`}
+                        linkText="See Step 3."
+                        onClick={() => scrollToSection(ragReviewRef)}
+                    />
                 ) : null}
             >
                 <div className="mb-4 grid gap-4 md:grid-cols-2">
@@ -441,14 +553,14 @@ const TabDefend = ({
                     </div>
                     <div>
                         <label className={`mb-2 block text-xs font-semibold uppercase tracking-wide ${darkMode ? 'text-gray-400' : 'text-slate-500'}`}>
-                            attack_type
+                            Attack Type
                         </label>
-                        <span className={infoValueShell(darkMode, 'violet')}>null</span>
+                        <span className={infoValueShell(darkMode, 'violet')}>{attackType || 'N/A'}</span>
                     </div>
                 </div>
                 <div className="mb-5">
                     <label className={`mb-2 block text-xs font-semibold uppercase tracking-wide ${darkMode ? 'text-gray-400' : 'text-slate-500'}`}>
-                        bypassed_payloads
+                        Bypassed Payloads
                     </label>
                     <textarea
                         className={`${textareaShell(darkMode)} min-h-[120px] p-3 font-mono text-xs`}
@@ -459,14 +571,15 @@ const TabDefend = ({
                 {sectionError('rag')}
                 {ragSources.length === 0 && (
                     <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-violet-900 text-violet-200/80' : 'border-violet-300 text-violet-800'}`}>
-                        Chưa có source nào. Hãy chạy bước này để nạp dữ liệu cho block Relevant Sources ở bước 3.
+                        No sources yet. Run this step to populate the Relevant Sources block in step 3.
                     </div>
                 )}
             </StepSection>
 
             <StepSection
+                sectionRef={generateStepRef}
                 title="3. Generate Rules"
-                subtitle="Bước này dùng waf_name, danh sách cluster đã chỉnh sửa, và toàn bộ source content đã chỉnh sửa để sinh rule. Các khối dữ liệu đầu vào được gom về đây để bạn thấy rõ quan hệ giữa Clustering, RAG và Generate Rules."
+                subtitle="Generate WAF rules using the clustering and RAG retrieval results as input."
                 actionLabel="Run Generate Rules"
                 loading={defendLoading.generate}
                 disabled={defendLoading.generate || clusters.length === 0 || ragSources.length === 0}
@@ -478,9 +591,13 @@ const TabDefend = ({
                 darkMode={darkMode}
                 tone="emerald"
                 afterButton={generatedRules.length > 0 ? (
-                    <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-emerald-900 text-emerald-200/80' : 'border-emerald-300 text-emerald-800'}`}>
-                        {`Đã tạo ${generatedRules.length} generated rules. Hãy kéo xuống bước 4 để review và chỉnh sửa chúng trước khi validate.`}
-                    </div>
+                    <AfterStepNotice
+                        darkMode={darkMode}
+                        tone="emerald"
+                        message={`Completed. ${generatedRules.length} rules generated.`}
+                        linkText="See Step 4."
+                        onClick={() => scrollToSection(generatedRulesReviewRef)}
+                    />
                 ) : null}
             >
                 <div className="mb-4 grid gap-4 lg:grid-cols-[260px_1fr]">
@@ -493,14 +610,14 @@ const TabDefend = ({
                 </div>
                 {sectionError('generate')}
                 <div className="mb-6 grid gap-6 xl:grid-cols-2">
-                    <div className={`${cardShell(darkMode)} ${darkMode ? 'border-cyan-900/60 bg-cyan-950/20' : 'border-cyan-200 bg-cyan-50/60'} p-4`}>
+                    <div ref={clusteringReviewRef} className={`${cardShell(darkMode)} ${darkMode ? 'border-cyan-900/60 bg-cyan-950/20' : 'border-cyan-200 bg-cyan-50/60'} p-4`}>
                         <div className="mb-4 flex items-center gap-3">
                             <h4 className={`text-lg font-bold ${darkMode ? 'text-cyan-200' : 'text-cyan-900'}`}>Clustering result</h4>
                             <span className={badgeShell(darkMode, 'blue')}>{clusters.length}</span>
                         </div>
                         {clusters.length === 0 ? (
                             <div className={`rounded-xl border border-dashed p-4 text-sm ${darkMode ? 'border-cyan-900 text-cyan-200/70' : 'border-cyan-300 text-cyan-800'}`}>
-                                Chưa có cluster nào để dùng cho bước generate.
+                                No clusters available for the generate step.
                             </div>
                         ) : (
                             <div className="max-h-[39rem] space-y-4 overflow-y-auto pr-2">
@@ -524,25 +641,23 @@ const TabDefend = ({
                         )}
                     </div>
 
-                    <div className={`${cardShell(darkMode)} ${darkMode ? 'border-violet-900/60 bg-violet-950/20' : 'border-violet-200 bg-violet-50/60'} p-4`}>
+                    <div ref={ragReviewRef} className={`${cardShell(darkMode)} ${darkMode ? 'border-violet-900/60 bg-violet-950/20' : 'border-violet-200 bg-violet-50/60'} p-4`}>
                         <div className="mb-4 flex items-center gap-3">
                             <h4 className={`text-lg font-bold ${darkMode ? 'text-violet-200' : 'text-violet-900'}`}>RAG Retrieve result</h4>
                             <span className={badgeShell(darkMode, 'violet')}>{ragSources.length}</span>
                         </div>
                         {ragSources.length === 0 ? (
                             <div className={`rounded-xl border border-dashed p-4 text-sm ${darkMode ? 'border-violet-900 text-violet-200/70' : 'border-violet-300 text-violet-800'}`}>
-                                Chưa có source nào để dùng cho bước generate.
+                                No sources available for the generate step.
                             </div>
                         ) : (
                             <div className="max-h-[39rem] space-y-4 overflow-y-auto pr-2">
                                 {ragSources.map((source, index) => (
-                                    <div key={source.id || `${source.title}-${index}`} className={`${darkMode ? 'bg-gray-950/70 border-violet-900/60' : 'bg-white border-violet-200'} rounded-xl border p-4`}>
+                                    <div key={source.id || `${source.source}-${index}`} className={`${darkMode ? 'bg-gray-950/70 border-violet-900/60' : 'bg-white border-violet-200'} rounded-xl border p-4`}>
                                         <div className="mb-3 flex flex-wrap gap-2">
-                                            <span className={badgeShell(darkMode, 'violet')}>{source.title || `Source ${index + 1}`}</span>
-                                            <span className={badgeShell(darkMode, 'slate')}>WAF: {source.waf_name || wafName || 'N/A'}</span>
-                                            <span className={badgeShell(darkMode, 'slate')}>Attack: {source.attack_type || 'null'}</span>
-                                            {source.path && <span className={badgeShell(darkMode, 'amber')}>{source.path}</span>}
-                                            {source.section && <span className={badgeShell(darkMode, 'blue')}>{source.section}</span>}
+                                            <span className={badgeShell(darkMode, 'slate')}>Type: {source.data_type || 'N/A'}</span>
+                                            <span className={badgeShell(darkMode, 'slate')}>WAF: {source.waf_type || 'N/A'}</span>
+                                            <span className={badgeShell(darkMode, 'violet')}>{source.source || `Source ${index + 1}`}</span>
                                         </div>
                                         <textarea
                                             className={`${textareaShell(darkMode)} min-h-[168px] p-3 font-mono text-xs`}
@@ -557,14 +672,15 @@ const TabDefend = ({
                 </div>
                 {generatedRules.length === 0 && (
                     <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-emerald-900 text-emerald-200/80' : 'border-emerald-300 text-emerald-800'}`}>
-                        Sau khi chạy bước này, generated rules sẽ xuất hiện ở đầu bước 4 để bạn chỉnh sửa trực tiếp trước khi validate syntax.
+                        After this step runs, the generated rules will appear at the top of step 4 so you can edit them directly before syntax validation.
                     </div>
                 )}
             </StepSection>
 
             <StepSection
+                sectionRef={validateStepRef}
                 title="4. Validate Syntax Rules"
-                subtitle="Input của bước này là generated rules hiện tại. Sau khi validate, invalid rules sẽ được chuyển xuống bước 5 và valid rules sẽ được chuyển xuống bước 6 để dùng đúng tại nơi tiêu thụ."
+                subtitle="Validate the syntax of the generated rules. The valid rules will go straight to Refine step while the invalid rules will be sent to Retry step."
                 actionLabel="Run Validate"
                 loading={defendLoading.validate}
                 disabled={defendLoading.validate || generatedRules.length === 0}
@@ -575,48 +691,55 @@ const TabDefend = ({
                 }}
                 darkMode={darkMode}
                 afterButton={invalidRules.length > 0 || validRules.length > 0 ? (
-                    <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-amber-900 text-amber-200/80' : 'border-amber-300 text-amber-800'}`}>
-                        {`Đã phân loại ${invalidRules.length} invalid rules và ${validRules.length} valid rules. Hãy kéo xuống bước 5 và bước 6 để review chúng tại đúng nơi sử dụng.`}
-                    </div>
+                    <AfterStepNotice
+                        darkMode={darkMode}
+                        tone="amber"
+                        message={`Completed. ${validRules.length} valid, ${invalidRules.length} invalid.`}
+                        linkText={invalidRules.length > 0 ? 'See Step 5.' : 'See Step 6.'}
+                        onClick={() => scrollToSection(invalidRules.length > 0 ? invalidRulesReviewRef : validRulesReviewRef)}
+                    />
                 ) : null}
             >
                 {sectionError('validate')}
-                <div className="mb-6 space-y-4">
+                <div ref={generatedRulesReviewRef} className="mb-6 space-y-4">
                     <div className="flex items-center gap-3">
                         <h4 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>Generated Rules Input</h4>
                         <span className={badgeShell(darkMode, 'blue')}>{generatedRules.length}</span>
                     </div>
                     {generatedRules.length === 0 ? (
                         <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-gray-700 text-gray-400' : 'border-slate-300 text-slate-500'}`}>
-                            Chưa có generated rule nào để validate.
+                            No generated rules available for validation.
                         </div>
                     ) : (
-                        <div className="grid gap-4 xl:grid-cols-2">
-                            {generatedRules.map((item, index) => (
-                                <RuleCard
-                                    key={`generated-${index}`}
-                                    title="Generated Rule"
-                                    item={item}
-                                    index={index}
-                                    darkMode={darkMode}
-                                    accent="blue"
-                                    editable
-                                    onRuleChange={nextRule => handleGeneratedRuleChange(index, nextRule)}
-                                />
-                            ))}
+                        <div className="max-h-[39rem] overflow-y-auto pr-2">
+                            <div className="grid gap-4 xl:grid-cols-2">
+                                {generatedRules.map((item, index) => (
+                                    <RuleCard
+                                        key={`generated-${index}`}
+                                        title="Generated Rule"
+                                        item={item}
+                                        index={index}
+                                        darkMode={darkMode}
+                                        accent="blue"
+                                        editable
+                                        onRuleChange={nextRule => handleGeneratedRuleChange(index, nextRule)}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     )}
                 </div>
                 {invalidRules.length === 0 && validRules.length === 0 && (
                     <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-amber-900 text-amber-200/80' : 'border-amber-300 text-amber-800'}`}>
-                        Sau khi chạy bước này, invalid rules sẽ xuất hiện ở đầu bước 5 và valid rules sẽ xuất hiện ở đầu bước 6.
+                        After this step runs, invalid rules will appear at the top of step 5 and valid rules will appear at the top of step 6.
                     </div>
                 )}
             </StepSection>
 
             <StepSection
+                sectionRef={retryStepRef}
                 title="5. Retry Rules"
-                subtitle="Input của bước này là danh sách invalid rules đã được validate ở bước 4. Kết quả fixed rules sẽ được chuyển xuống bước 6 để dùng chung với valid rules khi refine."
+                subtitle="Retry fixing the invalid rules, fixed rules will be passed to Refine step."
                 actionLabel="Run Retry"
                 loading={defendLoading.retry}
                 disabled={defendLoading.retry || invalidRules.length === 0}
@@ -627,13 +750,17 @@ const TabDefend = ({
                 }}
                 darkMode={darkMode}
                 afterButton={retriedRules.length > 0 ? (
-                    <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-amber-900 text-amber-200/80' : 'border-amber-300 text-amber-800'}`}>
-                        {`Đã sửa được ${retriedRules.length} fixed rules. Hãy kéo xuống bước 6 để review chúng cùng với valid rules.`}
-                    </div>
+                    <AfterStepNotice
+                        darkMode={darkMode}
+                        tone="amber"
+                        message={`Completed. ${retriedRules.length} rules fixed.`}
+                        linkText="See Step 6."
+                        onClick={() => scrollToSection(fixedRulesReviewRef)}
+                    />
                 ) : null}
             >
                 {sectionError('retry')}
-                <div className="mb-6 space-y-4">
+                <div ref={invalidRulesReviewRef} className="mb-6 space-y-4">
                     <div className="flex items-center gap-3">
                         <h4 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>Invalid Rules Input</h4>
                         <span className={badgeShell(darkMode, 'red')}>{invalidRules.length}</span>
@@ -659,14 +786,15 @@ const TabDefend = ({
                 </div>
                 {retriedRules.length === 0 && (
                     <div className={`rounded-xl border border-dashed p-5 text-sm ${darkMode ? 'border-amber-900 text-amber-200/80' : 'border-amber-300 text-amber-800'}`}>
-                        Sau khi chạy bước này, fixed rules sẽ xuất hiện ở đầu bước 6 để bạn review cùng với valid rules trước khi refine.
+                        After this step runs, the fixed rules will appear at the top of step 6 so you can review them together with the valid rules before refinement.
                     </div>
                 )}
             </StepSection>
 
             <StepSection
+                sectionRef={refineStepRef}
                 title="6. Refine Rules"
-                subtitle="Bước cuối cùng dùng waf_name hiện tại, valid rules, fixed rules và existing rules. Valid rules và fixed rules được hiển thị ngay trong form này để bạn review trước khi refine."
+                subtitle="The final step uses the current WAF name, valid rules, fixed rules, and existing rules."
                 actionLabel="Run Refine"
                 loading={defendLoading.refine}
                 disabled={defendLoading.refine || (validRules.length + retriedRules.length === 0)}
@@ -676,6 +804,13 @@ const TabDefend = ({
                     handleDefendRefineRules();
                 }}
                 darkMode={darkMode}
+                afterButton={finalRules.length > 0 && detectedExistingRules.length > 0 ? (
+                    <ExistingRulesDetectedNotice
+                        darkMode={darkMode}
+                        count={detectedExistingRules.length}
+                        onClick={() => setShowExistingRulesModal(true)}
+                    />
+                ) : null}
             >
                 <div className="grid gap-4 lg:grid-cols-3">
                     <div>
@@ -694,7 +829,7 @@ const TabDefend = ({
                     </div>
                 </div>
                 <div className="mt-6 grid gap-6 xl:grid-cols-2">
-                    <div className="space-y-4">
+                    <div ref={validRulesReviewRef} className="space-y-4">
                         <div className="flex items-center gap-3">
                             <h4 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>Valid Rules Input</h4>
                             <span className={badgeShell(darkMode, 'green')}>{validRules.length}</span>
@@ -704,19 +839,21 @@ const TabDefend = ({
                                 No valid rules
                             </div>
                         ) : (
-                            validRules.map((item, index) => (
-                                <RuleCard
-                                    key={`valid-input-${index}`}
-                                    title="Valid Rule"
-                                    item={item}
-                                    index={index}
-                                    darkMode={darkMode}
-                                    accent="green"
-                                />
-                            ))
+                            <div className="max-h-[39rem] space-y-4 overflow-y-auto pr-2">
+                                {validRules.map((item, index) => (
+                                    <RuleCard
+                                        key={`valid-input-${index}`}
+                                        title="Valid Rule"
+                                        item={item}
+                                        index={index}
+                                        darkMode={darkMode}
+                                        accent="green"
+                                    />
+                                ))}
+                            </div>
                         )}
                     </div>
-                    <div className="space-y-4">
+                    <div ref={fixedRulesReviewRef} className="space-y-4">
                         <div className="flex items-center gap-3">
                             <h4 className={`text-lg font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>Fixed Rules Input</h4>
                             <span className={badgeShell(darkMode, 'amber')}>{retriedRules.length}</span>
@@ -726,16 +863,18 @@ const TabDefend = ({
                                 No fixed rules
                             </div>
                         ) : (
-                            retriedRules.map((item, index) => (
-                                <RuleCard
-                                    key={`fixed-input-${index}`}
-                                    title="Fixed Rule"
-                                    item={item}
-                                    index={index}
-                                    darkMode={darkMode}
-                                    accent="amber"
-                                />
-                            ))
+                            <div className="max-h-[39rem] space-y-4 overflow-y-auto pr-2">
+                                {retriedRules.map((item, index) => (
+                                    <RuleCard
+                                        key={`fixed-input-${index}`}
+                                        title="Fixed Rule"
+                                        item={item}
+                                        index={index}
+                                        darkMode={darkMode}
+                                        accent="amber"
+                                    />
+                                ))}
+                            </div>
                         )}
                     </div>
                 </div>
@@ -800,13 +939,13 @@ const TabDefend = ({
                         <span className={badgeShell(darkMode, 'green')}>{finalRules.length} rules</span>
                     </div>
                     <p className={`mt-2 text-sm ${darkMode ? 'text-emerald-100/80' : 'text-slate-600'}`}>
-                        Đây là kết quả cuối cùng sau khi đã validate, retry và refine. Phần này được nhấn mạnh để bạn review và export thủ công nếu cần.
+                        This is the final result after validation, retry, and refinement.
                     </p>
                 </div>
                 <div className="p-6">
                     {finalRules.length === 0 ? (
                         <div className={`rounded-xl border border-dashed p-6 text-sm ${darkMode ? 'border-gray-700 text-gray-400' : 'border-slate-300 text-slate-500'}`}>
-                            Chưa có final rules. Hãy hoàn tất bước Refine Rules để nhận kết quả cuối.
+                            No final rules yet. Complete the Refine Rules step to get the final result.
                         </div>
                     ) : (
                         <div className="grid gap-5 xl:grid-cols-2">
@@ -824,6 +963,50 @@ const TabDefend = ({
                     )}
                 </div>
             </section>
+
+            {showExistingRulesModal && detectedExistingRules.length > 0 && (
+                <div
+                    className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4"
+                    onClick={() => setShowExistingRulesModal(false)}
+                >
+                    <div
+                        className={`${cardShell(darkMode)} w-full max-w-4xl p-6`}
+                        onClick={event => event.stopPropagation()}
+                    >
+                        <div className="mb-4 flex items-center justify-between gap-4">
+                            <div>
+                                <h3 className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                                    Existing Rules Detected
+                                </h3>
+                                <p className={`mt-1 text-sm ${darkMode ? 'text-gray-400' : 'text-slate-500'}`}>
+                                    {detectedExistingRules.length} rules were returned by the refine response.
+                                </p>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={() => setShowExistingRulesModal(false)}
+                                className={`rounded-lg px-3 py-2 text-sm font-bold ${darkMode ? 'bg-gray-800 text-white hover:bg-gray-700' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}`}
+                            >
+                                Close
+                            </button>
+                        </div>
+                        <div className="max-h-[32rem] space-y-3 overflow-y-auto pr-2">
+                            {detectedExistingRules.map((rule, index) => (
+                                <div key={`${rule}-${index}`} className="space-y-1">
+                                    <label className={`block text-xs font-semibold uppercase tracking-wide ${darkMode ? 'text-gray-400' : 'text-slate-500'}`}>
+                                        Rule #{index + 1}
+                                    </label>
+                                    <textarea
+                                        readOnly
+                                        value={rule}
+                                        className={`${textareaShell(darkMode)} min-h-[96px] resize-y px-3 py-2 font-mono text-sm`}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

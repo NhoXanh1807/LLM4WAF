@@ -26,6 +26,7 @@ if DVWA_PASSWORD is None:
 if DVWA_SECURITY_LEVEL is None:
     DVWA_SECURITY_LEVEL = os.getenv("DVWA_SECURITY_LEVEL", "low")
 
+SESSION_IDS = {}
 
 def loginDVWA(base_url=None):
     """
@@ -35,6 +36,10 @@ def loginDVWA(base_url=None):
         str: PHPSESSID for authenticated requests
     """
     _base = (base_url or DVWA_BASE_URL).rstrip("/")
+    if _base in SESSION_IDS:
+        return SESSION_IDS[_base]
+    
+    print(f"[DVWA] Logging in to {_base}...")
     # Get PHPSESSID from login page
     response = requests.get(f"{_base}/login.php")
     cookies = response.cookies
@@ -57,13 +62,14 @@ def loginDVWA(base_url=None):
     if token_match:
         login_data["user_token"] = token_match.group(1)
 
+    
     # Perform login
     response = requests.post(
         f"{_base}/login.php",
         data=login_data,
         cookies={"PHPSESSID": php_session_id}
     )
-
+    SESSION_IDS[_base] = php_session_id
     return php_session_id
 
 

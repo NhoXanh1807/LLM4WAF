@@ -68,15 +68,16 @@ def _3_test_attack(
     domain: str,
     payloads: list[PayloadResult],
     check_harmful: bool = True,
+    check_waf: bool = True,
 ) -> list[PayloadResult]:
     normalized_domain = _normalize_domain(domain)
-    payload_results = list(payloads or [])
-
-    print(f"[DVWA] Logging in to {normalized_domain}...")
-    session_id = dvwa.loginDVWA(base_url=normalized_domain)
 
     import tqdm
-    for item in tqdm.tqdm(payload_results, desc="[DVWA] Testing payloads"):
+    if check_waf:
+        session_id = dvwa.loginDVWA(base_url=normalized_domain)
+    else:
+        session_id = None
+    for item in tqdm.tqdm(payloads, desc=f"[TEST-ATTACK] {len(payloads)} payloads on {domain}"):
         payload = item.payload
         attack_type = item.attack_type
         if check_harmful and payload and attack_type:
@@ -88,14 +89,15 @@ def _3_test_attack(
                 harmfulness_result = evaluate_sql_payload(payload)
                 if harmfulness_result:
                     item.is_harmful = len(harmfulness_result.harm_queries) > 0
-
-        attack_func = dvwa.DVWA_ATTACK_FUNC.get(attack_type)
-        if attack_func and payload:
-            result = dvwa.attack(attack_type, payload, session_id, base_url=normalized_domain)
-            item.is_bypassed = not result.blocked if result.blocked is not None else None
-            item.status_code = result.status_code
-        else:
-            item.is_bypassed = None
-            item.status_code = None
-    return payload_results
+                    
+        if check_waf and payload and attack_type:
+            attack_func = dvwa.DVWA_ATTACK_FUNC.get(attack_type)
+            if attack_func:
+                result = dvwa.attack(attack_type, payload, session_id, base_url=normalized_domain)
+                item.is_bypassed = not result.blocked if result.blocked is not None else None
+                item.status_code = result.status_code
+            else:
+                item.is_bypassed = None
+                item.status_code = None
+    return payloads
 

@@ -53,6 +53,29 @@ def api_error_handler(func):
 
     return wrapper
 
+
+def _parse_payload_results(items):
+    return [
+        PayloadResult(
+            payload=item.get("payload", ""),
+            technique=item.get("technique", ""),
+            attack_type=item.get("attack_type", ""),
+            status_code=item.get("status_code"),
+            is_bypassed=item.get("is_bypassed"),
+            is_harmful=item.get("is_harmful"),
+        )
+        for item in (items or [])
+        if isinstance(item, dict)
+    ]
+
+
+def _extract_bypassed_payloads(payloads):
+    return [
+        str(item.payload).strip()
+        for item in payloads
+        if item.is_bypassed and str(item.payload).strip()
+    ]
+
 @app.route("/api/attack/1-detect-waf", methods=["POST"])
 @api_error_handler
 def api_attack_1_detect_waf():
@@ -116,6 +139,7 @@ def api_attack_3_test():
     data = payload if isinstance(payload, dict) else {}
     domain = dict.get(data, "domain", None)
     check_harmful = dict.get(data, "check_harmful", True)
+    check_waf = dict.get(data, "check_waf", True)
     payloads = [
         PayloadResult(
             payload=item.get("payload", ""),
@@ -136,6 +160,7 @@ def api_attack_3_test():
         domain=domain,
         payloads=payloads,
         check_harmful=check_harmful,
+        check_waf=check_waf,
     )
 
     return jsonify({"payloads": tested_payloads}), 200
@@ -149,30 +174,9 @@ def api_defend_1_clustering():
     attack_type = str(data.get("attack_type", "")).strip()
     if not attack_type:
         return jsonify({"error": "Missing 'attack_type' field"}), 400
+    payloads = _parse_payload_results(data.get("payloads", []))
+    bypassed_payloads = _extract_bypassed_payloads(payloads)
 
-    raw_bypassed_payloads = data.get("bypassed_payloads")
-    if isinstance(raw_bypassed_payloads, list):
-        bypassed_payloads = [
-            str(item).strip() for item in raw_bypassed_payloads if str(item).strip()
-        ]
-    else:
-        payloads = [
-            PayloadResult(
-                payload=item.get("payload", ""),
-                technique=item.get("technique", ""),
-                attack_type=item.get("attack_type", ""),
-                status_code=item.get("status_code"),
-                is_bypassed=item.get("is_bypassed"),
-                is_harmful=item.get("is_harmful"),
-            )
-            for item in data.get("payloads", [])
-            if isinstance(item, dict)
-        ]
-        bypassed_payloads = [
-            str(item.payload).strip()
-            for item in payloads
-            if item.is_bypassed and str(item.payload).strip()
-        ]
     clusters = defend._1_clustering(
         bypassed_payloads=bypassed_payloads,
         attack_type=attack_type,
@@ -200,30 +204,9 @@ def api_defend_2_rag_retrieve():
         return jsonify({"error": "Missing 'waf_name' field"}), 400
     if not attack_type:
         return jsonify({"error": "Missing 'attack_type' field"}), 400
+    payloads = _parse_payload_results(data.get("payloads", []))
+    bypassed_payloads = _extract_bypassed_payloads(payloads)
 
-    raw_bypassed_payloads = data.get("bypassed_payloads")
-    if isinstance(raw_bypassed_payloads, list):
-        bypassed_payloads = [
-            str(item).strip() for item in raw_bypassed_payloads if str(item).strip()
-        ]
-    else:
-        payloads = [
-            PayloadResult(
-                payload=item.get("payload", ""),
-                technique=item.get("technique", ""),
-                attack_type=item.get("attack_type", ""),
-                status_code=item.get("status_code"),
-                is_bypassed=item.get("is_bypassed"),
-                is_harmful=item.get("is_harmful"),
-            )
-            for item in data.get("payloads", [])
-            if isinstance(item, dict)
-        ]
-        bypassed_payloads = [
-            str(item.payload).strip()
-            for item in payloads
-            if item.is_bypassed and str(item.payload).strip()
-        ]
     rag_result, rag_sources, rag_context = defend._2_rag_retrieve(
         waf_name=waf_name,
         attack_type=attack_type,

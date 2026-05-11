@@ -3,30 +3,6 @@ import TabAttack from './components/TabAttack';
 import TabDefend from './components/TabDefend';
 import { Services } from './services';
 
-const normalizeRagSource = (source, index) => {
-  const fallbackTitle = `Source ${index + 1}`;
-  const content = typeof source === 'string'
-    ? source
-    : String(
-      source?.content
-      ?? source?.text
-      ?? source?.page_content
-      ?? source?.chunk
-      ?? source?.rule
-      ?? ''
-    );
-
-  return {
-    id: source?.id ?? `${source?.path || source?.file_name || fallbackTitle}-${index}`,
-    title: source?.title || source?.file_name || source?.filename || source?.path || fallbackTitle,
-    waf_name: source?.waf_name || source?.waf || '',
-    attack_type: source?.attack_type || source?.attack || '',
-    path: source?.path || source?.file_path || '',
-    section: source?.section || source?.category || '',
-    content,
-    raw: source,
-  };
-};
 
 const buildRagContextFromSources = (sources = [], fallback = '') => {
   const normalized = Array.isArray(sources) ? sources : [];
@@ -36,6 +12,10 @@ const buildRagContextFromSources = (sources = [], fallback = '') => {
 
   return parts.length > 0 ? parts.join('\n\n---\n\n') : fallback;
 };
+
+const normalizeDefendPayloads = (payloads = []) => (
+  (Array.isArray(payloads) ? payloads : []).filter(item => item && typeof item === 'object')
+);
 
 function App() {
   const [activeTab, setActiveTab] = useState('Attack');
@@ -83,6 +63,7 @@ function App() {
   const [invalidRules, setInvalidRules] = useState([]);
   const [retriedRules, setRetriedRules] = useState([]);
   const [finalRules, setFinalRules] = useState([]);
+  const [detectedExistingRules, setDetectedExistingRules] = useState([]);
   const [defendStats, setDefendStats] = useState({});
 
   const [loading, setLoading] = useState(false); // for backward compatibility
@@ -116,8 +97,9 @@ function App() {
     setDefendLoading(l => ({ ...l, clustering: true }));
     setDefendError(e => ({ ...e, clustering: null }));
     try {
-      const attack_type = getCurrentAttackType(payloadsOverride);
-      const res = await Services.apiDefendClustering(attack_type, payloadsOverride);
+      const defendPayloads = normalizeDefendPayloads(payloadsOverride);
+      const attack_type = getCurrentAttackType(defendPayloads);
+      const res = await Services.apiDefendClustering(attack_type, defendPayloads);
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Clustering failed');
       setClusters(data.clusters || []);
@@ -130,6 +112,7 @@ function App() {
       setInvalidRules([]);
       setRetriedRules([]);
       setFinalRules([]);
+      setDetectedExistingRules([]);
       setDefenseRules([]);
       setDefendStats(s => ({ ...s, clustering: data.stats }));
       return data;
@@ -147,24 +130,26 @@ function App() {
     setDefendLoading(l => ({ ...l, rag: true }));
     setDefendError(e => ({ ...e, rag: null }));
     try {
-      const res = await Services.apiDefendRagRetrieve(wafName, null, payloadsOverride);
+      const defendPayloads = normalizeDefendPayloads(payloadsOverride);
+      const currentAttackType = getCurrentAttackType(defendPayloads);
+      const res = await Services.apiDefendRagRetrieve(wafName, currentAttackType, defendPayloads);
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'RAG retrieve failed');
-      const normalizedSources = (data.rag_sources || []).map((source, index) => normalizeRagSource(source, index));
-      const nextRagContext = buildRagContextFromSources(normalizedSources, data.rag_context || '');
+      const nextRagContext = buildRagContextFromSources(data.rag_sources || [], data.rag_context || '');
       setRagResult(data.rag_result || null);
-      setRagSources(normalizedSources);
+      setRagSources(data.rag_sources || []);
       setRagContext(nextRagContext);
       setGeneratedRules([]);
       setValidRules([]);
       setInvalidRules([]);
       setRetriedRules([]);
       setFinalRules([]);
+      setDetectedExistingRules([]);
       setDefenseRules([]);
       setDefendStats(s => ({ ...s, rag: data.stats }));
       return {
         ...data,
-        rag_sources: normalizedSources,
+        rag_sources: data.rag_sources || [],
         rag_context: nextRagContext,
       };
     } catch (err) {
@@ -196,6 +181,7 @@ function App() {
       setInvalidRules([]);
       setRetriedRules([]);
       setFinalRules([]);
+      setDetectedExistingRules([]);
       setDefenseRules([]);
       setDefendStats(s => ({ ...s, generate: data.stats }));
       return data;
@@ -220,6 +206,7 @@ function App() {
       setInvalidRules(data.invalid_rules || []);
       setRetriedRules([]);
       setFinalRules([]);
+      setDetectedExistingRules([]);
       setDefenseRules([]);
       setDefendStats(s => ({ ...s, validate: data.stats }));
       return data;
@@ -242,6 +229,7 @@ function App() {
       if (!res.ok) throw new Error(data?.error || 'Retry invalid rules failed');
       setRetriedRules(data.retried_rules || []);
       setFinalRules([]);
+      setDetectedExistingRules([]);
       setDefenseRules([]);
       setDefendStats(s => ({ ...s, retry: data.stats }));
       return data;
@@ -269,12 +257,14 @@ function App() {
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || 'Refine rules failed');
       setFinalRules(data.final_rules || []);
+      setDetectedExistingRules(Array.isArray(data?.existing_rules) ? data.existing_rules : []);
       setDefendStats(s => ({ ...s, refine: data.stats }));
       setDefenseRules(data.final_rules || []);
       return data;
     } catch (err) {
       setDefendError(e => ({ ...e, refine: err.message }));
       setFinalRules([]);
+      setDetectedExistingRules([]);
       setDefenseRules([]);
       throw err;
     } finally {
@@ -392,6 +382,7 @@ function App() {
           {activeTab === 'Defend' && <TabDefend
             domain={domain}
             wafName={wafName}
+            attackType={attackType}
             attackResults={attackResults}
             setAttackResults={setAttackResults}
             darkMode={darkMode}
@@ -411,6 +402,7 @@ function App() {
             invalidRules={invalidRules}
             retriedRules={retriedRules}
             finalRules={finalRules}
+            detectedExistingRules={detectedExistingRules}
             defendStats={defendStats}
             setClusters={setClusters}
             setRagSources={setRagSources}

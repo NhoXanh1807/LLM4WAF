@@ -87,6 +87,8 @@ def _2_rag_retrieve(
     attack_type: str,
     bypassed_payloads: list[str],
 ) -> tuple[dict[str, Any], list[dict[str, Any]], str]:
+    if not waf_name:
+        raise ValueError("Missing 'waf_name' field")
     rag_result = rag_retrieve(
         attack_type=attack_type,
         waf_name=waf_name,
@@ -114,6 +116,11 @@ def _3_generate_rules(
     clusters: list[dict[str, Any]],
     rag_context: str,
 ) -> tuple[list[dict[str, str]], str]:
+    if not waf_name:
+        raise ValueError("Missing 'waf_name' field")
+    if not clusters:
+        raise ValueError("No bypassed payloads to generate rules from")
+    
     base_prompt = get_blue_team_user_prompt(
         waf_name=waf_name,
         payload_clusters=clusters,
@@ -177,7 +184,7 @@ Prioritize the specific bypassed payloads mentioned above.
     ]
     print(f"[GENERATE-RULES] Generated {len(generated_rules)} rules")
     for i, rule in enumerate(generated_rules):
-        print(f"\tRule #{i + 1}: {rule['rule']}")
+        print(f"\t{rule['rule']}")
         if rule.get("instructions"):
             print(f"\t\tInstructions: {rule['instructions']}")
     return generated_rules, prompt
@@ -203,7 +210,8 @@ def _4_validate_rules_syntax(
 
     print(f"[VALIDATION] {len(valid_rules)} valid rules, {len(invalid_rules)} invalid rules")
     for i, rule in enumerate(invalid_rules):
-        print(f"\tInvalid Rule #{i + 1}: {rule['rule']}")
+        print(f"\t{rule['rule']}")
+        print(f"\t\tError: {rule['validation_error']}")
         print(f"\t\tError: {rule['validation_error']}")
         if rule.get("validation_warnings"):
             print(f"\t\tWarnings: {rule['validation_warnings']}")
@@ -214,7 +222,13 @@ def _5_retry_invalid_rules(
     waf_name: str,
     invalid_rules: list[dict],
 ) -> list[dict]:
-    retried_rules = []
+    if not waf_name:
+        raise ValueError("Missing 'waf_name' field")
+    if not invalid_rules:
+        raise ValueError("No invalid rules to retry")
+    print(f"[RETRY] Retried {len(invalid_rules)} invalid rules")
+
+    fixed_rules = []
     for rule in invalid_rules:
         fix_prompt = build_fix_rule_prompt(
             waf_name=waf_name,
@@ -251,18 +265,17 @@ def _5_retry_invalid_rules(
             normalized_rule["is_valid"] = True
             normalized_rule["validation_error"] = None
             normalized_rule["validation_warnings"] = validation.warnings or []
-            retried_rules.append(normalized_rule)
+            fixed_rules.append(normalized_rule)
 
-    print(f"[RETRY] Retried {len(retried_rules)} rules")
-    for i, rule in enumerate(retried_rules):
-        print(f"\tRetried Rule #{i + 1}: {rule['rule']}")
+    print(f"[RETRY] Fixed {len(fixed_rules)} rules")
+    for i, rule in enumerate(fixed_rules):
+        print(f"\t{rule['rule']}")
         if rule.get("instructions"):
             print(f"\t\tInstructions: {rule['instructions']}")
         if rule.get("validation_warnings"):
             print(f"\t\tWarnings: {rule['validation_warnings']}")
 
-
-    return retried_rules
+    return fixed_rules
 
 
 def _6_refine_rules(
@@ -270,6 +283,21 @@ def _6_refine_rules(
     valid_rules: list[dict[str, Any]],
     existing_rules: list[str]|None = None,
 ) -> list[dict[str, Any]]:
+    if not waf_name:
+        raise ValueError("Missing 'waf_name' field")
+    if not valid_rules:
+        raise ValueError("No valid rules to refine")
+
+    print(f"[REFINE] Refining {len(valid_rules)} rules with {len(existing_rules) if existing_rules else 0} existing rules")
+    print(f"[REFINE] Valid rules to refine:")
+    for rule in valid_rules:
+        print(f"\t{rule['rule']}")
+        if rule.get("instructions"):
+            print(f"\t\tInstructions: {rule['instructions']}")
+    print (f"[REFINE] Existing rules:")
+    for rule in existing_rules or []:
+        print(f"\t{rule}")
+
     candidate_rules = [
         {"rule": rule["rule"], "instructions": rule.get("instructions", "")}
         for rule in valid_rules
@@ -286,6 +314,7 @@ def _6_refine_rules(
 
     last_error: Exception | None = None
     for attempt in range(5):
+        content = None
         try:
             response = claude_completion(
                 messages=[
@@ -320,12 +349,23 @@ def _6_refine_rules(
                 },
             )
 
-            refined_rules = json.loads(response["choices"][0]["message"]["content"])["refined_rules"]
+            content = response["choices"][0]["message"]["content"]
+            refined_rules = json.loads(content)["refined_rules"]
             if isinstance(refined_rules, list):
+                print(f"[REFINE] Successfully refined rules on attempt #{attempt + 1}")
+                for i, rule in enumerate(refined_rules):
+                    print(f"\t{rule['rule']}")
+                    if rule.get("instructions"):
+                        print(f"\t\tInstructions: {rule['instructions']}")
                 return refined_rules
             last_error = ValueError("refined_rules must be a list")
         except Exception as exc:
             last_error = exc
+            import traceback
+            print("[REFINE-RULES] CLAUDE RESPONSE CONTENT:")
+            print(content)
+            print("=" * 60)
+            traceback.print_exc()
             print(f"[REFINE-RULES] #{attempt + 1}/5 failed: {exc}")
 
     raise last_error or RuntimeError("Refine rules failed")

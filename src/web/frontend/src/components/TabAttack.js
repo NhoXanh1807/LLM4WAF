@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import { Services } from '../services';
 import PayloadResultsTable from './PayloadResultsTable';
 
+const EMPTY_PROGRESS = { current: 0, total: 0 };
+
+const buildPayloadIdentity = item => `${item?.payload || ''}::${item?.technique || ''}::${item?.attack_type || ''}`;
+
 const AttackTab = ({
     domain,
     setDomain,
@@ -21,7 +25,6 @@ const AttackTab = ({
     setPayloadsAdaptive,
     setAttackResults,
     setActiveTab,
-    handleDefend,
 }) => {
     // Per-button loading states
     const [loadingDetect, setLoadingDetect] = useState(false);
@@ -33,12 +36,147 @@ const AttackTab = ({
     const [autoUseAdaptive, setAutoUseAdaptive] = useState(false);
     const [autoNumAdaptive, setAutoNumAdaptive] = useState(5);
     const [loadingAutoAttack, setLoadingAutoAttack] = useState(false);
+    const [randomGenerateProgress, setRandomGenerateProgress] = useState(EMPTY_PROGRESS);
+    const [adaptiveGenerateProgress, setAdaptiveGenerateProgress] = useState(EMPTY_PROGRESS);
+    const [randomTestProgress, setRandomTestProgress] = useState(EMPTY_PROGRESS);
+    const [adaptiveTestProgress, setAdaptiveTestProgress] = useState(EMPTY_PROGRESS);
+
+    const formatProgressText = (label, progress) => {
+        if (!progress.total) {
+            return null;
+        }
+
+        return `${label}: ${progress.current}/${progress.total}`;
+    };
+
+    const getQualifiedDefendPayloads = () => {
+        const combinedPayloads = [...payloadsRandom, ...payloadsAdaptive];
+        const seen = new Set();
+
+        return combinedPayloads.filter(item => {
+            const hasFullAttackResult = item?.is_bypassed != null && item?.is_harmful != null;
+            if (!hasFullAttackResult) {
+                return false;
+            }
+
+            const identity = buildPayloadIdentity(item);
+            if (seen.has(identity)) {
+                return false;
+            }
+
+            seen.add(identity);
+            return true;
+        }).filter(item => item.is_bypassed === true && item.is_harmful === true);
+    };
+
+    const getAdaptiveHistoryPayloads = (payloads = []) => (
+        payloads.filter(item => item?.is_bypassed != null && item?.is_harmful != null)
+    );
+
+    const requestSinglePayload = async (currentWafName, currentAttackType, payloadsHistory = [], errorLabel = 'Generate payload') => {
+        const res = await Services.apiGeneratePayload(currentWafName, currentAttackType, 1, payloadsHistory);
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data?.error || `${errorLabel} error: ${res.status}`);
+        }
+
+        return (data?.payloads || [])[0] || null;
+    };
+
+    const mergeAttackResult = (payload, result) => (
+        result
+            ? {
+                ...payload,
+                is_bypassed: result.is_bypassed,
+                status_code: result.status_code,
+                is_harmful: result.is_harmful,
+            }
+            : payload
+    );
+
+    const testPayloadsSequentially = async (currentDomain, payloads, setPayloadsFn, setProgressFn) => {
+        const nextPayloads = [...payloads];
+        setPayloadsFn(nextPayloads);
+        setProgressFn({ current: 0, total: nextPayloads.length });
+
+        for (let index = 0; index < nextPayloads.length; index += 1) {
+            const currentPayload = nextPayloads[index];
+            const res = await Services.apiTestAttack(currentDomain, [currentPayload]);
+            const data = await res.json();
+            if (!res.ok) {
+                throw new Error(data?.error || `Attack DVWA error: ${res.status}`);
+            }
+
+            const found = (data?.payloads || []).find(result => result.payload === currentPayload.payload);
+            nextPayloads[index] = mergeAttackResult(currentPayload, found);
+            setPayloadsFn([...nextPayloads]);
+            setProgressFn({ current: index + 1, total: nextPayloads.length });
+        }
+
+        return nextPayloads;
+    };
+
+    const generateRandomPayloadsSequentially = async (currentWafName, currentAttackType, totalPayloads) => {
+        const generatedPayloads = [];
+        setPayloadsRandom([]);
+        setRandomGenerateProgress({ current: 0, total: totalPayloads });
+
+        for (let index = 0; index < totalPayloads; index += 1) {
+            const nextPayload = await requestSinglePayload(
+                currentWafName,
+                currentAttackType,
+                [],
+                'Generate random payloads',
+            );
+
+            if (nextPayload) {
+                generatedPayloads.push(nextPayload);
+                setPayloadsRandom([...generatedPayloads]);
+            }
+            setRandomGenerateProgress({ current: index + 1, total: totalPayloads });
+        }
+
+        return generatedPayloads;
+    };
+
+    const generateAdaptivePayloadsSequentially = async (currentWafName, currentAttackType, totalPayloads, payloadHistory) => {
+        const generatedPayloads = [];
+        const qualifiedHistory = getAdaptiveHistoryPayloads(payloadHistory);
+
+        if (!qualifiedHistory.length) {
+            throw new Error('Adaptive attack requires payloads that already have both is_bypassed and is_harmful results');
+        }
+
+        setPayloadsAdaptive([]);
+        setAdaptiveGenerateProgress({ current: 0, total: totalPayloads });
+
+        for (let index = 0; index < totalPayloads; index += 1) {
+            const nextPayload = await requestSinglePayload(
+                currentWafName,
+                currentAttackType,
+                [...qualifiedHistory, ...generatedPayloads],
+                'Generate adaptive payloads',
+            );
+
+            if (nextPayload) {
+                generatedPayloads.push(nextPayload);
+                setPayloadsAdaptive([...generatedPayloads]);
+            }
+            setAdaptiveGenerateProgress({ current: index + 1, total: totalPayloads });
+        }
+
+        return generatedPayloads;
+    };
 
     // Hàm auto attack
     const handleAutoAttack = async () => {
         setLoadingAutoAttack(true);
         setError(null);
         try {
+            setRandomGenerateProgress(EMPTY_PROGRESS);
+            setAdaptiveGenerateProgress(EMPTY_PROGRESS);
+            setRandomTestProgress(EMPTY_PROGRESS);
+            setAdaptiveTestProgress(EMPTY_PROGRESS);
             // Step 1 - Detect WAF
             setWafName('');
             setPayloadsRandom([]);
@@ -65,11 +203,7 @@ const AttackTab = ({
             var randomPayloads = [];
             setLoadingGenRandom(true);
             try {
-                let res = await Services.apiGeneratePayload(wafNameVal, attackType, numPayloads, null);
-                let data = await res.json();
-                if (!res.ok) throw new Error(data?.error || `Generate random payloads error: ${res.status}`);
-                randomPayloads = data?.payloads || [];
-                setPayloadsRandom(randomPayloads);
+                randomPayloads = await generateRandomPayloadsSequentially(wafNameVal, attackType, numPayloads);
             }
             finally {
                 setLoadingGenRandom(false);
@@ -83,18 +217,7 @@ const AttackTab = ({
             setLoadingAttackRandom(true);
             let is_attack_successful = false;
             try {
-                let res = await Services.apiTestAttack(domain, randomPayloads);
-                let data = await res.json();
-                if (!res.ok) throw new Error(data?.error || `Attack DVWA error: ${res.status}`);
-                // Cập nhật kết quả attack vào payloads
-                randomPayloads = randomPayloads.map(p => {
-                    const found = (data?.payloads || []).find(r => r.payload === p.payload);
-                    if (found) {
-                        return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
-                    }
-                    return p;
-                });
-                setPayloadsRandom(randomPayloads);
+                randomPayloads = await testPayloadsSequentially(domain, randomPayloads, setPayloadsRandom, setRandomTestProgress);
                 is_attack_successful = !randomPayloads.some(p => p.is_bypassed == null && p.status_code == null && p.is_harmful == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code hoặc is_harmful) thì coi như attack thành công
             }
             finally {
@@ -104,17 +227,13 @@ const AttackTab = ({
                 throw new Error('Initial attack with random payloads failed, cannot proceed with adaptive attack');
             }
 
-            var attackResultsForDefend = randomPayloads;
+            var autoAttackResults = randomPayloads;
             // Step 3 - Nếu dùng adaptive thì generate adaptive payloads
             if (autoUseAdaptive) {
                 setLoadingGenAdaptive(true);
                 let adaptivePayloads = [];
                 try {
-                    let res = await Services.apiGeneratePayload(wafNameVal, attackType, autoNumAdaptive, randomPayloads);
-                    let data = await res.json();
-                    if (!res.ok) throw new Error(data?.error || `Generate adaptive payloads error: ${res.status}`);
-                    adaptivePayloads = data?.payloads || [];
-                    setPayloadsAdaptive(adaptivePayloads);
+                    adaptivePayloads = await generateAdaptivePayloadsSequentially(wafNameVal, attackType, autoNumAdaptive, randomPayloads);
                 }
                 finally {
                     setLoadingGenAdaptive(false);
@@ -124,31 +243,18 @@ const AttackTab = ({
                 let is_attack_adaptive_successful = false;
                 setLoadingAttackAdaptive(true);
                 try {
-                    let res = await Services.apiTestAttack(domain, adaptivePayloads);
-                    let data = await res.json();
-                    if (!res.ok) throw new Error(data?.error || `Attack DVWA error: ${res.status}`);
-                    // Cập nhật kết quả attack vào payloads
-                    adaptivePayloads = adaptivePayloads.map(p => {
-                        const found = (data?.payloads || []).find(r => r.payload === p.payload);
-                        if (found) {
-                            return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
-                        }
-                        return p;
-                    });
-                    setPayloadsAdaptive(adaptivePayloads);
+                    adaptivePayloads = await testPayloadsSequentially(domain, adaptivePayloads, setPayloadsAdaptive, setAdaptiveTestProgress);
                     is_attack_adaptive_successful = !adaptivePayloads.some(p => p.is_bypassed == null && p.status_code == null && p.is_harmful == null); // Nếu tất cả payload đều có kết quả (bypassed hoặc status_code hoặc is_harmful) thì coi như attack thành công
                 }
                 finally {
                     setLoadingAttackAdaptive(false);
                 }
                 if (!is_attack_adaptive_successful) {
-                    throw new Error('Adaptive attack failed, cannot proceed with defense generation');
+                    throw new Error('Adaptive attack failed, cannot complete the full attack pipeline');
                 }
-                attackResultsForDefend = [...randomPayloads, ...adaptivePayloads];
+                autoAttackResults = [...randomPayloads, ...adaptivePayloads];
             }
-            setAttackResults(attackResultsForDefend);
-            setActiveTab('Defend');
-            handleDefend(wafNameVal, attackResultsForDefend); // Tự động chuyển sang defend sau khi attack thành công
+            setAttackResults(autoAttackResults);
         } catch (err) {
             setError(err.message || 'Auto attack failed');
         } finally {
@@ -183,14 +289,8 @@ const AttackTab = ({
         setLoadingGenRandom(true);
         setError(null);
         try {
-            const res = await Services.apiGeneratePayload(wafName, attackType, numPayloads, null);
-            const data = await res.json();
-            if (!res.ok) {
-                setError(data?.error || `Server error: ${res.status}`);
-                setPayloadsRandom([]);
-                return;
-            }
-            setPayloadsRandom(data?.payloads || []);
+            setRandomTestProgress(EMPTY_PROGRESS);
+            await generateRandomPayloadsSequentially(wafName, attackType, numPayloads);
         } catch (err) {
             setError(err.message || 'Failed to connect to backend');
             setPayloadsRandom([]);
@@ -204,14 +304,8 @@ const AttackTab = ({
         setLoadingGenAdaptive(true);
         setError(null);
         try {
-            const res = await Services.apiGeneratePayload(wafName, attackType, numPayloads, payloadsRandom);
-            const data = await res.json();
-            if (!res.ok) {
-                setError(data?.error || `Server error: ${res.status}`);
-                setPayloadsAdaptive([]);
-                return;
-            }
-            setPayloadsAdaptive(data?.payloads || []);
+            setAdaptiveTestProgress(EMPTY_PROGRESS);
+            await generateAdaptivePayloadsSequentially(wafName, attackType, numPayloads, payloadsRandom);
         } catch (err) {
             setError(err.message || 'Failed to connect to backend');
             setPayloadsAdaptive([]);
@@ -251,19 +345,7 @@ const AttackTab = ({
         setLoadingAttackRandom(true);
         setError(null);
         try {
-            const res = await Services.apiTestAttack(domain, payloadsRandom);
-            const data = await res.json();
-            if (!res.ok) {
-                setError(data?.error || `Server error: ${res.status}`);
-                return;
-            }
-            setPayloadsRandom(prev => prev.map(p => {
-                const found = (data?.payloads || []).find(r => r.payload === p.payload);
-                if (found) {
-                    return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
-                }
-                return p;
-            }));
+            await testPayloadsSequentially(domain, payloadsRandom, setPayloadsRandom, setRandomTestProgress);
         } catch (err) {
             setError(err.message || 'Failed to connect to backend');
         } finally {
@@ -276,19 +358,7 @@ const AttackTab = ({
         setLoadingAttackAdaptive(true);
         setError(null);
         try {
-            const res = await Services.apiTestAttack(domain, payloadsAdaptive);
-            const data = await res.json();
-            if (!res.ok) {
-                setError(data?.error || `Server error: ${res.status}`);
-                return;
-            }
-            setPayloadsAdaptive(prev => prev.map(p => {
-                const found = (data?.payloads || []).find(r => r.payload === p.payload);
-                if (found) {
-                    return { ...p, is_bypassed: found.is_bypassed, status_code: found.status_code, is_harmful: found.is_harmful };
-                }
-                return p;
-            }));
+            await testPayloadsSequentially(domain, payloadsAdaptive, setPayloadsAdaptive, setAdaptiveTestProgress);
         } catch (err) {
             setError(err.message || 'Failed to connect to backend');
         } finally {
@@ -304,8 +374,22 @@ const AttackTab = ({
         }
     }
 
+    const handleOpenDefendTab = () => {
+        const defendPayloads = getQualifiedDefendPayloads();
+
+        if (defendPayloads.length === 0) {
+            setError('No payloads with both is_bypassed and is_harmful results are available for Defend');
+            return;
+        }
+
+        setError(null);
+        setAttackResults(defendPayloads);
+        setActiveTab('Defend');
+    };
+
     // Overlay for disabling UI when any loading
     const anyLoading = loadingDetect || loadingGenRandom || loadingGenAdaptive || loadingAttackRandom || loadingAttackAdaptive;
+    const defendPayloads = getQualifiedDefendPayloads();
 
     return (
         <div className="relative gap-6 flex flex-col">
@@ -313,10 +397,10 @@ const AttackTab = ({
                 <div className="absolute inset-0 z-40 bg-black/30 cursor-not-allowed" style={{ pointerEvents: 'all' }}></div>
             )}
 
-            {/* Auto Attack Form */}
+            {/* Auto Attack All Steps Form */}
             <div className="p-4 rounded-2xl shadow-2xl bg-white/90 dark:bg-gray-900/80 backdrop-blur-md">
                 <h2 className="text-3xl font-bold mb-4 text-red-500 tracking-tight">
-                    Auto Attack
+                    Auto Attack All Steps
                 </h2>
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-row gap-4 items-center">
@@ -392,7 +476,7 @@ const AttackTab = ({
                         onClick={(e) => { e.preventDefault(); handleAutoAttack() }}
                         disabled={loadingAutoAttack || anyLoading}
                     >
-                        {loadingAutoAttack ? '🔄 Auto attacking...' : '🚀 Auto Attack'}
+                        {loadingAutoAttack ? '🔄 Auto attacking all steps...' : '🚀 Auto Attack All Steps'}
                     </button>
                 </div>
             </div>
@@ -482,12 +566,17 @@ const AttackTab = ({
                                 : 'bg-gradient-to-r from-orange-600 to-pink-700 hover:from-orange-700 hover:to-pink-800 disabled:from-gray-400 disabled:to-gray-500'}
                         `}
                         onClick={handleGenerateAdaptivePayloadsClick}
-                        disabled={anyLoading || !payloadsRandom || payloadsRandom.length === 0 || loadingGenAdaptive}
+                        disabled={anyLoading || getAdaptiveHistoryPayloads(payloadsRandom).length === 0 || loadingGenAdaptive}
                         type="button"
                     >
                         {loadingGenAdaptive ? '🔄 Generating adaptive...' : '🤖 Generate Adaptive Payloads'}
                     </button>
                 </div>
+                {payloadsRandom.length > 0 && getAdaptiveHistoryPayloads(payloadsRandom).length === 0 && (
+                    <div className={`rounded-xl border border-dashed px-4 py-3 text-sm ${darkMode ? 'border-pink-900 text-pink-300' : 'border-pink-300 text-pink-700'}`}>
+                        Adaptive attack is available only after random payloads have both bypass and harmfulness results.
+                    </div>
+                )}
             </div>
 
             {/* Step 2.2 & 2.3: Two columns for random/adaptive */}
@@ -509,6 +598,11 @@ const AttackTab = ({
                             <span className="text-base">📤</span> Export
                         </button>
                     </div>
+                    {(formatProgressText('Generated', randomGenerateProgress) || formatProgressText('Tested', randomTestProgress)) && (
+                        <div className={`rounded-xl px-4 py-2 text-sm font-semibold ${darkMode ? 'bg-gray-800 text-cyan-300' : 'bg-cyan-50 text-cyan-800'}`}>
+                            {[formatProgressText('Generated', randomGenerateProgress), formatProgressText('Tested', randomTestProgress)].filter(Boolean).join(' | ')}
+                        </div>
+                    )}
                     <PayloadResultsTable wafName={wafName} payloads={payloadsRandom} darkMode={darkMode} onClear={() => handleClearPayloads("random")} />
                     <button
                         className={`px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed
@@ -521,14 +615,6 @@ const AttackTab = ({
                         type="button"
                     >
                         {loadingAttackRandom ? '🔄 Attacking...' : '🧪 Step 3 - Attack to DVWA'}
-                    </button>
-                    <button
-                        className="mt-2 px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
-                        onClick={() => { setAttackResults(payloadsRandom); setActiveTab('Defend'); }}
-                        disabled={!payloadsRandom.length || anyLoading}
-                        type="button"
-                    >
-                        🛡️ Step 4 - Defend
                     </button>
                 </div>
                 {/* Adaptive Payloads Column */}
@@ -548,6 +634,11 @@ const AttackTab = ({
                             <span className="text-base">📤</span> Export
                         </button>
                     </div>
+                    {(formatProgressText('Generated', adaptiveGenerateProgress) || formatProgressText('Tested', adaptiveTestProgress)) && (
+                        <div className={`rounded-xl px-4 py-2 text-sm font-semibold ${darkMode ? 'bg-gray-800 text-pink-300' : 'bg-pink-50 text-pink-800'}`}>
+                            {[formatProgressText('Generated', adaptiveGenerateProgress), formatProgressText('Tested', adaptiveTestProgress)].filter(Boolean).join(' | ')}
+                        </div>
+                    )}
                     <PayloadResultsTable wafName={wafName} payloads={payloadsAdaptive} darkMode={darkMode} onClear={() => handleClearPayloads("adaptive")} />
                     <button
                         className={`px-8 py-3 rounded-xl font-bold text-white shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed
@@ -561,15 +652,18 @@ const AttackTab = ({
                     >
                         {loadingAttackAdaptive ? '🔄 Attacking...' : '🧪 Step 3 - Attack to DVWA'}
                     </button>
-                    <button
-                        className="mt-2 px-8 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
-                        onClick={() => { setAttackResults(payloadsAdaptive); setActiveTab('Defend'); }}
-                        disabled={!payloadsAdaptive.length || anyLoading}
-                        type="button"
-                    >
-                        🛡️ Step 4 - Defend
-                    </button>
                 </div>
+            </div>
+
+            <div className="p-4 rounded-2xl shadow-2xl bg-white/90 dark:bg-gray-900/80 backdrop-blur-md">
+                <button
+                    className="w-full px-8 py-4 rounded-xl font-bold text-white bg-gradient-to-r from-blue-500 to-cyan-600 hover:from-blue-600 hover:to-cyan-700 disabled:from-gray-400 disabled:to-gray-500 shadow-lg hover:shadow-xl transition-all duration-200 disabled:cursor-not-allowed"
+                    onClick={handleOpenDefendTab}
+                    disabled={anyLoading || defendPayloads.length === 0}
+                    type="button"
+                >
+                    🛡️ Step 4 - Defend
+                </button>
             </div>
 
             {/* Error popup */}

@@ -30,7 +30,7 @@ def claude_completion(messages=[], model=None, response_format=None):
 
     body = {
         "model": model,
-        "max_tokens": 8192,
+        "max_tokens": 16000,
         "messages": anthropic_messages,
     }
     if system_content:
@@ -40,7 +40,7 @@ def claude_completion(messages=[], model=None, response_format=None):
     if response_format and response_format.get("type") == "json_schema":
         schema = response_format["json_schema"]["schema"]
         json_instruction = (
-            "\n\nIMPORTANT: You MUST respond with valid JSON only, no markdown, no code fences. "
+            "\n\nIMPORTANT: You MUST respond with valid JSON only, no markdown, no code fences, ensure valid escape like \\s \\( not \s \(:"
             f"The JSON must conform to this schema: {json.dumps(schema)}"
         )
         if system_content:

@@ -40,12 +40,14 @@ class EvaluateSQLResult:
     safe_queries: list[str] = None
     harm_queries: list[str] = None
     error_queries: list[str] = None
+    decode_stack: list|None = None
     
 @dataclass
 class EvaluateXSSResult:
     payload: str
     is_safe: bool = None
     harms: dict|None = None
+    decode_stack: list|None = None
     
 HOMOGLYPH_MAP = {
     'а': 'a', 'ɑ': 'a', 'α': 'a', 'ａ': 'a',#
@@ -172,7 +174,9 @@ def _compare_trees(tree1, tree2):
 def evaluate_sql_payload(payload, auto_decode=True) -> EvaluateSQLResult:
     if auto_decode:
         payload, decode_stack = _fully_decode_payload(payload)
-    result = EvaluateSQLResult(payload, safe_queries=[], harm_queries=[], error_queries=[])
+    else:
+        decode_stack = []
+    result = EvaluateSQLResult(payload, safe_queries=[], harm_queries=[], error_queries=[], decode_stack=decode_stack)
     for context in SQL_INJECTTION_CONTEXTS:
         for template, safe_payload in SQL_INJECTTION_CONTEXTS[context]:
             test_sql = template.replace(PAYLOAD_PLACEHOLDER, payload)
@@ -194,12 +198,15 @@ def evaluate_sql_payload(payload, auto_decode=True) -> EvaluateSQLResult:
 def evaluate_xss_payload(payload, auto_decode=True) -> EvaluateXSSResult:
     if auto_decode:
         payload, decode_stack = _fully_decode_payload(payload)
+    else:
+        decode_stack = []
     try:
         res = requests.post("http://api.akng.io.vn:89/validate_payload", data=payload)
         return EvaluateXSSResult(
             payload=payload,
             is_safe=res.json()["data"]["is_safe"],
             harms=res.json()["data"]["harms"],
+            decode_stack=decode_stack,
         )
     except Exception as e:
         return None

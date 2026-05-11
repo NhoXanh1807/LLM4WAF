@@ -117,6 +117,7 @@ def rag_retrieve(
         #         "queries": [],
         #     }
         result = response.json()
+        print(f"[LLMShield RAG] Raw response: {result}")
 
         # Không cần validate !!!
         # if not isinstance(result, dict):

