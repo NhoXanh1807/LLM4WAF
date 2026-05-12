@@ -171,19 +171,14 @@ def api_attack_3_test():
 def api_defend_1_clustering():
     payload = request.get_json(silent=True)
     data = payload if isinstance(payload, dict) else {}
-    attack_type = str(data.get("attack_type", "")).strip()
-    if not attack_type:
-        return jsonify({"error": "Missing 'attack_type' field"}), 400
     payloads = _parse_payload_results(data.get("payloads", []))
     bypassed_payloads = _extract_bypassed_payloads(payloads)
 
     clusters = defend._1_clustering(
         bypassed_payloads=bypassed_payloads,
-        attack_type=attack_type,
     )
 
     return jsonify({
-        "attack_type": attack_type,
         "bypassed_payloads": bypassed_payloads,
         "clusters": clusters,
         "stats": {

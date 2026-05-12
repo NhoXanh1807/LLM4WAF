@@ -1,4 +1,7 @@
 /src/gui/frontend/node_modules
+/src/web/frontend/node_modules
+/src/gui/backend/session_logs
+/src/web/backend/session_logs
 .venv/
 venv/
 *.pyc
@@ -8,8 +11,7 @@ src/gui/backend/.env
 ,jsonl
 .json
 .log
-/src/gui/backend/session_logs
 /src/gui/frontend/build
-/src/web/backend/session_logs
-/src/web/frontend/node_modules
-/src/web/backend/session_logs
+/src/cli/outputs
+src/cli/outputs_index.json
+/src/cli/__pycache__

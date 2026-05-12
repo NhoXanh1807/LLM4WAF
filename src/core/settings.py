@@ -6,7 +6,7 @@ import os
 import dotenv
 
 # Load environment variables
-dotenv.load_dotenv()
+dotenv.load_dotenv(os.path.abspath(os.path.join(os.path.dirname(__file__), ".env")))
 
 # OpenAI Configuration
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

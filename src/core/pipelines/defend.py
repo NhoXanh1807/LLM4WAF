@@ -47,7 +47,6 @@ def _parse_existing_rules(rules_raw: Optional[list[str]]) -> list[str]:
 
 def _1_clustering(
     bypassed_payloads: list[PayloadResult],
-    attack_type: str,
 ) -> list[dict[str, Any]]:
     if len(bypassed_payloads) < 3:
         labels = [0] * len(bypassed_payloads)
@@ -74,7 +73,6 @@ def _1_clustering(
         clusters.append({
             "cluster_id": int(label),
             "payloads": cluster_payloads,
-            "attack_type": attack_type,
             "representative_payload": cluster_payloads[0],
             "size": len(cluster_payloads),
         })
@@ -208,7 +206,7 @@ def _4_validate_rules_syntax(
         else:
             invalid_rules.append(enriched_rule)
 
-    print(f"[VALIDATION] {len(valid_rules)} valid rules, {len(invalid_rules)} invalid rules")
+    print(f"[VALIDATION] {len(valid_rules)} valid rules, {len(invalid_rules)} invalid rules:")
     for i, rule in enumerate(invalid_rules):
         print(f"\t{rule['rule']}")
         print(f"\t\tError: {rule['validation_error']}")
