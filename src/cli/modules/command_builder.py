@@ -1,5 +1,5 @@
 import sys
-from handlers import (
+from modules.handlers import (
     handle_attack_detect,
     handle_attack_generate,
     handle_attack_test,

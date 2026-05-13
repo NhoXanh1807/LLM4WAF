@@ -1,17 +1,10 @@
 import json
-import os
 import sys
 from dataclasses import asdict, is_dataclass
 from enum import Enum
 from typing import Any
-
-import file_manager
-from classes import OutputType
-
-CORE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../core"))
-if CORE_DIR not in sys.path:
-    sys.path.append(CORE_DIR)
-
+import modules.file_manager as file_manager
+from modules.classes import OutputType
 from dtos import PayloadResult
 
 
@@ -47,13 +40,13 @@ def handle_files_view(file_id: str):
     data = json.loads(content)
     if OutputType.GENPAYLOAD.value in file_id:
         for i, item in enumerate(data):
-            print(f"#{i+1} - {item["attack_type"]} - {item["technique"]}")
-            print(f"\t{item["payload"]}")
+            print(f"#{i+1} - {item['attack_type']} - {item['technique']}")
+            print(f"\t{item['payload']}")
     elif OutputType.TEST.value in file_id:
         for i, item in enumerate(data):
-            print(f"#{i+1} - {item["attack_type"]} - {item["technique"]}")
-            print(f"\t{item["payload"]}")
-            print(f"\t\tBypassed: {item["is_bypassed"]}, Harmful: {item["is_harmful"]}")
+            print(f"#{i+1} - {item['attack_type']} - {item['technique']}")
+            print(f"\t{item['payload']}")
+            print(f"\t\tBypassed: {item['is_bypassed']}, Harmful: {item['is_harmful']}")
         
         bypassed = sum(1 for item in data if item["is_bypassed"])
         harmful = sum(1 for item in data if item["is_harmful"])
@@ -110,6 +103,8 @@ def handle_attack_detect(domain: str):
 def handle_attack_generate(waf_name: str, attack_type: str, num: str, tested_file: str | None = None):
     payload_history = []
     if tested_file:
+        if OutputType.TEST.value not in tested_file:
+            raise ValueError("Tested file must be a test output file")
         content = file_manager.read_file(tested_file)
         if content is None:
             raise ValueError(f"Unknown file id: {tested_file}")
@@ -142,6 +137,8 @@ def handle_attack_generate(waf_name: str, attack_type: str, num: str, tested_fil
     
 
 def handle_attack_test(domain: str, generate_file: str):
+    if OutputType.GENPAYLOAD.value not in generate_file:
+        raise ValueError("Generate file must be a generated payload output file")
     content = file_manager.read_file(generate_file)
     if content is None:
         raise ValueError(f"Unknown file id: {generate_file}")
@@ -183,6 +180,8 @@ def handle_attack_test(domain: str, generate_file: str):
     print(f"Saved output to file: {file.output_type.value}{file.id} -> {file.path}")
 
 def handle_defend_cluster(bypassed_file: str):
+    if OutputType.TEST.value not in bypassed_file:
+        raise ValueError("Bypassed file must be a test output file")
     content = file_manager.read_file(bypassed_file)
     if content is None:
         raise ValueError(f"Unknown file id: {bypassed_file}")
@@ -202,6 +201,8 @@ def handle_defend_cluster(bypassed_file: str):
 
 
 def handle_defend_rag(waf_name: str, attack_type: str, bypassed_file: str):
+    if OutputType.TEST.value not in bypassed_file:
+        raise ValueError("Bypassed file must be a test output file")
     content = file_manager.read_file(bypassed_file)
     if content is None:
         raise ValueError(f"Unknown file id: {bypassed_file}")
@@ -232,6 +233,8 @@ def handle_defend_rag(waf_name: str, attack_type: str, bypassed_file: str):
 
 
 def handle_defend_genrule(waf_name: str, cluster_file: str, rag_file: str | None = None):
+    if OutputType.CLUSTER.value not in cluster_file:
+        raise ValueError("Cluster file must be a cluster output file")
     cluster_content = file_manager.read_file(cluster_file)
     if cluster_content is None:
         raise ValueError(f"Unknown file id: {cluster_file}")
@@ -239,6 +242,8 @@ def handle_defend_genrule(waf_name: str, cluster_file: str, rag_file: str | None
     clusters = [item for item in cluster_data if isinstance(item, dict)]
     rag_context = ""
     if rag_file:
+        if OutputType.RAG.value not in rag_file:
+            raise ValueError("RAG file must be a RAG output file")
         rag_content = file_manager.read_file(rag_file)
         if rag_content is None:
             raise ValueError(f"Unknown file id: {rag_file}")
@@ -259,6 +264,8 @@ def handle_defend_genrule(waf_name: str, cluster_file: str, rag_file: str | None
 
 
 def handle_defend_validate(genrule_file: str):
+    if OutputType.GENRULE.value not in genrule_file:
+        raise ValueError("Genrule file must be a genrule output file")
     content = file_manager.read_file(genrule_file)
     if content is None:
         raise ValueError(f"Unknown file id: {genrule_file}")
@@ -279,6 +286,8 @@ def handle_defend_validate(genrule_file: str):
 
 
 def handle_defend_retry(waf_name: str, invalidrule_file: str):
+    if OutputType.INVALIDRULE.value not in invalidrule_file:
+        raise ValueError("Invalid rule file must be an invalid rule output file")
     content = file_manager.read_file(invalidrule_file)
     if content is None:
         raise ValueError(f"Unknown file id: {invalidrule_file}")
@@ -297,6 +306,8 @@ def handle_defend_retry(waf_name: str, invalidrule_file: str):
 
 
 def handle_defend_refine(waf_name: str, validrule_file: str, fixedrule_file: str | None = None):
+    if OutputType.VALIDRULE.value not in validrule_file:
+        raise ValueError("Valid rule file must be a valid rule output file")
     valid_content = file_manager.read_file(validrule_file)
     if valid_content is None:
         raise ValueError(f"Unknown file id: {validrule_file}")
@@ -305,6 +316,8 @@ def handle_defend_refine(waf_name: str, validrule_file: str, fixedrule_file: str
         raise ValueError("Valid rule input must be a JSON list")
     valid_rules = [item for item in valid_data if isinstance(item, dict)]
     if fixedrule_file:
+        if OutputType.FIXEDRULE.value not in fixedrule_file:
+            raise ValueError("Fixed rule file must be a fixed rule output file")
         fixed_content = file_manager.read_file(fixedrule_file)
         if fixed_content is None:
             raise ValueError(f"Unknown file id: {fixedrule_file}")

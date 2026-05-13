@@ -1,10 +1,10 @@
 
-from classes import OutputType, File
+from modules.classes import OutputType, File
 
 import os
 import json
-OUTPUT_DIR = "outputs"
-INDEX_FILE = "outputs_index.json"
+OUTPUT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../outputs"))
+INDEX_FILE = os.path.abspath(os.path.join(os.path.dirname(__file__), "../outputs_index.json"))
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 
