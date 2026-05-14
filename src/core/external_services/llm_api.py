@@ -4,8 +4,6 @@ LLM API client service for OpenAI and Claude (Anthropic) interactions
 
 import json
 import requests
-from dataclasses import asdict
-
 from settings import OPENAI_API_KEY, OPENAI_MODEL, CLAUDE_API_KEY, CLAUDE_MODEL, LLMSHIELD_ENDPOINT
 
 def claude_completion(messages=[], model=None, response_format=None):

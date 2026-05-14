@@ -91,10 +91,10 @@ def get_blue_team_user_prompt(waf_name, payload_clusters:list[dict]):
 
 **Environment:**
 - WAF: {waf_name}
-- Bypassed Payloads by clusters:
+- Bypassed payloads clustered into {len(payload_clusters)} groups based on similarity and attack pattern:
 {payload_cluster_string}
 
-Generate PRODUCTION-GRADE defense rules to block these bypasses:
+Generate PRODUCTION-GRADE defense rules to block these clusters of payloads, following these requirements:
 
 1. **Multi-Layer Detection**: Create rules that detect:
    - Raw pattern matching (regex)

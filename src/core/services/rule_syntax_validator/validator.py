@@ -6,11 +6,11 @@ from multiple WAF types with automatic detection.
 """
 
 import json
-from services.rule_syntax_validator.aws_waf import AWSWAFValidator
 from services.rule_syntax_validator.base import ValidationResult, WAFType, BaseValidator
-from services.rule_syntax_validator.cloudflare import CloudflareValidator
-from services.rule_syntax_validator.modsecurity import ModSecurityValidator
-from services.rule_syntax_validator.naxsi import NaxsiValidator
+from services.rule_syntax_validator.wafs.aws_waf import AWSWAFValidator
+from services.rule_syntax_validator.wafs.cloudflare import CloudflareValidator
+from services.rule_syntax_validator.wafs.modsecurity import ModSecurityValidator
+from services.rule_syntax_validator.wafs.naxsi import NaxsiValidator
 
 
 VALIDATORS : dict[WAFType, BaseValidator] = {

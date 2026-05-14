@@ -4,10 +4,8 @@ from wafw00f.main import WAFW00F
 
 from dtos import PayloadResult
 from services.generator import generate_payloads_phase1, generate_payloads_phase3
-from services.payload_harmness_validator import (
-    evaluate_sql_payload,
-    evaluate_xss_payload,
-)
+from services.sql_harmness_validator import evaluate_sql_payload
+from external_services.xss_harmness_validator import evaluate_xss_payload
 from external_services import dvwa
 
 

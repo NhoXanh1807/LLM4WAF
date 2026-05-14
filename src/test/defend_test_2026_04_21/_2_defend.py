@@ -6,10 +6,9 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 import json
 import requests
 sys.stdout.reconfigure(encoding='utf-8')
-from utils import VALID_ATTACK_TYPES, WAF_DVWA_URLS, PHASES
+from utils import WAF_DVWA_URLS
 
 API_DEFEND_URL = os.environ.get("DEFEND_API_URL", "http://127.0.0.1:5000/api/defend")
-
 
 def call_defend_api(waf_name: str, payloads: list, attack_type:str, existing_rules: list[str] = None, llm_provider: str = None) -> dict:
     request_data = {

@@ -2,9 +2,9 @@
 
 import os
 import sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../core")))
+
 import json
-import requests
 sys.stdout.reconfigure(encoding='utf-8')
 from utils import VALID_ATTACK_TYPES, WAF_DVWA_URLS, PHASES, call_api
 

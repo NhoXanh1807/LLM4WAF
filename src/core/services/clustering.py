@@ -19,7 +19,7 @@ def _build_tfidf_vectors(payloads):
     """
     vectorizer = TfidfVectorizer(
         analyzer="char",
-        ngram_range=(5, 10),      # sweet spot for payloads
+        ngram_range=(5, 10),
         min_df=0.2,
         max_df=0.8,
         sublinear_tf=True,

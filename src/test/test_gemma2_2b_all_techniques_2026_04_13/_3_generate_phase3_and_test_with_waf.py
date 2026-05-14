@@ -1,13 +1,13 @@
 
 import os
 import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../core")))
 
 import tqdm
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../gui/backend")))
 from datetime import datetime
 
-from services_external import dvwa
-from classes import PayloadResult
+from external_services import dvwa
+from dtos import PayloadResult
 import json
 import time
 
@@ -32,7 +32,6 @@ import tqdm
 import random
 
 from services.generator import generate_payload_phase3
-from services_external import dvwa
 
 payload_log_dir = r""
 

@@ -1,0 +1,41 @@
+gpu: "0"
+model_name: "google/gemma-2-2b-it"
+train_path: "data/processed/phase1_balanced_10k.jsonl"
+output_dir: "experiments/remote_gemma2_2b_phase1"
+adapter_path:
+
+num_train_epochs: 3
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 16
+learning_rate: 2.0e-4
+max_length: 1024
+weight_decay: 0.01
+warmup_ratio: 0.03
+lr_scheduler_type: "cosine"
+optim: "paged_adamw_8bit"
+
+target_modules:
+  - "q_proj"
+  - "k_proj"
+  - "v_proj"
+  - "o_proj"
+  - "gate_proj"
+  - "up_proj"
+  - "down_proj"
+
+logging_steps: 10
+save_steps: 500
+eval_steps: 500
+save_total_limit: 3
+
+dataloader_num_workers: 8
+dataloader_prefetch_factor: 4
+dataloader_pin_memory: true
+group_by_length: true
+
+fp16: true
+bf16: false
+resume_from_checkpoint:
+use_auth_token_env: "HF_TOKEN"
+log_prefix: "train_phase1"
+log_suffix: "_gpu0"

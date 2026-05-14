@@ -1,13 +1,13 @@
 
 import os
 import sys
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../core")))
 
 import tqdm
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../../gui/backend")))
 from datetime import datetime
 
-from services_external import dvwa
-from classes import PayloadResult
+from external_services import dvwa
+from dtos import PayloadResult
 import json
 import time
 
@@ -27,9 +27,7 @@ WAF_DVWA_URLS = {
 }
 import json
 import tqdm
-import random
-
-from services import payload_harmness_validator as pv
+from services import sql_harmness_validator as pv
 
 payload_log_dir = r"K:\Workspace\bku\LLM4WAF\src\test\test_gemma2_2b_all_techniques_2026_04_13\logs\2026-04-13_22-14-32"
 

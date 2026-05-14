@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:5.7
+    container_name: finetune_dvwa_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: dvwa
+      MYSQL_USER: dvwa
+      MYSQL_PASSWORD: p@ssw0rd
+      MYSQL_ROOT_PASSWORD: rootpassword
+    volumes:
+      - dvwa_db_data:/var/lib/mysql
+
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: finetune_dvwa_app
+    restart: always
+    depends_on:
+      - db
+    volumes:
+      - ./config/config.inc.php:/var/www/html/config/config.inc.php
+
+  waf:
+    image: owasp/modsecurity-crs:nginx
+    container_name: finetune_modsec_waf
+    restart: always
+    ports:
+      - "8000:80"
+    environment:
+      PROXY: "1"
+      BACKEND: http://dvwa:80
+      SERVER_NAME: localhost
+      MODSEC_RULE_ENGINE: On
+      PARANOIA: "1"
+    depends_on:
+      - dvwa
+
+volumes:
+  dvwa_db_data:

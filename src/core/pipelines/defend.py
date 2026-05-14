@@ -21,7 +21,6 @@ def _parse_existing_rules(rules_raw: Optional[list[str]]) -> list[str]:
     extracted_rules: list[str] = []
     if not rules_raw or not isinstance(rules_raw, list):
         return extracted_rules
-
     for rules in rules_raw:
         try:
             rules_json = json.loads(rules)

@@ -146,3 +146,20 @@ class ExploitResult:
             "evidence_type": self.evidence_type,
             "verification_details": self.verification_details,
         }
+
+
+@dataclass
+class EvaluateSQLResult:
+    payload: str
+    safe_queries: list[str] = None
+    harm_queries: list[str] = None
+    error_queries: list[str] = None
+    decode_stack: list|None = None
+    
+@dataclass
+class EvaluateXSSResult:
+    payload: str
+    is_safe: bool = None
+    harms: dict|None = None
+    decode_stack: list|None = None
+    

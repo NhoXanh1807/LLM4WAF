@@ -5,39 +5,20 @@ import requests
 from dtos import AttackResult
 
 # Flexible imports for different execution contexts
-DVWA_BASE_URL = None
-DVWA_USERNAME = None
-DVWA_PASSWORD = None
-DVWA_SECURITY_LEVEL = None
-from settings import (
-    DVWA_BASE_URL,
-    DVWA_USERNAME,
-    DVWA_PASSWORD,
-    DVWA_SECURITY_LEVEL
-)
 
 # Default values if imports failed
-if DVWA_BASE_URL is None:
-    DVWA_BASE_URL = os.getenv("DVWA_BASE_URL", "http://localhost")
-if DVWA_USERNAME is None:
-    DVWA_USERNAME = os.getenv("DVWA_USERNAME", "admin")
-if DVWA_PASSWORD is None:
-    DVWA_PASSWORD = os.getenv("DVWA_PASSWORD", "password")
-if DVWA_SECURITY_LEVEL is None:
-    DVWA_SECURITY_LEVEL = os.getenv("DVWA_SECURITY_LEVEL", "low")
+_SESSION_IDS = {}
 
-SESSION_IDS = {}
-
-def loginDVWA(base_url=None):
+def loginDVWA(base_url, username="admin", password="password"):
     """
     Login to DVWA and return session ID
 
     Returns:
         str: PHPSESSID for authenticated requests
     """
-    _base = (base_url or DVWA_BASE_URL).rstrip("/")
-    if _base in SESSION_IDS:
-        return SESSION_IDS[_base]
+    _base = base_url.rstrip("/")
+    if _base in _SESSION_IDS:
+        return _SESSION_IDS[_base]
     
     print(f"[DVWA] Logging in to {_base}...")
     # Get PHPSESSID from login page
@@ -53,8 +34,8 @@ def loginDVWA(base_url=None):
 
     # Prepare login data
     login_data = {
-        "username": DVWA_USERNAME,
-        "password": DVWA_PASSWORD,
+        "username": username,
+        "password": password,
         "Login": "Login",
     }
 
@@ -69,81 +50,38 @@ def loginDVWA(base_url=None):
         data=login_data,
         cookies={"PHPSESSID": php_session_id}
     )
-    SESSION_IDS[_base] = php_session_id
+    _SESSION_IDS[_base] = php_session_id
     return php_session_id
 
 
-def _check_blocked(response):
-    """
-    Check if request was blocked by WAF
-
-    Args:
-        response: requests.Response object
-
-    Returns:
-        bool: True if blocked, False if bypassed
-    """
-    return "ModSecurity" in response.text or response.status_code == 403
-
-
-def attack_xss_dom(payload, session_id, base_url=None) -> AttackResult:
-    """
-    Execute XSS DOM-Based attack
-
-    Args:
-        payload (str): XSS payload
-        session_id (str): PHPSESSID from loginDVWA()
-
-    Returns:
-        dict: {status_code, blocked}
-    """
-    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+def attack_xss_dom(payload, session_id, base_url=None, security_level="low") -> AttackResult:
+    _base = base_url.rstrip("/")
     url = f"{_base}/vulnerabilities/xss_d/?default={payload}"
     response = requests.get(
         url,
-        cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
+        cookies={"PHPSESSID": session_id, "security": security_level}
     )
     return AttackResult(
         status_code=response.status_code,
-        blocked=_check_blocked(response)
+        blocked=response.status_code == 403
     )
 
 
-def attack_xss_reflected(payload, session_id, base_url=None) -> AttackResult:
-    """
-    Execute XSS Reflected attack
-
-    Args:
-        payload (str): XSS payload
-        session_id (str): PHPSESSID from loginDVWA()
-
-    Returns:
-        dict: {status_code, blocked}
-    """
-    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+def attack_xss_reflected(payload, session_id, base_url=None, security_level="low") -> AttackResult:
+    _base = base_url.rstrip("/")
     url = f"{_base}/vulnerabilities/xss_r/?name={payload}"
     response = requests.get(
         url,
-        cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
+        cookies={"PHPSESSID": session_id, "security": security_level    }
     )
     return AttackResult(
         status_code=response.status_code,
-        blocked=_check_blocked(response)
+        blocked=response.status_code == 403
     )
 
 
-def attack_xss_stored(payload, session_id, base_url=None) -> AttackResult:
-    """
-    Execute XSS Stored attack
-
-    Args:
-        payload (str): XSS payload
-        session_id (str): PHPSESSID from loginDVWA()
-
-    Returns:
-        dict: {status_code, blocked}
-    """
-    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+def attack_xss_stored(payload, session_id, base_url=None, security_level="low") -> AttackResult:
+    _base = base_url.rstrip("/")
     url = f"{_base}/vulnerabilities/xss_s/"
     data = {
         "txtName": payload,
@@ -153,57 +91,37 @@ def attack_xss_stored(payload, session_id, base_url=None) -> AttackResult:
     response = requests.post(
         url,
         data=data,
-        cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
+        cookies={"PHPSESSID": session_id, "security": security_level}
     )
     return AttackResult(
         status_code=response.status_code,
-        blocked=_check_blocked(response)
+        blocked=response.status_code == 403
     )
 
 
-def attack_sql_injection(payload, session_id, base_url=None) -> AttackResult:
-    """
-    Execute SQL Injection attack
-
-    Args:
-        payload (str): SQL injection payload
-        session_id (str): PHPSESSID from loginDVWA()
-
-    Returns:
-        dict: {status_code, blocked}
-    """
-    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+def attack_sql_injection(payload, session_id, base_url=None, security_level="low") -> AttackResult:
+    _base = base_url.rstrip("/")
     url = f"{_base}/vulnerabilities/sqli/?id={payload}&Submit=Submit"
     response = requests.get(
         url,
-        cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
+        cookies={"PHPSESSID": session_id, "security": security_level}
     )
     return AttackResult(
         status_code=response.status_code,
-        blocked=_check_blocked(response)
+        blocked=response.status_code == 403
     )
 
 
-def attack_sql_injection_blind(payload, session_id, base_url=None) -> AttackResult:
-    """
-    Execute Blind SQL Injection attack
-
-    Args:
-        payload (str): SQL injection payload
-        session_id (str): PHPSESSID from loginDVWA()
-
-    Returns:
-        dict: {status_code, blocked}
-    """
-    _base = (base_url or DVWA_BASE_URL).rstrip("/")
+def attack_sql_injection_blind(payload, session_id, base_url=None, security_level="low") -> AttackResult:
+    _base = base_url.rstrip("/")
     url = f"{_base}/vulnerabilities/sqli_blind/?id={payload}&Submit=Submit"
     response = requests.get(
         url,
-        cookies={"PHPSESSID": session_id, "security": DVWA_SECURITY_LEVEL}
+        cookies={"PHPSESSID": session_id, "security": security_level}
     )
     return AttackResult(
         status_code=response.status_code,
-        blocked=_check_blocked(response)
+        blocked=response.status_code == 403
     )
 
 
@@ -224,11 +142,11 @@ VALID_ATTACK_TYPES = [
     "sql_injection_blind"
 ]
 
-def attack(type : str, payload : str, session_id : str, base_url : str = None) -> AttackResult:
+def attack(type : str, payload : str, session_id : str, base_url : str = None, security_level : str ="low") -> AttackResult:
     func = DVWA_ATTACK_FUNC.get(type)
     if func:
         try:
-            return func(payload, session_id, base_url=base_url)
+            return func(payload, session_id, base_url=base_url, security_level=security_level)
         except Exception as e:
             print(f"Error executing attack {type}: {str(e)}")
             return AttackResult(status_code=0, blocked=None)
