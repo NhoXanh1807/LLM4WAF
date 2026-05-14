@@ -2,7 +2,7 @@
 import os
 import re
 import requests
-from dtos import AttackResult
+from models.dtos import AttackResult
 
 # Flexible imports for different execution contexts
 

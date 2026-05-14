@@ -1,11 +1,9 @@
-from typing import Any, Optional
-
+from typing import Optional
 from wafw00f.main import WAFW00F
-
-from dtos import PayloadResult
+from models.dtos import PayloadResult
 from services.generator import generate_payloads_phase1, generate_payloads_phase3
-from services.sql_harmness_validator import evaluate_sql_payload
-from external_services.xss_harmness_validator import evaluate_xss_payload
+from services.sql_harmfulness_validator import evaluate_sql_payload
+from external_services.xss_harmfulness_validator import evaluate_xss_payload
 from external_services import dvwa
 
 
@@ -97,5 +95,16 @@ def _3_test_attack(
             else:
                 item.is_bypassed = None
                 item.status_code = None
+    
+    bypassed = sum(1 for item in payloads if item.is_bypassed)
+    harmful = sum(1 for item in payloads if item.is_harmful)
+    bypassed_and_harmful = sum(1 for item in payloads if item.is_bypassed and item.is_harmful)
+    bypassed_not_harmful = sum(1 for item in payloads if item.is_bypassed and item.is_harmful == False)
+    not_bypassed_harmful = sum(1 for item in payloads if item.is_bypassed == False and item.is_harmful)
+    not_bypassed_not_harmful = sum(1 for item in payloads if item.is_bypassed == False and item.is_harmful == False)
+    print(f"\tBypassed: {bypassed}/{len(payloads)}, Harmful: {harmful}/{len(payloads)}")
+    print(f"\tBypassed && Harmful: {bypassed_and_harmful}, Bypassed && Not-Harmful: {bypassed_not_harmful}")
+    print(f"\tNot-Bypassed && Harmful: {not_bypassed_harmful}, Not-Bypassed && Not-Harmful: {not_bypassed_not_harmful}")
+    
     return payloads
 

@@ -1,7 +1,7 @@
 import re
 from typing import Optional
 from services.rule_syntax_validator.base import BaseValidator
-from dtos import ValidationResult, WAFType
+from models.dtos import ValidationResult, WAFType
 
 
 class ModSecurityValidator(BaseValidator):

@@ -1,7 +1,8 @@
 
-from dtos import EvaluateXSSResult
+from models.dtos import EvaluateXSSResult
 import requests
-from helpers import fully_decode_payload
+from utils.utils import fully_decode_payload
+from config.settings import XSS_HARMNESS_VALIDATOR_ENDPOINT
 
 def evaluate_xss_payload(payload, auto_decode=True) -> EvaluateXSSResult:
     if auto_decode:
@@ -9,7 +10,7 @@ def evaluate_xss_payload(payload, auto_decode=True) -> EvaluateXSSResult:
     else:
         decode_stack = []
     try:
-        res = requests.post("http://api.akng.io.vn:89/validate_payload", data=payload)
+        res = requests.post(XSS_HARMNESS_VALIDATOR_ENDPOINT, data=payload)
         return EvaluateXSSResult(
             payload=payload,
             is_safe=res.json()["data"]["is_safe"],

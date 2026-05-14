@@ -13,6 +13,8 @@ if __name__ == "__main__":
         try:
             handler(**params)
         except Exception as e:
+            import traceback
+            # traceback.print_exc()
             print(f"Error: {e}")
         input("Press Enter to continue...")
         verified_args = verify_and_get_args([])

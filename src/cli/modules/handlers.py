@@ -5,7 +5,7 @@ from enum import Enum
 from typing import Any
 import modules.file_manager as file_manager
 from modules.classes import OutputType
-from dtos import PayloadResult
+from models.dtos import PayloadResult
 
 
 def _serialize_json(data: Any) -> Any:
@@ -30,7 +30,7 @@ def handle_files_all():
     if not files:
         print("No files found.")
     for file in files:
-        print(f"{file.output_type.value}{file.id} -> {file.path}")
+        print(f"{file.name} -> {file.path}")
     print("="*30)
 
 def handle_files_view(file_id: str):
@@ -96,8 +96,8 @@ def handle_files_remove(file_id: str):
     print(json.dumps({"removed": file_id}, indent=2))
 
 def handle_attack_detect(domain: str):
-    from pipelines import attack
-    result = attack._1_detect_waf(domain)
+    import attack_pipeline
+    result = attack_pipeline._1_detect_waf(domain)
     
 
 def handle_attack_generate(waf_name: str, attack_type: str, num: str, tested_file: str | None = None):
@@ -124,8 +124,8 @@ def handle_attack_generate(waf_name: str, attack_type: str, num: str, tested_fil
             for item in raw_payloads
             if isinstance(item, dict)
         ]
-    from pipelines import attack
-    payloads = attack._2_generate_payload(
+    import attack_pipeline
+    payloads = attack_pipeline._2_generate_payload(
         waf_name=waf_name,
         attack_type=attack_type,
         num_payloads=int(num),
@@ -133,7 +133,7 @@ def handle_attack_generate(waf_name: str, attack_type: str, num: str, tested_fil
     )
     serialized_payloads = _serialize_json(payloads)
     file = file_manager.save_file(OutputType.GENPAYLOAD, serialized_payloads)
-    print(f"Saved output to file: {file.output_type.value}{file.id} -> {file.path}")
+    print(f"Saved output to file: {file.name} -> {file.path}")
     
 
 def handle_attack_test(domain: str, generate_file: str):
@@ -158,26 +158,14 @@ def handle_attack_test(domain: str, generate_file: str):
         for item in raw_payloads
         if isinstance(item, dict)
     ]
-    from pipelines import attack
-    tested_payloads = attack._3_test_attack(
+    import attack_pipeline
+    tested_payloads = attack_pipeline._3_test_attack(
         domain=domain,
         payloads=payloads,
     )
     serialized_payloads = _serialize_json(tested_payloads)
-    
-    bypassed = sum(1 for item in tested_payloads if item.is_bypassed)
-    harmful = sum(1 for item in tested_payloads if item.is_harmful)
-    bypassed_and_harmful = sum(1 for item in tested_payloads if item.is_bypassed and item.is_harmful)
-    bypassed_not_harmful = sum(1 for item in tested_payloads if item.is_bypassed and item.is_harmful == False)
-    not_bypassed_harmful = sum(1 for item in tested_payloads if item.is_bypassed == False and item.is_harmful)
-    not_bypassed_not_harmful = sum(1 for item in tested_payloads if item.is_bypassed == False and item.is_harmful == False)
-    print(f"Tested {len(tested_payloads)} payloads against {domain}")
-    print(f"Bypassed: {bypassed}/{len(tested_payloads)}, Harmful: {harmful}/{len(tested_payloads)}")
-    print(f"Bypassed and Harmful: {bypassed_and_harmful}, Bypassed not Harmful: {bypassed_not_harmful}")
-    print(f"Not Bypassed and Harmful: {not_bypassed_harmful}, Not Bypassed not Harmful: {not_bypassed_not_harmful}")
-    
     file = file_manager.save_file(OutputType.TEST, serialized_payloads)
-    print(f"Saved output to file: {file.output_type.value}{file.id} -> {file.path}")
+    print(f"Saved output to file: {file.name} -> {file.path}")
 
 def handle_defend_cluster(bypassed_file: str):
     if OutputType.TEST.value not in bypassed_file:
@@ -193,11 +181,11 @@ def handle_defend_cluster(bypassed_file: str):
         for item in data
         if isinstance(item, dict) and item.get("is_bypassed") and item.get("is_harmful") and str(item.get("payload", "")).strip()
     ]
-    from pipelines import defend
-    clusters = defend._1_clustering(bypassed_payloads=bypassed_payloads)
+    import defend_pipeline
+    clusters = defend_pipeline._1_clustering(bypassed_payloads=bypassed_payloads)
     serialized_clusters = _serialize_json(clusters)
     file = file_manager.save_file(OutputType.CLUSTER, serialized_clusters)
-    print(f"Saved output to file: {file.output_type.value}{file.id} -> {file.path}")
+    print(f"Saved output to file: {file.name} -> {file.path}")
 
 
 def handle_defend_rag(waf_name: str, attack_type: str, bypassed_file: str):
@@ -214,8 +202,8 @@ def handle_defend_rag(waf_name: str, attack_type: str, bypassed_file: str):
         for item in data
         if isinstance(item, dict) and item.get("is_bypassed") and item.get("is_harmful") and str(item.get("payload", "")).strip()
     ]
-    from pipelines import defend
-    rag_result, rag_sources, rag_context = defend._2_rag_retrieve(
+    import defend_pipeline
+    rag_result, rag_sources, rag_context = defend_pipeline._2_rag_retrieve(
         waf_name=waf_name,
         attack_type=attack_type,
         bypassed_payloads=bypassed_payloads,
@@ -229,7 +217,7 @@ def handle_defend_rag(waf_name: str, attack_type: str, bypassed_file: str):
         "rag_context": rag_context,
     })
     file = file_manager.save_file(OutputType.RAG, rag_output)
-    print(f"Saved output to file: {file.output_type.value}{file.id} -> {file.path}")
+    print(f"Saved output to file: {file.name} -> {file.path}")
 
 
 def handle_defend_genrule(waf_name: str, cluster_file: str, rag_file: str | None = None):
@@ -249,8 +237,8 @@ def handle_defend_genrule(waf_name: str, cluster_file: str, rag_file: str | None
             raise ValueError(f"Unknown file id: {rag_file}")
         rag_data = json.loads(rag_content)
         rag_context = rag_data.get("rag_context", "") if isinstance(rag_data, dict) else ""
-    from pipelines import defend
-    generated_rules, generation_prompt = defend._3_generate_rules(
+    import defend_pipeline
+    generated_rules, generation_prompt = defend_pipeline._3_generate_rules(
         waf_name=waf_name,
         clusters=clusters,
         rag_context=rag_context,
@@ -260,7 +248,7 @@ def handle_defend_genrule(waf_name: str, cluster_file: str, rag_file: str | None
         "generation_prompt": generation_prompt,
     })
     file = file_manager.save_file(OutputType.GENRULE, genrule_output)
-    print(f"Saved output to file: {file.output_type.value}{file.id} -> {file.path}")
+    print(f"Saved output to file: {file.name} -> {file.path}")
 
 
 def handle_defend_validate(genrule_file: str):
@@ -273,8 +261,8 @@ def handle_defend_validate(genrule_file: str):
     if not isinstance(data, dict) or not isinstance(data.get("generated_rules"), list):
         raise ValueError("Expected 'generated_rules' as a JSON list")
     generated_rules = [item for item in data["generated_rules"] if isinstance(item, dict)]
-    from pipelines import defend
-    valid_rules, invalid_rules = defend._4_validate_rules_syntax(generated_rules)
+    import defend_pipeline
+    valid_rules, invalid_rules = defend_pipeline._4_validate_rules_syntax(generated_rules)
     if len(valid_rules) > 0:
         valid_output = _serialize_json(valid_rules)
         valid_file = file_manager.save_file(OutputType.VALIDRULE, valid_output)
@@ -295,17 +283,17 @@ def handle_defend_retry(waf_name: str, invalidrule_file: str):
     if not isinstance(data, list):
         raise ValueError("Invalid rule input must be a JSON list")
     invalid_rules = [item for item in data if isinstance(item, dict)]
-    from pipelines import defend
-    fixed_rules = defend._5_retry_invalid_rules(
+    import defend_pipeline
+    fixed_rules = defend_pipeline._5_retry_invalid_rules(
         waf_name=waf_name,
         invalid_rules=invalid_rules,
     )
     fixed_output = _serialize_json(fixed_rules)
     file = file_manager.save_file(OutputType.FIXEDRULE, fixed_output)
-    print(f"Saved output to file: {file.output_type.value}{file.id} -> {file.path}")
+    print(f"Saved output to file: {file.name} -> {file.path}")
 
 
-def handle_defend_refine(waf_name: str, validrule_file: str, fixedrule_file: str | None = None):
+def handle_defend_refine(waf_name: str, validrule_file: str, fixedrule_file: str | None = None, existing_rule_file_path: str | None = None):
     if OutputType.VALIDRULE.value not in validrule_file:
         raise ValueError("Valid rule file must be a valid rule output file")
     valid_content = file_manager.read_file(validrule_file)
@@ -328,12 +316,169 @@ def handle_defend_refine(waf_name: str, validrule_file: str, fixedrule_file: str
             *valid_rules,
             *[item for item in fixed_data if isinstance(item, dict)],
         ]
-    from pipelines import defend
-    final_rules = defend._6_refine_rules(
+    import defend_pipeline
+    if existing_rule_file_path:
+        print(f"[Auto] Loading existing rules from: {existing_rule_file_path}")
+        with open(existing_rule_file_path, "r", encoding="utf-8") as f:
+            existing_rules_lines = f.readlines()
+        existing_rules = defend_pipeline._parse_existing_rules(existing_rules_lines)
+        print(f"[Auto] Loaded {len(existing_rules)} existing rules for refinement.")
+    else:
+        existing_rules = None
+    final_rules = defend_pipeline._6_refine_rules(
         waf_name=waf_name,
         valid_rules=valid_rules,
-        existing_rules=None,
+        existing_rules=existing_rules,
     )
     final_output = _serialize_json(final_rules)
     file = file_manager.save_file(OutputType.FINALRULE, final_output)
-    print(f"Saved output to file: {file.output_type.value}{file.id} -> {file.path}")
+    print(f"Saved output to file: {file.name} -> {file.path}")
+
+def handle_attack_auto(domain: str, attack_type: str, num: str, num_adaptive: str):
+    import attack_pipeline
+
+    # 1. Detect WAF
+    detected_data = attack_pipeline._1_detect_waf(domain)
+    
+    # 2. Generate payload
+    payloads = attack_pipeline._2_generate_payload(
+        waf_name=detected_data.get("waf_name"),
+        attack_type=attack_type,
+        num_payloads=int(num),
+        payloads_history=[],
+    )
+    serialized_payloads = _serialize_json(payloads)
+    gen_file = file_manager.save_file(OutputType.GENPAYLOAD, serialized_payloads)
+    print(f"[Auto] Saved generated payloads: {gen_file.name} -> {gen_file.path}")
+    
+    # 3. Test payload
+    tested_payloads = attack_pipeline._3_test_attack(
+        domain=domain,
+        payloads=payloads,
+    )
+    serialized_tested = _serialize_json(tested_payloads)
+    test_file = file_manager.save_file(OutputType.TEST, serialized_tested)
+    print(f"[Auto] Saved test results: {test_file.name} -> {test_file.path}")
+    
+    if num_adaptive and int(num_adaptive) > 0:
+        # 4. Adaptive generate
+        adaptive_payloads = attack_pipeline._2_generate_payload(
+            waf_name=detected_data.get("waf_name"),
+            attack_type=attack_type,
+            num_payloads=int(num_adaptive),
+            payloads_history=tested_payloads,
+        )
+        serialized_adaptive = _serialize_json(adaptive_payloads)
+        adaptive_file = file_manager.save_file(OutputType.GENPAYLOAD, serialized_adaptive)
+        print(f"[Auto] Saved adaptive generated payloads: {adaptive_file.name} -> {adaptive_file.path}")
+        
+        # 5. Test adaptive payload
+        tested_adaptive_payloads = attack_pipeline._3_test_attack(
+            domain=domain,
+            payloads=adaptive_payloads,
+        )
+        serialized_adaptive_tested = _serialize_json(tested_adaptive_payloads)
+        test_adaptive_file = file_manager.save_file(OutputType.TEST, serialized_adaptive_tested)
+        print(f"[Auto] Saved test adaptive results: {test_adaptive_file.name} -> {test_adaptive_file.path}")
+
+        # 6. Save combined tested results
+        combined_tested_payloads = tested_payloads + tested_adaptive_payloads
+        serialized_combined_tested = _serialize_json(combined_tested_payloads)
+        combined_test_file = file_manager.save_file(OutputType.TEST, serialized_combined_tested)
+        print(f"[Auto] Saved combined RANDOM + ADAPTIVE test results: {combined_test_file.name} -> {combined_test_file.path}")
+
+
+def handle_defend_auto(waf_name: str, attack_type: str, bypassed_file: str, existing_rule_file_path: str | None = None):
+    import defend_pipeline
+
+    content = file_manager.read_file(bypassed_file)
+    if content is None:
+        raise ValueError(f"Unknown file: {bypassed_file}")
+    data = json.loads(content)
+    bypassed_payloads = [
+        str(item.get("payload", "")).strip()
+        for item in data
+        if isinstance(item, dict) and item.get("is_bypassed") and item.get("is_harmful") and str(item.get("payload", "")).strip()
+    ]
+    
+    # 1. Cluster
+    clusters = defend_pipeline._1_clustering(bypassed_payloads=bypassed_payloads)
+    serialized_clusters = _serialize_json(clusters)
+    cluster_file = file_manager.save_file(OutputType.CLUSTER, serialized_clusters)
+    print(f"[Auto] Saved clusters: {cluster_file.name} -> {cluster_file.path}")
+    
+    # 2. RAG
+    rag_result, rag_sources, rag_context = defend_pipeline._2_rag_retrieve(
+        waf_name=waf_name,
+        attack_type=attack_type,
+        bypassed_payloads=bypassed_payloads,
+    )
+    rag_output = _serialize_json({
+        "waf_name": waf_name,
+        "attack_type": attack_type,
+        "bypassed_payloads": bypassed_payloads,
+        "rag_result": rag_result,
+        "rag_sources": rag_sources,
+        "rag_context": rag_context,
+    })
+    rag_file = file_manager.save_file(OutputType.RAG, rag_output)
+    print(f"[Auto] Saved RAG: {rag_file.name} -> {rag_file.path}")
+    
+    
+    # 3. Genrule
+    generated_rules, generation_prompt = defend_pipeline._3_generate_rules(
+        waf_name=waf_name,
+        clusters=clusters,
+        rag_context=rag_context,
+    )
+    genrule_output = _serialize_json({
+        "generated_rules": generated_rules,
+        "generation_prompt": generation_prompt,
+    })
+    genrule_file = file_manager.save_file(OutputType.GENRULE, genrule_output)
+    print(f"[Auto] Saved generated rules: {genrule_file.name} -> {genrule_file.path}")
+    
+    
+    # 4. Validate
+    valid_rules, invalid_rules = defend_pipeline._4_validate_rules_syntax(generated_rules)
+    if valid_rules:
+        valid_output = _serialize_json(valid_rules)
+        valid_file = file_manager.save_file(OutputType.VALIDRULE, valid_output)
+        print(f"[Auto] Saved valid rules: {valid_file.name} -> {valid_file.path}")
+    if invalid_rules:
+        invalid_output = _serialize_json(invalid_rules)
+        invalid_file = file_manager.save_file(OutputType.INVALIDRULE, invalid_output)
+        print(f"[Auto] Saved invalid rules: {invalid_file.name} -> {invalid_file.path}")
+    
+    
+    # 5. Retry nếu có invalid
+    all_valid_rules = valid_rules[:]
+    if invalid_rules:
+        fixed_rules = defend_pipeline._5_retry_invalid_rules(
+            waf_name=waf_name,
+            invalid_rules=invalid_rules,
+        )
+        fixed_output = _serialize_json(fixed_rules)
+        fixed_file = file_manager.save_file(OutputType.FIXEDRULE, fixed_output)
+        print(f"[Auto] Saved fixed rules: {fixed_file.name} -> {fixed_file.path}")
+        all_valid_rules.extend(fixed_rules)
+    
+    
+    # 6. Refine
+    if existing_rule_file_path:
+        print(f"[Auto] Loading existing rules from: {existing_rule_file_path}")
+        with open(existing_rule_file_path, "r", encoding="utf-8") as f:
+            existing_rules_lines = f.readlines()
+        existing_rules = defend_pipeline._parse_existing_rules(existing_rules_lines)
+        print(f"[Auto] Loaded {len(existing_rules)} existing rules for refinement.")
+    else:
+        existing_rules = None
+    final_rules = defend_pipeline._6_refine_rules(
+        waf_name=waf_name,
+        valid_rules=all_valid_rules,
+        existing_rules=existing_rules,
+    )
+    final_output = _serialize_json(final_rules)
+    final_file = file_manager.save_file(OutputType.FINALRULE, final_output)
+    print(f"[Auto] Saved final rules: {final_file.name} -> {final_file.path}")
+    print("[Auto] Defend pipeline completed.")

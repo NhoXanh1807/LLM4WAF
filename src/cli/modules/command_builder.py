@@ -12,7 +12,9 @@ from modules.handlers import (
     handle_exit,
     handle_files_all,
     handle_files_remove,
-    handle_files_view
+    handle_files_view,
+    handle_attack_auto,
+    handle_defend_auto,
 )
 
 COMMAND_ARGS_BUILDER = {
@@ -25,7 +27,8 @@ COMMAND_ARGS_BUILDER = {
     "attack":{
         "detect": ['domain'],
         "generate": ['waf_name', 'attack_type', 'num', 'optional:tested_file'],
-        "test": ['domain', 'generate_file']
+        "test": ['domain', 'generate_file'],
+        "auto": ['domain', 'attack_type', 'num', 'num_adaptive']
     },
     "defend":{
         "cluster": ['bypassed_file'],
@@ -33,7 +36,8 @@ COMMAND_ARGS_BUILDER = {
         "genrule": ['waf_name', 'cluster_file', 'optional:rag_file'],
         "validate": ['genrule_file'],
         "retry": ['waf_name', 'invalidrule_file'],
-        "refine": ['waf_name', 'validrule_file', 'optional:fixedrule_file']
+        "refine": ['waf_name', 'validrule_file', 'optional:fixedrule_file', 'optional:existing_rule_file_path'],
+        "auto": ['waf_name', 'attack_type', 'bypassed_file', 'optional:existing_rule_file_path']
     }
 }
 
@@ -49,6 +53,7 @@ COMMAND_HANDLERS = {
         "detect": handle_attack_detect,
         "generate": handle_attack_generate,
         "test": handle_attack_test,
+        "auto": handle_attack_auto,
     },
     "defend": {
         "cluster": handle_defend_cluster,
@@ -57,6 +62,7 @@ COMMAND_HANDLERS = {
         "validate": handle_defend_validate,
         "retry": handle_defend_retry,
         "refine": handle_defend_refine,
+        "auto": handle_defend_auto,
     }
 }
 

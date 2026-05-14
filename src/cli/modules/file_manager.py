@@ -34,11 +34,11 @@ def save_file(output_type: OutputType, content) -> File:
         existing_ids = [int(file['id']) for file in index_data[output_type.value]]
         while id in existing_ids:
             id += 1
-    file_id = f"{output_type.value}{id}"
-    file_path = os.path.join(OUTPUT_DIR, f"{file_id}.json")
+    file_name = f"{output_type.value}{id}"
+    file_path = os.path.join(OUTPUT_DIR, f"{file_name}.json")
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(content, f, indent=2)
-    index_data[output_type.value].append({"output_type": output_type.value, "id": id, "path": file_path})
+    index_data[output_type.value].append({"output_type": output_type.value, "id": id, "name": file_name, "path": file_path})
     _save_index(index_data)
     return File(output_type=output_type, id=id, path=file_path)
 
@@ -67,11 +67,11 @@ def remove_file(file_id: str) -> bool:
                 return True
     return False
 
-def read_file(file_id: str) -> str | None:
+def read_file(file_name: str) -> str | None:
     index_data = _load_index()
     for output_type, files in index_data.items():
         for file in files:
-            if output_type + str(file["id"]) == file_id:
+            if file['name'] == file_name:
                 file_path = file["path"]
                 if os.path.exists(file_path):
                     with open(file_path, "r", encoding="utf-8") as f:

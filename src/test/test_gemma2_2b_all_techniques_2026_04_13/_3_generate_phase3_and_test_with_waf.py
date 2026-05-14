@@ -7,7 +7,7 @@ import tqdm
 from datetime import datetime
 
 from external_services import dvwa
-from dtos import PayloadResult
+from models.dtos import PayloadResult
 import json
 import time
 

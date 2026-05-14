@@ -1,7 +1,7 @@
 
 from sqlglot import parse_one
-from helpers import fully_decode_payload
-from dtos import EvaluateSQLResult
+from utils.utils import fully_decode_payload
+from models.dtos import EvaluateSQLResult
 
 PAYLOAD_PLACEHOLDER = "###payload###"
 SQL_INJECTTION_CONTEXTS = {

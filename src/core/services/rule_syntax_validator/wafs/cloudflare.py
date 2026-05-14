@@ -1,6 +1,6 @@
 import re
 from services.rule_syntax_validator.base import BaseValidator
-from dtos import ValidationResult, WAFType
+from models.dtos import ValidationResult, WAFType
 
 
 class CloudflareValidator(BaseValidator):

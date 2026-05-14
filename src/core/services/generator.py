@@ -7,7 +7,7 @@ from typing import List
 from external_services import llmshield
 from dataclasses import asdict
 
-from dtos import PayloadResult
+from models.dtos import PayloadResult
 
 ATTACK_OBFUSCATE_TECHNIQUES = {
         "xss": [

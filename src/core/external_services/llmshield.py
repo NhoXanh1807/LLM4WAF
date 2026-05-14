@@ -1,7 +1,7 @@
 
 import requests
-from dtos import PayloadResult
-from settings import LLMSHIELD_ENDPOINT
+from models.dtos import PayloadResult
+from config.settings import LLMSHIELD_ENDPOINT
 
 def llmshield_build_prompt(waf_name: str, attack_type: str, technique: str, probe_history: list[PayloadResult]|None = None) -> str|None:
     data = {

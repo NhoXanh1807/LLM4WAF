@@ -7,7 +7,7 @@ import tqdm
 from datetime import datetime
 
 from external_services import dvwa
-from dtos import PayloadResult
+from models.dtos import PayloadResult
 import json
 import time
 
@@ -27,7 +27,7 @@ WAF_DVWA_URLS = {
 }
 import json
 import tqdm
-from services import sql_harmness_validator as pv
+from services import sql_harmfulness_validator as pv
 
 payload_log_dir = r"K:\Workspace\bku\LLM4WAF\src\test\test_gemma2_2b_all_techniques_2026_04_13\logs\2026-04-13_22-14-32"
 

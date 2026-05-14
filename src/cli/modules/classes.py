@@ -16,4 +16,8 @@ class OutputType(Enum):
 class File:
     output_type: OutputType
     id: int
+    
+    @property
+    def name(self) -> str:
+        return self.output_type.value + str(self.id)
     path: str

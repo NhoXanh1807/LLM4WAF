@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 import json
 import requests
 sys.stdout.reconfigure(encoding='utf-8')
-from utils import WAF_DVWA_URLS
+from utils.utils import WAF_DVWA_URLS
 
 API_DEFEND_URL = os.environ.get("DEFEND_API_URL", "http://127.0.0.1:5000/api/defend")
 

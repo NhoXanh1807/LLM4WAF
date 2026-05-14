@@ -3,7 +3,7 @@ import json
 from collections import defaultdict
 from typing import Any, Optional
 
-from prompts import (
+from config.prompts import (
     BLUE_TEAM_SYSTEM_PROMPT,
     build_refine_enhance_rules_prompt,
     build_refine_sync_rules_prompt,
@@ -15,7 +15,7 @@ from services.clustering import clustering
 from external_services.llm_api import chatgpt_completion, claude_completion
 from external_services.llmshield import rag_retrieve
 from services.rule_syntax_validator import validator
-from dtos import PayloadResult
+from models.dtos import PayloadResult
 
 def _parse_existing_rules(rules_raw: Optional[list[str]]) -> list[str]:
     extracted_rules: list[str] = []
@@ -47,7 +47,9 @@ def _parse_existing_rules(rules_raw: Optional[list[str]]) -> list[str]:
 def _1_clustering(
     bypassed_payloads: list[PayloadResult],
 ) -> list[dict[str, Any]]:
-    if len(bypassed_payloads) < 3:
+    if len(bypassed_payloads) <= 0:
+        raise ValueError("No bypassed payloads to cluster")
+    elif len(bypassed_payloads) <= 3:
         labels = [0] * len(bypassed_payloads)
     else:
         labels = clustering(
@@ -117,6 +119,8 @@ def _3_generate_rules(
         raise ValueError("Missing 'waf_name' field")
     if not clusters:
         raise ValueError("No bypassed payloads to generate rules from")
+    
+    print(f"[GENERATE-RULES] Generating rules for WAF: {waf_name} with {len(clusters)} clusters and {len(rag_context.replace('   ', '  ').replace('  ', ' '))} chars of RAG context")
     
     base_prompt = get_blue_team_user_prompt(
         waf_name=waf_name,

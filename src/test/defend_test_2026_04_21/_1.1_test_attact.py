@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../.
 
 import json
 sys.stdout.reconfigure(encoding='utf-8')
-from utils import VALID_ATTACK_TYPES, WAF_DVWA_URLS, PHASES, call_api
+from utils.utils import VALID_ATTACK_TYPES, WAF_DVWA_URLS, PHASES, call_api
 
 def api_test_attack(domain: str, payloads: list) -> dict:
     response = call_api("/api/test_attack", json.dumps({

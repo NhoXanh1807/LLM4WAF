@@ -183,7 +183,7 @@ def build_refine_enhance_rules_prompt(
 6. Keep only rules that are valid, useful, and production-ready for the target WAF.
 7. If a rule should be removed, explain whether the reason is invalid syntax, duplicated responsibility, over-broad matching, or weak security value.
 
-## Output format (JSON), no markdown, no code fences, valid JSON only, ensure valid escape like \\s \\( not \s \(:
+## Output format (JSON), no markdown, no code fences, valid JSON only, ensure valid escape like \\\\s \\\\( not \\s \\(:
 {{
    "refined_rules": [
       {{
@@ -227,7 +227,7 @@ def build_refine_sync_rules_prompt(
 6. Remove any rule that is redundant, conflicting, too broad, low-value, or not deployable.
 7. Return only the final production-ready rules after synchronization and refinement that will enhance the existing rules, do not response the existing rules.
 
-## Output format (JSON), no markdown, no code fences, valid JSON only, ensure valid escape like \\s \\( not \s \(:
+## Output format (JSON), no markdown, no code fences, valid JSON only, ensure valid escape like \\\\s \\\\( not \\s \\(:
 {{
    "refined_rules": [
       {{
