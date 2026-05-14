@@ -5,5 +5,4 @@ wafw00f
 python-dotenv
 hdbscan
 sqlglot
-google.genai
 pymodsecurity

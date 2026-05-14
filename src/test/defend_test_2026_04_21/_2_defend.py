@@ -37,27 +37,6 @@ def call_defend_api(waf_name: str, payloads: list, attack_type:str, existing_rul
 
 
 def main():
-    
-    # import os
-    # import dotenv
-    # env_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../gui/backend/.env"))
-    # print(f"Loading environment variables from {env_path}")
-    # dotenv.load_dotenv(env_path)
-    # try:
-    #     from google import genai
-    #     apikey = os.getenv("GEMINI_API_KEY")
-    #     print(apikey)
-    #     client = genai.Client(api_key=apikey)
-    #     response = client.models.generate_content(
-    #         model="gemini-2.5-flash",
-    #         contents="Hello",
-    #     )
-    #     print(response.text)
-    # except ImportError:
-    #     print("Google GenAI library not found. Please install it to run the defense pipeline.")
-    
-    # exit()
-    
     os.makedirs(output_dir, exist_ok=True)
     
     with open(os.path.join(os.path.dirname(__file__), "naxsi_core.rules"), "r", encoding="utf-8") as f:
