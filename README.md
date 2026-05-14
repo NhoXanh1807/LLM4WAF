@@ -1,20 +1,20 @@
 # LLM4WAF
 
-LLM4WAF là một hệ thống thử nghiệm hỗ trợ hai hướng xử lý chính cho bài toán Web Application Firewall:
+LLM4WAF is an experimental framework for two Web Application Firewall workflows:
 
-- `attack`: phát hiện WAF, sinh payload tấn công né WAF, và kiểm tra payload trên mục tiêu.
-- `defend`: gom cụm các payload đã bypass, truy hồi tri thức qua RAG, sinh rule phòng thủ, kiểm tra cú pháp rule, sửa rule lỗi, và refine rule cuối cùng.
+- `attack`: detect the target WAF, generate WAF-evasive attack payloads, and test those payloads against a real target.
+- `defend`: cluster successful bypass payloads, retrieve supporting knowledge through RAG, generate defensive rules, validate rule syntax, repair invalid rules, and refine the final rule set.
 
-Repo này tổ chức phần lõi xử lý trong `src/core`, sau đó tái sử dụng cùng logic đó cho `src/cli`, `src/web`, và các kịch bản trong `src/test`.
+The repository centralizes domain logic in `src/core` and reuses that logic from the CLI in `src/cli`, the web application in `src/web`, and evaluation scripts in `src/test`.
 
-## Mục tiêu của repo
+## Repository Goals
 
-- Tập trung logic nghiệp vụ vào một lõi dùng chung.
-- Dùng LLM để sinh payload tấn công thích ứng với WAF.
-- Dùng LLM + RAG + LLM-API-Services + rule validation để đề xuất rule phòng thủ.
-- Cung cấp nhiều cách vận hành trên cùng một pipeline: CLI, Web API, giao diện frontend, và test scripts.
+- Keep business logic in a shared core layer.
+- Use LLMs to generate attack payloads that adapt to WAF behavior.
+- Use LLMs, RAG, external model APIs, and rule validation to propose defensive rules.
+- Support the same pipelines through multiple interfaces: CLI, Web API, frontend UI, and testing scripts.
 
-## Cấu trúc dự án
+## Project Structure
 
 ```text
 LLM4WAF/
@@ -40,55 +40,55 @@ LLM4WAF/
 └─ venv/
 ```
 
-## Thành phần quan trọng
+## Core Components
 
 ### 1. `src/core`
 
-Đây là trung tâm của hệ thống. Hầu hết logic nghiệp vụ nằm ở đây.
+`src/core` is the center of the system and contains most of the domain logic.
 
-Sau refactor, `core` được tổ chức để làm nổi bật hai pipeline cấp cao nhất ngay tại top-level:
+After the refactor, the package is organized around two top-level pipelines:
 
-- `attack_pipeline.py`: pipeline tấn công.
-  - `_1_detect_waf(domain)`: nhận diện WAF bằng `wafw00f`.
-  - `_2_generate_payload(...)`: sinh payload theo Phase 1 (Random Payload) hoặc Phase 3 (Adaptive Payload) tùy có probe history hay không.
-  - `_3_test_attack(...)`: kiểm tra payload với DVWA/WAF thật và đánh giá harmfulness.
-- `defend_pipeline.py`: pipeline phòng thủ.
-  - `_1_clustering(...)`: gom cụm payload bypass.
-  - `_2_rag_retrieve(...)`: lấy tri thức từ LLMShield/RAG.
-  - `_3_generate_rules(...)`: sinh rule phòng thủ bằng LLM.
-  - `_4_validate_rules_syntax(...)`: kiểm tra cú pháp rule theo từng WAF.
-  - `_5_retry_invalid_rules(...)`: thử sửa rule lỗi.
-  - `_6_refine_rules(...)`: cải tiến rule cuối cùng, có thể kết hợp với existing rules để đồng bộ với rules hiện hành.
+- `attack_pipeline.py`: the offensive workflow.
+  - `_1_detect_waf(domain)`: identifies the target WAF using `wafw00f`.
+  - `_2_generate_payload(...)`: generates Phase 1 payloads (random payloads) or Phase 3 payloads (adaptive payloads) depending on whether probe history is available.
+  - `_3_test_attack(...)`: tests generated payloads against DVWA or a real WAF-protected target and evaluates harmfulness.
+- `defend_pipeline.py`: the defensive workflow.
+  - `_1_clustering(...)`: clusters bypass payloads.
+  - `_2_rag_retrieve(...)`: retrieves supporting knowledge from LLMShield or another RAG source.
+  - `_3_generate_rules(...)`: generates defensive rules with an LLM.
+  - `_4_validate_rules_syntax(...)`: validates rule syntax for a specific WAF.
+  - `_5_retry_invalid_rules(...)`: retries or repairs invalid rules.
+  - `_6_refine_rules(...)`: refines the final rule set and can optionally merge with existing rules.
 
-Hai file này là layer nghiệp vụ cao nhất trong `core`, còn các thư mục còn lại chủ yếu đóng vai trò phụ trợ cho chúng.
+These two modules define the highest-level business workflows. The other directories under `src/core` mainly support those pipelines.
 
 #### `src/core/services`
 
-- `generator.py`: sinh payload cho attack flow.
-  - Phase 1: sinh payload từ các kỹ thuật obfuscation ngẫu nhiên.
-  - Phase 3: sinh payload thích ứng từ probe history.
-- `clustering.py`: gom cụm payload bằng TF-IDF + giảm chiều + HDBSCAN/HAC.
-- `sql_harmfulness_validator.py`: đánh giá độ nguy hại của payload SQL.
-- `rule_syntax_validator/`: validate cú pháp rule cho các WAF như ModSecurity, AWS WAF, Cloudflare, Naxsi.
+- `generator.py`: payload generation logic for the attack workflow.
+  - Phase 1: generates payloads using random obfuscation techniques.
+  - Phase 3: generates adaptive payloads from probe history.
+- `clustering.py`: clusters payloads using TF-IDF, dimensionality reduction, and HDBSCAN or HAC.
+- `sql_harmfulness_validator.py`: evaluates the harmfulness of SQL payloads.
+- `rule_syntax_validator/`: validates rule syntax for supported WAFs such as ModSecurity, AWS WAF, Cloudflare, and Naxsi.
 
 #### `src/core/utils`
 
-- `utils.py`: chứa các hàm tiện ích dùng chung ở mức lõi, hiện tập trung vào normalize và decode payload qua nhiều lớp mã hóa/obfuscation.
+- `utils.py`: shared utility functions used by the core layer, currently focused on normalization and multi-layer payload decoding and de-obfuscation.
 
 #### `src/core/external_services`
 
-Đây là lớp giao tiếp với các hệ thống bên ngoài:
+This package integrates with external systems:
 
-- `llmshield.py`: gọi LLMShield để build prompt, generate payload, và RAG retrieve.
-- `llm_api.py`: gọi OpenAI và Claude để sinh/sửa/refine rule.
-- `xss_harmfulness_validator.py`: gọi service đánh giá độ nguy hại của payload XSS.
-- `dvwa.py`: đăng nhập DVWA và gửi payload vào các endpoint test tương ứng.
+- `llmshield.py`: calls LLMShield to build prompts, generate payloads, and perform RAG retrieval.
+- `llm_api.py`: calls external LLM providers such as OpenAI and Claude to generate, repair, and refine rules.
+- `xss_harmfulness_validator.py`: calls `llm4waf_services` to evaluate the harmfulness of XSS payloads.
+- `dvwa.py`: logs in to DVWA and submits payloads to the relevant test endpoints.
 
 #### `src/core/models`
 
-- `dtos.py`: định nghĩa các DTO và kiểu dữ liệu dùng chung.
+- `dtos.py`: shared DTOs and data structures.
 
-Ví dụ:
+Examples include:
 
 - `PayloadResult`
 - `AttackResult`
@@ -97,10 +97,10 @@ Ví dụ:
 
 #### `src/core/config`
 
-- `prompts.py`: chứa các prompt và prompt-builder phục vụ cho rule generation, retry, refine, và các bước phòng thủ.
-- `settings.py`: đọc cấu hình môi trường từ `src/core/.env`.
+- `prompts.py`: prompt templates and prompt builders used for rule generation, retry, refinement, and other defensive stages.
+- `settings.py`: loads environment configuration from `src/core/.env`.
 
-Các biến môi trường quan trọng gồm:
+Important environment variables include:
 
 - `OPENAI_API_KEY`
 - `CLAUDE_API_KEY`
@@ -109,22 +109,22 @@ Các biến môi trường quan trọng gồm:
 
 ### 2. `src/cli`
 
-Đây là giao diện dòng lệnh để chạy các bước của hệ thống bằng command tương tác.
+The CLI provides an interactive command-line interface for running the system.
 
-- `main.py`: entry point của CLI.
-- `modules/command_builder.py`: định nghĩa cây lệnh và cơ chế hỏi bổ sung tham số nếu thiếu.
-- `modules/handlers.py`: ánh xạ từng command sang các pipeline tương ứng trong `core`.
-- `modules/file_manager.py`: lưu kết quả từng bước vào `outputs/` và quản lý chỉ mục qua `outputs_index.json`.
+- `main.py`: CLI entry point.
+- `modules/command_builder.py`: defines the command tree and the mechanism for requesting missing parameters interactively.
+- `modules/handlers.py`: maps CLI commands to the corresponding pipelines in `core`.
+- `modules/file_manager.py`: stores per-step results in `outputs/` and manages the output index in `outputs_index.json`.
 
-CLI không tự chứa logic riêng. Nó chủ yếu gọi lại `core`, sau đó lưu kết quả từng bước thành file JSON để tái sử dụng cho các bước tiếp theo.
+The CLI does not implement its own business logic. It delegates to `core` and stores each step result as JSON so that later stages can reuse earlier outputs.
 
 ### 3. `src/web`
 
 #### `src/web/backend`
 
-Backend dùng Flask và expose API cho các bước attack/defend.
+The backend is a Flask application that exposes HTTP APIs for both attack and defend workflows.
 
-Các nhóm endpoint chính:
+Main endpoint groups:
 
 - `/api/attack/1-detect-waf`
 - `/api/attack/2-generate-payload`
@@ -136,52 +136,51 @@ Các nhóm endpoint chính:
 - `/api/defend/5-retry-invalid-rules`
 - `/api/defend/6-refine-rules`
 
-Backend cũng không tái cài đặt nghiệp vụ, mà chỉ wrap lại `core.attack_pipeline` và `core.defend_pipeline`.
+Like the CLI, the backend is a thin wrapper around `core.attack_pipeline` and `core.defend_pipeline`.
 
 #### `src/web/frontend`
 
-Frontend là ứng dụng React dùng để thao tác với backend qua HTTP API. Phần này phù hợp khi cần chạy demo hoặc thao tác trực quan thay vì đi qua CLI.
+The frontend is a React application that interacts with the backend over HTTP. It is intended for demos or interactive operation when a graphical interface is preferable to the CLI.
 
 ### 4. `src/test`
 
-Đây là thư mục chứa các nhóm test/kịch bản thử nghiệm hệ thống cho những mục đích riêng. Về bản chất, các thư mục con ở đây nhúng lại logic từ `core` để kiểm tra hành vi hệ thống theo từng bài toán đánh giá. Không cần xem đây là một test framework thống nhất; nên hiểu đơn giản đây là nơi chứa các script và artefacts phục vụ test hệ thống.
+This directory contains scenario-specific test and evaluation scripts. In practice, its subdirectories reuse logic from `core` to validate system behavior for different experiments. It should not be treated as a unified test framework; it is better understood as a collection of scripts and artifacts for system-level evaluation.
 
-## Luồng hoạt động tổng quan
+## End-to-End Workflows
 
-### Attack flow
+### Attack Flow
 
-1. Phát hiện WAF từ domain mục tiêu.
-2. Sinh payload né WAF.
-3. Kiểm tra payload với mục tiêu thật, xem payload có bypass WAF hay không, đánh giá xem payload có harmful hay không.
+1. Detect the target WAF from the target domain.
+2. Generate WAF-evasive payloads.
+3. Test the payloads against the real target, determine whether they bypass the WAF, and evaluate whether they are harmful.
 
-### Defend flow
+### Defend Flow
 
-Initial: các payload đã bypass và harmful sau khi test ở bước attack
-1. Gom cụm để tìm nhóm hành vi tương tự.
-2. Gọi RAG để lấy tri thức liên quan tới WAF và kiểu tấn công.
-3. Dùng LLM sinh các rule đề xuất.
-4. Validate cú pháp rule.
-5. Retry các rule lỗi.
-6. Refine rule cuối cùng, có thể kết hợp với existing rules.
+Input: payloads that successfully bypassed the WAF and were classified as harmful during the attack flow.
 
-## Giả định vận hành đối với external services
+1. Cluster payloads to identify similar attack behavior.
+2. Retrieve knowledge relevant to the WAF and attack type through RAG.
+3. Generate candidate defensive rules with an LLM.
+4. Validate rule syntax.
+5. Retry or repair invalid rules.
+6. Refine the final rule set, optionally with existing rules as additional context.
 
-LLM4WAF/core phụ thuộc trực tiếp vào một số dịch vụ bên ngoài. Khi viết tài liệu sử dụng repo này, nên xem đây là điều kiện tiên quyết:
+## External Service Assumptions
 
-- `llmshield` phải hoạt động ổn định để phục vụ generate payload và RAG retrieve.
-- `llm_api` phải truy cập được các model ngoài như OpenAI và Claude để phục vụ generate/retry/refine rule.
-- `xss_harmness_validator` phải hoạt động ổn định để đánh giá payload XSS.
-- `dvwa` và môi trường WAF mục tiêu phải sẵn sàng để test payload thật.
+`src/core` depends directly on several external services. These services should be treated as prerequisites for successful operation:
 
-Nói ngắn gọn: các external services cần hoạt động ổn định để đảm bảo hoạt động của `LLM4WAF/core`, từ đó mới đảm bảo các lớp sử dụng lại `core` như `cli`, `web`, và `test` vận hành đúng.
+- `llmshield` must be available and stable for payload generation and RAG retrieval.
+- `llm_api` must be able to access external providers such as OpenAI and Claude for rule generation, repair, and refinement.
+- `xss_harmness_validator` must be available for XSS harmfulness evaluation.
+- `dvwa` and the target WAF environment must be available for live payload testing.
 
-## Yêu cầu môi trường
+In short, the external services must be healthy for `src/core` to function correctly, and therefore for the CLI, web layer, and test scripts that depend on it to work reliably.
+
+## Environment Requirements
 
 ### Python
 
-Các dependency Python chính trong `requirements.txt`.
-
-Cài đặt:
+Install the Python dependencies listed in `requirements.txt`:
 
 ```powershell
 cd LLM4WAF
@@ -189,42 +188,42 @@ python -m venv venv
 
 # Windows
 venv\Scripts\activate
-# MacOS/Linux
+
+# macOS/Linux
 source venv/bin/activate
 
 pip install -r requirements.txt
 ```
 
-### Node.js cho frontend
+### Node.js for the Frontend
 
-Frontend dùng React. Cài dependencies bằng:
+The frontend is a React application. Install its dependencies with:
 
 ```powershell
 cd src/web/frontend
 npm install
 ```
 
-## Cấu hình môi trường
+## Environment Configuration
 
-Tạo file `src/core/.env` với các biến tối thiểu dựa trên `src/core/.env.example`:
+Create `src/core/.env` with the minimum required variables based on `src/core/.env.example`.
 
-Tạo thêm file `.env` trong `src/web/frontend` dựa trên `src/web/frontend/.env.example`:
+Also create `.env` under `src/web/frontend` based on `src/web/frontend/.env.example`.
 
-## Hướng dẫn sử dụng
+## Usage
 
+### 1. Run the CLI
 
-### 1. Chạy CLI
-
-Từ root repo:
+From the repository root:
 
 ```powershell
 cd src/cli
 python main.py
 ```
 
-CLI sẽ chạy theo kiểu tương tác. Nếu chưa nhập đủ tham số, hệ thống sẽ hỏi tiếp ở terminal.
+The CLI runs interactively. If required parameters are missing, it will prompt for them in the terminal.
 
-#### Các command chính:
+#### Main Commands
 
 ```text
 attack detect <domain>
@@ -246,49 +245,49 @@ files remove <file_id>
 exit
 ```
 
-Kết quả mỗi bước sẽ được lưu tại:
+Outputs from each step are stored in:
 
 - `src/cli/outputs/`
 - `src/cli/outputs_index.json`
 
-Điều này cho phép lấy output của bước trước làm input cho bước sau hoặc dùng các command auto để tự động hóa toàn bộ pipeline.
+This makes it possible to feed the output of one step into the next step, or to automate the entire workflow through the `auto` commands.
 
-#### 1.1 Chạy tự động toàn bộ pipeline attack
+#### 1.1 Run the Full Attack Pipeline Automatically
 
-Chỉ cần nhập domain, attack_type, số lượng payload random ban đầu, và số lượng payload adaptive muốn sinh thêm ở vòng hai:
+Provide the target domain, the attack type, the initial number of random payloads, and the number of adaptive payloads to generate in the second round:
 
 ```text
 attack auto example.com sql_injection 5 3
 ```
 
-Hệ thống sẽ tự động:
+The system will automatically:
 
-1. detect WAF từ domain,
-2. generate payload random,
-3. test payload random,
-4. nếu `num_adaptive > 0` thì generate thêm payload adaptive dựa trên kết quả test,
-5. test payload adaptive,
-6. lưu riêng từng output và lưu thêm file test gộp giữa RANDOM và ADAPTIVE.
+1. detect the WAF from the target domain,
+2. generate random payloads,
+3. test the random payloads,
+4. generate adaptive payloads from the test result if `num_adaptive > 0`,
+5. test the adaptive payloads,
+6. save each output independently and also save a merged test output containing both random and adaptive results.
 
-#### 1.2 Chạy tự động toàn bộ pipeline defend
+#### 1.2 Run the Full Defend Pipeline Automatically
 
-Sau khi đã có file test output, chỉ cần nhập `waf_name`, `attack_type`, và `bypassed_file`. Có thể truyền thêm `existing_rule_file_path` nếu muốn refine dựa trên bộ rule sẵn có:
+Once a test output file is available, provide `waf_name`, `attack_type`, and `bypassed_file`. You can also pass `existing_rule_file_path` if refinement should consider an existing ruleset:
 
 ```text
 defend auto ModSecurity sql_injection test0
 ```
 
-Ví dụ có existing rules:
+Example with existing rules:
 
 ```text
 defend auto ModSecurity sql_injection test0 C:\rules\modsecurity.conf
 ```
 
-Hệ thống sẽ dùng chính `bypassed_file` được chỉ định để cluster, rag, generate rule, validate, retry (nếu có), refine và lưu output từng bước.
+The system will use the specified `bypassed_file` as input for clustering, RAG retrieval, rule generation, validation, retry when needed, refinement, and output persistence for every stage.
 
-#### 1.3 Chạy từng bước thủ công (nâng cao)
+#### 1.3 Run Individual Steps Manually
 
-Bạn vẫn có thể chạy từng bước như trước:
+You can also run each stage independently:
 
 ```text
 attack detect example.com
@@ -304,25 +303,24 @@ defend refine ModSecurity validrule0 fixedrule0
 defend refine ModSecurity validrule0 fixedrule0 C:\rules\modsecurity.conf
 ```
 
+### 2. Run the Web Application
 
-### 2. Chạy Web
-
-#### 2.1 Chạy backend
+#### 2.1 Run the Backend
 
 ```powershell
 cd src/web/backend
 python app.py
 ```
 
-Backend mặc định chạy tại:
+The backend runs by default at:
 
 ```text
 http://0.0.0.0:5000
 ```
 
-Các API thực tế có prefix `/api`.
+The API routes are exposed under the `/api` prefix.
 
-#### 2.2. Chạy Frontend
+#### 2.2 Run the Frontend
 
 ```powershell
 cd src/web/frontend
@@ -330,8 +328,6 @@ npm install
 npm start
 ```
 
-Frontend sẽ gọi sang backend qua `REACT_APP_API_URL`.
+The frontend calls the backend through `REACT_APP_API_URL`.
 
-Frontend cung cấp giao diện Web ở http://127.0.0.1:3000 với đầy đủ chức năng từ attack đến defend tương tự như CLI nhưng trực quan và đẹp hơn để sử dụng
-
-# the end
+The web UI is served at `http://127.0.0.1:3000` and provides the same end-to-end attack and defend capabilities as the CLI in a more accessible interactive interface.
