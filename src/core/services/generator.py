@@ -51,6 +51,25 @@ def generate_payloads_phase3(waf_name, attack_type, num_of_payloads=1, probe_his
         results.append(payload_result)
     return results
 
+
+def generate_payload_baseline(waf_name, attack_type) -> PayloadResult:
+    if "xss" in attack_type.lower():
+        selected_techniques = random.sample(ATTACK_OBFUSCATE_TECHNIQUES["xss"], random.randint(1, int(len(ATTACK_OBFUSCATE_TECHNIQUES["xss"])/2)))
+    elif "sql" in attack_type.lower():
+        selected_techniques = random.sample(ATTACK_OBFUSCATE_TECHNIQUES["sqli"], random.randint(1, int(len(ATTACK_OBFUSCATE_TECHNIQUES["sqli"])/2)))
+    technique = "+".join(selected_techniques)
+    payload = llmshield.llmshield_generate_payloads(
+        waf_name=waf_name,
+        attack_type=attack_type,
+        techniques=technique,
+        adapter_name="baseline"
+    )
+    return PayloadResult(
+        payload=payload,
+        technique=technique,
+        attack_type=attack_type,
+    )
+
 def generate_payload_phase1(waf_name, attack_type) -> PayloadResult:
     if "xss" in attack_type.lower():
         selected_techniques = random.sample(ATTACK_OBFUSCATE_TECHNIQUES["xss"], random.randint(1, int(len(ATTACK_OBFUSCATE_TECHNIQUES["xss"])/2)))
