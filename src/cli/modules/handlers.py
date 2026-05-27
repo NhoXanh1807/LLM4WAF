@@ -391,6 +391,11 @@ def handle_attack_auto(domain: str, attack_type: str, num: str, num_adaptive: st
 def handle_defend_auto(waf_name: str, attack_type: str, bypassed_file: str, existing_rule_file_path: str | None = None):
     import defend_pipeline
 
+    enable_clustering = True
+    enable_rag = True
+    enable_validate_retry = True
+    enable_refine = True
+
     content = file_manager.read_file(bypassed_file)
     if content is None:
         raise ValueError(f"Unknown file: {bypassed_file}")
@@ -402,29 +407,39 @@ def handle_defend_auto(waf_name: str, attack_type: str, bypassed_file: str, exis
     ]
     
     # 1. Cluster
-    clusters = defend_pipeline._1_clustering(bypassed_payloads=bypassed_payloads)
-    serialized_clusters = _serialize_json(clusters)
-    cluster_file = file_manager.save_file(OutputType.CLUSTER, serialized_clusters)
-    print(f"[Auto] Saved clusters: {cluster_file.name} -> {cluster_file.path}")
+    if enable_clustering:
+        clusters = defend_pipeline._1_clustering(bypassed_payloads=bypassed_payloads)
+        serialized_clusters = _serialize_json(clusters)
+        cluster_file = file_manager.save_file(OutputType.CLUSTER, serialized_clusters)
+        print(f"[Auto] Saved clusters: {cluster_file.name} -> {cluster_file.path}")
+    else:
+        print("[Auto] Skipping Clustering step.")
+        clusters = [{
+            "cluster_id": "Clustering disabled", 
+            "size": len(bypassed_payloads), 
+            "payloads": bypassed_payloads
+        }]
     
     # 2. RAG
-    rag_result, rag_sources, rag_context = defend_pipeline._2_rag_retrieve(
-        waf_name=waf_name,
-        attack_type=attack_type,
-        bypassed_payloads=bypassed_payloads,
-    )
-    rag_output = _serialize_json({
-        "waf_name": waf_name,
-        "attack_type": attack_type,
-        "bypassed_payloads": bypassed_payloads,
-        "rag_result": rag_result,
-        "rag_sources": rag_sources,
-        "rag_context": rag_context,
-    })
-    rag_file = file_manager.save_file(OutputType.RAG, rag_output)
-    print(f"[Auto] Saved RAG: {rag_file.name} -> {rag_file.path}")
-    
-    
+    if enable_rag:
+        rag_result, rag_sources, rag_context = defend_pipeline._2_rag_retrieve(
+            waf_name=waf_name,
+            attack_type=attack_type,
+            bypassed_payloads=bypassed_payloads,
+        )
+        rag_output = _serialize_json({
+            "waf_name": waf_name,
+            "attack_type": attack_type,
+            "bypassed_payloads": bypassed_payloads,
+            "rag_result": rag_result,
+            "rag_sources": rag_sources,
+            "rag_context": rag_context,
+        })
+        rag_file = file_manager.save_file(OutputType.RAG, rag_output)
+        print(f"[Auto] Saved RAG: {rag_file.name} -> {rag_file.path}")
+    else:
+        rag_context = ""
+        print("[Auto] Skipping RAG step.")
     # 3. Genrule
     generated_rules, generation_prompt = defend_pipeline._3_generate_rules(
         waf_name=waf_name,
@@ -440,44 +455,52 @@ def handle_defend_auto(waf_name: str, attack_type: str, bypassed_file: str, exis
     
     
     # 4. Validate
-    valid_rules, invalid_rules = defend_pipeline._4_validate_rules_syntax(generated_rules)
-    if valid_rules:
-        valid_output = _serialize_json(valid_rules)
-        valid_file = file_manager.save_file(OutputType.VALIDRULE, valid_output)
-        print(f"[Auto] Saved valid rules: {valid_file.name} -> {valid_file.path}")
-    if invalid_rules:
-        invalid_output = _serialize_json(invalid_rules)
-        invalid_file = file_manager.save_file(OutputType.INVALIDRULE, invalid_output)
-        print(f"[Auto] Saved invalid rules: {invalid_file.name} -> {invalid_file.path}")
-    
-    
-    # 5. Retry nếu có invalid
-    all_valid_rules = valid_rules[:]
-    if invalid_rules:
-        fixed_rules = defend_pipeline._5_retry_invalid_rules(
-            waf_name=waf_name,
-            invalid_rules=invalid_rules,
-        )
-        fixed_output = _serialize_json(fixed_rules)
-        fixed_file = file_manager.save_file(OutputType.FIXEDRULE, fixed_output)
-        print(f"[Auto] Saved fixed rules: {fixed_file.name} -> {fixed_file.path}")
-        all_valid_rules.extend(fixed_rules)
+    if enable_validate_retry:
+        valid_rules, invalid_rules = defend_pipeline._4_validate_rules_syntax(generated_rules)
+        if valid_rules:
+            valid_output = _serialize_json(valid_rules)
+            valid_file = file_manager.save_file(OutputType.VALIDRULE, valid_output)
+            print(f"[Auto] Saved valid rules: {valid_file.name} -> {valid_file.path}")
+        if invalid_rules:
+            invalid_output = _serialize_json(invalid_rules)
+            invalid_file = file_manager.save_file(OutputType.INVALIDRULE, invalid_output)
+            print(f"[Auto] Saved invalid rules: {invalid_file.name} -> {invalid_file.path}")
+        
+        
+        # 5. Retry nếu có invalid
+        all_valid_rules = valid_rules[:]
+        if invalid_rules:
+            fixed_rules = defend_pipeline._5_retry_invalid_rules(
+                waf_name=waf_name,
+                invalid_rules=invalid_rules,
+            )
+            fixed_output = _serialize_json(fixed_rules)
+            fixed_file = file_manager.save_file(OutputType.FIXEDRULE, fixed_output)
+            print(f"[Auto] Saved fixed rules: {fixed_file.name} -> {fixed_file.path}")
+            all_valid_rules.extend(fixed_rules)
+    else:
+        print("[Auto] Skipping Validate and Retry steps.")
+        all_valid_rules = generated_rules
     
     
     # 6. Refine
-    if existing_rule_file_path:
-        print(f"[Auto] Loading existing rules from: {existing_rule_file_path}")
-        with open(existing_rule_file_path, "r", encoding="utf-8") as f:
-            existing_rules_lines = f.readlines()
-        existing_rules = defend_pipeline._parse_existing_rules(existing_rules_lines)
-        print(f"[Auto] Loaded {len(existing_rules)} existing rules for refinement.")
+    if enable_refine:
+        if existing_rule_file_path:
+            print(f"[Auto] Loading existing rules from: {existing_rule_file_path}")
+            with open(existing_rule_file_path, "r", encoding="utf-8") as f:
+                existing_rules_lines = f.readlines()
+            existing_rules = defend_pipeline._parse_existing_rules(existing_rules_lines)
+            print(f"[Auto] Loaded {len(existing_rules)} existing rules for refinement.")
+        else:
+            existing_rules = None
+        final_rules = defend_pipeline._6_refine_rules(
+            waf_name=waf_name,
+            valid_rules=all_valid_rules,
+            existing_rules=existing_rules,
+        )
     else:
-        existing_rules = None
-    final_rules = defend_pipeline._6_refine_rules(
-        waf_name=waf_name,
-        valid_rules=all_valid_rules,
-        existing_rules=existing_rules,
-    )
+        print("[Auto] Skipping Refinement step.")
+        final_rules = all_valid_rules
     final_output = _serialize_json(final_rules)
     final_file = file_manager.save_file(OutputType.FINALRULE, final_output)
     print(f"[Auto] Saved final rules: {final_file.name} -> {final_file.path}")

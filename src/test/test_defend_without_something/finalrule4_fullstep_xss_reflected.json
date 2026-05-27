@@ -1,0 +1,30 @@
+[
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@detectXSS\" \"id:910000,phase:2,deny,status:403,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,log,auditlog,msg:'XSS libinjection detection on normalized input',logdata:'%{MATCHED_VAR}',tag:'attack-xss',tag:'application-multi',severity:'CRITICAL'\"",
+    "instructions": "Deploy first as the primary libinjection-based XSS detection rule. Removed duplicate t:urlDecodeUni transformations (only one pass needed after utf8toUnicode). Requires libinjection support in ModSecurity build."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i:<\\s*script\\b[^>]{0,512}>|<\\s*/\\s*script\\s*>)\" \"id:910001,phase:2,deny,status:403,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,log,auditlog,capture,msg:'Script tag XSS pattern detected',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Focused script tag detection. Replaces original rule 910004 and the script branch of 910001. The [^>]{0,512} bound prevents ReDoS. Apply after rule 910000."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i:<\\s*(?:svg|img|body|iframe|input|video|source|marquee|details|marker|sup)\\b[^\\r\\n>]{0,512}?\\bon(?:load|error|end|start|mouseover|focus|animationstart)\\s*=)\" \"id:910002,phase:2,deny,status:403,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,log,auditlog,capture,msg:'Event-handler XSS vector inside HTML tag',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Covers event-handler XSS across common HTML tags. Consolidates original rules 910002 and 910005 (img onerror is a subset). Removed optional opening angle bracket to reduce false positives on non-tag contexts; the tag name anchor is sufficient."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i:(?:\\b(?:src|href|data|action|xlink:href)\\s*=\\s*)?javascript\\s*:)\" \"id:910003,phase:2,deny,status:403,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,log,auditlog,capture,msg:'JavaScript URI scheme detected in request input',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Detects javascript: URI scheme with optional attribute context. Added xlink:href to attribute list. Deploy after normalization-heavy rules."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i:(?:%25){2,}[0-9a-f]{2}|(?:%[0-9a-f]{2}){8,}|(?:&#(?:x[0-9a-f]+|[0-9]+);){3,})\" \"id:910004,phase:2,deny,status:403,t:none,t:utf8toUnicode,t:removeNulls,t:lowercase,log,auditlog,capture,msg:'Excessive multi-layer encoding or entity obfuscation pattern',logdata:'%{TX.0}',tag:'attack-evasion',tag:'attack-xss',severity:'ERROR'\"",
+    "instructions": "Detects multi-layer percent encoding and HTML entity chains used to evade WAF normalization. Fixed the %25 pattern to require at least one encoded byte after the double-percent prefix. Applied to raw input (no urlDecodeUni) so the pattern fires before decoding strips the evidence."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i:(?:alert|confirm|prompt|eval|setTimeout|setInterval)\\s*\\()\" \"id:910005,phase:2,deny,status:403,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,log,auditlog,capture,msg:'JavaScript execution function detected in input',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Upgraded original rule 910006 from pass/log to deny. Added eval, setTimeout, setInterval as high-risk JS sinks. These functions in request input represent concrete XSS execution attempts and should be blocked, not just logged."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i:(?:<|&lt;)[^\\r\\n]{0,64}(?:svg|img|iframe|script|marker|sup|body)[^\\r\\n]{0,256}(?:on(?:load|error|mouseover|focus|animationstart)|javascript:|alert\\s*\\(|confirm\\s*\\())\" \"id:910006,phase:2,deny,status:403,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,log,auditlog,capture,msg:'Correlated XSS chain: HTML tag combined with executable sink',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Consolidated correlated XSS chain rule (formerly 910009). Tightened the pre-tag wildcard to [^\\r\\n]{0,64} to prevent catastrophic backtracking. Broadened event handler list. This catches multi-component payloads that might slip individual component rules."
+  }
+]

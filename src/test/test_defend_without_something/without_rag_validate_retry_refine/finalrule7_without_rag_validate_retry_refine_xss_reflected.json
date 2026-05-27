@@ -1,0 +1,46 @@
+[
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:%25|&#x0*25;|&#0*37;|\uff05){2,}|(?:%u[0-9a-f]{4}){2,}\" \"id:910100,phase:2,deny,status:403,severity:CRITICAL,msg:'Anomaly: excessive multi-layer encoding indicative of obfuscated XSS payload',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
+    "instructions": "Layer 1 anomaly gate. Blocks requests with repeated percent-encoding or Unicode-encoding density after repeated decoding. Covers the clusters' %253c/%2520 style multi-layer encoding."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|&lt;)(?:\\s|/|&#x0*2f;|&#0*47;)*(?:script|svg|img|iframe|marker|sup)\\b\" \"id:910101,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS tag injection after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+    "instructions": "Layer 2 normalized tag detection. Broadly catches decoded tag openers used in all clusters, including script/svg/img/iframe/marker/sup. compressWhitespace helps with separator abuse."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|&lt;)(?:\\s|/|&#x0*2f;|&#0*47;)*(?:svg|img|iframe|marker)\\b(?:(?!>).){0,256}\\b(?:onload|onerror|onend|src|sref)\\b(?:(?!>).){0,256}(?:javascript:|alert\\s*\\(|confirm\\s*\\()\" \"id:910102,phase:2,deny,status:403,severity:CRITICAL,msg:'XSS active tag with event/source handler and script sink',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeCommentsChar,t:compressWhitespace\"",
+    "instructions": "Layer 3 behavioral signature for clusters 0/1/2/3. Requires a dangerous tag plus event/source attribute plus executable sink, reducing false positives compared to tag-only matching."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|&lt;)(?:\\s|/|&#x0*2f;|&#0*47;)*script\\b(?:(?!>).){0,128}(?:>|&gt;)(?:(?!<|&lt;|</script|&lt;/script).){0,512}\\b(?:alert|confirm|prompt)\\s*\\(\" \"id:910103,phase:2,deny,status:403,severity:CRITICAL,msg:'Inline script execution pattern after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeCommentsChar,t:compressWhitespace\"",
+    "instructions": "Layer 3 specialized script-body detector for clusters 3/4. Targets <script>alert(...)</script> patterns after normalization."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|&lt;)(?:\\s|/|&#x0*2f;|&#0*47;)*img\\b(?:(?!>).){0,256}\\bonerror\\b(?:(?!>).){0,256}\\b(?:alert|confirm|prompt)\\s*\\(\" \"id:910104,phase:2,deny,status:403,severity:CRITICAL,msg:'Image onerror XSS pattern after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeCommentsChar,t:compressWhitespace\"",
+    "instructions": "Layer 3 specialized img/onerror signature for cluster 1 and related variants."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|&lt;)(?:\\s|/|&#x0*2f;|&#0*47;)*svg\\b(?:(?!>).){0,256}\\bonload\\b(?:(?!>).){0,256}\\b(?:alert|confirm|prompt)\\s*\\(\" \"id:910105,phase:2,deny,status:403,severity:CRITICAL,msg:'SVG onload XSS pattern after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeCommentsChar,t:compressWhitespace\"",
+    "instructions": "Layer 3 specialized svg/onload signature for clusters 0/1 and variants using slash or entity-encoded slash."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|&lt;)(?:\\s|/|&#x0*2f;|&#0*47;)*iframe\\b(?:(?!>).){0,256}\\b(?:src|sref)\\b(?:(?!>).){0,256}javascript\\s*:\" \"id:910106,phase:2,deny,status:403,severity:CRITICAL,msg:'Iframe javascript URI XSS pattern after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeCommentsChar,t:compressWhitespace\"",
+    "instructions": "Layer 3 specialized iframe/javascript URI detector for clusters 0/2. Includes sref typo/variant seen in test payloads to improve resilience."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:onload|onerror|onend)\\s*(?:=|%3d|&#x0*3d;|&#0*61;)\\s*(?:alert|confirm|prompt)\\s*\\(\" \"id:910107,phase:2,deny,status:403,severity:ERROR,msg:'Event-handler to JS sink pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeCommentsChar,t:compressWhitespace\"",
+    "instructions": "Layer 2/3 generic event-handler detector. Useful if the attacker omits an easily recognized tag but still submits executable handler syntax."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)javascript\\s*:(?:[^\\r\\n]{0,128})\\b(?:alert|confirm|prompt)?\\s*\\(\" \"id:910108,phase:2,deny,status:403,severity:ERROR,msg:'Javascript URI execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:removeCommentsChar,t:compressWhitespace\"",
+    "instructions": "Layer 2 generic javascript: URI detector. Covers iframe/src and similar source attributes after normalization."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:%[0-9a-f]{2}){8,}\" \"id:910109,phase:2,log,pass,severity:NOTICE,msg:'Telemetry: unusually high percent-encoding density',t:none,t:lowercase\"",
+    "instructions": "Low-friction telemetry rule. Logs high encoding density to support tuning and future deny escalation without impacting legitimate traffic immediately."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|&lt;)(?:\\s|/|&#x0*2f;|&#0*47;)*(?:script|svg|img|iframe)\\b(?:(?!>).){0,512}(?:/|&lt;/?|&#x0*2f;|&#0*47;)*(?:script|svg|img|iframe)?\" \"id:910110,phase:2,log,pass,severity:WARNING,msg:'Telemetry: suspicious HTML tag injection candidate after decoding',t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+    "instructions": "Companion telemetry rule for visibility into near-misses and variant discovery. Keep as LOG/PASS initially if false positives are a concern, then promote if abuse continues."
+  }
+]

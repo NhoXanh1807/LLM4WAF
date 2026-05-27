@@ -1,0 +1,26 @@
+[
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS \"@rx (?i)(?:%25){2,}|(?:%[0-9a-f]{2}){6,}|(?:&#(?:x[0-9a-f]+|[0-9]+);){2,}\" \"id:910001,phase:2,deny,status:403,log,auditlog,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,msg:'Anomalous multi-layer encoding or entity obfuscation consistent with injection bypass attempts',tag:'attack-sqli',tag:'paranoia-level/2',severity:'ERROR'\"",
+    "instructions": "Deploy in ModSecurity include or main config. Targets multi-layer URL encoding and HTML entity chaining used to bypass WAF normalization. Removed duplicate t:urlDecodeUni transformation. Fixed percent-encoding pattern from %(?:25){2,} to (?:%25){2,} for correct double-encoding detection."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:^|[^a-z0-9_])(?:or|and)\\b\\s*[0-9'`\\\"\\)]+\\s*(?:=|like)\\s*[0-9'`\\\"\\(]+(?:\\s*--|\\s*#|$)\" \"id:910002,phase:2,deny,status:403,log,auditlog,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase,msg:'SQLi boolean expression detected after normalization',tag:'attack-sqli',tag:'paranoia-level/1',severity:'CRITICAL'\"",
+    "instructions": "Deploy in phase 2 after body parsing. Detects classic boolean-based SQLi patterns like OR 1=1, AND 'a'='a' after comment stripping and whitespace normalization. Removed inline comment bypass pattern since replaceComments transformation handles it. Removed duplicate t:urlDecodeUni."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:^|[^a-z0-9_'\\\"])\\s*union\\b\\s*(?:all\\s+)?select\\b\" \"id:910003,phase:2,deny,status:403,log,auditlog,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase,msg:'SQLi UNION SELECT sequence detected after normalization',tag:'attack-sqli',tag:'paranoia-level/1',severity:'CRITICAL'\"",
+    "instructions": "Deploy in phase 2. Detects UNION SELECT patterns including UNION ALL SELECT after normalization. Broadened from quote-prefixed-only to general UNION SELECT detection, covering more bypass variants. Removed duplicate t:urlDecodeUni. Rule 910004 covers specific UNION enumeration and is kept separate."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)\\bunion\\b\\s*(?:all\\s+)?select\\b\\s*\\d+\\s*,\\s*(?:user\\s*\\(\\s*\\)|@@version|version\\s*\\(\\s*\\)|database\\s*\\(\\s*\\)|schema\\s*\\(\\s*\\)|\\d+)\" \"id:910004,phase:2,deny,status:403,log,auditlog,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase,msg:'SQLi UNION enumeration and data extraction pattern detected',tag:'attack-sqli',tag:'paranoia-level/1',severity:'CRITICAL'\"",
+    "instructions": "Deploy in phase 2. Targets UNION-based enumeration payloads that extract user, version, database metadata. Complements 910003 with more specific data extraction signatures. Removed duplicate t:urlDecodeUni."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:^|[^a-z0-9_'])(?:'|\\\")?\\s*(?:and|or)\\s*\\(\\s*select\\s+\\d+\\s+from\\s+\\(\\s*select\\s*\\(\\s*(?:sleep|benchmark)\\s*\\(\" \"id:910005,phase:2,deny,status:403,log,auditlog,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase,msg:'Time-based SQLi subselect with sleep or benchmark detected',tag:'attack-sqli',tag:'paranoia-level/1',severity:'CRITICAL'\"",
+    "instructions": "Deploy in phase 2. Targets time-based blind SQLi using nested SELECT with sleep() or benchmark() functions. Removed duplicate t:urlDecodeUni. Extended quote matching to include double-quote variants."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:\\badmin\\b|\\bid\\s*=\\s*admin\\b).{0,32}(?:and|or)\\b\\s*1\\s*=\\s*1\" \"id:910007,phase:2,deny,status:403,log,auditlog,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase,msg:'Credential or identifier parameter tampering with boolean SQLi detected',tag:'attack-sqli',tag:'paranoia-level/2',severity:'CRITICAL'\"",
+    "instructions": "Deploy in phase 2. Targets credential-stuffing boolean injection patterns specifically combining admin identifiers with 1=1 tautologies. Removed duplicate t:urlDecodeUni. Kept as paranoia level 2 due to potential FP risk on admin-related pages."
+  }
+]

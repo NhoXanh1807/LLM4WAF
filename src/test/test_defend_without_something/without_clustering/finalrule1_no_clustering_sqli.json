@@ -1,0 +1,34 @@
+[
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS \"@rx (?i)(?:^|[^a-z0-9_])(?:or|and)\\s+[(`'\\\"0-9a-z_-]*\\s*1\\s*=\\s*1(?:[^a-z0-9_]|$)\" \"id:910100,phase:2,deny,status:403,log,auditlog,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:replaceComments,t:compressWhitespace,msg:'SQLi auth-bypass boolean expression',tag:'attack-sqli',severity:'CRITICAL'\"",
+    "instructions": "Deploy at paranoia level 1. Detects classic OR/AND 1=1 boolean bypass patterns after normalization. Removed triple urlDecodeUni (two passes sufficient after htmlEntityDecode), removed possessive quantifiers and capture flag for compatibility."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|REQUEST_COOKIES|REQUEST_COOKIES_NAMES|REQUEST_HEADERS \"@rx (?i)(?:^|[^a-z0-9_])union\\s+select\\b.{0,80}\\b(?:user\\s*\\(|version\\s*\\(|database\\s*\\(|current_user\\s*\\(|@@version|information_schema|[0-9]+\\s*,\\s*[a-z_]+\\s*\\(|[0-9]+\\s*,\\s*[0-9]+\\s*,\\s*[0-9]+)\" \"id:910101,phase:2,deny,status:403,log,auditlog,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:replaceComments,t:compressWhitespace,msg:'SQLi UNION SELECT data exfiltration pattern',tag:'attack-sqli',severity:'CRITICAL'\"",
+    "instructions": "Deploy at paranoia level 1. Detects UNION SELECT combined with common exfiltration targets such as user(), version(), @@version, information_schema. Removed trailing anchor group as pattern already constrains matching sufficiently."
+  },
+  {
+    "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:^|[^a-z0-9_])(?:sleep\\s*\\(\\s*[0-9]{1,3}\\s*\\)|benchmark\\s*\\(|select\\s+1\\s+from\\s*\\(\\s*select\\s*\\(\\s*sleep\\s*\\(\\s*[0-9]{1,3}\\s*\\)\\s*\\)\\s*\\))\" \"id:910102,phase:2,deny,status:403,log,auditlog,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:replaceComments,t:compressWhitespace,msg:'SQLi time-based blind injection function detected',tag:'attack-sqli',severity:'CRITICAL'\"",
+    "instructions": "Deploy at paranoia level 1. Detects sleep(), benchmark(), and nested select-sleep time-delay patterns used in blind SQLi. Simplified alternation order for clarity and performance."
+  },
+  {
+    "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:^|[^a-z0-9_])(?:or|and|union|select)\\b.{0,60}(?:--|#|/\\*)\" \"id:910103,phase:2,deny,status:403,log,auditlog,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:replaceComments,t:compressWhitespace,msg:'SQLi keyword followed by comment terminator',tag:'attack-sqli',severity:'ERROR'\"",
+    "instructions": "Deploy at paranoia level 2. Detects SQL keywords followed by comment terminators used for obfuscation. Removed the standalone trailing-comment-only branch (--|# at end of string) which was too broad and caused false positives on legitimate URLs with fragments. Kept the keyword+comment combo which has higher confidence."
+  },
+  {
+    "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:%[0-9a-f]{2}){6,}\" \"id:910104,phase:2,log,auditlog,pass,t:none,t:lowercase,msg:'Anomaly: excessive percent-encoding detected in input',tag:'attack-evasion',severity:'WARNING'\"",
+    "instructions": "Deploy at paranoia level 2 as a detection/logging rule (pass action). Six or more consecutive percent-encoded sequences are anomalous. Simplified pattern from original which had overlapping double-encoding branches already covered by urlDecodeUni in other rules. Monitor and tune threshold before switching to deny."
+  },
+  {
+    "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:%u[0-9a-f]{4}|%[0-9a-f]{2}|&#(?:x[0-9a-f]+|[0-9]+);)\" \"id:910105,phase:2,deny,status:403,log,auditlog,t:none,t:lowercase,msg:'Encoded input containing SQLi keywords after normalization',tag:'attack-evasion',tag:'attack-sqli',severity:'ERROR',chain\"",
+    "instructions": "Deploy at paranoia level 2. First rule of chained pair: matches any encoded character form (%uXXXX, %XX, HTML entity). Chain continues to keyword check. Removed redundant urlDecodeUni transforms from chain head since the MATCHED_VAR is the raw encoded value; keyword check is applied on the decoded form in chain rule."
+  },
+  {
+    "rule": "SecRule MATCHED_VAR \"@rx (?i)(?:\\bor\\b|\\band\\b|\\bunion\\b|\\bselect\\b|\\bsleep\\b|\\bbenchmark\\b|user\\s*\\()\" \"t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:replaceComments,t:compressWhitespace\"",
+    "instructions": "Chain continuation for rule 910105. Applies decoding transforms to the matched variable and checks for SQLi keywords. Deploy immediately after rule 910105 with no ID (chain secondary rule)."
+  },
+  {
+    "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|REQUEST_COOKIES|REQUEST_HEADERS \"@rx (?i)(?:^|[^a-z0-9_])(?:admin|username\\s*=\\s*admin|user\\s*=\\s*admin).{0,32}\\b(?:and|or)\\b.{0,24}\\b1\\s*=\\s*1\\b\" \"id:910106,phase:2,deny,status:403,log,auditlog,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:replaceComments,t:compressWhitespace,msg:'SQLi admin-targeted boolean bypass pattern',tag:'attack-sqli',severity:'CRITICAL'\"",
+    "instructions": "Deploy at paranoia level 2. Detects admin-specific boolean bypass patterns such as admin' OR 1=1. More specific than rule 910100 and provides targeted coverage for credential stuffing via SQLi. Normalized username capture group to non-capturing for performance."
+  }
+]

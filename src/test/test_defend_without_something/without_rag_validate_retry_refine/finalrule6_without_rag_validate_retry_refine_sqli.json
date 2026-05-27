@@ -1,0 +1,38 @@
+[
+  {
+    "rule": "SecAction \"id:910000,phase:1,pass,nolog,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,msg:'SQLi normalization baseline for multi-encoded input'\"",
+    "instructions": "Deploy before the detection rules so repeated decoding and lowercase behavior are consistently available in phase 1 processing logic and audit review."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:\\b(?:or|and)\\b\\s*[\\/%*()\\-\\t\\n\\r\\v\\f]*\\s*\\d+\\s*[=<>]+\\s*\\d+\\b|\\b(?:or|and)\\b\\s*[\\/%*()\\-\\t\\n\\r\\v\\f]*\\s*['\\\"]?\\w+['\\\"]?\\s*=\\s*['\\\"]?\\w+['\\\"]?)\" \"id:910001,phase:2,deny,status:403,severity:CRITICAL,msg:'SQLi boolean condition after normalization/obfuscation',log,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase\"",
+    "instructions": "Covers Cluster 0 and Cluster 2 boolean-based injections such as OR 1=1 and AND 1=1 after repeated URL decoding, entity decoding, whitespace compression, and comment replacement. Broad enough for variants but constrained to boolean operator plus comparison shape to limit false positives."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:['\\\"`]\\s*(?:/\\*.*?\\*/\\s*)*(?:union\\s+(?:all\\s+)?select|select\\s+.+?\\s+from|and\\s*\\(\\s*select|or\\s*\\(\\s*select)|(?:union|select|sleep|user\\s*\\(|benchmark\\s*\\())\" \"id:910002,phase:2,deny,status:403,severity:CRITICAL,msg:'SQLi keyword chain / subselect / union pattern after normalization',log,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase\"",
+    "instructions": "Targets Cluster 1 and Cluster 3 patterns including UNION SELECT, nested SELECT, SLEEP(), and user(). Repeated decoding plus comment replacement catches mixed case, inline comments, and doubly encoded apostrophe-prefixed payloads."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:/\\*[^*]{0,64}\\*/\\s*){2,}(?:union|select|and|or|sleep|user\\s*\\()|(?:union|select|and|or)\\s*/\\*.*?\\*/\\s*(?:select|\\(|\\d)|--\\s*(?:/\\*.*?\\*/)?\\s*$)\" \"id:910003,phase:2,deny,status:403,severity:HIGH,msg:'SQLi comment-injection obfuscation pattern',log,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase\"",
+    "instructions": "Detects comment-fragmented SQL tokens and trailing comment terminators used in Cluster 2 and Cluster 3. Intended to catch obfuscation rather than generic SQL comments alone."
+  },
+  {
+    "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|REQUEST_HEADERS \"@rx (?i)(?:%(?:25){2,}|(?:%[0-9a-f]{2}){6,}|&#(?:x[0-9a-f]+|\\d+);.*?(?:\\b(?:or|and|union|select|sleep|user)\\b|=|--|/\\*))\" \"id:910004,phase:2,deny,status:403,severity:HIGH,msg:'Excessive encoding with SQLi indicators',log,t:none,t:lowercase\"",
+    "instructions": "Anomaly rule for multi-layer URL encoding and mixed HTML entity encoding used in the bypass samples. Requires both suspicious encoding density and SQLi-adjacent markers to reduce false positives."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:\\bselect\\s+\\d+\\s+from\\s*\\(\\s*select\\s*\\(\\s*sleep\\s*\\(\\s*\\d{1,3}\\s*\\)\\s*\\)\\s*\\)\\s*\\w*\\s*\\)|\\bsleep\\s*\\(\\s*\\d{1,3}\\s*\\)|\\bbenchmark\\s*\\()\" \"id:910005,phase:2,deny,status:403,severity:CRITICAL,msg:'SQLi time-delay function pattern',log,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase\"",
+    "instructions": "Specifically addresses time-based blind SQLi in Cluster 1. The nested SELECT/SLEEP form and direct sleep() form are both covered after normalization."
+  },
+  {
+    "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:\\bunion\\s+(?:all\\s+)?select\\s+[^;]{0,128}?\\buser\\s*\\(\\s*\\)|\\bunion\\s+(?:all\\s+)?select\\b.{0,64}(?:,|%2c)\\s*user\\s*\\(\\s*\\))\" \"id:910006,phase:2,deny,status:403,severity:CRITICAL,msg:'SQLi union-based extraction using user()',log,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase\"",
+    "instructions": "Focused rule for UNION SELECT ... user() seen in Cluster 1 and Cluster 3. Narrow function-based targeting helps minimize impact on benign requests containing the word union or select independently."
+  },
+  {
+    "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY \"@rx (?i)(?:['\\\"`]|%27|%22)(?:\\s|/\\*.*?\\*/|%[0-9a-f]{2}){0,32}(?:or|and|union|select)\\b\" \"id:910007,phase:2,deny,status:403,severity:HIGH,msg:'SQLi quote-led operator sequence after decoding',log,t:none,t:urlDecodeUni,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:replaceComments,t:compressWhitespace,t:lowercase\"",
+    "instructions": "Captures apostrophe-prefixed payloads common in Cluster 1 and Cluster 3 while still requiring SQL operators shortly after the quote. Good high-signal detector for injection entry-point syntax."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_BODY \"@rx (?i)(?:--\\s*$|#\\s*$|/\\*.*?\\*/\\s*$)\" \"id:910008,phase:2,pass,severity:NOTICE,msg:'Trailing SQL-style comment marker observed',log,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:compressWhitespace,t:lowercase\"",
+    "instructions": "Logging-only context rule. Useful for correlation and tuning because several samples end in comment markers, but trailing comments alone may be too noisy to deny universally."
+  }
+]

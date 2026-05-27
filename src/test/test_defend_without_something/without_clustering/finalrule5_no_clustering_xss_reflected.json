@@ -1,0 +1,34 @@
+[
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@detectXSS\" \"id:910000,phase:2,deny,status:403,log,auditlog,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,msg:'XSS detected by libinjection after multi-stage decoding',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Deploy as primary libinjection-based XSS gate. Requires ModSecurity with libinjection support (v2.8+). Place first in the XSS rule chain so libinjection catches well-known patterns before regex rules fire. Removed duplicate t:urlDecodeUni and redundant t:none since transforms are applied sequentially."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i)(?:<|&lt;|%3c|\\\\x3c)\\s*(?:script|svg|img|iframe|marker|sup|object|embed|form|details|video|audio|math|template|base)\\b(?:[^<>]{0,256})(?:on[a-z]{3,20}\\s*=|src\\s*=|href\\s*=|xlink:href\\s*=|srcdoc\\s*=|data\\s*=|style\\s*=|/?>)\" \"id:910001,phase:2,deny,status:403,log,auditlog,capture,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,msg:'XSS tag with executable attribute detected after normalization',logdata:'Matched Data: %{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Regex-based XSS tag detection after full normalization. Expanded tag list to include additional dangerous HTML elements. Removed duplicate t:urlDecodeUni, removed t:none (no-op at start), and fixed logdata variable to use valid ModSecurity syntax %{TX.0}. Character class simplified for correctness."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i)(?:on(?:load|error|end|start|mouseover|mouseout|mouseenter|focus|blur|click|keyup|keydown|animationstart|animationend)\\s*=\\s*|javascript\\s*:|data\\s*:\\s*text\\/html|vbscript\\s*:|alert\\s*\\(|confirm\\s*\\(|prompt\\s*\\(|eval\\s*\\()\" \"id:910002,phase:2,deny,status:403,log,auditlog,capture,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,msg:'XSS executable event handler or script protocol detected',logdata:'Matched Data: %{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Covers event handlers, javascript: URI, vbscript: URI, data:text/html URI, and common JS sink functions. Expanded event handler list and added vbscript/data URI schemes. Removed duplicate t:urlDecodeUni. Fixed logdata syntax."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i)(?:%25{1,2}(?:3c|3e|28|29|2f|3a|0a|0d|27|22)|&#[xX]0*3[cCeE];|&#0*6[02];|&#[xX]0*2[fF];|&#0*4[78];)\" \"id:910003,phase:2,deny,status:403,log,auditlog,capture,t:urlDecodeUni,t:removeNulls,t:lowercase,msg:'Suspicious multi-layer encoding associated with XSS delivery detected',logdata:'Matched Data: %{TX.0}',tag:'attack-xss',severity:'HIGH'\"",
+    "instructions": "Detects double-encoded percent sequences and HTML numeric entity encoding of XSS-critical characters. Intentionally uses fewer transforms so double-encoding signatures remain visible before decoding collapses them. Fixed logdata syntax and removed duplicate t:urlDecodeUni."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_HEADERS|REQUEST_COOKIES|XML:/* \"@rx (?i)(?:[<>]|&lt;|&gt;|%3c|%3e).{0,200}(?:javascript\\s*:|vbscript\\s*:|on(?:load|error|end|focus|mouseover)\\s*=|alert\\s*\\(|confirm\\s*\\(|prompt\\s*\\()\" \"id:910004,phase:2,deny,status:403,log,auditlog,capture,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,msg:'XSS delimiter with execution primitive correlation detected',logdata:'Matched Data: %{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+    "instructions": "Correlates HTML delimiters with execution primitives within a bounded distance. Added vbscript: and additional event handlers. Reduced wildcard span from 256 to 200 chars to improve performance. Removed duplicate t:urlDecodeUni. Fixed logdata syntax."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_HEADERS|REQUEST_COOKIES \"@rx (?i)(?:\\/\\*[\\s\\S]{0,64}?\\*\\/|--|%0[ad]|%2[fF]%2[aA]|%2[aA]%2[fF]).{0,100}(?:javascript\\s*:|on(?:load|error|end|focus)\\s*=|alert\\s*\\(|confirm\\s*\\(|prompt\\s*\\()\" \"id:910005,phase:2,deny,status:403,log,auditlog,capture,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,msg:'Obfuscated XSS using comment or control-character injection detected',logdata:'Matched Data: %{TX.0}',tag:'attack-xss',severity:'HIGH'\"",
+    "instructions": "Detects XSS payloads hidden behind CSS/JS comment delimiters or line-break injections. Fixed ReDoS risk in comment group by bounding .*? to {0,64}. Removed HTML entity forms for newline (these are decoded by transforms already). Fixed logdata syntax and removed duplicate t:urlDecodeUni."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_HEADERS|REQUEST_COOKIES \"@rx (?:[%][0-9a-fA-F]{2}){8,}\" \"id:910006,phase:2,pass,log,auditlog,capture,t:none,t:lowercase,msg:'High-density percent-encoding anomaly observed',logdata:'Matched Data: %{TX.0}',tag:'anomaly-encoding',severity:'MEDIUM'\"",
+    "instructions": "Detection-only (pass) rule for high-density percent-encoding which may indicate encoding-based evasion. Monitor logs and convert to deny or chain with anomaly scoring if false-positive rate is acceptable. Removed superfluous (?i) flag since hex digits are already case-insensitive in the class and t:lowercase is applied. Fixed logdata syntax."
+  },
+  {
+    "rule": "SecRule REQUEST_URI|ARGS|REQUEST_HEADERS|REQUEST_COOKIES \"@rx [\\xef\\xbc\\x81-\\xef\\xbd\\x9e]{6,}\" \"id:910007,phase:2,pass,log,auditlog,capture,t:none,t:utf8toUnicode,t:urlDecodeUni,t:removeNulls,msg:'Unicode full-width or homoglyph character anomaly observed in input',logdata:'Matched Data: %{TX.0}',tag:'anomaly-unicode',severity:'MEDIUM'\"",
+    "instructions": "Detection-only (pass) rule for runs of Unicode full-width characters (U+FF01-U+FF5E) commonly used to bypass ASCII-based WAF rules. The original multi-range Unicode character class using \\x{NNNN} syntax is not valid in PCRE as used by ModSecurity outside of UTF-8 mode; replaced with the UTF-8 byte sequence for the full-width range. Review and expand ranges or switch to deny after baselining. Fixed logdata syntax."
+  }
+]

