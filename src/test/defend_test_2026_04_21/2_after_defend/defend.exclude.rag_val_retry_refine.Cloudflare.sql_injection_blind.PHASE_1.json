@@ -1,0 +1,122 @@
+{
+    "success": true,
+    "data": {
+        "waf_name": "Cloudflare",
+        "existing_rules_count": 0,
+        "enabled_steps": {
+            "clustering": true,
+            "rag": false,
+            "validate_retry": false,
+            "refine": false
+        },
+        "stats": {
+            "total_payloads": 50,
+            "num_bypassed_payloads": 31,
+            "num_clusters": 7,
+            "rules_generated": 1,
+            "rules_valid": 1,
+            "rules_invalid": 0,
+            "rules_fixed": 0,
+            "rules_refined": 1
+        },
+        "clustered_payloads": [
+            {
+                "cluster_id": 2,
+                "payloads": [
+                    "aDMIn%2527%2520--",
+                    "AdmiN%2527%2520--",
+                    "aDMIn%2527%252509--",
+                    "ADmiN%2527%252509--",
+                    "ADMIN%2527 %26 134809%253D1 -- true",
+                    "aDMin%2527%2520--"
+                ],
+                "representative_payload": "aDMIn%2527%2520--",
+                "size": 6
+            },
+            {
+                "cluster_id": 1,
+                "payloads": [
+                    "%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/",
+                    "AdmIN%2527/%252A%252a/--",
+                    "%2527/%252A%252a/UNioN/%252a%252a/SELeCT/%252A%252A/1%252cUser%2528%2529%252C3--/%252A%252a/",
+                    "%2527/%252a%252A/uNIon/%252A%252A/seLeCt/%252a%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/",
+                    "%2527/%252a%252A/uNIon/%252a%252A/seLeCt/%252a%252A/1%252cUSER%2528%2529%252C3--/%252a%252A/**//*68*/",
+                    "%2527/%252A%252a/UniON/%252a%252A/SELect/%252a%252A/1%252CUseR%2528%2529%252c3--/%252a%252a/",
+                    "%2527/%252a%252A/uNIoN/%252a%252A/seLeCt/%252A%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/"
+                ],
+                "representative_payload": "%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/",
+                "size": 7
+            },
+            {
+                "cluster_id": 3,
+                "payloads": [
+                    "1%2520oR%25201%253d1",
+                    "1%2520oR%25201%253d1",
+                    "1%2520Or%25201%253D1%2520--",
+                    "1%2520oR%25201%253d1",
+                    "1%2520oR%25201%253d1"
+                ],
+                "representative_payload": "1%2520oR%25201%253d1",
+                "size": 5
+            },
+            {
+                "cluster_id": 4,
+                "payloads": [
+                    "%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520",
+                    "%2527%2520AND%2520%2528SeLEct%25201%2520FROM%2520%2528sELEcT%2528SLeEP%25285%2529%2529%2529a%2529--%2520",
+                    "%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529a%2529--%2520",
+                    "%2527%2520anD%2520UpdaTeXmL%25281%252C%2520ConCat%25280x3A%252c%2520%2528SELect%2520Version%2528%2529%2529%2529%252C%25201%2529--%2520",
+                    "%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520"
+                ],
+                "representative_payload": "%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520",
+                "size": 5
+            },
+            {
+                "cluster_id": 6,
+                "payloads": [
+                    "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+                    "%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252c3--%2520",
+                    "%2527%2520uNIOn%2520selECT%25201%252CuSER%2528%2529%252C3--%2520"
+                ],
+                "representative_payload": "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+                "size": 3
+            },
+            {
+                "cluster_id": 5,
+                "payloads": [
+                    "1%252509oR%2525091%253d1",
+                    "1%252509OR%2525091%253D1",
+                    "1%252509Or%2525091%253d1"
+                ],
+                "representative_payload": "1%252509oR%2525091%253d1",
+                "size": 3
+            },
+            {
+                "cluster_id": 0,
+                "payloads": [
+                    "1%26%2347%3B%25252a%25252A%26%2347%3BoR%26%2347%3B%25252A%25252a%26%2347%3B1%25253d1",
+                    "%253Bid%253Dadmin' %2509--"
+                ],
+                "representative_payload": "1%26%2347%3B%25252a%25252A%26%2347%3BoR%26%2347%3B%25252A%25252a%26%2347%3B1%25253d1",
+                "size": 2
+            }
+        ],
+        "rag_result": "",
+        "rag_sources": [],
+        "rag_context": "",
+        "generation_prompt": "**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.\n\n**Environment:**\n- WAF: Cloudflare\n- Bypassed payloads clustered into 7 groups based on similarity and attack pattern:\n\tCluster 2 (6 payloads):\n\t\taDMIn%2527%2520--\n\t\tAdmiN%2527%2520--\n\t\taDMIn%2527%252509--\n\t\tADmiN%2527%252509--\n\t\tADMIN%2527 %26 134809%253D1 -- true\n\t\taDMin%2527%2520--\n\tCluster 1 (7 payloads):\n\t\t%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/\n\t\tAdmIN%2527/%252A%252a/--\n\t\t%2527/%252A%252a/UNioN/%252a%252a/SELeCT/%252A%252A/1%252cUser%2528%2529%252C3--/%252A%252a/\n\t\t%2527/%252a%252A/uNIon/%252A%252A/seLeCt/%252a%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/\n\t\t%2527/%252a%252A/uNIon/%252a%252A/seLeCt/%252a%252A/1%252cUSER%2528%2529%252C3--/%252a%252A/**//*68*/\n\t\t%2527/%252A%252a/UniON/%252a%252A/SELect/%252a%252A/1%252CUseR%2528%2529%252c3--/%252a%252a/\n\t\t%2527/%252a%252A/uNIoN/%252a%252A/seLeCt/%252A%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/\n\tCluster 3 (5 payloads):\n\t\t1%2520oR%25201%253d1\n\t\t1%2520oR%25201%253d1\n\t\t1%2520Or%25201%253D1%2520--\n\t\t1%2520oR%25201%253d1\n\t\t1%2520oR%25201%253d1\n\tCluster 4 (5 payloads):\n\t\t%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520\n\t\t%2527%2520AND%2520%2528SeLEct%25201%2520FROM%2520%2528sELEcT%2528SLeEP%25285%2529%2529%2529a%2529--%2520\n\t\t%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529a%2529--%2520\n\t\t%2527%2520anD%2520UpdaTeXmL%25281%252C%2520ConCat%25280x3A%252c%2520%2528SELect%2520Version%2528%2529%2529%2529%252C%25201%2529--%2520\n\t\t%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520\n\tCluster 6 (3 payloads):\n\t\t%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520\n\t\t%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252c3--%2520\n\t\t%2527%2520uNIOn%2520selECT%25201%252CuSER%2528%2529%252C3--%2520\n\tCluster 5 (3 payloads):\n\t\t1%252509oR%2525091%253d1\n\t\t1%252509OR%2525091%253D1\n\t\t1%252509Or%2525091%253d1\n\tCluster 0 (2 payloads):\n\t\t1%26%2347%3B%25252a%25252A%26%2347%3BoR%26%2347%3B%25252A%25252a%26%2347%3B1%25253d1\n\t\t%253Bid%253Dadmin' %2509--\n\n\nGenerate PRODUCTION-GRADE defense rules to block these clusters of payloads, following these requirements:\n\n1. **Multi-Layer Detection**: Create rules that detect:\n   - Raw pattern matching (regex)\n   - Normalized/decoded variants (URL decoding, Unicode normalization)\n   - Obfuscation techniques (comment injection, case variations)\n   - Anomaly patterns (unusual character sequences, excessive encoding)\n\n2. **Rule Requirements**:\n   - Match both obvious and obfuscated forms\n   - Include pre-processing steps (normalize, decode, lowercase)\n   - Minimize false positives with negative lookaheads\n   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)\n\n3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.\n\n4. **Target WAF Guardrails**:\n**Cloudflare Free Plan Constraints**:\n- Output a Cloudflare expression only, using simple wirefilter syntax.\n- Keep the final output as a single deployable Cloudflare expression, for example `(http.request.uri contains \"pattern\")`.\n- Assume Cloudflare Free plan limitations.\n- Use ONLY basic comparison operators: contains, starts_with, ends_with, eq.\n- Prefer fields like http.request.uri, http.request.uri.path, http.request.uri.query, http.request.body.raw, http.request.headers, http.user_agent.\n- DO NOT use advanced operators or features such as matches, wildcard, regex functions, paid-only bot fields, or plan-dependent enterprise features unless absolutely unavoidable.\n- Avoid complex function nesting.\n- Keep expressions deployable on the free plan and easy to review.\n- Example expression:\n   (http.request.uri contains \"pattern\" or http.request.body.raw contains \"pattern\")\n- Before outputting, self-check that the rule uses only basic operators and free-plan-compatible syntax.\n\n5. **Mandatory Self-Check Before Final Output**:\n   - Verify the syntax belongs to the target WAF only.\n   - Verify no unsupported transformation, operator, or directive is present.\n   - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.\n   - Prefer a simpler valid rule over a more advanced but potentially invalid rule.\n\n6. **Multi-Layer URL Encoding**: When generating rules, always account for multi-layer URL encoding by applying repeated URL-decoding transformations, e.g. t:urlDecodeUni multiple times, so payloads encoded two or more times such as %25253C...%25253E are normalized before regex matching.\n\nThe WAF format instruction will follow — generate rules ONLY in that specified format.\n\n---\n**KNOWLEDGE BASE REFERENCES FOR RULE GENERATION**\n\n\n\n---\nUse the references above as implementation evidence for writing WAF rules.\nPrioritize WAF-specific syntax, fields, operators, transformations, actions, and concrete examples.\nIgnore references that only describe the attack generally but do not help write a rule.\nPrioritize the specific bypassed payloads mentioned above.\n",
+        "generated_rules": [
+            {
+                "rule": "(http.request.uri contains \"%2527\" or http.request.uri contains \"%27\" or http.request.uri contains \"union\" or http.request.uri contains \"UNION\" or http.request.uri contains \"select\" or http.request.uri contains \"SELECT\" or http.request.uri contains \"sleep%2528\" or http.request.uri contains \"SLEEP%2528\" or http.request.uri contains \"updatexml\" or http.request.uri contains \"UPDATEXML\" or http.request.uri contains \"user%2528%2529\" or http.request.uri contains \"USER%2528%2529\" or http.request.uri contains \"version%2528%2529\" or http.request.uri contains \"VERSION%2528%2529\" or http.request.uri contains \"%2520or%2520\" or http.request.uri contains \"%2520OR%2520\" or http.request.uri contains \"%2520and%2520\" or http.request.uri contains \"%2520AND%2520\" or http.request.uri contains \"%253d1\" or http.request.uri contains \"%253D1\" or http.request.uri contains \"%252509\" or http.request.uri contains \"%2509\" or http.request.uri contains \"%252f%252a\" or http.request.uri contains \"%252A%252A\" or http.request.uri contains \"--\" or http.request.uri.query contains \"%2527\" or http.request.uri.query contains \"%27\" or http.request.uri.query contains \"union\" or http.request.uri.query contains \"UNION\" or http.request.uri.query contains \"select\" or http.request.uri.query contains \"SELECT\" or http.request.uri.query contains \"sleep%2528\" or http.request.uri.query contains \"SLEEP%2528\" or http.request.uri.query contains \"updatexml\" or http.request.uri.query contains \"UPDATEXML\" or http.request.uri.query contains \"user%2528%2529\" or http.request.uri.query contains \"USER%2528%2529\" or http.request.uri.query contains \"version%2528%2529\" or http.request.uri.query contains \"VERSION%2528%2529\" or http.request.uri.query contains \"%2520or%2520\" or http.request.uri.query contains \"%2520OR%2520\" or http.request.uri.query contains \"%2520and%2520\" or http.request.uri.query contains \"%2520AND%2520\" or http.request.uri.query contains \"%253d1\" or http.request.uri.query contains \"%253D1\" or http.request.uri.query contains \"%252509\" or http.request.uri.query contains \"%2509\" or http.request.uri.query contains \"%252f%252a\" or http.request.uri.query contains \"%252A%252A\" or http.request.uri.query contains \"--\" or http.request.body.raw contains \"%2527\" or http.request.body.raw contains \"%27\" or http.request.body.raw contains \"union\" or http.request.body.raw contains \"UNION\" or http.request.body.raw contains \"select\" or http.request.body.raw contains \"SELECT\" or http.request.body.raw contains \"sleep%2528\" or http.request.body.raw contains \"SLEEP%2528\" or http.request.body.raw contains \"updatexml\" or http.request.body.raw contains \"UPDATEXML\" or http.request.body.raw contains \"user%2528%2529\" or http.request.body.raw contains \"USER%2528%2529\" or http.request.body.raw contains \"version%2528%2529\" or http.request.body.raw contains \"VERSION%2528%2529\" or http.request.body.raw contains \"%2520or%2520\" or http.request.body.raw contains \"%2520OR%2520\" or http.request.body.raw contains \"%2520and%2520\" or http.request.body.raw contains \"%2520AND%2520\" or http.request.body.raw contains \"%253d1\" or http.request.body.raw contains \"%253D1\" or http.request.body.raw contains \"%252509\" or http.request.body.raw contains \"%2509\" or http.request.body.raw contains \"%252f%252a\" or http.request.body.raw contains \"%252A%252A\" or http.request.body.raw contains \"--\")",
+                "instructions": "Deploy as a single Cloudflare Free-plan custom rule with action BLOCK. Severity: high. This expression is intentionally limited to free-plan-compatible wirefilter syntax using only contains and or against uri, query, and raw body. Because Cloudflare Free plan does not support repeated URL decoding, regex, lowercase transforms, or normalization directives in custom expressions, the closest supported alternative is explicit matching on raw and double-encoded indicators observed in the bypass clusters. Coverage includes: encoded quote-based auth bypass (%2527, %27), UNION/SELECT extraction, time/error-based SQLi (sleep, updatexml, version, user()), boolean SQLi (%2520or%2520, %2520and%2520, %253d1), tab/comment obfuscation (%2509, %252509, %252f%252a, %252A%252A), and SQL comment tail (--). Self-check passed: Cloudflare syntax only; no regex, no matches, no transforms, no unsupported operators."
+            }
+        ],
+        "fixed_rules": [],
+        "final_rules": [
+            {
+                "rule": "(http.request.uri contains \"%2527\" or http.request.uri contains \"%27\" or http.request.uri contains \"union\" or http.request.uri contains \"UNION\" or http.request.uri contains \"select\" or http.request.uri contains \"SELECT\" or http.request.uri contains \"sleep%2528\" or http.request.uri contains \"SLEEP%2528\" or http.request.uri contains \"updatexml\" or http.request.uri contains \"UPDATEXML\" or http.request.uri contains \"user%2528%2529\" or http.request.uri contains \"USER%2528%2529\" or http.request.uri contains \"version%2528%2529\" or http.request.uri contains \"VERSION%2528%2529\" or http.request.uri contains \"%2520or%2520\" or http.request.uri contains \"%2520OR%2520\" or http.request.uri contains \"%2520and%2520\" or http.request.uri contains \"%2520AND%2520\" or http.request.uri contains \"%253d1\" or http.request.uri contains \"%253D1\" or http.request.uri contains \"%252509\" or http.request.uri contains \"%2509\" or http.request.uri contains \"%252f%252a\" or http.request.uri contains \"%252A%252A\" or http.request.uri contains \"--\" or http.request.uri.query contains \"%2527\" or http.request.uri.query contains \"%27\" or http.request.uri.query contains \"union\" or http.request.uri.query contains \"UNION\" or http.request.uri.query contains \"select\" or http.request.uri.query contains \"SELECT\" or http.request.uri.query contains \"sleep%2528\" or http.request.uri.query contains \"SLEEP%2528\" or http.request.uri.query contains \"updatexml\" or http.request.uri.query contains \"UPDATEXML\" or http.request.uri.query contains \"user%2528%2529\" or http.request.uri.query contains \"USER%2528%2529\" or http.request.uri.query contains \"version%2528%2529\" or http.request.uri.query contains \"VERSION%2528%2529\" or http.request.uri.query contains \"%2520or%2520\" or http.request.uri.query contains \"%2520OR%2520\" or http.request.uri.query contains \"%2520and%2520\" or http.request.uri.query contains \"%2520AND%2520\" or http.request.uri.query contains \"%253d1\" or http.request.uri.query contains \"%253D1\" or http.request.uri.query contains \"%252509\" or http.request.uri.query contains \"%2509\" or http.request.uri.query contains \"%252f%252a\" or http.request.uri.query contains \"%252A%252A\" or http.request.uri.query contains \"--\" or http.request.body.raw contains \"%2527\" or http.request.body.raw contains \"%27\" or http.request.body.raw contains \"union\" or http.request.body.raw contains \"UNION\" or http.request.body.raw contains \"select\" or http.request.body.raw contains \"SELECT\" or http.request.body.raw contains \"sleep%2528\" or http.request.body.raw contains \"SLEEP%2528\" or http.request.body.raw contains \"updatexml\" or http.request.body.raw contains \"UPDATEXML\" or http.request.body.raw contains \"user%2528%2529\" or http.request.body.raw contains \"USER%2528%2529\" or http.request.body.raw contains \"version%2528%2529\" or http.request.body.raw contains \"VERSION%2528%2529\" or http.request.body.raw contains \"%2520or%2520\" or http.request.body.raw contains \"%2520OR%2520\" or http.request.body.raw contains \"%2520and%2520\" or http.request.body.raw contains \"%2520AND%2520\" or http.request.body.raw contains \"%253d1\" or http.request.body.raw contains \"%253D1\" or http.request.body.raw contains \"%252509\" or http.request.body.raw contains \"%2509\" or http.request.body.raw contains \"%252f%252a\" or http.request.body.raw contains \"%252A%252A\" or http.request.body.raw contains \"--\")",
+                "instructions": "Deploy as a single Cloudflare Free-plan custom rule with action BLOCK. Severity: high. This expression is intentionally limited to free-plan-compatible wirefilter syntax using only contains and or against uri, query, and raw body. Because Cloudflare Free plan does not support repeated URL decoding, regex, lowercase transforms, or normalization directives in custom expressions, the closest supported alternative is explicit matching on raw and double-encoded indicators observed in the bypass clusters. Coverage includes: encoded quote-based auth bypass (%2527, %27), UNION/SELECT extraction, time/error-based SQLi (sleep, updatexml, version, user()), boolean SQLi (%2520or%2520, %2520and%2520, %253d1), tab/comment obfuscation (%2509, %252509, %252f%252a, %252A%252A), and SQL comment tail (--). Self-check passed: Cloudflare syntax only; no regex, no matches, no transforms, no unsupported operators."
+            }
+        ]
+    }
+}

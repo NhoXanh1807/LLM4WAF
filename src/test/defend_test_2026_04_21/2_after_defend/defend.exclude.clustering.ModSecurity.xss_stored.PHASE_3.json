@@ -1,0 +1,310 @@
+{
+    "success": true,
+    "data": {
+        "waf_name": "ModSecurity",
+        "existing_rules_count": 44,
+        "enabled_steps": {
+            "clustering": false,
+            "rag": true,
+            "validate_retry": true,
+            "refine": true
+        },
+        "stats": {
+            "total_payloads": 50,
+            "num_bypassed_payloads": 27,
+            "num_clusters": 1,
+            "rules_generated": 8,
+            "rules_valid": 8,
+            "rules_invalid": 0,
+            "rules_fixed": 0,
+            "rules_refined": 1
+        },
+        "clustered_payloads": [
+            {
+                "cluster_id": "Clustering disabled, this is a flat list of payloads",
+                "size": 27,
+                "payloads": [
+                    "%253CSvG/onLoad%253Dal Ert%25281%2529%253E",
+                    "％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е",
+                    "％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "%253CIM G&dnJW=PEvM<unused52>",
+                    "％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е",
+                    "%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ",
+                    "％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
+                    "％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww",
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                    "％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е",
+                    "%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx",
+                    "%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E",
+                    "％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е",
+                    "％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ",
+                    "%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E",
+                    "％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е",
+                    "%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ",
+                    "％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                    "％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е"
+                ]
+            }
+        ],
+        "rag_result": {
+            "rag_enabled": true,
+            "num_queries": 9,
+            "num_docs_all": 60,
+            "num_docs_filtered": 40,
+            "num_docs_preselected": 32,
+            "sources": [
+                {
+                    "rank": 1,
+                    "source": "modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "ModSecurity",
+                    "chunk_id": 22,
+                    "total_chunks": 74,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "rule_block",
+                        "code_fence",
+                        "prose"
+                    ],
+                    "rerank_score_raw": "1.131",
+                    "relevance_score_display": "1.000",
+                    "relevance_score": "1.131",
+                    "content": "SecRule ARGS:q \"@rx (?i)<script[^>]*>[\\s\\S]*?\" \\\n\n  \"id:100941110,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:'Script tag XSS detected in q parameter'\"\n\n```\n\n---\n\n# 8. Rule 941120: XSS Category 2 Event Handler Vector\n\n## 8.1 Rule Identity\n\n```text\n\nRule ID: 941120\n\nParanoia level: PL1\n\nCategory: XSS Filter Category 2\n\nVector: Event handler injection\n\nOperator: @rx\n\n```\n\n## 8.2 Detection Intent\n\nDetect XSS vectors using HTML event handlers such as:\n\n```html\n\n<body onload=\"alert(1)\">\n\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n\n```\n\n## 8.3 Core Pattern\n\n```apache\n\n@rx (?i)[\\s\"'`;\\/0-9=\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]on[a-zA-Z]+[\\s\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]*?=\n\n```\n\nMeaning:\n\n- Requires context before the event handler such as whitespace, quote, slash, digit, equals, or delimiter.\n- Detects `on` followed by letters, such as `onerror`, `onload`, `onclick`, `onmouseover`.\n- Allows whitespace and delimiter obfuscation before `=`.\n\n## 8.4 Rule-Generation Use\n\nUse this rule concept when payloads contain:\n\n```text\n\nonerror=\nonload=\nonclick=\nonmouseover=\n\n```\n\nA compact generated rule:\n\n```apache"
+                },
+                {
+                    "rank": 2,
+                    "source": "kemp_loadmaster_modsecurity_waf_rule_writing_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "ModSecurity",
+                    "chunk_id": 37,
+                    "total_chunks": 48,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "rule_block",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "0.849",
+                    "relevance_score_display": "0.519",
+                    "relevance_score": "0.849",
+                    "content": "SecRule ARGS|REQUEST_HEADERS \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:200101,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in request input',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\nUse narrower target if known:\n\n```apache\n\nSecRule ARGS:q \"@rx <\\s*script\\b|onerror\\s*=|javascript:\" \\\n\n  \"id:200102,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in q parameter',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\n## 20.2 SQL Injection Rule Guidance\n\nThis LoadMaster guide does not provide a dedicated SQLi signature. For SQLi rule generation, prefer a CRS 942 SQLi knowledge base. If only this document is retrieved, use its ModSecurity mechanics and produce a conservative rule.\n\nGeneric SQLi rule:\n\n```apache"
+                },
+                {
+                    "rank": 3,
+                    "source": "modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "ModSecurity",
+                    "chunk_id": 2,
+                    "total_chunks": 74,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "prose",
+                        "instruction_block",
+                        "rule_block"
+                    ],
+                    "rerank_score_raw": "0.635",
+                    "relevance_score_display": "0.154",
+                    "relevance_score": "0.635",
+                    "content": "## 1.3 CRS Rule Generation Principle\n\nWhen generating a ModSecurity rule from this knowledge base:\n\n1. Choose a target based on payload location.\n2. Use a detection operator appropriate to the XSS family:\n\n   - `@detectXSS` for libinjection-style detection\n\n   - `@rx` for regex pattern families\n   - `@pm` for phrase-list keyword detection\n\n3. Use `t:none` first.\n4. Add decoding transformations before matching:\n   - `t:utf8toUnicode`\n   - `t:urlDecodeUni`\n   - `t:htmlEntityDecode`\n   - `t:jsDecode`\n   - `t:cssDecode`\n   - `t:removeNulls`\n5. Use `capture` when the matched substring should be logged via `%{TX.0}`.\n6. Use `block` for CRS anomaly-scoring rules.\n7. Add CRS-style metadata:\n   - `id`\n   - `phase`\n   - `msg`\n   - `logdata`\n   - `tag`\n   - `ctl:auditLogParts=+E`\n   - `ver`\n   - `severity`\n   - `setvar`\n8. Increment `tx.xss_score` and the correct paranoia-level anomaly score.\n9. Tune false positives using target exclusions such as `!ARGS:param` or `!REQUEST_COOKIES:/regex/`.\n---"
+                },
+                {
+                    "rank": 4,
+                    "source": "modsecurity_making_rules_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "ModSecurity",
+                    "chunk_id": 34,
+                    "total_chunks": 60,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "rule_block",
+                        "code_fence",
+                        "table",
+                        "prose",
+                        "comment"
+                    ],
+                    "rerank_score_raw": "0.545",
+                    "relevance_score_display": "0.000",
+                    "relevance_score": "0.545",
+                    "content": "SecRule ARGS:comment \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:400101,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:'XSS payload detected in comment parameter',tag:'attack-xss',severity:'CRITICAL'\"\n\n```\n\n## 8.6 XSS Target Selection\n\n| Observed XSS location | Recommended target |\n|---|---|\n| Any query/body parameter | `ARGS` |\n| Query only | `ARGS_GET` |\n| POST form only | `ARGS_POST` |\n| Known parameter | `ARGS:param` |\n| Header | `REQUEST_HEADERS` or `REQUEST_HEADERS:Header-Name` |\n| Cookie | `REQUEST_COOKIES` |\n| URI path | `REQUEST_FILENAME` or `REQUEST_URI` |\n| Raw body | `REQUEST_BODY` if body inspection is enabled |\n\n## 8.7 XSS False Positive Notes\n\nXSS rules can false positive on:\n\n- CMS rich-text editors\n- Markdown or HTML input fields\n- code examples\n- developer documentation pages\n- admin tools\n- support forms that accept HTML snippets\n\nTuning options:\n\n```apache\n\nSecRule ARGS|!ARGS:content \"@rx <\\s*script\\b|onerror\\s*=\" \"id:400102,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,deny,status:403,msg:'XSS outside content field'\"\n\n```\n\nUse `!ARGS:content` only if `content` legitimately accepts HTML and the risk is understood.\n\n---\n\n# 9. SQL Injection Rule Generation\n\n## 9.1 SQLi Payload Signals\n\nCommon SQL injection indicators include:\n\n```text\n\nunion select\nor 1=1\nand 1=1\nsleep(\nbenchmark(\ninformation_schema\nload_file(\nxp_cmdshell\n-- \n\n#\n\n/**/\n%27\n%22\n\n```\n\n## 9.2 Basic SQLi Rule\n\n```apache"
+                }
+            ],
+            "context": "[Reference 1]\nSource: modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 22/74\nBlock types: ['heading', 'rule_block', 'code_fence', 'prose']\nRaw rerank score: 1.131\n\nUseful excerpt:\nSecRule ARGS:q \"@rx (?i)<script[^>]*>[\\s\\S]*?\" \\\n\n  \"id:100941110,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:'Script tag XSS detected in q parameter'\"\n\n```\n\n---\n\n# 8. Rule 941120: XSS Category 2 Event Handler Vector\n\n## 8.1 Rule Identity\n\n```text\n\nRule ID: 941120\n\nParanoia level: PL1\n\nCategory: XSS Filter Category 2\n\nVector: Event handler injection\n\nOperator: @rx\n\n```\n\n## 8.2 Detection Intent\n\nDetect XSS vectors using HTML event handlers such as:\n\n```html\n\n<body onload=\"alert(1)\">\n\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n\n```\n\n## 8.3 Core Pattern\n\n```apache\n\n@rx (?i)[\\s\"'`;\\/0-9=\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]on[a-zA-Z]+[\\s\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]*?=\n\n```\n\nMeaning:\n\n- Requires context before the event handler such as whitespace, quote, slash, digit, equals, or delimiter.\n- Detects `on` followed by letters, such as `onerror`, `onload`, `onclick`, `onmouseover`.\n- Allows whitespace and delimiter obfuscation before `=`.\n\n## 8.4 Rule-Generation Use\n\nUse this rule concept when payloads contain:\n\n```text\n\nonerror=\nonload=\nonclick=\nonmouseover=\n\n```\n\nA compact generated rule:\n\n```apache\n\n---\n[Reference 2]\nSource: kemp_loadmaster_modsecurity_waf_rule_writing_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 37/48\nBlock types: ['heading', 'rule_block', 'code_fence']\nRaw rerank score: 0.849\n\nUseful excerpt:\nSecRule ARGS|REQUEST_HEADERS \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:200101,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in request input',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\nUse narrower target if known:\n\n```apache\n\nSecRule ARGS:q \"@rx <\\s*script\\b|onerror\\s*=|javascript:\" \\\n\n  \"id:200102,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in q parameter',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\n## 20.2 SQL Injection Rule Guidance\n\nThis LoadMaster guide does not provide a dedicated SQLi signature. For SQLi rule generation, prefer a CRS 942 SQLi knowledge base. If only this document is retrieved, use its ModSecurity mechanics and produce a conservative rule.\n\nGeneric SQLi rule:\n\n```apache\n\n---\n[Reference 3]\nSource: modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 2/74\nBlock types: ['heading', 'prose', 'instruction_block', 'rule_block']\nRaw rerank score: 0.635\n\nUseful excerpt:\n## 1.3 CRS Rule Generation Principle\n\nWhen generating a ModSecurity rule from this knowledge base:\n\n1. Choose a target based on payload location.\n2. Use a detection operator appropriate to the XSS family:\n\n   - `@detectXSS` for libinjection-style detection\n\n   - `@rx` for regex pattern families\n   - `@pm` for phrase-list keyword detection\n\n3. Use `t:none` first.\n4. Add decoding transformations before matching:\n   - `t:utf8toUnicode`\n   - `t:urlDecodeUni`\n   - `t:htmlEntityDecode`\n   - `t:jsDecode`\n   - `t:cssDecode`\n   - `t:removeNulls`\n5. Use `capture` when the matched substring should be logged via `%{TX.0}`.\n6. Use `block` for CRS anomaly-scoring rules.\n7. Add CRS-style metadata:\n   - `id`\n   - `phase`\n   - `msg`\n   - `logdata`\n   - `tag`\n   - `ctl:auditLogParts=+E`\n   - `ver`\n   - `severity`\n   - `setvar`\n8. Increment `tx.xss_score` and the correct paranoia-level anomaly score.\n9. Tune false positives using target exclusions such as `!ARGS:param` or `!REQUEST_COOKIES:/regex/`.\n---\n\n---\n[Reference 4]\nSource: modsecurity_making_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 34/60\nBlock types: ['heading', 'rule_block', 'code_fence', 'table', 'prose', 'comment']\nRaw rerank score: 0.545\n\nUseful excerpt:\nSecRule ARGS:comment \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:400101,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:'XSS payload detected in comment parameter',tag:'attack-xss',severity:'CRITICAL'\"\n\n```\n\n## 8.6 XSS Target Selection\n\n| Observed XSS location | Recommended target |\n|---|---|\n| Any query/body parameter | `ARGS` |\n| Query only | `ARGS_GET` |\n| POST form only | `ARGS_POST` |\n| Known parameter | `ARGS:param` |\n| Header | `REQUEST_HEADERS` or `REQUEST_HEADERS:Header-Name` |\n| Cookie | `REQUEST_COOKIES` |\n| URI path | `REQUEST_FILENAME` or `REQUEST_URI` |\n| Raw body | `REQUEST_BODY` if body inspection is enabled |\n\n## 8.7 XSS False Positive Notes\n\nXSS rules can false positive on:\n\n- CMS rich-text editors\n- Markdown or HTML input fields\n- code examples\n- developer documentation pages\n- admin tools\n- support forms that accept HTML snippets\n\nTuning options:\n\n```apache\n\nSecRule ARGS|!ARGS:content \"@rx <\\s*script\\b|onerror\\s*=\" \"id:400102,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,deny,status:403,msg:'XSS outside content field'\"\n\n```\n\nUse `!ARGS:content` only if `content` legitimately accepts HTML and the risk is understood.\n\n---\n\n# 9. SQL Injection Rule Generation\n\n## 9.1 SQLi Payload Signals\n\nCommon SQL injection indicators include:\n\n```text\n\nunion select\nor 1=1\nand 1=1\nsleep(\nbenchmark(\ninformation_schema\nload_file(\nxp_cmdshell\n-- \n\n#\n\n/**/\n%27\n%22\n\n```\n\n## 9.2 Basic SQLi Rule\n\n```apache\n",
+            "queries": [
+                "ModSecurity Stored XSS xss_stored rule syntax statement example fields action transformation",
+                "ModSecurity Stored XSS stored cross-site scripting stored XSS persistent XSS persistent cross-site scripting stored payload comment field XSS detection rule example request component text transformation",
+                "ModSecurity XSS rule detect script alert onerror onload iframe svg img src",
+                "Stored XSS xss_stored bypass normalization decoding canonicalization lowercase url decode html entity rule",
+                "ModSecurity inspect query string body headers cookies uri Stored XSS xss_stored rule statement",
+                "ModSecurity stored XSS persistent XSS form body comment profile field rule example",
+                "ModSecurity stored cross-site scripting payload request body arguments HTML input rule syntax",
+                "ModSecurity SecRule Stored XSS XSS variables operators transformations actions example",
+                "OWASP CRS XSS SQL injection SecRule ARGS REQUEST_BODY REQUEST_HEADERS"
+            ],
+            "score_note": "Cross-encoder scores are raw logits; negative values are normal. Use rank/order, not absolute sign.",
+            "attack_type_input": "xss_stored",
+            "attack_type_raw": "xss_stored",
+            "attack_type_display": "Stored XSS",
+            "attack_type_family": "XSS",
+            "attack_terms": [
+                "xss_stored",
+                "Stored XSS",
+                "XSS",
+                "stored cross-site scripting",
+                "stored XSS",
+                "persistent XSS",
+                "persistent cross-site scripting",
+                "stored payload",
+                "comment field XSS",
+                "profile field XSS",
+                "message body XSS",
+                "form body XSS",
+                "rich text field",
+                "HTML input stored"
+            ],
+            "waf_filtered": true,
+            "mapped_waf_name": "ModSecurity",
+            "attack_type_sent": "xss_stored"
+        },
+        "rag_sources": [
+            {
+                "rank": 1,
+                "source": "modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "ModSecurity",
+                "chunk_id": 22,
+                "total_chunks": 74,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "rule_block",
+                    "code_fence",
+                    "prose"
+                ],
+                "rerank_score_raw": "1.131",
+                "relevance_score_display": "1.000",
+                "relevance_score": "1.131",
+                "content": "SecRule ARGS:q \"@rx (?i)<script[^>]*>[\\s\\S]*?\" \\\n\n  \"id:100941110,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:'Script tag XSS detected in q parameter'\"\n\n```\n\n---\n\n# 8. Rule 941120: XSS Category 2 Event Handler Vector\n\n## 8.1 Rule Identity\n\n```text\n\nRule ID: 941120\n\nParanoia level: PL1\n\nCategory: XSS Filter Category 2\n\nVector: Event handler injection\n\nOperator: @rx\n\n```\n\n## 8.2 Detection Intent\n\nDetect XSS vectors using HTML event handlers such as:\n\n```html\n\n<body onload=\"alert(1)\">\n\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n\n```\n\n## 8.3 Core Pattern\n\n```apache\n\n@rx (?i)[\\s\"'`;\\/0-9=\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]on[a-zA-Z]+[\\s\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]*?=\n\n```\n\nMeaning:\n\n- Requires context before the event handler such as whitespace, quote, slash, digit, equals, or delimiter.\n- Detects `on` followed by letters, such as `onerror`, `onload`, `onclick`, `onmouseover`.\n- Allows whitespace and delimiter obfuscation before `=`.\n\n## 8.4 Rule-Generation Use\n\nUse this rule concept when payloads contain:\n\n```text\n\nonerror=\nonload=\nonclick=\nonmouseover=\n\n```\n\nA compact generated rule:\n\n```apache"
+            },
+            {
+                "rank": 2,
+                "source": "kemp_loadmaster_modsecurity_waf_rule_writing_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "ModSecurity",
+                "chunk_id": 37,
+                "total_chunks": 48,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "rule_block",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "0.849",
+                "relevance_score_display": "0.519",
+                "relevance_score": "0.849",
+                "content": "SecRule ARGS|REQUEST_HEADERS \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:200101,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in request input',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\nUse narrower target if known:\n\n```apache\n\nSecRule ARGS:q \"@rx <\\s*script\\b|onerror\\s*=|javascript:\" \\\n\n  \"id:200102,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in q parameter',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\n## 20.2 SQL Injection Rule Guidance\n\nThis LoadMaster guide does not provide a dedicated SQLi signature. For SQLi rule generation, prefer a CRS 942 SQLi knowledge base. If only this document is retrieved, use its ModSecurity mechanics and produce a conservative rule.\n\nGeneric SQLi rule:\n\n```apache"
+            },
+            {
+                "rank": 3,
+                "source": "modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "ModSecurity",
+                "chunk_id": 2,
+                "total_chunks": 74,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "prose",
+                    "instruction_block",
+                    "rule_block"
+                ],
+                "rerank_score_raw": "0.635",
+                "relevance_score_display": "0.154",
+                "relevance_score": "0.635",
+                "content": "## 1.3 CRS Rule Generation Principle\n\nWhen generating a ModSecurity rule from this knowledge base:\n\n1. Choose a target based on payload location.\n2. Use a detection operator appropriate to the XSS family:\n\n   - `@detectXSS` for libinjection-style detection\n\n   - `@rx` for regex pattern families\n   - `@pm` for phrase-list keyword detection\n\n3. Use `t:none` first.\n4. Add decoding transformations before matching:\n   - `t:utf8toUnicode`\n   - `t:urlDecodeUni`\n   - `t:htmlEntityDecode`\n   - `t:jsDecode`\n   - `t:cssDecode`\n   - `t:removeNulls`\n5. Use `capture` when the matched substring should be logged via `%{TX.0}`.\n6. Use `block` for CRS anomaly-scoring rules.\n7. Add CRS-style metadata:\n   - `id`\n   - `phase`\n   - `msg`\n   - `logdata`\n   - `tag`\n   - `ctl:auditLogParts=+E`\n   - `ver`\n   - `severity`\n   - `setvar`\n8. Increment `tx.xss_score` and the correct paranoia-level anomaly score.\n9. Tune false positives using target exclusions such as `!ARGS:param` or `!REQUEST_COOKIES:/regex/`.\n---"
+            },
+            {
+                "rank": 4,
+                "source": "modsecurity_making_rules_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "ModSecurity",
+                "chunk_id": 34,
+                "total_chunks": 60,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "rule_block",
+                    "code_fence",
+                    "table",
+                    "prose",
+                    "comment"
+                ],
+                "rerank_score_raw": "0.545",
+                "relevance_score_display": "0.000",
+                "relevance_score": "0.545",
+                "content": "SecRule ARGS:comment \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:400101,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:'XSS payload detected in comment parameter',tag:'attack-xss',severity:'CRITICAL'\"\n\n```\n\n## 8.6 XSS Target Selection\n\n| Observed XSS location | Recommended target |\n|---|---|\n| Any query/body parameter | `ARGS` |\n| Query only | `ARGS_GET` |\n| POST form only | `ARGS_POST` |\n| Known parameter | `ARGS:param` |\n| Header | `REQUEST_HEADERS` or `REQUEST_HEADERS:Header-Name` |\n| Cookie | `REQUEST_COOKIES` |\n| URI path | `REQUEST_FILENAME` or `REQUEST_URI` |\n| Raw body | `REQUEST_BODY` if body inspection is enabled |\n\n## 8.7 XSS False Positive Notes\n\nXSS rules can false positive on:\n\n- CMS rich-text editors\n- Markdown or HTML input fields\n- code examples\n- developer documentation pages\n- admin tools\n- support forms that accept HTML snippets\n\nTuning options:\n\n```apache\n\nSecRule ARGS|!ARGS:content \"@rx <\\s*script\\b|onerror\\s*=\" \"id:400102,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,deny,status:403,msg:'XSS outside content field'\"\n\n```\n\nUse `!ARGS:content` only if `content` legitimately accepts HTML and the risk is understood.\n\n---\n\n# 9. SQL Injection Rule Generation\n\n## 9.1 SQLi Payload Signals\n\nCommon SQL injection indicators include:\n\n```text\n\nunion select\nor 1=1\nand 1=1\nsleep(\nbenchmark(\ninformation_schema\nload_file(\nxp_cmdshell\n-- \n\n#\n\n/**/\n%27\n%22\n\n```\n\n## 9.2 Basic SQLi Rule\n\n```apache"
+            }
+        ],
+        "rag_context": "[Reference 1]\nSource: modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 22/74\nBlock types: ['heading', 'rule_block', 'code_fence', 'prose']\nRaw rerank score: 1.131\n\nUseful excerpt:\nSecRule ARGS:q \"@rx (?i)<script[^>]*>[\\s\\S]*?\" \\\n\n  \"id:100941110,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:'Script tag XSS detected in q parameter'\"\n\n```\n\n---\n\n# 8. Rule 941120: XSS Category 2 Event Handler Vector\n\n## 8.1 Rule Identity\n\n```text\n\nRule ID: 941120\n\nParanoia level: PL1\n\nCategory: XSS Filter Category 2\n\nVector: Event handler injection\n\nOperator: @rx\n\n```\n\n## 8.2 Detection Intent\n\nDetect XSS vectors using HTML event handlers such as:\n\n```html\n\n<body onload=\"alert(1)\">\n\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n\n```\n\n## 8.3 Core Pattern\n\n```apache\n\n@rx (?i)[\\s\"'`;\\/0-9=\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]on[a-zA-Z]+[\\s\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]*?=\n\n```\n\nMeaning:\n\n- Requires context before the event handler such as whitespace, quote, slash, digit, equals, or delimiter.\n- Detects `on` followed by letters, such as `onerror`, `onload`, `onclick`, `onmouseover`.\n- Allows whitespace and delimiter obfuscation before `=`.\n\n## 8.4 Rule-Generation Use\n\nUse this rule concept when payloads contain:\n\n```text\n\nonerror=\nonload=\nonclick=\nonmouseover=\n\n```\n\nA compact generated rule:\n\n```apache\n\n---\n[Reference 2]\nSource: kemp_loadmaster_modsecurity_waf_rule_writing_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 37/48\nBlock types: ['heading', 'rule_block', 'code_fence']\nRaw rerank score: 0.849\n\nUseful excerpt:\nSecRule ARGS|REQUEST_HEADERS \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:200101,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in request input',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\nUse narrower target if known:\n\n```apache\n\nSecRule ARGS:q \"@rx <\\s*script\\b|onerror\\s*=|javascript:\" \\\n\n  \"id:200102,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in q parameter',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\n## 20.2 SQL Injection Rule Guidance\n\nThis LoadMaster guide does not provide a dedicated SQLi signature. For SQLi rule generation, prefer a CRS 942 SQLi knowledge base. If only this document is retrieved, use its ModSecurity mechanics and produce a conservative rule.\n\nGeneric SQLi rule:\n\n```apache\n\n---\n[Reference 3]\nSource: modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 2/74\nBlock types: ['heading', 'prose', 'instruction_block', 'rule_block']\nRaw rerank score: 0.635\n\nUseful excerpt:\n## 1.3 CRS Rule Generation Principle\n\nWhen generating a ModSecurity rule from this knowledge base:\n\n1. Choose a target based on payload location.\n2. Use a detection operator appropriate to the XSS family:\n\n   - `@detectXSS` for libinjection-style detection\n\n   - `@rx` for regex pattern families\n   - `@pm` for phrase-list keyword detection\n\n3. Use `t:none` first.\n4. Add decoding transformations before matching:\n   - `t:utf8toUnicode`\n   - `t:urlDecodeUni`\n   - `t:htmlEntityDecode`\n   - `t:jsDecode`\n   - `t:cssDecode`\n   - `t:removeNulls`\n5. Use `capture` when the matched substring should be logged via `%{TX.0}`.\n6. Use `block` for CRS anomaly-scoring rules.\n7. Add CRS-style metadata:\n   - `id`\n   - `phase`\n   - `msg`\n   - `logdata`\n   - `tag`\n   - `ctl:auditLogParts=+E`\n   - `ver`\n   - `severity`\n   - `setvar`\n8. Increment `tx.xss_score` and the correct paranoia-level anomaly score.\n9. Tune false positives using target exclusions such as `!ARGS:param` or `!REQUEST_COOKIES:/regex/`.\n---\n\n---\n[Reference 4]\nSource: modsecurity_making_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 34/60\nBlock types: ['heading', 'rule_block', 'code_fence', 'table', 'prose', 'comment']\nRaw rerank score: 0.545\n\nUseful excerpt:\nSecRule ARGS:comment \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:400101,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:'XSS payload detected in comment parameter',tag:'attack-xss',severity:'CRITICAL'\"\n\n```\n\n## 8.6 XSS Target Selection\n\n| Observed XSS location | Recommended target |\n|---|---|\n| Any query/body parameter | `ARGS` |\n| Query only | `ARGS_GET` |\n| POST form only | `ARGS_POST` |\n| Known parameter | `ARGS:param` |\n| Header | `REQUEST_HEADERS` or `REQUEST_HEADERS:Header-Name` |\n| Cookie | `REQUEST_COOKIES` |\n| URI path | `REQUEST_FILENAME` or `REQUEST_URI` |\n| Raw body | `REQUEST_BODY` if body inspection is enabled |\n\n## 8.7 XSS False Positive Notes\n\nXSS rules can false positive on:\n\n- CMS rich-text editors\n- Markdown or HTML input fields\n- code examples\n- developer documentation pages\n- admin tools\n- support forms that accept HTML snippets\n\nTuning options:\n\n```apache\n\nSecRule ARGS|!ARGS:content \"@rx <\\s*script\\b|onerror\\s*=\" \"id:400102,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,deny,status:403,msg:'XSS outside content field'\"\n\n```\n\nUse `!ARGS:content` only if `content` legitimately accepts HTML and the risk is understood.\n\n---\n\n# 9. SQL Injection Rule Generation\n\n## 9.1 SQLi Payload Signals\n\nCommon SQL injection indicators include:\n\n```text\n\nunion select\nor 1=1\nand 1=1\nsleep(\nbenchmark(\ninformation_schema\nload_file(\nxp_cmdshell\n-- \n\n#\n\n/**/\n%27\n%22\n\n```\n\n## 9.2 Basic SQLi Rule\n\n```apache\n",
+        "generation_prompt": "**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.\n\n**Environment:**\n- WAF: ModSecurity\n- Bypassed payloads clustered into 1 groups based on similarity and attack pattern:\n\tCluster Clustering disabled, this is a flat list of payloads (27 payloads):\n\t\t%253CSvG/onLoad%253Dal Ert%25281%2529%253E\n\t\t％２５３СѕсrІpT％２５３ЕАⅬеRt％２５２８１％２５２９％２５３С／ЅсrіPt％２５３Е\n\t\t％２５３сЅСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３С／ѕСRІpt％２５３Е\n\t\t％２５３сіmG／ЅrС％２５３djаvАѕсrіpT％２５３ааⅼеRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сЅСRіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е\n\t\t%253CIM G&dnJW=PEvM<unused52>\n\t\t％２５３сѕСRІPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３с／ЅсrіPT％２５３е\n\t\t%253CiFRAme%2520srC%253DjAvAsCriPT%253AaleRt%25281%2529%253E&jAqI=UWsX\n\t\t％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е\n\t\t％２５３сіMG％２５２０ѕｒС％２５３ｄХ％２５２０ОｎЕRRｏR％２５３ｄａｌｅｒｔ％２５２８１％２５２９％２５３ｅ\n\t\t％２５３СЅсrіpt％２５３ЕаⅼеRt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е\n\t\t％２５３СІfrаMЕ％２５２０ЅRс％２５３DJАVаѕСRіpT％２５３ААⅬеrt％２５２８１％２５２９％２５３Е＆vѕRᏃ＝Rvww\n\t\t％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\t\t％２５３СІFRаMе％２５２０ЅRс％２５３DJАvаЅСRіpt％２５３аАⅼЕrt％２５２８１％２５２９％２５３е\n\t\t%253ciFraMe%2520Src%253djavaScRIpT%253aaLERt%25281%2529%253E&yIpl=VjUx\n\t\t%253cA%2520Href%253DjavAscRIPT%253AaLert%25281%2529%253Eclick%253CActing%253Balert%25281%2529%253C&#47;a%253E\n\t\t％２５３сЅСｒІｐｔ％２５３ｅАⅬЕRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉｐｔ％２５３е\n\t\t％２５３сѕСRІPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３ｃ／ЅсRіpt％２５３ｅ\n\t\t%253CIMg%2520SrC%253DX%2520ONErrOr%253DaLerT%25281%2529%253E\n\t\t％２５３СІFRАmе％２５２０ЅRс％２５３DJаvАЅСrіpT％２５３ААⅼЕRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сѕVG／ОnⅬОаD％２５３DАⅼеRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сѕСRІPT％２５３еАⅬЕRt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е\n\t\t%２５３ｃIｆRAMｅ%２５２０SRｃ%２５３ｄｊAVａｓCRｉPｔ%２５３AaLEｒT%２５２８１%２５２９%２５３Ｅ\n\t\t％２５３сіfrАmЕ％２５２０ѕrС％２５３djаvАЅсrІPt％２５３ааⅼеRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\t\t％２５３СІFRАMЕ％２５２０ЅRс％２５３DJаvАѕСrіpt％２５３ААⅼеRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сА％２５２０hrеF％２５３D％２５２２jаVАѕСrіpT％２５３ааⅬЕRt％２５２８１％２５２９％２５２２％２５３еСⅼІсk％２５２０mЕ％２５３с／а％２５３е\n\n\nGenerate PRODUCTION-GRADE defense rules to block these clusters of payloads, following these requirements:\n\n1. **Multi-Layer Detection**: Create rules that detect:\n   - Raw pattern matching (regex)\n   - Normalized/decoded variants (URL decoding, Unicode normalization)\n   - Obfuscation techniques (comment injection, case variations)\n   - Anomaly patterns (unusual character sequences, excessive encoding)\n\n2. **Rule Requirements**:\n   - Match both obvious and obfuscated forms\n   - Include pre-processing steps (normalize, decode, lowercase)\n   - Minimize false positives with negative lookaheads\n   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)\n\n3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.\n\n4. **Target WAF Guardrails**:\n**ModSecurity-Specific Constraints**:\n- Output ModSecurity syntax only.\n- Latest ModSecurity version using deny instead of block action.\n- Prefer SecRule or SecAction directives.\n- Keep the output in deployable ModSecurity directive format, for example: `SecRule VARIABLES \"OPERATOR\" \"id:XXXXX,phase:2,deny,status:403,msg:'Description',t:urlDecode,t:lowercase\"`.\n- Include a unique rule ID, a valid phase, and only valid ModSecurity actions and transformations.\n- Example directive:\n   SecRule VARIABLES \"OPERATOR\" \"id:900001,phase:2,deny,status:403,msg:'Description',t:urlDecode,t:lowercase\"\n- Use valid ModSecurity transformations and actions only.\n- Do not output AWS JSON, Cloudflare expressions, or Naxsi MainRule/BasicRule syntax.\n- Before outputting, self-check that every rule contains valid ModSecurity directive structure.\n\n5. **Mandatory Self-Check Before Final Output**:\n   - Verify the syntax belongs to the target WAF only.\n   - Verify no unsupported transformation, operator, or directive is present.\n   - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.\n   - Prefer a simpler valid rule over a more advanced but potentially invalid rule.\n\n6. **Multi-Layer URL Encoding**: When generating rules, always account for multi-layer URL encoding by applying repeated URL-decoding transformations, e.g. t:urlDecodeUni multiple times, so payloads encoded two or more times such as %25253C...%25253E are normalized before regex matching.\n\nThe WAF format instruction will follow — generate rules ONLY in that specified format.\n\n---\n**KNOWLEDGE BASE REFERENCES FOR RULE GENERATION**\n\n[Reference 1]\nSource: modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 22/74\nBlock types: ['heading', 'rule_block', 'code_fence', 'prose']\nRaw rerank score: 1.131\n\nUseful excerpt:\nSecRule ARGS:q \"@rx (?i)<script[^>]*>[\\s\\S]*?\" \\\n\n  \"id:100941110,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,deny,status:403,log,msg:'Script tag XSS detected in q parameter'\"\n\n```\n\n---\n\n# 8. Rule 941120: XSS Category 2 Event Handler Vector\n\n## 8.1 Rule Identity\n\n```text\n\nRule ID: 941120\n\nParanoia level: PL1\n\nCategory: XSS Filter Category 2\n\nVector: Event handler injection\n\nOperator: @rx\n\n```\n\n## 8.2 Detection Intent\n\nDetect XSS vectors using HTML event handlers such as:\n\n```html\n\n<body onload=\"alert(1)\">\n\n<img src=x onerror=alert(1)>\n<svg onload=alert(1)>\n\n```\n\n## 8.3 Core Pattern\n\n```apache\n\n@rx (?i)[\\s\"'`;\\/0-9=\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]on[a-zA-Z]+[\\s\\x0B\\x09\\x0C\\x3B\\x2C\\x28\\x3B]*?=\n\n```\n\nMeaning:\n\n- Requires context before the event handler such as whitespace, quote, slash, digit, equals, or delimiter.\n- Detects `on` followed by letters, such as `onerror`, `onload`, `onclick`, `onmouseover`.\n- Allows whitespace and delimiter obfuscation before `=`.\n\n## 8.4 Rule-Generation Use\n\nUse this rule concept when payloads contain:\n\n```text\n\nonerror=\nonload=\nonclick=\nonmouseover=\n\n```\n\nA compact generated rule:\n\n```apache\n\n---\n[Reference 2]\nSource: kemp_loadmaster_modsecurity_waf_rule_writing_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 37/48\nBlock types: ['heading', 'rule_block', 'code_fence']\nRaw rerank score: 0.849\n\nUseful excerpt:\nSecRule ARGS|REQUEST_HEADERS \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:200101,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in request input',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\nUse narrower target if known:\n\n```apache\n\nSecRule ARGS:q \"@rx <\\s*script\\b|onerror\\s*=|javascript:\" \\\n\n  \"id:200102,\\\n  phase:2,\\\n  deny,\\\n  status:403,\\\n  t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:removeNulls,t:lowercase,\\\n  log,\\\n  auditlog,\\\n  msg:'XSS payload detected in q parameter',\\\n  logdata:'%{MATCHED_VAR}',\\\n  tag:'attack-xss'\"\n\n```\n\n## 20.2 SQL Injection Rule Guidance\n\nThis LoadMaster guide does not provide a dedicated SQLi signature. For SQLi rule generation, prefer a CRS 942 SQLi knowledge base. If only this document is retrieved, use its ModSecurity mechanics and produce a conservative rule.\n\nGeneric SQLi rule:\n\n```apache\n\n---\n[Reference 3]\nSource: modsecurity_crs_941_xss_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 2/74\nBlock types: ['heading', 'prose', 'instruction_block', 'rule_block']\nRaw rerank score: 0.635\n\nUseful excerpt:\n## 1.3 CRS Rule Generation Principle\n\nWhen generating a ModSecurity rule from this knowledge base:\n\n1. Choose a target based on payload location.\n2. Use a detection operator appropriate to the XSS family:\n\n   - `@detectXSS` for libinjection-style detection\n\n   - `@rx` for regex pattern families\n   - `@pm` for phrase-list keyword detection\n\n3. Use `t:none` first.\n4. Add decoding transformations before matching:\n   - `t:utf8toUnicode`\n   - `t:urlDecodeUni`\n   - `t:htmlEntityDecode`\n   - `t:jsDecode`\n   - `t:cssDecode`\n   - `t:removeNulls`\n5. Use `capture` when the matched substring should be logged via `%{TX.0}`.\n6. Use `block` for CRS anomaly-scoring rules.\n7. Add CRS-style metadata:\n   - `id`\n   - `phase`\n   - `msg`\n   - `logdata`\n   - `tag`\n   - `ctl:auditLogParts=+E`\n   - `ver`\n   - `severity`\n   - `setvar`\n8. Increment `tx.xss_score` and the correct paranoia-level anomaly score.\n9. Tune false positives using target exclusions such as `!ARGS:param` or `!REQUEST_COOKIES:/regex/`.\n---\n\n---\n[Reference 4]\nSource: modsecurity_making_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: ModSecurity\nChunk: 34/60\nBlock types: ['heading', 'rule_block', 'code_fence', 'table', 'prose', 'comment']\nRaw rerank score: 0.545\n\nUseful excerpt:\nSecRule ARGS:comment \"@rx <\\s*script\\b|onerror\\s*=|onload\\s*=|javascript:\" \\\n\n  \"id:400101,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,deny,status:403,log,auditlog,msg:'XSS payload detected in comment parameter',tag:'attack-xss',severity:'CRITICAL'\"\n\n```\n\n## 8.6 XSS Target Selection\n\n| Observed XSS location | Recommended target |\n|---|---|\n| Any query/body parameter | `ARGS` |\n| Query only | `ARGS_GET` |\n| POST form only | `ARGS_POST` |\n| Known parameter | `ARGS:param` |\n| Header | `REQUEST_HEADERS` or `REQUEST_HEADERS:Header-Name` |\n| Cookie | `REQUEST_COOKIES` |\n| URI path | `REQUEST_FILENAME` or `REQUEST_URI` |\n| Raw body | `REQUEST_BODY` if body inspection is enabled |\n\n## 8.7 XSS False Positive Notes\n\nXSS rules can false positive on:\n\n- CMS rich-text editors\n- Markdown or HTML input fields\n- code examples\n- developer documentation pages\n- admin tools\n- support forms that accept HTML snippets\n\nTuning options:\n\n```apache\n\nSecRule ARGS|!ARGS:content \"@rx <\\s*script\\b|onerror\\s*=\" \"id:400102,phase:2,t:none,t:urlDecodeUni,t:htmlEntityDecode,t:lowercase,deny,status:403,msg:'XSS outside content field'\"\n\n```\n\nUse `!ARGS:content` only if `content` legitimately accepts HTML and the risk is understood.\n\n---\n\n# 9. SQL Injection Rule Generation\n\n## 9.1 SQLi Payload Signals\n\nCommon SQL injection indicators include:\n\n```text\n\nunion select\nor 1=1\nand 1=1\nsleep(\nbenchmark(\ninformation_schema\nload_file(\nxp_cmdshell\n-- \n\n#\n\n/**/\n%27\n%22\n\n```\n\n## 9.2 Basic SQLi Rule\n\n```apache\n\n\n---\nUse the references above as implementation evidence for writing WAF rules.\nPrioritize WAF-specific syntax, fields, operators, transformations, actions, and concrete examples.\nIgnore references that only describe the attack generally but do not help write a rule.\nPrioritize the specific bypassed payloads mentioned above.\n",
+        "generated_rules": [
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@detectXSS\" \"id:910100,phase:2,deny,status:403,log,auditlog,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,msg:'XSS libinjection detection after multi-layer decoding',logdata:'%{MATCHED_VAR}',tag:'attack-xss',severity:'CRITICAL'\"",
+                "instructions": "Primary behavioral/signature layer. Broad XSS detection after repeated URL decoding and canonicalization to catch doubly encoded payloads."
+            },
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)<\\s*(?:script|svg|img|iframe|a)\\b[^>]{0,256}>|<\\s*/\\s*script\\b\" \"id:910101,phase:2,deny,status:403,log,auditlog,capture,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'Obfuscated HTML tag vector associated with XSS',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+                "instructions": "Raw and normalized tag-vector rule for encoded and mixed-case script/svg/img/iframe/a payloads. Covers opening and closing script tags after layered decoding."
+            },
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:^|[\\s\\\"'`;\\/0-9=\\x0b\\x09\\x0c,\\(;-])on[a-z]{3,32}[\\s\\x0b\\x09\\x0c,;\\(]*=\\s*[^\\s>]+\" \"id:910102,phase:2,deny,status:403,log,auditlog,capture,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'Event handler injection pattern detected',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+                "instructions": "Dedicated event-handler layer for onload/onerror-style vectors. Context requirement reduces false positives compared with a bare 'on...=' search."
+            },
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:src|href)\\s*=\\s*[\\\"'` ]*javascript\\s*:|javascript\\s*:\" \"id:910103,phase:2,deny,status:403,log,auditlog,capture,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'javascript: URI XSS vector detected',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+                "instructions": "Catches iframe/src and anchor/href javascript: execution vectors after canonicalization. Generalized beyond the exact samples."
+            },
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)%(?:25){2,}|(?:%[0-9a-f]{2}){6,}\" \"id:910104,phase:2,log,auditlog,pass,capture,t:none,t:lowercase,msg:'Excessive URL-encoding anomaly',logdata:'%{TX.0}',tag:'attack-anomaly',severity:'NOTICE'\"",
+                "instructions": "Anomaly/logging layer for multi-encoded payload staging. Use for telemetry and correlation; promote to deny only if your application does not legitimately receive heavily encoded input."
+            },
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)(?:%ef%bc%85|％|%e2%85|%d0|%d1|%d3|%d4|%d5|%d6|%d7|%d8|%d9|%da|%db|%dc|%dd|%de|%df)\" \"id:910105,phase:2,log,auditlog,pass,capture,t:none,t:urlDecodeUni,t:urlDecodeUni,t:lowercase,msg:'Suspicious mixed Unicode/fullwidth encoding near input',logdata:'%{TX.0}',tag:'attack-anomaly',severity:'WARNING'\"",
+                "instructions": "Telemetry rule for suspicious Unicode/fullwidth or non-ASCII obfuscation commonly used to defeat naive filters. Keep as LOG/CHALLENGE-equivalent operational signal unless your traffic profile allows blocking."
+            },
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)<\\s*(?:svg|img|iframe|script|a)\\b[^>]{0,256}(?:on[a-z]{3,32}\\s*=|(?:src|href)\\s*=\\s*[\\\"'` ]*javascript\\s*:)[^>]{0,256}>\" \"id:910106,phase:2,deny,status:403,log,auditlog,capture,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'High-confidence active XSS HTML element detected',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+                "instructions": "High-confidence combined rule requiring an executable HTML element plus dangerous sink or handler. Strong production block rule with lower false-positive risk than independent primitive matches."
+            },
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)<\\s*a\\b[^>]{0,256}href\\s*=\\s*[\\\"'` ]*javascript\\s*:[^>]{0,256}>.*<\\s*/\\s*a\\s*>\" \"id:910107,phase:2,deny,status:403,log,auditlog,capture,t:none,t:utf8toUnicode,t:urlDecodeUni,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'Anchor javascript URI XSS payload detected',logdata:'%{TX.0}',tag:'attack-xss',severity:'CRITICAL'\"",
+                "instructions": "Specific high-confidence coverage for encoded anchor-based javascript: payloads with clickable content. Useful because your sample set includes obfuscated anchor vectors."
+            }
+        ],
+        "fixed_rules": [],
+        "final_rules": [
+            {
+                "rule": "SecRule REQUEST_URI|ARGS|ARGS_NAMES|REQUEST_BODY|XML:/*|REQUEST_HEADERS \"@rx (?i)<\\s*(?:svg|img|iframe|script|a)\\b[^>]{0,256}(?:on[a-z]{3,32}\\s*=|(?:src|href)\\s*=\\s*[\\\"'` ]*javascript\\s*:)[^>]{0,256}>\" \"id:941500,phase:2,deny,status:403,log,auditlog,capture,t:none,t:utf8toUnicode,t:urlDecodeUni,t:htmlEntityDecode,t:jsDecode,t:cssDecode,t:removeNulls,t:lowercase,t:compressWhitespace,msg:'High-confidence active XSS HTML element with event handler or javascript URI',logdata:'Matched Data: %{TX.0} found within %{MATCHED_VAR_NAME}: %{MATCHED_VAR}',tag:'application-multi',tag:'language-multi',tag:'platform-multi',tag:'attack-xss',tag:'xss-perf-disable',tag:'paranoia-level/1',tag:'OWASP_CRS',tag:'OWASP_CRS/ATTACK-XSS',tag:'capec/1000/152/242',ver:'OWASP_CRS/4.26.0-dev',severity:'CRITICAL',setvar:'tx.xss_score=+%{tx.critical_anomaly_score}',setvar:'tx.inbound_anomaly_score_pl1=+%{tx.critical_anomaly_score}'\"",
+                "instructions": "Deploy after existing rule 941400 and before END-REQUEST-941-APPLICATION-ATTACK-XSS marker. This rule combines the inline event handler and javascript: URI patterns within actively dangerous HTML elements (svg, img, iframe, script, a) into a single high-confidence compound check. It does not duplicate 941120 (generic event handler) or 941140 (CSS url(javascript)), but targets the specific combination within a bounded tag context. Assign paranoia level 1."
+            }
+        ]
+    }
+}

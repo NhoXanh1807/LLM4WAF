@@ -1,0 +1,284 @@
+{
+    "success": true,
+    "data": {
+        "waf_name": "Cloudflare",
+        "existing_rules_count": 0,
+        "enabled_steps": {
+            "clustering": false,
+            "rag": true,
+            "validate_retry": true,
+            "refine": true
+        },
+        "stats": {
+            "total_payloads": 50,
+            "num_bypassed_payloads": 31,
+            "num_clusters": 1,
+            "rules_generated": 1,
+            "rules_valid": 0,
+            "rules_invalid": 1,
+            "rules_fixed": 1,
+            "rules_refined": 1
+        },
+        "clustered_payloads": [
+            {
+                "cluster_id": "Clustering disabled, this is a flat list of payloads",
+                "size": 31,
+                "payloads": [
+                    "aDMIn%2527%2520--",
+                    "%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/",
+                    "1%2520oR%25201%253d1",
+                    "1%2520oR%25201%253d1",
+                    "%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520",
+                    "%2527%2520AND%2520%2528SeLEct%25201%2520FROM%2520%2528sELEcT%2528SLeEP%25285%2529%2529%2529a%2529--%2520",
+                    "AdmIN%2527/%252A%252a/--",
+                    "1%2520Or%25201%253D1%2520--",
+                    "%2527/%252A%252a/UNioN/%252a%252a/SELeCT/%252A%252A/1%252cUser%2528%2529%252C3--/%252A%252a/",
+                    "%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529a%2529--%2520",
+                    "%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520",
+                    "%2527/%252a%252A/uNIon/%252A%252A/seLeCt/%252a%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/",
+                    "1%252509oR%2525091%253d1",
+                    "AdmiN%2527%2520--",
+                    "%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252c3--%2520",
+                    "1%26%2347%3B%25252a%25252A%26%2347%3BoR%26%2347%3B%25252A%25252a%26%2347%3B1%25253d1",
+                    "aDMIn%2527%252509--",
+                    "1%2520oR%25201%253d1",
+                    "1%2520oR%25201%253d1",
+                    "%2527%2520uNIOn%2520selECT%25201%252CuSER%2528%2529%252C3--%2520",
+                    "ADmiN%2527%252509--",
+                    "%2527%2520anD%2520UpdaTeXmL%25281%252C%2520ConCat%25280x3A%252c%2520%2528SELect%2520Version%2528%2529%2529%2529%252C%25201%2529--%2520",
+                    "ADMIN%2527 %26 134809%253D1 -- true",
+                    "%2527/%252a%252A/uNIon/%252a%252A/seLeCt/%252a%252A/1%252cUSER%2528%2529%252C3--/%252a%252A/**//*68*/",
+                    "%2527/%252A%252a/UniON/%252a%252A/SELect/%252a%252A/1%252CUseR%2528%2529%252c3--/%252a%252a/",
+                    "%253Bid%253Dadmin' %2509--",
+                    "1%252509OR%2525091%253D1",
+                    "%2527/%252a%252A/uNIoN/%252a%252A/seLeCt/%252A%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/",
+                    "%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520",
+                    "1%252509Or%2525091%253d1",
+                    "aDMin%2527%2520--"
+                ]
+            }
+        ],
+        "rag_result": {
+            "rag_enabled": true,
+            "num_queries": 9,
+            "num_docs_all": 58,
+            "num_docs_filtered": 35,
+            "num_docs_preselected": 32,
+            "sources": [
+                {
+                    "rank": 1,
+                    "source": "cloudflare_actions_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "Cloudflare",
+                    "chunk_id": 68,
+                    "total_chunks": 73,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "prose",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "3.244",
+                    "relevance_score_display": "1.000",
+                    "relevance_score": "3.244",
+                    "content": "# 29. Complete Example: Cloudflare WAF Custom Ruleset for XSS and SQLi\n\n## 29.1 Scenario\n\nThe application receives reflected XSS and SQLi bypass attempts in query strings. It also has a trusted internal scanner that should not trigger the custom rules.\n\n## 29.2 Custom Ruleset\n\n```json\n{\n  \"description\": \"Application custom WAF rules for XSS and SQLi\",\n  \"kind\": \"custom\",\n  \"name\": \"Application custom WAF ruleset\",\n  \"phase\": \"http_request_firewall_custom\",\n  \"rules\": [\n    {\n      \"description\": \"Skip trusted internal scanner from current custom ruleset\",\n      \"expression\": \"ip.src in {203.0.113.10} and http.request.uri.path starts_with \\\"/internal/scan\\\"\",\n      \"action\": \"skip\",\n      \"action_parameters\": {\n        \"ruleset\": \"current\"\n      },\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block reflected XSS indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(<script|onerror\\\\\\\\s*=|onload\\\\\\\\s*=|javascript:)\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block SQL injection indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(union\\\\\\\\s+select|or\\\\\\\\s+1\\\\\\\\s*=\\\\\\\\s*1|sleep\\\\\\\\s*\\\\\\\\(|benchmark\\\\\\\\s*\\\\\\\\()\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Managed challenge suspicious login traffic\",\n      \"expression\": \"http.request.uri.path eq \\\"/login\\\" and cf.threat_score gt 20\",\n      \"action\": \"managed_challenge\",\n      \"enabled\": true\n    }\n  ]\n}\n```"
+                },
+                {
+                    "rank": 2,
+                    "source": "cloudflare_dashboard_config_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "Cloudflare",
+                    "chunk_id": 17,
+                    "total_chunks": 69,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "prose",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "2.103",
+                    "relevance_score_display": "0.277",
+                    "relevance_score": "2.103",
+                    "content": "## 6.2 Block Action\n\nSelecting **Block** tells Cloudflare to refuse requests that match the rule conditions.\n\nUse `Block` when:\n\n- payload evidence is high confidence\n- false-positive risk is acceptable\n- the rule is scoped enough\n- the matching condition is specific\n- trusted scanners or allowed sources are excluded where needed\n\nExample:\n\n```json\n{\n  \"description\": \"Block SQLi indicators in query string\",\n  \"expression\": \"lower(http.request.uri.query) contains \\\"union select\\\" or lower(http.request.uri.query) contains \\\"or 1=1\\\"\",\n  \"action\": \"block\",\n  \"enabled\": true\n}\n```"
+                },
+                {
+                    "rank": 3,
+                    "source": "cloudflare_expressions_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "Cloudflare",
+                    "chunk_id": 85,
+                    "total_chunks": 95,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "prose",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "1.835",
+                    "relevance_score_display": "0.107",
+                    "relevance_score": "1.835",
+                    "content": "# 18. Complete Example: Cloudflare WAF Expressions for XSS and SQLi\n\n## 18.1 Scenario\n\nThe application receives:\n\n- reflected XSS payloads in query strings\n\n- SQL injection payloads in query strings\n\n- trusted security scanner traffic from a named IP list\n- false-positive risk on admin and CMS paths\n\n## 18.2 XSS Expression\n\n```text\n(\n  starts_with(http.request.uri.path, \"/search\")\n  or starts_with(http.request.uri.path, \"/comments\")\n)\nand (\n  lower(http.request.uri.query) matches r\"(<script|onerror\\s*=|onload\\s*=|javascript:|<svg|<img)\"\n  or lower(raw.http.request.uri.query) contains \"%3cscript\"\n  or lower(raw.http.request.uri.query) contains \"%3csvg\"\n)\nand not ip.src in $trusted_security_scanners\n```"
+                },
+                {
+                    "rank": 4,
+                    "source": "cloudflare_expressions_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "Cloudflare",
+                    "chunk_id": 57,
+                    "total_chunks": 95,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "prose",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "1.666",
+                    "relevance_score_display": "0.000",
+                    "relevance_score": "1.666",
+                    "content": "# 9. Expression Design for SQL Injection Rule Generation\n\n## 9.1 SQL Injection Payload Signals\n\nUse SQLi expression patterns when payloads contain:\n\n- `union select`\n- `or 1=1`\n- `and 1=1`\n- `' or '1'='1`\n- `\" or \"1\"=\"1`\n- `sleep(`\n- `benchmark(`\n- `information_schema`\n- `load_file(`\n- `xp_cmdshell`\n- `--`\n- `#`\n- `/* */`\n- `%27`\n- `%22`\n\n- mixed-case SQL keywords\n\n- whitespace-split SQL keywords\n\n## 9.2 Basic SQLi Query String Expression\n\n```text\nlower(http.request.uri.query) contains \"union select\"\nor lower(http.request.uri.query) contains \"or 1=1\"\nor lower(http.request.uri.query) contains \"sleep(\"\nor lower(http.request.uri.query) contains \"benchmark(\"\n```"
+                }
+            ],
+            "context": "[Reference 1]\nSource: cloudflare_actions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 68/73\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 3.244\n\nUseful excerpt:\n# 29. Complete Example: Cloudflare WAF Custom Ruleset for XSS and SQLi\n\n## 29.1 Scenario\n\nThe application receives reflected XSS and SQLi bypass attempts in query strings. It also has a trusted internal scanner that should not trigger the custom rules.\n\n## 29.2 Custom Ruleset\n\n```json\n{\n  \"description\": \"Application custom WAF rules for XSS and SQLi\",\n  \"kind\": \"custom\",\n  \"name\": \"Application custom WAF ruleset\",\n  \"phase\": \"http_request_firewall_custom\",\n  \"rules\": [\n    {\n      \"description\": \"Skip trusted internal scanner from current custom ruleset\",\n      \"expression\": \"ip.src in {203.0.113.10} and http.request.uri.path starts_with \\\"/internal/scan\\\"\",\n      \"action\": \"skip\",\n      \"action_parameters\": {\n        \"ruleset\": \"current\"\n      },\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block reflected XSS indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(<script|onerror\\\\\\\\s*=|onload\\\\\\\\s*=|javascript:)\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block SQL injection indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(union\\\\\\\\s+select|or\\\\\\\\s+1\\\\\\\\s*=\\\\\\\\s*1|sleep\\\\\\\\s*\\\\\\\\(|benchmark\\\\\\\\s*\\\\\\\\()\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Managed challenge suspicious login traffic\",\n      \"expression\": \"http.request.uri.path eq \\\"/login\\\" and cf.threat_score gt 20\",\n      \"action\": \"managed_challenge\",\n      \"enabled\": true\n    }\n  ]\n}\n```\n\n---\n[Reference 2]\nSource: cloudflare_dashboard_config_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 17/69\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 2.103\n\nUseful excerpt:\n## 6.2 Block Action\n\nSelecting **Block** tells Cloudflare to refuse requests that match the rule conditions.\n\nUse `Block` when:\n\n- payload evidence is high confidence\n- false-positive risk is acceptable\n- the rule is scoped enough\n- the matching condition is specific\n- trusted scanners or allowed sources are excluded where needed\n\nExample:\n\n```json\n{\n  \"description\": \"Block SQLi indicators in query string\",\n  \"expression\": \"lower(http.request.uri.query) contains \\\"union select\\\" or lower(http.request.uri.query) contains \\\"or 1=1\\\"\",\n  \"action\": \"block\",\n  \"enabled\": true\n}\n```\n\n---\n[Reference 3]\nSource: cloudflare_expressions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 85/95\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 1.835\n\nUseful excerpt:\n# 18. Complete Example: Cloudflare WAF Expressions for XSS and SQLi\n\n## 18.1 Scenario\n\nThe application receives:\n\n- reflected XSS payloads in query strings\n\n- SQL injection payloads in query strings\n\n- trusted security scanner traffic from a named IP list\n- false-positive risk on admin and CMS paths\n\n## 18.2 XSS Expression\n\n```text\n(\n  starts_with(http.request.uri.path, \"/search\")\n  or starts_with(http.request.uri.path, \"/comments\")\n)\nand (\n  lower(http.request.uri.query) matches r\"(<script|onerror\\s*=|onload\\s*=|javascript:|<svg|<img)\"\n  or lower(raw.http.request.uri.query) contains \"%3cscript\"\n  or lower(raw.http.request.uri.query) contains \"%3csvg\"\n)\nand not ip.src in $trusted_security_scanners\n```\n\n---\n[Reference 4]\nSource: cloudflare_expressions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 57/95\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 1.666\n\nUseful excerpt:\n# 9. Expression Design for SQL Injection Rule Generation\n\n## 9.1 SQL Injection Payload Signals\n\nUse SQLi expression patterns when payloads contain:\n\n- `union select`\n- `or 1=1`\n- `and 1=1`\n- `' or '1'='1`\n- `\" or \"1\"=\"1`\n- `sleep(`\n- `benchmark(`\n- `information_schema`\n- `load_file(`\n- `xp_cmdshell`\n- `--`\n- `#`\n- `/* */`\n- `%27`\n- `%22`\n\n- mixed-case SQL keywords\n\n- whitespace-split SQL keywords\n\n## 9.2 Basic SQLi Query String Expression\n\n```text\nlower(http.request.uri.query) contains \"union select\"\nor lower(http.request.uri.query) contains \"or 1=1\"\nor lower(http.request.uri.query) contains \"sleep(\"\nor lower(http.request.uri.query) contains \"benchmark(\"\n```\n",
+            "queries": [
+                "Cloudflare Blind SQL Injection sql_injection_blind rule syntax statement example fields action transformation",
+                "Cloudflare Blind SQL Injection blind SQL injection blind SQLi time-based SQL injection boolean-based SQL injection time based blind SQLi boolean based blind SQLi detection rule example request component text transformation",
+                "Cloudflare SQLI rule detect union select sleep -- /* admin %25 cuser",
+                "Blind SQL Injection sql_injection_blind bypass normalization decoding canonicalization lowercase url decode html entity rule",
+                "Cloudflare inspect query string body headers cookies uri Blind SQL Injection sql_injection_blind rule statement",
+                "Cloudflare blind SQL injection time based sleep benchmark waitfor delay rule example",
+                "Cloudflare boolean based blind SQLi conditional SQL injection request parameter rule syntax",
+                "Cloudflare Ruleset Engine expression Blind SQL Injection http.request.uri.query body contains matches",
+                "Cloudflare custom rule expression fields operators functions lower matches contains"
+            ],
+            "score_note": "Cross-encoder scores are raw logits; negative values are normal. Use rank/order, not absolute sign.",
+            "attack_type_input": "sql_injection_blind",
+            "attack_type_raw": "sql_injection_blind",
+            "attack_type_display": "Blind SQL Injection",
+            "attack_type_family": "SQLI",
+            "attack_terms": [
+                "sql_injection_blind",
+                "Blind SQL Injection",
+                "SQLI",
+                "blind SQL injection",
+                "blind SQLi",
+                "time-based SQL injection",
+                "boolean-based SQL injection",
+                "time based blind SQLi",
+                "boolean based blind SQLi",
+                "sleep",
+                "benchmark",
+                "waitfor delay",
+                "conditional SQLi",
+                "inference SQL injection"
+            ],
+            "waf_filtered": true,
+            "mapped_waf_name": "Cloudflare",
+            "attack_type_sent": "sql_injection_blind"
+        },
+        "rag_sources": [
+            {
+                "rank": 1,
+                "source": "cloudflare_actions_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "Cloudflare",
+                "chunk_id": 68,
+                "total_chunks": 73,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "prose",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "3.244",
+                "relevance_score_display": "1.000",
+                "relevance_score": "3.244",
+                "content": "# 29. Complete Example: Cloudflare WAF Custom Ruleset for XSS and SQLi\n\n## 29.1 Scenario\n\nThe application receives reflected XSS and SQLi bypass attempts in query strings. It also has a trusted internal scanner that should not trigger the custom rules.\n\n## 29.2 Custom Ruleset\n\n```json\n{\n  \"description\": \"Application custom WAF rules for XSS and SQLi\",\n  \"kind\": \"custom\",\n  \"name\": \"Application custom WAF ruleset\",\n  \"phase\": \"http_request_firewall_custom\",\n  \"rules\": [\n    {\n      \"description\": \"Skip trusted internal scanner from current custom ruleset\",\n      \"expression\": \"ip.src in {203.0.113.10} and http.request.uri.path starts_with \\\"/internal/scan\\\"\",\n      \"action\": \"skip\",\n      \"action_parameters\": {\n        \"ruleset\": \"current\"\n      },\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block reflected XSS indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(<script|onerror\\\\\\\\s*=|onload\\\\\\\\s*=|javascript:)\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block SQL injection indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(union\\\\\\\\s+select|or\\\\\\\\s+1\\\\\\\\s*=\\\\\\\\s*1|sleep\\\\\\\\s*\\\\\\\\(|benchmark\\\\\\\\s*\\\\\\\\()\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Managed challenge suspicious login traffic\",\n      \"expression\": \"http.request.uri.path eq \\\"/login\\\" and cf.threat_score gt 20\",\n      \"action\": \"managed_challenge\",\n      \"enabled\": true\n    }\n  ]\n}\n```"
+            },
+            {
+                "rank": 2,
+                "source": "cloudflare_dashboard_config_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "Cloudflare",
+                "chunk_id": 17,
+                "total_chunks": 69,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "prose",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "2.103",
+                "relevance_score_display": "0.277",
+                "relevance_score": "2.103",
+                "content": "## 6.2 Block Action\n\nSelecting **Block** tells Cloudflare to refuse requests that match the rule conditions.\n\nUse `Block` when:\n\n- payload evidence is high confidence\n- false-positive risk is acceptable\n- the rule is scoped enough\n- the matching condition is specific\n- trusted scanners or allowed sources are excluded where needed\n\nExample:\n\n```json\n{\n  \"description\": \"Block SQLi indicators in query string\",\n  \"expression\": \"lower(http.request.uri.query) contains \\\"union select\\\" or lower(http.request.uri.query) contains \\\"or 1=1\\\"\",\n  \"action\": \"block\",\n  \"enabled\": true\n}\n```"
+            },
+            {
+                "rank": 3,
+                "source": "cloudflare_expressions_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "Cloudflare",
+                "chunk_id": 85,
+                "total_chunks": 95,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "prose",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "1.835",
+                "relevance_score_display": "0.107",
+                "relevance_score": "1.835",
+                "content": "# 18. Complete Example: Cloudflare WAF Expressions for XSS and SQLi\n\n## 18.1 Scenario\n\nThe application receives:\n\n- reflected XSS payloads in query strings\n\n- SQL injection payloads in query strings\n\n- trusted security scanner traffic from a named IP list\n- false-positive risk on admin and CMS paths\n\n## 18.2 XSS Expression\n\n```text\n(\n  starts_with(http.request.uri.path, \"/search\")\n  or starts_with(http.request.uri.path, \"/comments\")\n)\nand (\n  lower(http.request.uri.query) matches r\"(<script|onerror\\s*=|onload\\s*=|javascript:|<svg|<img)\"\n  or lower(raw.http.request.uri.query) contains \"%3cscript\"\n  or lower(raw.http.request.uri.query) contains \"%3csvg\"\n)\nand not ip.src in $trusted_security_scanners\n```"
+            },
+            {
+                "rank": 4,
+                "source": "cloudflare_expressions_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "Cloudflare",
+                "chunk_id": 57,
+                "total_chunks": 95,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "prose",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "1.666",
+                "relevance_score_display": "0.000",
+                "relevance_score": "1.666",
+                "content": "# 9. Expression Design for SQL Injection Rule Generation\n\n## 9.1 SQL Injection Payload Signals\n\nUse SQLi expression patterns when payloads contain:\n\n- `union select`\n- `or 1=1`\n- `and 1=1`\n- `' or '1'='1`\n- `\" or \"1\"=\"1`\n- `sleep(`\n- `benchmark(`\n- `information_schema`\n- `load_file(`\n- `xp_cmdshell`\n- `--`\n- `#`\n- `/* */`\n- `%27`\n- `%22`\n\n- mixed-case SQL keywords\n\n- whitespace-split SQL keywords\n\n## 9.2 Basic SQLi Query String Expression\n\n```text\nlower(http.request.uri.query) contains \"union select\"\nor lower(http.request.uri.query) contains \"or 1=1\"\nor lower(http.request.uri.query) contains \"sleep(\"\nor lower(http.request.uri.query) contains \"benchmark(\"\n```"
+            }
+        ],
+        "rag_context": "[Reference 1]\nSource: cloudflare_actions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 68/73\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 3.244\n\nUseful excerpt:\n# 29. Complete Example: Cloudflare WAF Custom Ruleset for XSS and SQLi\n\n## 29.1 Scenario\n\nThe application receives reflected XSS and SQLi bypass attempts in query strings. It also has a trusted internal scanner that should not trigger the custom rules.\n\n## 29.2 Custom Ruleset\n\n```json\n{\n  \"description\": \"Application custom WAF rules for XSS and SQLi\",\n  \"kind\": \"custom\",\n  \"name\": \"Application custom WAF ruleset\",\n  \"phase\": \"http_request_firewall_custom\",\n  \"rules\": [\n    {\n      \"description\": \"Skip trusted internal scanner from current custom ruleset\",\n      \"expression\": \"ip.src in {203.0.113.10} and http.request.uri.path starts_with \\\"/internal/scan\\\"\",\n      \"action\": \"skip\",\n      \"action_parameters\": {\n        \"ruleset\": \"current\"\n      },\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block reflected XSS indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(<script|onerror\\\\\\\\s*=|onload\\\\\\\\s*=|javascript:)\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block SQL injection indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(union\\\\\\\\s+select|or\\\\\\\\s+1\\\\\\\\s*=\\\\\\\\s*1|sleep\\\\\\\\s*\\\\\\\\(|benchmark\\\\\\\\s*\\\\\\\\()\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Managed challenge suspicious login traffic\",\n      \"expression\": \"http.request.uri.path eq \\\"/login\\\" and cf.threat_score gt 20\",\n      \"action\": \"managed_challenge\",\n      \"enabled\": true\n    }\n  ]\n}\n```\n\n---\n[Reference 2]\nSource: cloudflare_dashboard_config_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 17/69\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 2.103\n\nUseful excerpt:\n## 6.2 Block Action\n\nSelecting **Block** tells Cloudflare to refuse requests that match the rule conditions.\n\nUse `Block` when:\n\n- payload evidence is high confidence\n- false-positive risk is acceptable\n- the rule is scoped enough\n- the matching condition is specific\n- trusted scanners or allowed sources are excluded where needed\n\nExample:\n\n```json\n{\n  \"description\": \"Block SQLi indicators in query string\",\n  \"expression\": \"lower(http.request.uri.query) contains \\\"union select\\\" or lower(http.request.uri.query) contains \\\"or 1=1\\\"\",\n  \"action\": \"block\",\n  \"enabled\": true\n}\n```\n\n---\n[Reference 3]\nSource: cloudflare_expressions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 85/95\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 1.835\n\nUseful excerpt:\n# 18. Complete Example: Cloudflare WAF Expressions for XSS and SQLi\n\n## 18.1 Scenario\n\nThe application receives:\n\n- reflected XSS payloads in query strings\n\n- SQL injection payloads in query strings\n\n- trusted security scanner traffic from a named IP list\n- false-positive risk on admin and CMS paths\n\n## 18.2 XSS Expression\n\n```text\n(\n  starts_with(http.request.uri.path, \"/search\")\n  or starts_with(http.request.uri.path, \"/comments\")\n)\nand (\n  lower(http.request.uri.query) matches r\"(<script|onerror\\s*=|onload\\s*=|javascript:|<svg|<img)\"\n  or lower(raw.http.request.uri.query) contains \"%3cscript\"\n  or lower(raw.http.request.uri.query) contains \"%3csvg\"\n)\nand not ip.src in $trusted_security_scanners\n```\n\n---\n[Reference 4]\nSource: cloudflare_expressions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 57/95\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 1.666\n\nUseful excerpt:\n# 9. Expression Design for SQL Injection Rule Generation\n\n## 9.1 SQL Injection Payload Signals\n\nUse SQLi expression patterns when payloads contain:\n\n- `union select`\n- `or 1=1`\n- `and 1=1`\n- `' or '1'='1`\n- `\" or \"1\"=\"1`\n- `sleep(`\n- `benchmark(`\n- `information_schema`\n- `load_file(`\n- `xp_cmdshell`\n- `--`\n- `#`\n- `/* */`\n- `%27`\n- `%22`\n\n- mixed-case SQL keywords\n\n- whitespace-split SQL keywords\n\n## 9.2 Basic SQLi Query String Expression\n\n```text\nlower(http.request.uri.query) contains \"union select\"\nor lower(http.request.uri.query) contains \"or 1=1\"\nor lower(http.request.uri.query) contains \"sleep(\"\nor lower(http.request.uri.query) contains \"benchmark(\"\n```\n",
+        "generation_prompt": "**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.\n\n**Environment:**\n- WAF: Cloudflare\n- Bypassed payloads clustered into 1 groups based on similarity and attack pattern:\n\tCluster Clustering disabled, this is a flat list of payloads (31 payloads):\n\t\taDMIn%2527%2520--\n\t\t%2527/%252A%252a/UNiOn/%252a%252A/SElEcT/%252aA%252a/1%252CUser%2528%2529%252C3--/%252A%252A/\n\t\t1%2520oR%25201%253d1\n\t\t1%2520oR%25201%253d1\n\t\t%2527%2520ANd%2520%2528sELeCt%25201%2520froM%2520%2528seLEcT%2528SLeEp%25285%2529%2529%2529A%2529--%2520\n\t\t%2527%2520AND%2520%2528SeLEct%25201%2520FROM%2520%2528sELEcT%2528SLeEP%25285%2529%2529%2529a%2529--%2520\n\t\tAdmIN%2527/%252A%252a/--\n\t\t1%2520Or%25201%253D1%2520--\n\t\t%2527/%252A%252a/UNioN/%252a%252a/SELeCT/%252A%252A/1%252cUser%2528%2529%252C3--/%252A%252a/\n\t\t%2527%2520and%2520%2528select%25201%2520from%2520%2528select%2528sleep%25285%2529%2529%2529a%2529--%2520\n\t\t%2527%2520uNiON%2520SELect%25201%252cUser%2528%2529%252C3--%2520\n\t\t%2527/%252a%252A/uNIon/%252A%252A/seLeCt/%252a%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/\n\t\t1%252509oR%2525091%253d1\n\t\tAdmiN%2527%2520--\n\t\t%2527%2520UNIoN%2520sELECT%25201%252CUser%2528%2529%252c3--%2520\n\t\t1%26%2347%3B%25252a%25252A%26%2347%3BoR%26%2347%3B%25252A%25252a%26%2347%3B1%25253d1\n\t\taDMIn%2527%252509--\n\t\t1%2520oR%25201%253d1\n\t\t1%2520oR%25201%253d1\n\t\t%2527%2520uNIOn%2520selECT%25201%252CuSER%2528%2529%252C3--%2520\n\t\tADmiN%2527%252509--\n\t\t%2527%2520anD%2520UpdaTeXmL%25281%252C%2520ConCat%25280x3A%252c%2520%2528SELect%2520Version%2528%2529%2529%2529%252C%25201%2529--%2520\n\t\tADMIN%2527 %26 134809%253D1 -- true\n\t\t%2527/%252a%252A/uNIon/%252a%252A/seLeCt/%252a%252A/1%252cUSER%2528%2529%252C3--/%252a%252A/**//*68*/\n\t\t%2527/%252A%252a/UniON/%252a%252A/SELect/%252a%252A/1%252CUseR%2528%2529%252c3--/%252a%252a/\n\t\t%253Bid%253Dadmin' %2509--\n\t\t1%252509OR%2525091%253D1\n\t\t%2527/%252a%252A/uNIoN/%252a%252A/seLeCt/%252A%252a/1%252cuSER%2528%2529%252c3--/%252a%252A/\n\t\t%2527%2520AND%2520%2528SELECT%25201%2520FROM%2520%2528SELECT%2528SLEEP%25285%2529%2529%2529a%2529--%2520\n\t\t1%252509Or%2525091%253d1\n\t\taDMin%2527%2520--\n\n\nGenerate PRODUCTION-GRADE defense rules to block these clusters of payloads, following these requirements:\n\n1. **Multi-Layer Detection**: Create rules that detect:\n   - Raw pattern matching (regex)\n   - Normalized/decoded variants (URL decoding, Unicode normalization)\n   - Obfuscation techniques (comment injection, case variations)\n   - Anomaly patterns (unusual character sequences, excessive encoding)\n\n2. **Rule Requirements**:\n   - Match both obvious and obfuscated forms\n   - Include pre-processing steps (normalize, decode, lowercase)\n   - Minimize false positives with negative lookaheads\n   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)\n\n3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.\n\n4. **Target WAF Guardrails**:\n**Cloudflare Free Plan Constraints**:\n- Output a Cloudflare expression only, using simple wirefilter syntax.\n- Keep the final output as a single deployable Cloudflare expression, for example `(http.request.uri contains \"pattern\")`.\n- Assume Cloudflare Free plan limitations.\n- Use ONLY basic comparison operators: contains, starts_with, ends_with, eq.\n- Prefer fields like http.request.uri, http.request.uri.path, http.request.uri.query, http.request.body.raw, http.request.headers, http.user_agent.\n- DO NOT use advanced operators or features such as matches, wildcard, regex functions, paid-only bot fields, or plan-dependent enterprise features unless absolutely unavoidable.\n- Avoid complex function nesting.\n- Keep expressions deployable on the free plan and easy to review.\n- Example expression:\n   (http.request.uri contains \"pattern\" or http.request.body.raw contains \"pattern\")\n- Before outputting, self-check that the rule uses only basic operators and free-plan-compatible syntax.\n\n5. **Mandatory Self-Check Before Final Output**:\n   - Verify the syntax belongs to the target WAF only.\n   - Verify no unsupported transformation, operator, or directive is present.\n   - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.\n   - Prefer a simpler valid rule over a more advanced but potentially invalid rule.\n\n6. **Multi-Layer URL Encoding**: When generating rules, always account for multi-layer URL encoding by applying repeated URL-decoding transformations, e.g. t:urlDecodeUni multiple times, so payloads encoded two or more times such as %25253C...%25253E are normalized before regex matching.\n\nThe WAF format instruction will follow — generate rules ONLY in that specified format.\n\n---\n**KNOWLEDGE BASE REFERENCES FOR RULE GENERATION**\n\n[Reference 1]\nSource: cloudflare_actions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 68/73\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 3.244\n\nUseful excerpt:\n# 29. Complete Example: Cloudflare WAF Custom Ruleset for XSS and SQLi\n\n## 29.1 Scenario\n\nThe application receives reflected XSS and SQLi bypass attempts in query strings. It also has a trusted internal scanner that should not trigger the custom rules.\n\n## 29.2 Custom Ruleset\n\n```json\n{\n  \"description\": \"Application custom WAF rules for XSS and SQLi\",\n  \"kind\": \"custom\",\n  \"name\": \"Application custom WAF ruleset\",\n  \"phase\": \"http_request_firewall_custom\",\n  \"rules\": [\n    {\n      \"description\": \"Skip trusted internal scanner from current custom ruleset\",\n      \"expression\": \"ip.src in {203.0.113.10} and http.request.uri.path starts_with \\\"/internal/scan\\\"\",\n      \"action\": \"skip\",\n      \"action_parameters\": {\n        \"ruleset\": \"current\"\n      },\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block reflected XSS indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(<script|onerror\\\\\\\\s*=|onload\\\\\\\\s*=|javascript:)\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Block SQL injection indicators in query string\",\n      \"expression\": \"lower(http.request.uri.query) matches \\\"(union\\\\\\\\s+select|or\\\\\\\\s+1\\\\\\\\s*=\\\\\\\\s*1|sleep\\\\\\\\s*\\\\\\\\(|benchmark\\\\\\\\s*\\\\\\\\()\\\"\",\n      \"action\": \"block\",\n      \"enabled\": true\n    },\n    {\n      \"description\": \"Managed challenge suspicious login traffic\",\n      \"expression\": \"http.request.uri.path eq \\\"/login\\\" and cf.threat_score gt 20\",\n      \"action\": \"managed_challenge\",\n      \"enabled\": true\n    }\n  ]\n}\n```\n\n---\n[Reference 2]\nSource: cloudflare_dashboard_config_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 17/69\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 2.103\n\nUseful excerpt:\n## 6.2 Block Action\n\nSelecting **Block** tells Cloudflare to refuse requests that match the rule conditions.\n\nUse `Block` when:\n\n- payload evidence is high confidence\n- false-positive risk is acceptable\n- the rule is scoped enough\n- the matching condition is specific\n- trusted scanners or allowed sources are excluded where needed\n\nExample:\n\n```json\n{\n  \"description\": \"Block SQLi indicators in query string\",\n  \"expression\": \"lower(http.request.uri.query) contains \\\"union select\\\" or lower(http.request.uri.query) contains \\\"or 1=1\\\"\",\n  \"action\": \"block\",\n  \"enabled\": true\n}\n```\n\n---\n[Reference 3]\nSource: cloudflare_expressions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 85/95\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 1.835\n\nUseful excerpt:\n# 18. Complete Example: Cloudflare WAF Expressions for XSS and SQLi\n\n## 18.1 Scenario\n\nThe application receives:\n\n- reflected XSS payloads in query strings\n\n- SQL injection payloads in query strings\n\n- trusted security scanner traffic from a named IP list\n- false-positive risk on admin and CMS paths\n\n## 18.2 XSS Expression\n\n```text\n(\n  starts_with(http.request.uri.path, \"/search\")\n  or starts_with(http.request.uri.path, \"/comments\")\n)\nand (\n  lower(http.request.uri.query) matches r\"(<script|onerror\\s*=|onload\\s*=|javascript:|<svg|<img)\"\n  or lower(raw.http.request.uri.query) contains \"%3cscript\"\n  or lower(raw.http.request.uri.query) contains \"%3csvg\"\n)\nand not ip.src in $trusted_security_scanners\n```\n\n---\n[Reference 4]\nSource: cloudflare_expressions_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Cloudflare\nChunk: 57/95\nBlock types: ['heading', 'prose', 'code_fence']\nRaw rerank score: 1.666\n\nUseful excerpt:\n# 9. Expression Design for SQL Injection Rule Generation\n\n## 9.1 SQL Injection Payload Signals\n\nUse SQLi expression patterns when payloads contain:\n\n- `union select`\n- `or 1=1`\n- `and 1=1`\n- `' or '1'='1`\n- `\" or \"1\"=\"1`\n- `sleep(`\n- `benchmark(`\n- `information_schema`\n- `load_file(`\n- `xp_cmdshell`\n- `--`\n- `#`\n- `/* */`\n- `%27`\n- `%22`\n\n- mixed-case SQL keywords\n\n- whitespace-split SQL keywords\n\n## 9.2 Basic SQLi Query String Expression\n\n```text\nlower(http.request.uri.query) contains \"union select\"\nor lower(http.request.uri.query) contains \"or 1=1\"\nor lower(http.request.uri.query) contains \"sleep(\"\nor lower(http.request.uri.query) contains \"benchmark(\"\n```\n\n\n---\nUse the references above as implementation evidence for writing WAF rules.\nPrioritize WAF-specific syntax, fields, operators, transformations, actions, and concrete examples.\nIgnore references that only describe the attack generally but do not help write a rule.\nPrioritize the specific bypassed payloads mentioned above.\n",
+        "generated_rules": [
+            {
+                "rule": "(http.request.uri contains \"%2527\" and (http.request.uri contains \"%2520or%2520\" or http.request.uri contains \"%2520and%2520\" or http.request.uri contains \"%252509or%252509\" or http.request.uri contains \"%252509and%252509\" or http.request.uri contains \"%253d1\" or http.request.uri contains \"--\" or http.request.uri contains \"%252d%252d\" or http.request.uri contains \"%252f%252a\" or http.request.uri contains \"%252a%252f\" or http.request.uri contains \"union\" or http.request.uri contains \"select\" or http.request.uri contains \"sleep%2528\" or http.request.uri contains \"updatexml%2528\" or http.request.uri contains \"user%2528\" or http.request.uri contains \"version%2528\")) or (http.request.uri contains \"%2520or%25201%253d1\") or (http.request.uri contains \"%252509or%2525091%253d1\") or (http.request.uri contains \"%2520union%2520select\") or (http.request.uri contains \"%252f%252a\" and http.request.uri contains \"union\" and http.request.uri contains \"select\") or (http.request.uri contains \"sleep%2528\") or (http.request.uri contains \"updatexml%2528\") or (http.request.uri contains \"%253bid%253dadmin\") or (http.request.uri contains \"admin%2527\" and (http.request.uri contains \"--\" or http.request.uri contains \"%252509--\" or http.request.uri contains \"%2520--\")) or (http.request.body.raw contains \"%2527\" and (http.request.body.raw contains \"%2520or%2520\" or http.request.body.raw contains \"%2520and%2520\" or http.request.body.raw contains \"%252509or%252509\" or http.request.body.raw contains \"%252509and%252509\" or http.request.body.raw contains \"%253d1\" or http.request.body.raw contains \"--\" or http.request.body.raw contains \"%252d%252d\" or http.request.body.raw contains \"%252f%252a\" or http.request.body.raw contains \"%252a%252f\" or http.request.body.raw contains \"union\" or http.request.body.raw contains \"select\" or http.request.body.raw contains \"sleep%2528\" or http.request.body.raw contains \"updatexml%2528\" or http.request.body.raw contains \"user%2528\" or http.request.body.raw contains \"version%2528\")) or (http.request.body.raw contains \"%2520or%25201%253d1\") or (http.request.body.raw contains \"%252509or%2525091%253d1\") or (http.request.body.raw contains \"%2520union%2520select\") or (http.request.body.raw contains \"%252f%252a\" and http.request.body.raw contains \"union\" and http.request.body.raw contains \"select\") or (http.request.body.raw contains \"sleep%2528\") or (http.request.body.raw contains \"updatexml%2528\") or (http.request.body.raw contains \"%253bid%253dadmin\") or (http.request.body.raw contains \"admin%2527\" and (http.request.body.raw contains \"--\" or http.request.body.raw contains \"%252509--\" or http.request.body.raw contains \"%2520--\")))",
+                "instructions": "Cloudflare Free-plan deployable expression only. Recommended action: BLOCK. Severity: HIGH. Coverage strategy: catches the observed SQLi bypass family across URI and body using only contains/eq-compatible logic, focusing on double-encoded quote/comment/operator/function patterns, UNION SELECT, OR 1=1, tab/space-obfuscated boolean logic, SLEEP(), UPDATEXML(), inline comment injection, and admin'-- authentication bypass forms. Pre-processing note: Cloudflare Free custom expressions cannot apply repeated URL decoding, lowercase transforms, regex, or Unicode normalization in the constrained syntax requested, so this rule compensates by matching the raw multi-encoded artifacts directly (for example %2527, %2520, %252509, %252f%252a, %253d1, %253b). Obfuscation coverage: mixed comment insertion, encoded whitespace, stacked statement indicator, and encoded SQL functions. False-positive minimization: the rule requires suspicious combinations rather than only a lone quote or lone SQL keyword in most branches. Self-check passed: uses Cloudflare expression syntax and only basic field references plus contains/and/or/parentheses; no regex, no matches, no transforms, no unsupported directives."
+            }
+        ],
+        "fixed_rules": [
+            {
+                "rule": "((http.request.uri contains \"%2527\" and (http.request.uri contains \"%2520or%2520\" or http.request.uri contains \"%2520and%2520\" or http.request.uri contains \"%252509or%252509\" or http.request.uri contains \"%252509and%252509\" or http.request.uri contains \"%253d1\" or http.request.uri contains \"--\" or http.request.uri contains \"%252d%252d\" or http.request.uri contains \"%252f%252a\" or http.request.uri contains \"%252a%252f\" or http.request.uri contains \"union\" or http.request.uri contains \"select\" or http.request.uri contains \"sleep%2528\" or http.request.uri contains \"updatexml%2528\" or http.request.uri contains \"user%2528\" or http.request.uri contains \"version%2528\")) or (http.request.uri contains \"%2520or%25201%253d1\") or (http.request.uri contains \"%252509or%2525091%253d1\") or (http.request.uri contains \"%2520union%2520select\") or (http.request.uri contains \"%252f%252a\" and http.request.uri contains \"union\" and http.request.uri contains \"select\") or (http.request.uri contains \"sleep%2528\") or (http.request.uri contains \"updatexml%2528\") or (http.request.uri contains \"%253bid%253dadmin\") or (http.request.uri contains \"admin%2527\" and (http.request.uri contains \"--\" or http.request.uri contains \"%252509--\" or http.request.uri contains \"%2520--\")) or (http.request.body.raw contains \"%2527\" and (http.request.body.raw contains \"%2520or%2520\" or http.request.body.raw contains \"%2520and%2520\" or http.request.body.raw contains \"%252509or%252509\" or http.request.body.raw contains \"%252509and%252509\" or http.request.body.raw contains \"%253d1\" or http.request.body.raw contains \"--\" or http.request.body.raw contains \"%252d%252d\" or http.request.body.raw contains \"%252f%252a\" or http.request.body.raw contains \"%252a%252f\" or http.request.body.raw contains \"union\" or http.request.body.raw contains \"select\" or http.request.body.raw contains \"sleep%2528\" or http.request.body.raw contains \"updatexml%2528\" or http.request.body.raw contains \"user%2528\" or http.request.body.raw contains \"version%2528\")) or (http.request.body.raw contains \"%2520or%25201%253d1\") or (http.request.body.raw contains \"%252509or%2525091%253d1\") or (http.request.body.raw contains \"%2520union%2520select\") or (http.request.body.raw contains \"%252f%252a\" and http.request.body.raw contains \"union\" and http.request.body.raw contains \"select\") or (http.request.body.raw contains \"sleep%2528\") or (http.request.body.raw contains \"updatexml%2528\") or (http.request.body.raw contains \"%253bid%253dadmin\") or (http.request.body.raw contains \"admin%2527\" and (http.request.body.raw contains \"--\" or http.request.body.raw contains \"%252509--\" or http.request.body.raw contains \"%2520--\")))",
+                "instructions": "Deploy this as a single Cloudflare Free plan custom WAF expression and set the action to BLOCK. The syntax has been corrected by balancing the outer parentheses while preserving the original contains/and/or-only logic and free-plan-compatible fields.",
+                "is_valid": true,
+                "validation_error": null,
+                "validation_warnings": []
+            }
+        ],
+        "final_rules": [
+            {
+                "rule": "(http.request.uri contains \"sleep%2528\" or http.request.uri contains \"updatexml%2528\" or http.request.uri contains \"%2520union%2520select\" or http.request.uri contains \"%2520or%25201%253d1\" or http.request.uri contains \"%252509or%2525091%253d1\" or http.request.uri contains \"%253bid%253dadmin\" or (http.request.uri contains \"%2527\" and (http.request.uri contains \"%2520or%2520\" or http.request.uri contains \"%2520and%2520\" or http.request.uri contains \"%252509or%252509\" or http.request.uri contains \"%252509and%252509\" or http.request.uri contains \"%253d1\" or http.request.uri contains \"--\" or http.request.uri contains \"%252d%252d\" or http.request.uri contains \"%252f%252a\" or http.request.uri contains \"%252a%252f\" or http.request.uri contains \"union\" or http.request.uri contains \"select\" or http.request.uri contains \"sleep%2528\" or http.request.uri contains \"updatexml%2528\" or http.request.uri contains \"user%2528\" or http.request.uri contains \"version%2528\")) or (http.request.uri contains \"%252f%252a\" and http.request.uri contains \"union\" and http.request.uri contains \"select\") or (http.request.uri contains \"admin%2527\" and (http.request.uri contains \"--\" or http.request.uri contains \"%252509--\" or http.request.uri contains \"%2520--\")) or http.request.body.raw contains \"sleep%2528\" or http.request.body.raw contains \"updatexml%2528\" or http.request.body.raw contains \"%2520union%2520select\" or http.request.body.raw contains \"%2520or%25201%253d1\" or http.request.body.raw contains \"%252509or%2525091%253d1\" or http.request.body.raw contains \"%253bid%253dadmin\" or (http.request.body.raw contains \"%2527\" and (http.request.body.raw contains \"%2520or%2520\" or http.request.body.raw contains \"%2520and%2520\" or http.request.body.raw contains \"%252509or%252509\" or http.request.body.raw contains \"%252509and%252509\" or http.request.body.raw contains \"%253d1\" or http.request.body.raw contains \"--\" or http.request.body.raw contains \"%252d%252d\" or http.request.body.raw contains \"%252f%252a\" or http.request.body.raw contains \"%252a%252f\" or http.request.body.raw contains \"union\" or http.request.body.raw contains \"select\" or http.request.body.raw contains \"sleep%2528\" or http.request.body.raw contains \"updatexml%2528\" or http.request.body.raw contains \"user%2528\" or http.request.body.raw contains \"version%2528\")) or (http.request.body.raw contains \"%252f%252a\" and http.request.body.raw contains \"union\" and http.request.body.raw contains \"select\") or (http.request.body.raw contains \"admin%2527\" and (http.request.body.raw contains \"--\" or http.request.body.raw contains \"%252509--\" or http.request.body.raw contains \"%2520--\")))",
+                "instructions": "Deploy as a single Cloudflare WAF custom rule with action Block. This rule targets double-URL-encoded SQL injection payloads in both the URI and raw request body. Covers blind injection via sleep/updatexml, UNION-based injection, boolean-based OR/AND conditions, comment sequences, and admin bypass patterns. Test in Log mode first to verify no false positives on your application before switching to Block."
+            }
+        ]
+    }
+}

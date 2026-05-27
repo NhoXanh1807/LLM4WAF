@@ -1,0 +1,457 @@
+{
+    "success": true,
+    "data": {
+        "waf_name": "Naxsi",
+        "existing_rules_count": 46,
+        "enabled_steps": {
+            "clustering": true,
+            "rag": true,
+            "validate_retry": true,
+            "refine": true
+        },
+        "stats": {
+            "total_payloads": 50,
+            "num_bypassed_payloads": 35,
+            "num_clusters": 7,
+            "rules_generated": 19,
+            "rules_valid": 19,
+            "rules_invalid": 0,
+            "rules_fixed": 0,
+            "rules_refined": 16
+        },
+        "clustered_payloads": [
+            {
+                "cluster_id": 3,
+                "payloads": [
+                    "％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СѕVG／ОnⅬОаD％２５３DАⅼЕRt％２５２８１％２５２９％２５３Е",
+                    "％２５３сѕvg＆＃４７；оnⅼОАD％２５３dаⅬЕRt％２５２８１％２５２９％２５３е",
+                    "％２５３Сѕvg＆＃４７；оnⅼОАD＝аⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е",
+                "size": 4
+            },
+            {
+                "cluster_id": 4,
+                "payloads": [
+                    "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                    "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ",
+                "size": 2
+            },
+            {
+                "cluster_id": 2,
+                "payloads": [
+                    "％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfRАMе％２５２０ѕRС％２５３djАVаЅсRіPt％２５３ааⅬЕrt％２５２８１％２５２９％２５３е",
+                    "％２５３СІFRАMЕ％２５２０ЅRС％２５３DJАVАЅСRІPT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfrАmЕ％２５２０Ѕrс％２５３djаvАѕСrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сіfRАMе％２５２０ѕRС％２５３DjАvаЅсRіpT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３Сіfrаmе％２５２０ЅrС％２５３djАVасrіpt％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRаMе％２５２０ЅRс％２５３djАvаѕСrіpT％２５３ааⅼЕRT％２５２８１％２５２９％２５３Е",
+                    "％２５３сІFRАMЕ％２５２０ѕrС％２５３djаVаЅсrіptеrrоr％２５２８１％２５２９％２５３е",
+                    "％２５３сіfRАMе％２５２０ЅRС％２５３djАVаѕсRіpT％２５３aaⅬЕrt％２５２８１％２５２９％２５３Е",
+                    "％２５３СІFRАmе％２５２０ЅRс％２５３DJаVАѕСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е",
+                "size": 10
+            },
+            {
+                "cluster_id": 0,
+                "payloads": [
+                    "％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww",
+                    "％２５３Сѕvg／оnⅼОАd％２５３DJаvАЅсrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е",
+                    "％２５３сІFRАMЕ％２５２bЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е",
+                    "％２５３сІFRаMЕ／％２５２А％２５２１５００００％２５２а／ѕrС％２５３DjАvАЅⅬаѕ／％２５２А％２５２１５００００％２５２А／ОNtеХtЕNdЕхT％２５３DｊＡＶａѕＣＲｉｐｔ％２５２８１％２５２９％２５３е",
+                    "％２５３сіfrАMе／％２５２а％２５２１５００００％２５２А／ѕrс％２５３DJаvАЅСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е"
+                ],
+                "representative_payload": "％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww",
+                "size": 5
+            },
+            {
+                "cluster_id": 6,
+                "payloads": [
+                    "％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е",
+                    "％２５３сѕСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е",
+                    "％２５３СЅсRіpT％２５３ЕАⅬеrt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３С／ѕСRіPt％２５３Е",
+                    "％２５３СѕсRіPt％２５３ЕАⅼеrt％２５２８１％２５２９％２５３С／ЅСⅬЕtТІNg％２５３Е",
+                    "％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІPT％２５３Е",
+                    "％２５３сѕСrіPt％２５３еаⅬЕRT％２５２８１％２５２９％２５３с／ЅСRІPt％２５３е",
+                    "％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３С／ѕсRіpT％２５３Е"
+                ],
+                "representative_payload": "％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е",
+                "size": 9
+            },
+            {
+                "cluster_id": 1,
+                "payloads": [
+                    "％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е",
+                    "%２５３ＣiMG%２５２０ｓｒｃ%２５３ＤＸ%２５２０ｏｎｅＲｒｏR%２５３ｄａｌＥｒｔ%２５２８１%２５２９%２５３Ｅ",
+                    "&#60;Svg / OnLOAd&#62;&#60;bODY&#62;"
+                ],
+                "representative_payload": "％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е",
+                "size": 3
+            },
+            {
+                "cluster_id": 5,
+                "payloads": [
+                    "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ",
+                    "％２５３сЅСｒｉｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ"
+                ],
+                "representative_payload": "％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ",
+                "size": 2
+            }
+        ],
+        "rag_result": {
+            "rag_enabled": true,
+            "num_queries": 9,
+            "num_docs_all": 62,
+            "num_docs_filtered": 21,
+            "num_docs_preselected": 29,
+            "sources": [
+                {
+                    "rank": 1,
+                    "source": "naxsi_rules_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "Naxsi",
+                    "chunk_id": 63,
+                    "total_chunks": 78,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "0.428",
+                    "relevance_score_display": "1.000",
+                    "relevance_score": "0.428",
+                    "content": "## 18.2 Complete XSS Location-Specific Rule\n\n```nginx\nload_module /etc/nginx/modules/ngx_http_naxsi_module.so;\n\nhttp {\n    server {\n        listen 80;\n        server_name example.com;\n\n        location / {\n            SecRulesEnabled;\n            DeniedUrl \"/RequestDenied\";\n\n            BasicRule id:510900 \"s:$XSS:8\" \"rx:<\\s*script\\b|on[a-z]+\\s*=|javascript\\s*:\" \"mz:ARGS|BODY|HEADERS\" \"msg:custom XSS indicators\";\n\n            CheckRule \"$XSS >= 8\" BLOCK;\n        }\n\n        location /RequestDenied {\n            internal;\n            return 403;\n        }\n    }\n}\n```"
+                },
+                {
+                    "rank": 2,
+                    "source": "naxsi_rules_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "Naxsi",
+                    "chunk_id": 45,
+                    "total_chunks": 78,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "0.424",
+                    "relevance_score_display": "0.958",
+                    "relevance_score": "0.424",
+                    "content": "# 11. XSS Rule Generation\n\n## 11.1 XSS Rule Generation Inputs\n\nUse this section when attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\nonclick\njavascript:\nHTML injection\nSVG payload\nIMG onerror\n```\n\n## 11.2 Basic XSS Script Tag Rule\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    DeniedUrl \"/RequestDenied\";\n\n    BasicRule id:510800 \"s:$XSS:8\" \"rx:<\\s*script\\b\" \"mz:ARGS|BODY|HEADERS\" \"msg:XSS script tag indicator\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n}\n```"
+                },
+                {
+                    "rank": 3,
+                    "source": "naxsi_basic_configuration_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "Naxsi",
+                    "chunk_id": 61,
+                    "total_chunks": 64,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "code_fence",
+                        "prose"
+                    ],
+                    "rerank_score_raw": "0.343",
+                    "relevance_score_display": "0.154",
+                    "relevance_score": "0.343",
+                    "content": "## 18.2 Naxsi Score Keywords\n\n```text\n$SQL\n$XSS\n$RFI\n$UWA\n$EVADE\n$UPLOAD\n$TRAVERSAL\n$LIBINJECTION_XSS\n$LIBINJECTION_SQL\nBLOCK\nLOG\nDROP\nALLOW\n```\n\n## 18.3 Naxsi Rule Syntax Keywords\n\n```text\nMainRule\nBasicRule\nwl\nid:\ns:\nrx:\nstr:\nd:libinj_xss\nd:libinj_sql\nmz:\nmsg:\nARGS\nBODY\nURL\nHEADERS\n$ARGS_VAR\n$BODY_VAR\n$HEADERS_VAR\n```\n\n## 18.4 Attack Keywords\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript\nSQL injection\nSQLi\nunion select\nor 1=1\nsleep\nbenchmark\nRFI\nremote file inclusion\npath traversal\ndirectory traversal\nmalicious upload\nweb shell\nevasion\nscanner user-agent\n```\n\n---"
+                },
+                {
+                    "rank": 4,
+                    "source": "naxsi_basic_configuration_rag_optimized_knowledge_base.md",
+                    "data_type": "Rules",
+                    "waf_type": "Naxsi",
+                    "chunk_id": 37,
+                    "total_chunks": 64,
+                    "page_start": null,
+                    "page_end": null,
+                    "block_types": [
+                        "heading",
+                        "code_fence"
+                    ],
+                    "rerank_score_raw": "0.327",
+                    "relevance_score_display": "0.000",
+                    "relevance_score": "0.327",
+                    "content": "# 13. Attack-Specific Naxsi Rule Generation\n\n## 13.1 XSS Configuration Pattern\n\nUse when the attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript:\nHTML injection\n```\n\nRecommended configuration:\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    LibInjectionXss;\n    DeniedUrl \"/RequestDenied\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n    CheckRule \"$LIBINJECTION_XSS >= 8\" BLOCK;\n}\n```"
+                }
+            ],
+            "context": "[Reference 1]\nSource: naxsi_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 63/78\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.428\n\nUseful excerpt:\n## 18.2 Complete XSS Location-Specific Rule\n\n```nginx\nload_module /etc/nginx/modules/ngx_http_naxsi_module.so;\n\nhttp {\n    server {\n        listen 80;\n        server_name example.com;\n\n        location / {\n            SecRulesEnabled;\n            DeniedUrl \"/RequestDenied\";\n\n            BasicRule id:510900 \"s:$XSS:8\" \"rx:<\\s*script\\b|on[a-z]+\\s*=|javascript\\s*:\" \"mz:ARGS|BODY|HEADERS\" \"msg:custom XSS indicators\";\n\n            CheckRule \"$XSS >= 8\" BLOCK;\n        }\n\n        location /RequestDenied {\n            internal;\n            return 403;\n        }\n    }\n}\n```\n\n---\n[Reference 2]\nSource: naxsi_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 45/78\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.424\n\nUseful excerpt:\n# 11. XSS Rule Generation\n\n## 11.1 XSS Rule Generation Inputs\n\nUse this section when attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\nonclick\njavascript:\nHTML injection\nSVG payload\nIMG onerror\n```\n\n## 11.2 Basic XSS Script Tag Rule\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    DeniedUrl \"/RequestDenied\";\n\n    BasicRule id:510800 \"s:$XSS:8\" \"rx:<\\s*script\\b\" \"mz:ARGS|BODY|HEADERS\" \"msg:XSS script tag indicator\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n}\n```\n\n---\n[Reference 3]\nSource: naxsi_basic_configuration_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 61/64\nBlock types: ['heading', 'code_fence', 'prose']\nRaw rerank score: 0.343\n\nUseful excerpt:\n## 18.2 Naxsi Score Keywords\n\n```text\n$SQL\n$XSS\n$RFI\n$UWA\n$EVADE\n$UPLOAD\n$TRAVERSAL\n$LIBINJECTION_XSS\n$LIBINJECTION_SQL\nBLOCK\nLOG\nDROP\nALLOW\n```\n\n## 18.3 Naxsi Rule Syntax Keywords\n\n```text\nMainRule\nBasicRule\nwl\nid:\ns:\nrx:\nstr:\nd:libinj_xss\nd:libinj_sql\nmz:\nmsg:\nARGS\nBODY\nURL\nHEADERS\n$ARGS_VAR\n$BODY_VAR\n$HEADERS_VAR\n```\n\n## 18.4 Attack Keywords\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript\nSQL injection\nSQLi\nunion select\nor 1=1\nsleep\nbenchmark\nRFI\nremote file inclusion\npath traversal\ndirectory traversal\nmalicious upload\nweb shell\nevasion\nscanner user-agent\n```\n\n---\n\n---\n[Reference 4]\nSource: naxsi_basic_configuration_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 37/64\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.327\n\nUseful excerpt:\n# 13. Attack-Specific Naxsi Rule Generation\n\n## 13.1 XSS Configuration Pattern\n\nUse when the attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript:\nHTML injection\n```\n\nRecommended configuration:\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    LibInjectionXss;\n    DeniedUrl \"/RequestDenied\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n    CheckRule \"$LIBINJECTION_XSS >= 8\" BLOCK;\n}\n```\n",
+            "queries": [
+                "Naxsi XSS DOM xss_dom rule syntax statement example fields action transformation",
+                "Naxsi XSS DOM DOM XSS DOM-based XSS client-side XSS JavaScript DOM sink DOM source DOM sink detection rule example request component text transformation",
+                "Naxsi XSS rule detect onload svg img # rvww %２５ body",
+                "XSS DOM xss_dom bypass normalization decoding canonicalization lowercase url decode html entity rule",
+                "Naxsi inspect query string body headers cookies uri XSS DOM xss_dom rule statement",
+                "Naxsi DOM XSS rule detect client side source sink location hash document write innerHTML javascript",
+                "Naxsi DOM-based XSS client-side JavaScript sink source rule example",
+                "Naxsi MainRule BasicRule XSS DOM XSS mz ARGS URL BODY score CheckRule example",
+                "Naxsi rule syntax MainRule BasicRule str rx mz msg score"
+            ],
+            "score_note": "Cross-encoder scores are raw logits; negative values are normal. Use rank/order, not absolute sign.",
+            "attack_type_input": "xss_dom",
+            "attack_type_raw": "xss_dom",
+            "attack_type_display": "XSS DOM",
+            "attack_type_family": "XSS",
+            "attack_terms": [
+                "xss_dom",
+                "XSS DOM",
+                "XSS",
+                "DOM XSS",
+                "DOM-based XSS",
+                "client-side XSS",
+                "JavaScript DOM sink",
+                "DOM source",
+                "DOM sink",
+                "location.hash",
+                "location.search",
+                "document.location",
+                "document.URL",
+                "document.referrer",
+                "document.write",
+                "innerHTML",
+                "outerHTML",
+                "insertAdjacentHTML",
+                "eval",
+                "setTimeout",
+                "setInterval",
+                "javascript URL"
+            ],
+            "waf_filtered": true,
+            "mapped_waf_name": "Naxsi",
+            "attack_type_sent": "xss_dom"
+        },
+        "rag_sources": [
+            {
+                "rank": 1,
+                "source": "naxsi_rules_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "Naxsi",
+                "chunk_id": 63,
+                "total_chunks": 78,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "0.428",
+                "relevance_score_display": "1.000",
+                "relevance_score": "0.428",
+                "content": "## 18.2 Complete XSS Location-Specific Rule\n\n```nginx\nload_module /etc/nginx/modules/ngx_http_naxsi_module.so;\n\nhttp {\n    server {\n        listen 80;\n        server_name example.com;\n\n        location / {\n            SecRulesEnabled;\n            DeniedUrl \"/RequestDenied\";\n\n            BasicRule id:510900 \"s:$XSS:8\" \"rx:<\\s*script\\b|on[a-z]+\\s*=|javascript\\s*:\" \"mz:ARGS|BODY|HEADERS\" \"msg:custom XSS indicators\";\n\n            CheckRule \"$XSS >= 8\" BLOCK;\n        }\n\n        location /RequestDenied {\n            internal;\n            return 403;\n        }\n    }\n}\n```"
+            },
+            {
+                "rank": 2,
+                "source": "naxsi_rules_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "Naxsi",
+                "chunk_id": 45,
+                "total_chunks": 78,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "0.424",
+                "relevance_score_display": "0.958",
+                "relevance_score": "0.424",
+                "content": "# 11. XSS Rule Generation\n\n## 11.1 XSS Rule Generation Inputs\n\nUse this section when attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\nonclick\njavascript:\nHTML injection\nSVG payload\nIMG onerror\n```\n\n## 11.2 Basic XSS Script Tag Rule\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    DeniedUrl \"/RequestDenied\";\n\n    BasicRule id:510800 \"s:$XSS:8\" \"rx:<\\s*script\\b\" \"mz:ARGS|BODY|HEADERS\" \"msg:XSS script tag indicator\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n}\n```"
+            },
+            {
+                "rank": 3,
+                "source": "naxsi_basic_configuration_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "Naxsi",
+                "chunk_id": 61,
+                "total_chunks": 64,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "code_fence",
+                    "prose"
+                ],
+                "rerank_score_raw": "0.343",
+                "relevance_score_display": "0.154",
+                "relevance_score": "0.343",
+                "content": "## 18.2 Naxsi Score Keywords\n\n```text\n$SQL\n$XSS\n$RFI\n$UWA\n$EVADE\n$UPLOAD\n$TRAVERSAL\n$LIBINJECTION_XSS\n$LIBINJECTION_SQL\nBLOCK\nLOG\nDROP\nALLOW\n```\n\n## 18.3 Naxsi Rule Syntax Keywords\n\n```text\nMainRule\nBasicRule\nwl\nid:\ns:\nrx:\nstr:\nd:libinj_xss\nd:libinj_sql\nmz:\nmsg:\nARGS\nBODY\nURL\nHEADERS\n$ARGS_VAR\n$BODY_VAR\n$HEADERS_VAR\n```\n\n## 18.4 Attack Keywords\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript\nSQL injection\nSQLi\nunion select\nor 1=1\nsleep\nbenchmark\nRFI\nremote file inclusion\npath traversal\ndirectory traversal\nmalicious upload\nweb shell\nevasion\nscanner user-agent\n```\n\n---"
+            },
+            {
+                "rank": 4,
+                "source": "naxsi_basic_configuration_rag_optimized_knowledge_base.md",
+                "data_type": "Rules",
+                "waf_type": "Naxsi",
+                "chunk_id": 37,
+                "total_chunks": 64,
+                "page_start": null,
+                "page_end": null,
+                "block_types": [
+                    "heading",
+                    "code_fence"
+                ],
+                "rerank_score_raw": "0.327",
+                "relevance_score_display": "0.000",
+                "relevance_score": "0.327",
+                "content": "# 13. Attack-Specific Naxsi Rule Generation\n\n## 13.1 XSS Configuration Pattern\n\nUse when the attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript:\nHTML injection\n```\n\nRecommended configuration:\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    LibInjectionXss;\n    DeniedUrl \"/RequestDenied\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n    CheckRule \"$LIBINJECTION_XSS >= 8\" BLOCK;\n}\n```"
+            }
+        ],
+        "rag_context": "[Reference 1]\nSource: naxsi_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 63/78\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.428\n\nUseful excerpt:\n## 18.2 Complete XSS Location-Specific Rule\n\n```nginx\nload_module /etc/nginx/modules/ngx_http_naxsi_module.so;\n\nhttp {\n    server {\n        listen 80;\n        server_name example.com;\n\n        location / {\n            SecRulesEnabled;\n            DeniedUrl \"/RequestDenied\";\n\n            BasicRule id:510900 \"s:$XSS:8\" \"rx:<\\s*script\\b|on[a-z]+\\s*=|javascript\\s*:\" \"mz:ARGS|BODY|HEADERS\" \"msg:custom XSS indicators\";\n\n            CheckRule \"$XSS >= 8\" BLOCK;\n        }\n\n        location /RequestDenied {\n            internal;\n            return 403;\n        }\n    }\n}\n```\n\n---\n[Reference 2]\nSource: naxsi_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 45/78\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.424\n\nUseful excerpt:\n# 11. XSS Rule Generation\n\n## 11.1 XSS Rule Generation Inputs\n\nUse this section when attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\nonclick\njavascript:\nHTML injection\nSVG payload\nIMG onerror\n```\n\n## 11.2 Basic XSS Script Tag Rule\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    DeniedUrl \"/RequestDenied\";\n\n    BasicRule id:510800 \"s:$XSS:8\" \"rx:<\\s*script\\b\" \"mz:ARGS|BODY|HEADERS\" \"msg:XSS script tag indicator\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n}\n```\n\n---\n[Reference 3]\nSource: naxsi_basic_configuration_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 61/64\nBlock types: ['heading', 'code_fence', 'prose']\nRaw rerank score: 0.343\n\nUseful excerpt:\n## 18.2 Naxsi Score Keywords\n\n```text\n$SQL\n$XSS\n$RFI\n$UWA\n$EVADE\n$UPLOAD\n$TRAVERSAL\n$LIBINJECTION_XSS\n$LIBINJECTION_SQL\nBLOCK\nLOG\nDROP\nALLOW\n```\n\n## 18.3 Naxsi Rule Syntax Keywords\n\n```text\nMainRule\nBasicRule\nwl\nid:\ns:\nrx:\nstr:\nd:libinj_xss\nd:libinj_sql\nmz:\nmsg:\nARGS\nBODY\nURL\nHEADERS\n$ARGS_VAR\n$BODY_VAR\n$HEADERS_VAR\n```\n\n## 18.4 Attack Keywords\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript\nSQL injection\nSQLi\nunion select\nor 1=1\nsleep\nbenchmark\nRFI\nremote file inclusion\npath traversal\ndirectory traversal\nmalicious upload\nweb shell\nevasion\nscanner user-agent\n```\n\n---\n\n---\n[Reference 4]\nSource: naxsi_basic_configuration_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 37/64\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.327\n\nUseful excerpt:\n# 13. Attack-Specific Naxsi Rule Generation\n\n## 13.1 XSS Configuration Pattern\n\nUse when the attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript:\nHTML injection\n```\n\nRecommended configuration:\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    LibInjectionXss;\n    DeniedUrl \"/RequestDenied\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n    CheckRule \"$LIBINJECTION_XSS >= 8\" BLOCK;\n}\n```\n",
+        "generation_prompt": "**CRITICAL SECURITY ALERT**: My WAF has been bypassed during authorized penetration testing.\n\n**Environment:**\n- WAF: Naxsi\n- Bypassed payloads clustered into 7 groups based on similarity and attack pattern:\n\tCluster 3 (4 payloads):\n\t\t％２５３СѕVg／оnⅬОАD％２５３DAⅼеrt％２５２８１％２５２９％２５３Е\n\t\t％２５３СѕVG／ОnⅬОаD％２５３DАⅼЕRt％２５２８１％２５２９％２５３Е\n\t\t％２５３сѕvg＆＃４７；оnⅼОАD％２５３dаⅬЕRt％２５２８１％２５２９％２５３е\n\t\t％２５３Сѕvg＆＃４７；оnⅼОАD＝аⅬЕrt％２５２８１％２５２９％２５３Е\n\tCluster 4 (2 payloads):\n\t\t％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\t\t％２５３ｃЅСｒІｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\tCluster 2 (10 payloads):\n\t\t％２５３Сіfrаmе％２５２０ѕrс％２５３Djаvаѕсrіpt％２５３Ааⅼеrt％２５２８１％２５２９％２５３Е\n\t\t％２５３сіfRАMе％２５２０ѕRС％２５３djАVаЅсRіPt％２５３ааⅬЕrt％２５２８１％２５２９％２５３е\n\t\t％２５３СІFRАMЕ％２５２０ЅRС％２５３DJАVАЅСRІPT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е\n\t\t％２５３сіfrАmЕ％２５２０Ѕrс％２５３djаvАѕСrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е\n\t\t％２５３сіfRАMе％２５２０ѕRС％２５３DjАvаЅсRіpT％２５３ААⅬЕRT％２５２８１％２５２９％２５３Е\n\t\t％２５３Сіfrаmе％２５２０ЅrС％２５３djАVасrіpt％２５３ааⅬЕrt％２５２８１％２５２９％２５３Е\n\t\t％２５３СІFRаMе％２５２０ЅRс％２５３djАvаѕСrіpT％２５３ааⅼЕRT％２５２８１％２５２９％２５３Е\n\t\t％２５３сІFRАMЕ％２５２０ѕrС％２５３djаVаЅсrіptеrrоr％２５２８１％２５２９％２５３е\n\t\t％２５３сіfRАMе％２５２０ЅRС％２５３djАVаѕсRіpT％２５３aaⅬЕrt％２５２８１％２５２９％２５３Е\n\t\t％２５３СІFRАmе％２５２０ЅRс％２５３DJаVАѕСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е\n\tCluster 0 (5 payloads):\n\t\t％２５３СіfrаMе／％２５２А％２５２１５００００％２５２а／ЅRС％２５３dJАVАѕсRіPT％２５３ааⅼЕRT％２５２８１％２５２９％２５３е＆vѕRᏃ＝Rvww\n\t\t％２５３Сѕvg／оnⅼОАd％２５３DJаvАЅсrіpT％２５３ааⅬеrt％２５２８１％２５２９％２５３Е\n\t\t％２５３сІFRАMЕ％２５２bЅRС％２５３dJАVАЅСRІPT％２５３аАⅬЕRT％２５２８１％２５２９％２５３е\n\t\t％２５３сІFRаMЕ／％２５２А％２５２１５００００％２５２а／ѕrС％２５３DjАvАЅⅬаѕ／％２５２А％２５２１５００００％２５２А／ОNtеХtЕNdЕхT％２５３DｊＡＶａѕＣＲｉｐｔ％２５２８１％２５２９％２５３е\n\t\t％２５３сіfrАMе／％２５２а％２５２１５００００％２５２А／ѕrс％２５３DJаvАЅСrіpT％２５３ААⅬЕrt％２５２８１％２５２９％２５３Е\n\tCluster 6 (9 payloads):\n\t\t％２５３сЅСRІpT％２５３еАⅬЕrt％２５２８１％２５２９％２５３с／ѕсrіPt％２５３е\n\t\t％２５３сѕСRіPt％２５３еаⅼЕrt％２５２８１％２５２９％２５３с／ЅсrіpT％２５３е\n\t\t％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３с／ѕсRіpT％２５３е\n\t\t％２５３СЅсRіpT％２５３ЕАⅬеrt％２５２８１％２５２９％２５３С／ѕСRіpT％２５３Е\n\t\t％２５３сЅСRіPt％２５３еаⅬЕrt％２５２８１％２５２９％２５３С／ѕСRіPt％２５３Е\n\t\t％２５３СѕсRіPt％２５３ЕАⅼеrt％２５２８１％２５２９％２５３С／ЅСⅬЕtТІNg％２５３Е\n\t\t％２５３СЅсrіpt％２５３Еаⅼеrt％２５２８１％２５２９％２５３С／ѕСRІPT％２５３Е\n\t\t％２５３сѕСrіPt％２５３еаⅬЕRT％２５２８１％２５２９％２５３с／ЅСRІPt％２５３е\n\t\t％２５３сЅСRіPt％２５３еаⅬЕRt％２５２８１％２５２９％２５３С／ѕсRіpT％２５３Е\n\tCluster 1 (3 payloads):\n\t\t％２５３сіMg％２５２０Ѕｒс％２５３ｄХ％２５２０оnЕrrｏr％２５３ｄАⅬｅrt％２５２８１％２５２９％２５３е\n\t\t%２５３ＣiMG%２５２０ｓｒｃ%２５３ＤＸ%２５２０ｏｎｅＲｒｏR%２５３ｄａｌＥｒｔ%２５２８１%２５２９%２５３Ｅ\n\t\t&#60;Svg / OnLOAd&#62;&#60;bODY&#62;\n\tCluster 5 (2 payloads):\n\t\t％２５３сЅСｒІｐT％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；＄ｕｂｍｉｓｓіоｎ％２５３ｅ\n\t\t％２５３сЅСｒｉｐｔ％２５３ｅａⅬｅRT％２５２８１％２５２９％２５３ｃ＆＃４７；ЅСｒｉPT％２５３ｅ\n\n\nGenerate PRODUCTION-GRADE defense rules to block these clusters of payloads, following these requirements:\n\n1. **Multi-Layer Detection**: Create rules that detect:\n   - Raw pattern matching (regex)\n   - Normalized/decoded variants (URL decoding, Unicode normalization)\n   - Obfuscation techniques (comment injection, case variations)\n   - Anomaly patterns (unusual character sequences, excessive encoding)\n\n2. **Rule Requirements**:\n   - Match both obvious and obfuscated forms\n   - Include pre-processing steps (normalize, decode, lowercase)\n   - Minimize false positives with negative lookaheads\n   - Specify rule severity and recommended action (BLOCK/LOG/CHALLENGE)\n\n3. **Coverage Strategy**: Generalize patterns to catch variants without overfitting to specific payloads.\n\n4. **Target WAF Guardrails**:\n**Naxsi-Specific Constraints**:\n- Output Naxsi syntax only.\n- DO NOT output ModSecurity syntax such as SecRule, SecAction, ctl, t:, phase:, deny, id inside quoted action lists, or chained ModSecurity directives.\n- Prefer native Naxsi directives only: MainRule, BasicRule, CheckRule.\n- MainRule should use Naxsi-native components like rx:/str:/d:, msg:, mz:, s:, id:...;\n- BasicRule should use wl:... and mz:... only.\n- CheckRule should use Naxsi threshold syntax only.\n- For detection rules, include the Naxsi-native essentials: pattern (`rx:` or `str:`), match zone (`mz:`), score (`s:`), and unique `id:`.\n- Example rule:\n   MainRule \"rx:pattern\" \"msg:Description\" \"mz:BODY|URL|ARGS\" \"s:$XSS:8\" id:100001;\n- End each Naxsi rule with ';'.\n- Before outputting, self-check that no ModSecurity keywords or ModSecurity action syntax appear anywhere in the output.\n\n5. **Mandatory Self-Check Before Final Output**:\n   - Verify the syntax belongs to the target WAF only.\n   - Verify no unsupported transformation, operator, or directive is present.\n   - If a desired normalization step is unsupported by the target WAF, replace it with the closest supported alternative instead of inventing a new syntax.\n   - Prefer a simpler valid rule over a more advanced but potentially invalid rule.\n\n6. **Multi-Layer URL Encoding**: When generating rules, always account for multi-layer URL encoding by applying repeated URL-decoding transformations, e.g. t:urlDecodeUni multiple times, so payloads encoded two or more times such as %25253C...%25253E are normalized before regex matching.\n\nThe WAF format instruction will follow — generate rules ONLY in that specified format.\n\n---\n**KNOWLEDGE BASE REFERENCES FOR RULE GENERATION**\n\n[Reference 1]\nSource: naxsi_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 63/78\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.428\n\nUseful excerpt:\n## 18.2 Complete XSS Location-Specific Rule\n\n```nginx\nload_module /etc/nginx/modules/ngx_http_naxsi_module.so;\n\nhttp {\n    server {\n        listen 80;\n        server_name example.com;\n\n        location / {\n            SecRulesEnabled;\n            DeniedUrl \"/RequestDenied\";\n\n            BasicRule id:510900 \"s:$XSS:8\" \"rx:<\\s*script\\b|on[a-z]+\\s*=|javascript\\s*:\" \"mz:ARGS|BODY|HEADERS\" \"msg:custom XSS indicators\";\n\n            CheckRule \"$XSS >= 8\" BLOCK;\n        }\n\n        location /RequestDenied {\n            internal;\n            return 403;\n        }\n    }\n}\n```\n\n---\n[Reference 2]\nSource: naxsi_rules_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 45/78\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.424\n\nUseful excerpt:\n# 11. XSS Rule Generation\n\n## 11.1 XSS Rule Generation Inputs\n\nUse this section when attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\nonclick\njavascript:\nHTML injection\nSVG payload\nIMG onerror\n```\n\n## 11.2 Basic XSS Script Tag Rule\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    DeniedUrl \"/RequestDenied\";\n\n    BasicRule id:510800 \"s:$XSS:8\" \"rx:<\\s*script\\b\" \"mz:ARGS|BODY|HEADERS\" \"msg:XSS script tag indicator\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n}\n```\n\n---\n[Reference 3]\nSource: naxsi_basic_configuration_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 61/64\nBlock types: ['heading', 'code_fence', 'prose']\nRaw rerank score: 0.343\n\nUseful excerpt:\n## 18.2 Naxsi Score Keywords\n\n```text\n$SQL\n$XSS\n$RFI\n$UWA\n$EVADE\n$UPLOAD\n$TRAVERSAL\n$LIBINJECTION_XSS\n$LIBINJECTION_SQL\nBLOCK\nLOG\nDROP\nALLOW\n```\n\n## 18.3 Naxsi Rule Syntax Keywords\n\n```text\nMainRule\nBasicRule\nwl\nid:\ns:\nrx:\nstr:\nd:libinj_xss\nd:libinj_sql\nmz:\nmsg:\nARGS\nBODY\nURL\nHEADERS\n$ARGS_VAR\n$BODY_VAR\n$HEADERS_VAR\n```\n\n## 18.4 Attack Keywords\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript\nSQL injection\nSQLi\nunion select\nor 1=1\nsleep\nbenchmark\nRFI\nremote file inclusion\npath traversal\ndirectory traversal\nmalicious upload\nweb shell\nevasion\nscanner user-agent\n```\n\n---\n\n---\n[Reference 4]\nSource: naxsi_basic_configuration_rag_optimized_knowledge_base.md\nType: Rules\nWAF: Naxsi\nChunk: 37/64\nBlock types: ['heading', 'code_fence']\nRaw rerank score: 0.327\n\nUseful excerpt:\n# 13. Attack-Specific Naxsi Rule Generation\n\n## 13.1 XSS Configuration Pattern\n\nUse when the attack type is:\n\n```text\nXSS\ncross-site scripting\nscript tag\nonerror\nonload\njavascript:\nHTML injection\n```\n\nRecommended configuration:\n\n```nginx\nlocation / {\n    SecRulesEnabled;\n    LibInjectionXss;\n    DeniedUrl \"/RequestDenied\";\n\n    CheckRule \"$XSS >= 8\" BLOCK;\n    CheckRule \"$LIBINJECTION_XSS >= 8\" BLOCK;\n}\n```\n\n\n---\nUse the references above as implementation evidence for writing WAF rules.\nPrioritize WAF-specific syntax, fields, operators, transformations, actions, and concrete examples.\nIgnore references that only describe the attack generally but do not help write a rule.\nPrioritize the specific bypassed payloads mentioned above.\n",
+        "generated_rules": [
+            {
+                "rule": "MainRule \"str:%25\" \"msg:multi-encoding indicator\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$EVADE:2\" id:110001;",
+                "instructions": "Low-score evasion indicator for percent-encoded payloads. Intended to accumulate with stronger XSS signatures rather than block alone."
+            },
+            {
+                "rule": "MainRule \"rx:(?:%25(?:2[0-9a-fA-F]|3[cCeE]|47|3[dD])){2,}\" \"msg:double-encoded metacharacters likely used for HTML/XSS evasion\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$EVADE:6\" id:110002;",
+                "instructions": "Detects repeated percent-encoded control/meta characters such as encoded <, >, =, / and spaces across multi-layer URL encoding patterns."
+            },
+            {
+                "rule": "MainRule \"rx:(?:&#(?:x0*2[fF]|0*47|x0*3[cC]|0*60|x0*3[eE]|0*62|x0*3[dD]|0*61);)\" \"msg:HTML entity encoded meta-characters in request\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$EVADE:4\" id:110003;",
+                "instructions": "Catches entity-encoded separators and delimiters used in obfuscated tag construction, including &#47; and encoded angle brackets."
+            },
+            {
+                "rule": "MainRule \"rx:(?:alert\\s*\\(|javascript\\s*:|on(?:load|error)\\s*=|<\\s*(?:script|svg|iframe|img|body)\\b)\" \"msg:raw XSS execution indicators\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$XSS:8\" id:110004;",
+                "instructions": "Primary raw-pattern XSS signature for obvious forms. Covers script/svg/iframe/img/body tags, event handlers, javascript: URIs, and alert()."
+            },
+            {
+                "rule": "MainRule \"rx:(?:s[^a-zA-Z0-9]{0,3}c[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}i[^a-zA-Z0-9]{0,3}p[^a-zA-Z0-9]{0,3}t|i[^a-zA-Z0-9]{0,3}f[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}m[^a-zA-Z0-9]{0,3}e|s[^a-zA-Z0-9]{0,3}v[^a-zA-Z0-9]{0,3}g|i[^a-zA-Z0-9]{0,3}m[^a-zA-Z0-9]{0,3}g)\" \"msg:obfuscated dangerous HTML tag names\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$XSS:6\" id:110005;",
+                "instructions": "Generalized tag-name detector allowing limited separator injection between letters. Useful for comment/symbol-fragmented script, iframe, svg, and img tokens."
+            },
+            {
+                "rule": "MainRule \"rx:(?:o[^a-zA-Z0-9]{0,3}n[^a-zA-Z0-9]{0,3}(?:l[^a-zA-Z0-9]{0,3}o[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}d|e[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}o[^a-zA-Z0-9]{0,3}r)\\s*(?:=|%3[dD]|&#(?:x0*3[dD]|0*61);))\" \"msg:obfuscated event handler assignment\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$XSS:8\" id:110006;",
+                "instructions": "Targets fragmented onload/onerror assignments, including encoded equals signs. Strong signal for clusters using event-handler execution."
+            },
+            {
+                "rule": "MainRule \"rx:(?:j[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}v[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}s[^a-zA-Z0-9]{0,3}c[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}i[^a-zA-Z0-9]{0,3}p[^a-zA-Z0-9]{0,3}t\\s*(?::|%3[aA]|&#(?:x0*3[aA]|0*58);))\" \"msg:obfuscated javascript URI scheme\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$XSS:8\" id:110007;",
+                "instructions": "Covers javascript: with inserted separators and encoded colon forms. Important for iframe/src and svg/onload payload families."
+            },
+            {
+                "rule": "MainRule \"rx:(?:a[^a-zA-Z0-9]{0,3}l[^a-zA-Z0-9]{0,3}e[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}t\\s*(?:\\(|%28|&#(?:x0*28|0*40);))\" \"msg:obfuscated alert function call\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$XSS:6\" id:110008;",
+                "instructions": "Detects fragmented alert( invocation including encoded opening parenthesis. Intended to combine with tag or URI indicators for blocking."
+            },
+            {
+                "rule": "MainRule \"rx:(?:<\\s*(?:svg|img|iframe|script|body)\\b[^>]{0,256}(?:onload|onerror|src)\\b[^>]{0,256})\" \"msg:active HTML tag with executable attribute\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110009;",
+                "instructions": "Higher-confidence structural rule for active tags carrying execution attributes. Scoped away from HEADERS to reduce false positives."
+            },
+            {
+                "rule": "MainRule \"rx:(?:%25(?:33|32)?63|%3[cC]|&#(?:x0*3[cC]|0*60);).{0,64}(?:s[^a-zA-Z0-9]{0,3}c[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}i[^a-zA-Z0-9]{0,3}p[^a-zA-Z0-9]{0,3}t|s[^a-zA-Z0-9]{0,3}v[^a-zA-Z0-9]{0,3}g|i[^a-zA-Z0-9]{0,3}f[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}m[^a-zA-Z0-9]{0,3}e|i[^a-zA-Z0-9]{0,3}m[^a-zA-Z0-9]{0,3}g)\" \"msg:encoded opening bracket followed by dangerous tag\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$XSS:8\" id:110010;",
+                "instructions": "Bridges encoded bracket sequences to dangerous tag names. Useful against double/triple-encoded tag-open payloads from multiple clusters."
+            },
+            {
+                "rule": "MainRule \"rx:(?:%25(?:33|32)?65|%3[eE]|&#(?:x0*3[eE]|0*62);).{0,32}(?:%25(?:33|32)?63|%3[cC]|&#(?:x0*3[cC]|0*60);\\s*/?)\" \"msg:encoded tag boundary pattern\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$EVADE:4\" id:110011;",
+                "instructions": "Detects encoded > followed closely by encoded < or </, common in obfuscated opening/closing tag pairs like script blocks."
+            },
+            {
+                "rule": "MainRule \"rx:(?:[^\\x00-\\x7F]{6,})\" \"msg:high density of non-ASCII characters in request\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$EVADE:3\" id:110012;",
+                "instructions": "Anomaly rule for homoglyph-heavy payloads. Keep score low to avoid false positives; intended to combine with XSS indicators."
+            },
+            {
+                "rule": "MainRule \"rx:(?:%[0-9A-Fa-f]{2}){8,}\" \"msg:excessive URL encoding density\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$EVADE:3\" id:110013;",
+                "instructions": "Anomaly rule for heavily encoded requests. Helps surface multi-layer encoded XSS without blocking normal low-volume encoding."
+            },
+            {
+                "rule": "MainRule \"d:libinj_xss\" \"msg:libinjection xss detection\" \"mz:URL|ARGS|BODY|HEADERS\" \"s:$LIBINJECTION_XSS:8\" id:110014;",
+                "instructions": "Enable libinjection-based XSS detection as an additional layer. Strong complementary protection for normalized attack forms."
+            },
+            {
+                "rule": "CheckRule \"$LIBINJECTION_XSS >= 8\" BLOCK;",
+                "instructions": "Immediate block on libinjection XSS hit."
+            },
+            {
+                "rule": "CheckRule \"$XSS >= 8\" BLOCK;",
+                "instructions": "Primary block threshold for direct XSS signatures."
+            },
+            {
+                "rule": "CheckRule \"$XSS >= 6\" LOG;",
+                "instructions": "Log medium-confidence XSS matches for tuning and visibility."
+            },
+            {
+                "rule": "CheckRule \"$EVADE >= 8\" BLOCK;",
+                "instructions": "Block when multiple evasion indicators accumulate strongly, even if a single direct XSS signature is absent."
+            },
+            {
+                "rule": "CheckRule \"$EVADE >= 4\" LOG;",
+                "instructions": "Log suspicious encoding/obfuscation activity for review and correlation."
+            }
+        ],
+        "fixed_rules": [],
+        "final_rules": [
+            {
+                "rule": "MainRule \"str:%25\" \"msg:percent-25 encoding indicator\" \"mz:URL|ARGS|BODY\" \"s:$EVADE:2\" id:110001;",
+                "instructions": "Deploy as a low-weight signal for double-encoding detection. HEADERS zone removed as Naxsi does not support bare HEADERS zone; use $HEADERS_VAR:Cookie or specific header zones only. Pairs with id:110002 for compound scoring."
+            },
+            {
+                "rule": "MainRule \"rx:(?:%25(?:2[0-9a-fA-F]|3[cCeE]|47|3[dD])){2,}\" \"msg:double-encoded metacharacters for HTML/XSS evasion\" \"mz:URL|ARGS|BODY\" \"s:$EVADE:6\" id:110002;",
+                "instructions": "Targets repeated double-encoded metacharacters. HEADERS zone removed for Naxsi compatibility. Complements id:1315 which covers single-level %[23]. encoding."
+            },
+            {
+                "rule": "MainRule \"rx:(?:&#(?:x0*2[fF]|0*47|x0*3[cC]|0*60|x0*3[eE]|0*62|x0*3[dD]|0*61);)\" \"msg:HTML entity encoded meta-characters\" \"mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie\" \"s:$EVADE:4\" id:110003;",
+                "instructions": "Detects HTML entity encoding of critical metacharacters (slash, less-than, greater-than, backtick, equals). Complements id:1400 (&#) by matching specific dangerous entity values. Use $HEADERS_VAR:Cookie instead of bare HEADERS."
+            },
+            {
+                "rule": "MainRule \"rx:(?:alert\\s*\\(|javascript\\s*:|on(?:load|error)\\s*=|<\\s*(?:script|svg|iframe|img|body)\\b)\" \"msg:raw XSS execution indicators\" \"mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie\" \"s:$XSS:8\" id:110004;",
+                "instructions": "Covers unencoded XSS execution patterns not caught by existing character-level rules. Note: existing rules id:1302/1303/1010 catch individual chars but not combined patterns. Deploy alongside existing XSS rules."
+            },
+            {
+                "rule": "MainRule \"rx:(?:s[^a-zA-Z0-9]{0,3}c[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}i[^a-zA-Z0-9]{0,3}p[^a-zA-Z0-9]{0,3}t|i[^a-zA-Z0-9]{0,3}f[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}m[^a-zA-Z0-9]{0,3}e|s[^a-zA-Z0-9]{0,3}v[^a-zA-Z0-9]{0,3}g|i[^a-zA-Z0-9]{0,3}m[^a-zA-Z0-9]{0,3}g)\" \"msg:obfuscated dangerous HTML tag names\" \"mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie\" \"s:$XSS:6\" id:110005;",
+                "instructions": "Detects character-interleaved obfuscation of script/iframe/svg/img tag names. HEADERS replaced with $HEADERS_VAR:Cookie. High false-positive risk in BODY for rich content apps; consider BasicRule whitelists for known safe parameters."
+            },
+            {
+                "rule": "MainRule \"rx:(?:o[^a-zA-Z0-9]{0,3}n[^a-zA-Z0-9]{0,3}(?:l[^a-zA-Z0-9]{0,3}o[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}d|e[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}o[^a-zA-Z0-9]{0,3}r)\\s*(?:=|%3[dD]|&#(?:x0*3[dD]|0*61);))\" \"msg:obfuscated event handler assignment\" \"mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie\" \"s:$XSS:8\" id:110006;",
+                "instructions": "Detects obfuscated onload/onerror event handler assignments including encoded equals signs. HEADERS zone corrected to $HEADERS_VAR:Cookie for Naxsi compliance."
+            },
+            {
+                "rule": "MainRule \"rx:(?:j[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}v[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}s[^a-zA-Z0-9]{0,3}c[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}i[^a-zA-Z0-9]{0,3}p[^a-zA-Z0-9]{0,3}t\\s*(?::|%3[aA]|&#(?:x0*3[aA]|0*58);))\" \"msg:obfuscated javascript URI scheme\" \"mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie\" \"s:$XSS:8\" id:110007;",
+                "instructions": "Covers interleaved-character obfuscation of javascript: URI including encoded colons. Complements id:110004 which targets plaintext javascript:. HEADERS corrected to $HEADERS_VAR:Cookie."
+            },
+            {
+                "rule": "MainRule \"rx:(?:a[^a-zA-Z0-9]{0,3}l[^a-zA-Z0-9]{0,3}e[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}t\\s*(?:\\(|%28|&#(?:x0*28|0*40);))\" \"msg:obfuscated alert function call\" \"mz:URL|ARGS|BODY|$HEADERS_VAR:Cookie\" \"s:$XSS:6\" id:110008;",
+                "instructions": "Detects obfuscated alert() calls including encoded open-parenthesis variants. id:1010 catches plain ( but not this obfuscated form. HEADERS corrected to $HEADERS_VAR:Cookie."
+            },
+            {
+                "rule": "MainRule \"rx:(?:<\\s*(?:svg|img|iframe|script|body)\\b[^>]{0,256}(?:onload|onerror|src)\\b[^>]{0,256})\" \"msg:active HTML tag with executable attribute\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110009;",
+                "instructions": "Targets complete HTML injection patterns with executable attributes. Restricted to URL/ARGS/BODY only as this is a structural HTML pattern. Pairs with id:110004 for layered XSS coverage."
+            },
+            {
+                "rule": "MainRule \"rx:(?:%25(?:33|32)?63|%3[cC]|&#(?:x0*3[cC]|0*60);).{0,64}(?:s[^a-zA-Z0-9]{0,3}c[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}i[^a-zA-Z0-9]{0,3}p[^a-zA-Z0-9]{0,3}t|s[^a-zA-Z0-9]{0,3}v[^a-zA-Z0-9]{0,3}g|i[^a-zA-Z0-9]{0,3}f[^a-zA-Z0-9]{0,3}r[^a-zA-Z0-9]{0,3}a[^a-zA-Z0-9]{0,3}m[^a-zA-Z0-9]{0,3}e|i[^a-zA-Z0-9]{0,3}m[^a-zA-Z0-9]{0,3}g)\" \"msg:encoded opening bracket followed by dangerous tag\" \"mz:URL|ARGS|BODY\" \"s:$XSS:8\" id:110010;",
+                "instructions": "Detects encoded < followed by obfuscated dangerous tag names within 64 chars. Highly specific compound pattern. Restricted to URL/ARGS/BODY for performance. Monitor for false positives in rich text fields."
+            },
+            {
+                "rule": "MainRule \"rx:(?:%[0-9A-Fa-f]{2}){8,}\" \"msg:excessive URL encoding density\" \"mz:URL|ARGS|BODY\" \"s:$EVADE:3\" id:110013;",
+                "instructions": "Flags sequences of 8 or more consecutive percent-encoded bytes as likely evasion. HEADERS zone removed for Naxsi compatibility. Threshold of 8 minimizes false positives from legitimate encoded content."
+            },
+            {
+                "rule": "MainRule \"d:libinj_xss\" \"msg:libinjection XSS detection\" \"mz:ARGS|BODY|URL\" \"s:$XSS:8\" id:110014;",
+                "instructions": "Uses Naxsi built-in libinjection XSS fingerprinting. Requires Naxsi compiled with libinjection support. Zones restricted to ARGS|BODY|URL as libinj_xss applies to value zones. Score contributes to $XSS threshold."
+            },
+            {
+                "rule": "CheckRule \"$XSS >= 8\" BLOCK;",
+                "instructions": "Block threshold for XSS score. Ensures confirmed or high-confidence XSS patterns trigger blocking. Add to naxsi.conf or per-location block."
+            },
+            {
+                "rule": "CheckRule \"$XSS >= 6\" LOG;",
+                "instructions": "Log-only threshold for moderate XSS score. Useful for tuning before promoting to BLOCK. Place before the BLOCK CheckRule in config."
+            },
+            {
+                "rule": "CheckRule \"$EVADE >= 8\" BLOCK;",
+                "instructions": "Block threshold for evasion score accumulation. Triggers when multiple evasion indicators compound. Add to naxsi.conf or per-location block."
+            },
+            {
+                "rule": "CheckRule \"$EVADE >= 4\" LOG;",
+                "instructions": "Log-only threshold for moderate evasion score. Aids tuning of EVADE rules before blocking. Place before EVADE BLOCK CheckRule."
+            }
+        ]
+    }
+}
