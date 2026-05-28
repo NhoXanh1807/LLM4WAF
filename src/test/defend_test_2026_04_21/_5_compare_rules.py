@@ -47,6 +47,21 @@ print(output)
 with open(output, "w", encoding="utf-8") as f:
     json.dump(data, f, ensure_ascii=False, indent=4)
 
+print("Rules sinh ra khi defend full steps")
+
+for waf_name in WAF_DVWA_URLS:
+    print(f"\n=== {waf_name} ===")
+    rules = data["final_rules"].get(waf_name, {}).get('none', [])
+    for rule in rules:
+        print(rule)
+
+print("Rules sinh ra khi defend bỏ RAG + Validate + Refine")
+
+for waf_name in WAF_DVWA_URLS:
+    print(f"\n=== {waf_name} ===")
+    rules = data["final_rules"].get(waf_name, {}).get('rag_val_retry_refine', [])
+    for rule in rules:
+        print(rule)
 # generated_rules_with_clustering = """
 
 # Generated rules for ModSecurity - SQL Injection:
