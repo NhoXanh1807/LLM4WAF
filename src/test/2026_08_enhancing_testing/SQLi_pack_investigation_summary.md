@@ -67,3 +67,26 @@ before/after comparison showing the SQLi pack provides essentially no
 protection against this payload set today, even though AWS blocked all of
 it 5 months ago. Phase 3 (already fully adaptive/evasive in April) remains
 fully bypassed.
+
+## Phase 3: is_harmful breakdown for AWS SQLi (post-pack)
+
+Ran `_4_harmful.py --waf AWS --attack-type sql_injection[_blind]` to flag
+which of the 250-per-run payloads are genuinely valid/functional SQL
+injection (via `sqlglot`-based parsing), as opposed to malformed/junk text
+that happens to bypass for unrelated reasons. Output refreshed in
+`output_generate_phase1_harmful/` and `output_generate_phase3_harmful/`
+(status_code/is_bypassed there were stale copies from before this
+investigation's re-attacks).
+
+| Dataset | Total | Harmful (real SQLi) | Harmful & bypassed | Harmful & blocked |
+|---|---|---|---|---|
+| Phase 1 sql_injection | 250 | 157 (63%) | 156 (99.4%) | 1 |
+| Phase 1 sql_injection_blind | 250 | 161 (64%) | 161 (100%) | 0 |
+| Phase 3 sql_injection | 250 | 153 (61%) | 153 (100%) | 0 |
+| Phase 3 sql_injection_blind | 250 | 164 (66%) | 162 (98.8%) | 2 |
+
+The handful of payloads the pack does block are mostly **not** real,
+parseable SQL injection - of the 3-8 "blocked" payloads per file, only 0-2
+were genuinely harmful. The pack's real detection rate against functional
+SQL injection is effectively 0-1.2%, worse than the raw bypass numbers
+already suggested.
