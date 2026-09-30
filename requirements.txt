@@ -6,3 +6,5 @@ python-dotenv
 hdbscan
 sqlglot
 pymodsecurity
+python-dotenv
+requests

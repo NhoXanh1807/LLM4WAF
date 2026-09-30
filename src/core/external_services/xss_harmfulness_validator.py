@@ -10,7 +10,7 @@ def evaluate_xss_payload(payload, auto_decode=True) -> EvaluateXSSResult:
     else:
         decode_stack = []
     try:
-        res = requests.post(XSS_HARMNESS_VALIDATOR_ENDPOINT, data=payload)
+        res = requests.post(XSS_HARMNESS_VALIDATOR_ENDPOINT + "/validate_payload", data=payload)
         return EvaluateXSSResult(
             payload=payload,
             is_safe=res.json()["data"]["is_safe"],

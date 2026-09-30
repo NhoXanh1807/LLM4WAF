@@ -1,7 +1,26 @@
 
+import json
+import time
 import requests
 from models.dtos import PayloadResult
 from config.settings import LLMSHIELD_ENDPOINT
+
+
+def _validate_llmshield_response(response: requests.Response) -> None:
+    """Raise if the response is not a real LLMShield payload response.
+
+    A dead ngrok tunnel / offline GPU VM still returns HTTP 200 with an HTML
+    error page (e.g. ERR_NGROK_3200), which would otherwise get silently
+    saved as if it were a generated payload.
+    """
+    response.raise_for_status()
+    content_type = response.headers.get("Content-Type", "")
+    if "text/html" in content_type.lower():
+        raise RuntimeError(
+            f"LLMShield returned an HTML page instead of a payload response "
+            f"(endpoint likely offline/tunnel down). Content-Type={content_type!r}, "
+            f"body[:200]={response.text[:200]!r}"
+        )
 
 def llmshield_build_prompt(waf_name: str, attack_type: str, technique: str, probe_history: list[PayloadResult]|None = None) -> str|None:
     data = {
@@ -26,7 +45,7 @@ def llmshield_generate_response(prompt: str, max_new_tokens: int = 128, temperat
     response = requests.post(url, json=data)
     return response.text
 
-def llmshield_generate_payloads(waf_name: str, attack_type: str, techniques: str = None, probe_history: list[dict]|None = None, max_new_tokens: int = 128, temperature: float = 0.7, adapter_name: str = "phase1") -> str|None:
+def llmshield_generate_payloads(waf_name: str, attack_type: str, techniques: str = None, probe_history: list[dict]|None = None, max_new_tokens: int = 128, temperature: float = 0.7, adapter_name: str = "phase1", seed: int|None = None) -> str|None:
     data = {
         "waf_name": waf_name,
         "attack_type": attack_type,
@@ -35,14 +54,37 @@ def llmshield_generate_payloads(waf_name: str, attack_type: str, techniques: str
         "temperature": temperature,
         "adapter_name": adapter_name,
         "probe_history": probe_history,
+        "seed": seed,
     }
     url = LLMSHIELD_ENDPOINT + "?action=" + "generate_payload"
     while True:
         try:
-            response = requests.post(url, json=data)
+            response = requests.post(url, json=data, timeout=120)
+            _validate_llmshield_response(response)
             return response.text
         except Exception as e:
-            print(f"[Ext-LLMShield] {str(e)}. Retrying...")
+            print(f"[Ext-LLMShield] {str(e)}. Retrying in 5s...")
+            time.sleep(5)
+            continue
+
+
+def llmshield_generate_payloads_batch(items: list[dict]) -> list[str]:
+    """Generate multiple payloads in a single request so the GPU processes them
+    as one batch instead of one sequential forward pass per payload.
+
+    Each item in `items` is a dict with the same keys as llmshield_generate_payloads
+    (waf_name, attack_type, technique/probe_history, adapter_name, seed, ...).
+    """
+    data = {"items": items}
+    url = LLMSHIELD_ENDPOINT + "?action=" + "generate_payload_batch"
+    while True:
+        try:
+            response = requests.post(url, json=data, timeout=600)
+            _validate_llmshield_response(response)
+            return json.loads(response.text)
+        except Exception as e:
+            print(f"[Ext-LLMShield] {str(e)}. Retrying in 5s...")
+            time.sleep(5)
             continue
 
 
